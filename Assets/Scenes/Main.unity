@@ -192,9 +192,17 @@ PrefabInstance:
       value: Board
       objectReference: {fileID: 0}
     - target: {fileID: 8792180943682764505, guid: ba06f8ca82224c94db19297f56d0e8e7, type: 3}
+      propertyPath: positions.Array.data[4]
+      value: 
+      objectReference: {fileID: 5919071559739817146, guid: dcb2b73d5e67f764cbd9d50e71496398, type: 3}
+    - target: {fileID: 8792180943682764505, guid: ba06f8ca82224c94db19297f56d0e8e7, type: 3}
       propertyPath: blueHighlight.Array.size
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8792180943682764505, guid: ba06f8ca82224c94db19297f56d0e8e7, type: 3}
+      propertyPath: positions.Array.data[35]
+      value: 
+      objectReference: {fileID: -649202854015875258, guid: f20fc4b001ebcfc468ec6897289924b6, type: 3}
     - target: {fileID: 8909583480078518293, guid: ba06f8ca82224c94db19297f56d0e8e7, type: 3}
       propertyPath: m_RootOrder
       value: 2

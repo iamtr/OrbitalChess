@@ -19,8 +19,7 @@ public class GameController : MonoBehaviour
 
             if (collider != null)
             {
-                Piece piece = collider.GetComponent<Piece>();
-                piece.GetAvailableMoves();
+                boardController.HandleColliderClicked(collider);
             }
         }
     }

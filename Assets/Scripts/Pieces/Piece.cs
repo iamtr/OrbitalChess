@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +13,8 @@ public abstract class Piece : MonoBehaviour
 	protected int currY;
 	public int CurrPos { get; private set; }
 	protected int[,] delta;
+
+	public Action OnMove;
 
 	// Do not change to property! We want this to be serializable
 	[SerializeField] protected PlayerType player;
@@ -30,6 +33,8 @@ public abstract class Piece : MonoBehaviour
 	public abstract void GetAvailableMoves();
 
 	public abstract bool IsLegalMove(int x, int y, Piece p);
+
+	
 
 	// Getters
 	public PlayerType Player => player;

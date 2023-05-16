@@ -90,6 +90,7 @@ public class BoardController : MonoBehaviour
 			Destroy(positions[pos].gameObject);
 		}
 		positions[pos] = piece;
+		positions[pos].OnMove();
 		gc.RoundEnd();
 	}
 

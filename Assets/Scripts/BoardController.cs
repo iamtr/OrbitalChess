@@ -4,16 +4,20 @@ using UnityEngine;
 
 public class BoardController : MonoBehaviour
 {
-	[SerializeField] private Piece[] positions;
+	[SerializeField] private Piece[] pieces;
 	[SerializeField] private HighlightSquare[] highlights;
 	[SerializeField] private HighlightSquare highlightSquare;
 	[SerializeField] private Piece currPiece;
 
 	private GameController gc;
+	private Transform highlightTransform;
+	private Transform pieceTransform;
 
 	void Start()
     {
 		gc = GameObject.Find("Game Controller").GetComponent<GameController>();
+		highlightTransform = GameObject.Find("Highlight Squares").transform;
+		pieceTransform = GameObject.Find("Pieces").transform;
 		InstantiatePieces();
     }
 
@@ -28,14 +32,14 @@ public class BoardController : MonoBehaviour
 
 			highlights[i] = Instantiate(highlightSquare, new Vector3(x, y, 0), Quaternion.identity);
 			highlights[i].Position = i;
-			highlights[i].transform.parent = GameObject.Find("Highlight Squares").transform;
+			highlights[i].transform.parent = highlightTransform;
 			highlights[i].gameObject.SetActive(false);
 
-			if (positions[i] != null)
+			if (pieces[i] != null)
 			{
-				Piece temp = Instantiate(positions[i], new Vector3(x, y, 0), Quaternion.identity);
-				positions[i] = temp;
-				temp.transform.parent = GameObject.Find("Pieces").transform;
+				Piece temp = Instantiate(pieces[i], new Vector3(x, y, 0), Quaternion.identity);
+				pieces[i] = temp;
+				temp.transform.parent = pieceTransform;
 				temp.SetCoords(x, y);
 			}
 		}
@@ -43,54 +47,56 @@ public class BoardController : MonoBehaviour
 
     public bool IsLegalMove(int x, int y, Piece p) 
 	{
-        int pos = y * 8 + x;
-        if (!IsInBounds(x, y) || positions[pos]?.Player == p.Player)
-		{
-            // change based on black or white;
-            return false;
-		} 
-
-        return true;
+		int pos = y * 8 + x;
+		return IsInBounds(x, y) && (pieces[pos]?.Player != p.Player);
 	}
 
 	public bool IsInBounds(int x, int y)
 	{
-		if (x < 0 || x > 7 || y < 0 || y > 7)
-		{
-			return false;
-		}
-
-		return true;
+		return x >= 0 && x < 8 && y >= 0 && y < 8;
 	}
 
-	public void Highlight(int x, int y, Piece currPiece) 
+	private void SetHighlightColor(int pos, Color color)
+	{
+		highlights[pos].GetComponent<SpriteRenderer>().color = color;
+		highlights[pos].gameObject.SetActive(true);
+	}
+
+	public void Highlight(int x, int y, Piece currPiece)
 	{
 		this.currPiece = currPiece;
 		int pos = ConvertToPos(x, y);
 
-		if (positions[pos] == null)
+		if (pieces[pos] == null)
 		{
-			highlights[pos].GetComponent<SpriteRenderer>().color = Color.blue;
+			SetHighlightColor(pos, Color.blue);
 		}
-		else if (positions[pos]?.Player != currPiece.Player)
+		else if (pieces[pos]?.Player != currPiece.Player)
 		{
-			highlights[pos].GetComponent<SpriteRenderer>().color = Color.red;
+			SetHighlightColor(pos, Color.red);
 		}
-
-		highlights[pos].gameObject.SetActive(true);
 	}
 
 	public void MovePiece(int x, int y, Piece piece)
 	{
-		int pos = ConvertToPos(x, y);
-		positions[piece.CurrPos] = null;
+		int newPos = ConvertToPos(x, y);
+		int oldPos = piece.CurrPos;
+
+		pieces[oldPos] = null;
 		piece.SetCoords(x, y);
-		if (positions[pos] != null && positions[pos].Player != piece.Player)
+		
+		if (pieces[newPos] != null && pieces[newPos].Player != piece.Player)
 		{
-			Destroy(positions[pos].gameObject);
+			Destroy(pieces[newPos].gameObject);
 		}
-		positions[pos] = piece;
-		positions[pos].OnMove();
+		
+		pieces[newPos] = piece;
+
+		if (pieces[newPos]?.OnMove != null)
+		{
+			pieces[newPos].OnMove();
+		}
+
 		gc.RoundEnd();
 	}
 
@@ -136,17 +142,16 @@ public class BoardController : MonoBehaviour
 	{
 		Piece p1 = GetPieceFromPos(pos1);
 		Piece p2 = GetPieceFromPos(pos2);
-		if (p1 == null || p2 == null) { return false; }
-		return p1.Player == p2.Player;
+		return p1?.Player == p2?.Player;
 	}
 
 	public Piece GetPieceFromPos(int pos)
 	{
-		return positions[pos];
+		return pieces[pos];
 	}
 
 	public bool IsOccupied(int pos)
 	{
-		return positions[pos] != null;
+		return pieces[pos] != null;
 	}
 }

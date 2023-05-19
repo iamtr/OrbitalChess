@@ -5,6 +5,9 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     [SerializeField] private BoardController boardController;
+    [SerializeField] private PlayerType currPlayer;
+
+    public PlayerType CurrPlayer => currPlayer;
 
 	private void Start()
 	{
@@ -23,4 +26,20 @@ public class GameController : MonoBehaviour
             }
         }
     }
+
+    public void RoundEnd()
+	{
+        if (currPlayer == PlayerType.Black)
+		{
+            currPlayer = PlayerType.White;
+		} 
+        else if (currPlayer == PlayerType.White)
+		{
+            currPlayer = PlayerType.Black;
+		}
+	}
+
+    
 }
+
+public enum PlayerType { Black, White }

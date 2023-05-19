@@ -4,79 +4,105 @@ using UnityEngine;
 
 public class BoardController : MonoBehaviour
 {
-	[SerializeField] private Piece[] positions;
-	[SerializeField] private HighlightSquare[] blueHighlight;
+	[SerializeField] private Piece[] pieces;
+	[SerializeField] private HighlightSquare[] highlights;
 	[SerializeField] private HighlightSquare highlightSquare;
 	[SerializeField] private Piece currPiece;
 
+	private GameController gc;
+	private Transform highlightTransform;
+	private Transform pieceTransform;
+
 	void Start()
     {
+		gc = GameObject.Find("Game Controller").GetComponent<GameController>();
+		highlightTransform = GameObject.Find("Highlight Squares").transform;
+		pieceTransform = GameObject.Find("Pieces").transform;
 		InstantiatePieces();
     }
 
 	private void InstantiatePieces()
 	{
-		blueHighlight = new HighlightSquare[64];
+		highlights = new HighlightSquare[64];
 
 		for (int i = 0; i < 64; i++)
 		{
 			int x = i % 8;
 			int y = i / 8;
 
-			blueHighlight[i] = Instantiate(highlightSquare, new Vector3(x, y, 0), Quaternion.identity);
-			blueHighlight[i].Position = i;
-			blueHighlight[i].transform.parent = GameObject.Find("Highlight Squares").transform;
-			blueHighlight[i].gameObject.SetActive(false);
+			highlights[i] = Instantiate(highlightSquare, new Vector3(x, y, 0), Quaternion.identity);
+			highlights[i].Position = i;
+			highlights[i].transform.parent = highlightTransform;
+			highlights[i].gameObject.SetActive(false);
 
-			if (positions[i] != null)
+			if (pieces[i] != null)
 			{
-                Piece currPiece = Instantiate(positions[i], new Vector3(x, y, 0), Quaternion.identity);
-				currPiece.transform.parent = GameObject.Find("Pieces").transform;
-				currPiece.SetCoords(x, y);
+				Piece temp = Instantiate(pieces[i], new Vector3(x, y, 0), Quaternion.identity);
+				pieces[i] = temp;
+				temp.transform.parent = pieceTransform;
+				temp.SetCoords(x, y);
 			}
 		}
 	}
 
-    public bool IsLegalMove(int x, int y) 
+    public bool IsLegalMove(int x, int y, Piece p) 
 	{
-        int pos = y * 8 + x;
-        if (!IsInBounds(x, y) || positions[pos] != null)
-		{
-            // change based on black or white;
-            return false;
-		} 
-
-        return true;
+		int pos = y * 8 + x;
+		return IsInBounds(x, y) && (pieces[pos]?.Player != p.Player);
 	}
 
 	public bool IsInBounds(int x, int y)
 	{
-		if (x < 0 || x > 7 || y < 0 || y > 7)
-		{
-			return false;
-		}
-
-		return true;
+		return x >= 0 && x < 8 && y >= 0 && y < 8;
 	}
 
-	public void Highlight(int x, int y, Piece currPiece) 
+	private void SetHighlightColor(int pos, Color color)
+	{
+		highlights[pos].GetComponent<SpriteRenderer>().color = color;
+		highlights[pos].gameObject.SetActive(true);
+	}
+
+	public void Highlight(int x, int y, Piece currPiece)
 	{
 		this.currPiece = currPiece;
 		int pos = ConvertToPos(x, y);
-		blueHighlight[pos].gameObject.SetActive(true);
+
+		if (pieces[pos] == null)
+		{
+			SetHighlightColor(pos, Color.blue);
+		}
+		else if (pieces[pos]?.Player != currPiece.Player)
+		{
+			SetHighlightColor(pos, Color.red);
+		}
 	}
 
 	public void MovePiece(int x, int y, Piece piece)
 	{
-		int pos = ConvertToPos(x, y);
-		positions[piece.CurrPos] = null;
+		int newPos = ConvertToPos(x, y);
+		int oldPos = piece.CurrPos;
+
+		pieces[oldPos] = null;
 		piece.SetCoords(x, y);
-		positions[pos] = piece;
+		
+		if (pieces[newPos] != null && pieces[newPos].Player != piece.Player)
+		{
+			Destroy(pieces[newPos].gameObject);
+		}
+		
+		pieces[newPos] = piece;
+
+		if (pieces[newPos]?.OnMove != null)
+		{
+			pieces[newPos].OnMove();
+		}
+
+		gc.RoundEnd();
 	}
 
 	public void UnhighlightAllSqaures()
 	{
-		foreach(var square in blueHighlight)
+		foreach(var square in highlights)
 		{
 			square.gameObject.SetActive(false);
 		}
@@ -96,7 +122,7 @@ public class BoardController : MonoBehaviour
 
 	public void HandleColliderClicked(Collider2D collider)
 	{
-		if (collider.gameObject.tag == "Highlight Square")
+		if (collider.gameObject.CompareTag("Highlight Square"))
 		{
 			HighlightSquare h = collider.GetComponent<HighlightSquare>();
 			int[] temp = ConvertToXY(h.Position);
@@ -104,11 +130,28 @@ public class BoardController : MonoBehaviour
 			UnhighlightAllSqaures();
 		}
 
-		if (collider.gameObject.tag == "Piece")
+		if (collider.gameObject.CompareTag("Piece") && collider.GetComponent<Piece>().Player == gc.CurrPlayer)
 		{
 			UnhighlightAllSqaures();
 			currPiece = collider.GetComponent<Piece>();
 			currPiece.GetAvailableMoves();
 		}
+	}
+
+	public bool IsSamePlayer(int pos1, int pos2)
+	{
+		Piece p1 = GetPieceFromPos(pos1);
+		Piece p2 = GetPieceFromPos(pos2);
+		return p1?.Player == p2?.Player;
+	}
+
+	public Piece GetPieceFromPos(int pos)
+	{
+		return pieces[pos];
+	}
+
+	public bool IsOccupied(int pos)
+	{
+		return pieces[pos] != null;
 	}
 }

@@ -8,10 +8,12 @@ public class BoardController : MonoBehaviour
 	[SerializeField] private HighlightSquare[] highlights;
 	[SerializeField] private HighlightSquare highlightSquare;
 	[SerializeField] private Piece currPiece;
+	[SerializeField] private PawnPromotion pp;
 
 	private GameController gc;
 	private Transform highlightTransform;
 	private Transform pieceTransform;
+	private int[] newXY;
 
 	void Start()
     {
@@ -89,8 +91,31 @@ public class BoardController : MonoBehaviour
 		{
 			Destroy(pieces[newPos].gameObject);
 		}
-		
+
 		pieces[newPos] = piece;
+
+		if (pieces[newPos]?.OnMove != null)
+		{
+			pieces[newPos].OnMove();
+		}
+
+		gc.RoundEnd();
+	}
+
+	public void MovePromotedPiece(int x, int y, Piece oldPiece, Piece newPiece)
+	{
+		int newPos = ConvertToPos(x, y);
+		int oldPos = oldPiece.CurrPos;
+
+		pieces[oldPos] = null;
+		oldPiece.SetCoords(x, y);
+
+		if (pieces[newPos] != null && pieces[newPos].Player != oldPiece.Player)
+		{
+			Destroy(pieces[newPos].gameObject);
+		}
+
+		pieces[newPos] = newPiece;
 
 		if (pieces[newPos]?.OnMove != null)
 		{
@@ -126,8 +151,17 @@ public class BoardController : MonoBehaviour
 		{
 			HighlightSquare h = collider.GetComponent<HighlightSquare>();
 			int[] temp = ConvertToXY(h.Position);
-			MovePiece(temp[0], temp[1], currPiece);
-			UnhighlightAllSqaures();
+			newXY = temp;
+			if (pp.IsPromoting(currPiece, temp[1]))
+			{
+				pp.ShowPromotion((Pawn)currPiece);
+				UnhighlightAllSqaures();
+			} 
+			else
+            {
+				MovePiece(temp[0], temp[1], currPiece);
+				UnhighlightAllSqaures();
+			}
 		}
 
 		if (collider.gameObject.CompareTag("Piece") && collider.GetComponent<Piece>().Player == gc.CurrPlayer)
@@ -135,6 +169,14 @@ public class BoardController : MonoBehaviour
 			UnhighlightAllSqaures();
 			currPiece = collider.GetComponent<Piece>();
 			currPiece.GetAvailableMoves();
+		}
+
+		if (collider.gameObject.CompareTag("Promotion Button"))
+        {
+			int id = collider.GetComponent<PromotionButton>().id;
+			Piece PromotedPiece = pp.FindPromotion(id, currPiece.Player);
+			MovePromotedPiece(newXY[0], newXY[1], currPiece, PromotedPiece);
+			pp.UnhighlightAllPromotingButtons();
 		}
 	}
 

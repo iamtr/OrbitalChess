@@ -58,6 +58,18 @@ public class Pawn : Piece
         }
     }
 
+    public bool IsPromoted(int y)
+    {
+        if (this.Player == PlayerType.Black)
+        {
+            return y == 7;
+        } 
+        else
+        {
+            return y == 0;
+        }
+    }
+
     public void SetPawnBoolean()
     {
         hasMoved = true;

@@ -5,9 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class MenuManagerScript : MonoBehaviour
 {
-    public int gameStartScene;
+    public string menuScene = "main-menu";
+    public string gameStartScene = "Main";
 
-    public void startGame()
+    public void StartGame()
     {
         SceneManager.LoadScene(gameStartScene);
     }
@@ -15,5 +16,10 @@ public class MenuManagerScript : MonoBehaviour
     public void ExitGame()
     {
         Application.Quit();
+    }
+
+    public void BackToMenu()
+	{
+        SceneManager.LoadScene(menuScene);
     }
 }

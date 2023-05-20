@@ -12,6 +12,14 @@ PrefabInstance:
       value: Black Bishop
       objectReference: {fileID: 0}
     - target: {fileID: 5750161178820664402, guid: 71e2b94b741bf8e4c9b7fb362487997a, type: 3}
+      propertyPath: m_Size.x
+      value: 0.18
+      objectReference: {fileID: 0}
+    - target: {fileID: 5750161178820664402, guid: 71e2b94b741bf8e4c9b7fb362487997a, type: 3}
+      propertyPath: m_Size.y
+      value: 0.19
+      objectReference: {fileID: 0}
+    - target: {fileID: 5750161178820664402, guid: 71e2b94b741bf8e4c9b7fb362487997a, type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 2ef56533ea3f2304db250968cd68c9a9, type: 3}

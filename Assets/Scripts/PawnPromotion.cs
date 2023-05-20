@@ -5,23 +5,32 @@ using UnityEngine;
 
 public class PawnPromotion : MonoBehaviour
 {
-    [SerializeField] private Sprite[] promotingBlack;
-    [SerializeField] private Sprite[] promotingWhite;
-	[SerializeField] private PromotionButton[] promotionButtons;
+	[SerializeField] private Sprite[] blackSprites;
+	[SerializeField] private Sprite[] whiteSprites;
+	[SerializeField] private PromotionButton[] promotingBlack;
+    [SerializeField] private PromotionButton[] promotingWhite;
 	[SerializeField] private Piece[] promotionBlackList;
 	[SerializeField] private Piece[] promotionWhiteList;
 	[SerializeField] private PromotionButton promotionButton;
 
     private GameController gc;
 
-    void Start()
+	void Start()
     {
 		gc = GameObject.Find("Game Controller").GetComponent<GameController>();
-        for (int i = 0; i < promotionButtons.Length; i++)
+        for (int i = 0; i < promotingBlack.Length; i++)
         {
-			promotionButtons[i] = Instantiate(promotionButton, new Vector3(8.5f, 5 - i, 0), Quaternion.identity);
-			promotionButtons[i].id = i;
-			promotionButtons[i].gameObject.SetActive(false);
+			promotingBlack[i] = Instantiate(promotionButton, new Vector3(8.5f, 5 - i, 0), Quaternion.identity);
+			promotingBlack[i].id = i;
+			promotingBlack[i].spriteRen.sprite = blackSprites[i];
+			promotingBlack[i].gameObject.SetActive(false);
+		}
+		for (int i = 0; i < promotingWhite.Length; i++)
+		{
+			promotingWhite[i] = Instantiate(promotionButton, new Vector3(9.5f, 5 - i, 0), Quaternion.identity);
+			promotingWhite[i].id = i;
+			promotingBlack[i].spriteRen.sprite = whiteSprites[i];
+			promotingWhite[i].gameObject.SetActive(false);
 		}
 	}
 
@@ -49,12 +58,11 @@ public class PawnPromotion : MonoBehaviour
 		}
 	}
 
-	public void ShowPromotionHelper(Sprite[] sprites)
+	public void ShowPromotionHelper(PromotionButton[] list)
     {
-		for (int i = 0; i < sprites.Length; i++)
+		for (int i = 0; i < list.Length; i++)
 		{
-			Instantiate(sprites[i], new Vector3(8.5f, 5 - i, 0), Quaternion.identity);
-			promotionButtons[i].gameObject.SetActive(true);
+			list[i].gameObject.SetActive(true);
 		}
 	}
 
@@ -73,7 +81,11 @@ public class PawnPromotion : MonoBehaviour
 
     public void UnhighlightAllPromotingButtons()
     {
-		foreach (var square in promotionButtons)
+		foreach (var square in promotingBlack)
+		{
+			square.gameObject.SetActive(false);
+		}
+		foreach (var square in promotingWhite)
 		{
 			square.gameObject.SetActive(false);
 		}

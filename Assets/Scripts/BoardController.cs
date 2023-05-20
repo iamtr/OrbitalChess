@@ -154,8 +154,12 @@ public class BoardController : MonoBehaviour
 			newXY = temp;
 			if (pp.IsPromoting(currPiece, temp[1]))
 			{
-				pp.ShowPromotion((Pawn)currPiece);
-				UnhighlightAllSqaures();
+                if (currPiece is Pawn)
+                {
+					pp.ShowPromotion((Pawn)currPiece);
+					UnhighlightAllSqaures();
+				}
+				//this line should not be reached
 			} 
 			else
             {

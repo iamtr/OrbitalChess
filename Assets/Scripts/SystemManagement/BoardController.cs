@@ -92,10 +92,7 @@ public class BoardController : MonoBehaviour
 		
 		pieces[newPos] = piece;
 
-		if (pieces[newPos]?.OnMove != null)
-		{
-			pieces[newPos].OnMove();
-		}
+		pieces[newPos].OnMove?.Invoke();
 
 		gc.RoundEnd();
 	}

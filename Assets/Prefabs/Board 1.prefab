@@ -168,7 +168,7 @@ MonoBehaviour:
   highlights: []
   highlightSquare: {fileID: 5428884020771124365, guid: cc5e019f9b7428f4a9bf457da0bcb6ed, type: 3}
   currPiece: {fileID: 0}
-  pp: {fileID: 6515037687860245995, guid: 89b95e78412e73a4d8e239d19ff78fae, type: 3}
+  pp: {fileID: 2089230408395239871, guid: 89b95e78412e73a4d8e239d19ff78fae, type: 3}
 --- !u!1 &2846817133504098552
 GameObject:
   m_ObjectHideFlags: 0
@@ -303,6 +303,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83fbfd64827309147ade8ded7ce20bb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteRen: {fileID: 0}
 --- !u!212 &6093858560207806565
 SpriteRenderer:
   m_ObjectHideFlags: 0

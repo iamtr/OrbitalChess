@@ -14,22 +14,25 @@ public class PawnPromotion : MonoBehaviour
 	[SerializeField] private PromotionButton promotionButton;
 
     private GameController gc;
+	private int promotingNumber = 4;
 
 	void Start()
     {
 		gc = GameObject.Find("Game Controller").GetComponent<GameController>();
-        for (int i = 0; i < promotingBlack.Length; i++)
+		promotingBlack = new PromotionButton[promotingNumber];
+		promotingWhite = new PromotionButton[promotingNumber];
+        for (int i = 0; i < promotingNumber; i++)
         {
 			promotingBlack[i] = Instantiate(promotionButton, new Vector3(8.5f, 5 - i, 0), Quaternion.identity);
 			promotingBlack[i].id = i;
 			promotingBlack[i].spriteRen.sprite = blackSprites[i];
 			promotingBlack[i].gameObject.SetActive(false);
 		}
-		for (int i = 0; i < promotingWhite.Length; i++)
+		for (int i = 0; i < promotingNumber; i++)
 		{
 			promotingWhite[i] = Instantiate(promotionButton, new Vector3(9.5f, 5 - i, 0), Quaternion.identity);
 			promotingWhite[i].id = i;
-			promotingBlack[i].spriteRen.sprite = whiteSprites[i];
+			promotingWhite[i].spriteRen.sprite = whiteSprites[i];
 			promotingWhite[i].gameObject.SetActive(false);
 		}
 	}
@@ -60,7 +63,7 @@ public class PawnPromotion : MonoBehaviour
 
 	public void ShowPromotionHelper(PromotionButton[] list)
     {
-		for (int i = 0; i < list.Length; i++)
+		for (int i = 0; i < promotingNumber; i++)
 		{
 			list[i].gameObject.SetActive(true);
 		}

@@ -105,19 +105,18 @@ public class BoardController : MonoBehaviour
 		int oldPos = oldPiece.CurrPos;
 
 		pieces[oldPos] = null;
-		oldPiece.SetCoords(x, y);
+		Destroy(oldPiece.gameObject);
 
 		if (pieces[newPos] != null && pieces[newPos].Player != oldPiece.Player)
 		{
 			Destroy(pieces[newPos].gameObject);
 		}
 
+		Instantiate(newPiece, new Vector3(x, y, 0), Quaternion.identity);
 		pieces[newPos] = newPiece;
+		newPiece.SetCoords(x, y);
 
-		if (pieces[newPos]?.OnMove != null)
-		{
-			pieces[newPos].OnMove();
-		}
+		pieces[newPos].OnMove?.Invoke();
 
 		gc.RoundEnd();
 	}
@@ -150,13 +149,9 @@ public class BoardController : MonoBehaviour
 			int[] temp = ConvertToXY(h.Position);
 			newXY = temp;
 			if (pp.IsPromoting(currPiece, temp[1]))
-			{
-                if (currPiece is Pawn)
-                {
-					pp.ShowPromotion((Pawn)currPiece);
-					UnhighlightAllSqaures();
-				}
-				//this line should not be reached
+            {
+				pp.ShowPromotion((Pawn)currPiece);
+				UnhighlightAllSqaures();
 			} 
 			else
             {

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BoardController : MonoBehaviour
@@ -15,41 +13,38 @@ public class BoardController : MonoBehaviour
 	private Transform pieceTransform;
 	private int[] newXY;
 
-	void Start()
-    {
+	private void Start()
+	{
 		gc = GameObject.Find("Game Controller").GetComponent<GameController>();
 		highlightTransform = GameObject.Find("Highlight Squares").transform;
 		pieceTransform = GameObject.Find("Pieces").transform;
 		InstantiatePieces();
-    }
+	}
 
 	private void InstantiatePieces()
 	{
 		highlights = new HighlightSquare[64];
 
-		for (int i = 0; i < 64; i++)
+		for (var i = 0; i < 64; i++)
 		{
-			int x = i % 8;
-			int y = i / 8;
+			var x = i % 8;
+			var y = i / 8;
 
 			highlights[i] = Instantiate(highlightSquare, new Vector3(x, y, 0), Quaternion.identity);
 			highlights[i].Position = i;
 			highlights[i].transform.parent = highlightTransform;
 			highlights[i].gameObject.SetActive(false);
 
-			if (pieces[i] != null)
-			{
-				InstantiatePiece(pieces[i], i);
-			}
+			if (pieces[i] != null) InstantiatePiece(pieces[i], i);
 		}
 	}
 
 	public Piece InstantiatePiece(Piece piece, int pos)
 	{
-		int x = ConvertToXY(pos)[0];
-		int y = ConvertToXY(pos)[1];
+		var x = ConvertToXY(pos)[0];
+		var y = ConvertToXY(pos)[1];
 
-		Piece newPiece = Instantiate(piece, new Vector3(x, y, 0), Quaternion.identity);
+		var newPiece = Instantiate(piece, new Vector3(x, y, 0), Quaternion.identity);
 		pieces[pos] = newPiece;
 		newPiece.transform.parent = pieceTransform;
 		newPiece.SetCoords(x, y);
@@ -57,10 +52,10 @@ public class BoardController : MonoBehaviour
 		return newPiece;
 	}
 
-    public bool IsLegalMove(int x, int y, Piece p) 
+	public bool IsLegalMove(int x, int y, Piece p)
 	{
-		int pos = y * 8 + x;
-		return IsInBounds(x, y) && (pieces[pos]?.Player != p.Player);
+		var pos = y * 8 + x;
+		return IsInBounds(x, y) && pieces[pos]?.Player != p.Player;
 	}
 
 	public bool IsInBounds(int x, int y)
@@ -77,22 +72,17 @@ public class BoardController : MonoBehaviour
 	public void Highlight(int x, int y, Piece currPiece)
 	{
 		this.currPiece = currPiece;
-		int pos = ConvertToPos(x, y);
+		var pos = ConvertToPos(x, y);
 
 		if (pieces[pos] == null)
-		{
 			SetHighlightColor(pos, Color.blue);
-		}
-		else if (pieces[pos]?.Player != currPiece.Player)
-		{
-			SetHighlightColor(pos, Color.red);
-		}
+		else if (pieces[pos]?.Player != currPiece.Player) SetHighlightColor(pos, Color.red);
 	}
 
 	public void MovePiece(int x, int y, Piece piece)
 	{
-		int newPos = ConvertToPos(x, y);
-		int oldPos = piece.CurrPos;
+		var newPos = ConvertToPos(x, y);
+		var oldPos = piece.CurrPos;
 
 		// RemovePiece(oldPos);
 		piece.SetCoords(x, y);
@@ -108,10 +98,7 @@ public class BoardController : MonoBehaviour
 
 	public void UnhighlightAllSqaures()
 	{
-		foreach(var square in highlights)
-		{
-			square.gameObject.SetActive(false);
-		}
+		foreach (var square in highlights) square.gameObject.SetActive(false);
 	}
 
 	// Converts (x, y) coords to 0 - 63
@@ -130,16 +117,16 @@ public class BoardController : MonoBehaviour
 	{
 		if (collider.gameObject.CompareTag("Highlight Square"))
 		{
-			HighlightSquare h = collider.GetComponent<HighlightSquare>();
-			int[] temp = ConvertToXY(h.Position);
+			var h = collider.GetComponent<HighlightSquare>();
+			var temp = ConvertToXY(h.Position);
 			newXY = temp;
 			if (pp.IsPromoting(currPiece, temp[1]))
-            {
+			{
 				pp.ShowPromotion((Pawn)currPiece);
 				UnhighlightAllSqaures();
-			} 
+			}
 			else
-            {
+			{
 				MovePiece(temp[0], temp[1], currPiece);
 				UnhighlightAllSqaures();
 			}
@@ -154,9 +141,9 @@ public class BoardController : MonoBehaviour
 		}
 
 		if (collider.gameObject.CompareTag("Promotion Button"))
-        {
-			int id = collider.GetComponent<PromotionButton>().id;
-			Piece PromotedPiece = pp.FindPromotion(id, currPiece.Player);
+		{
+			var id = collider.GetComponent<PromotionButton>().id;
+			var PromotedPiece = pp.FindPromotion(id, currPiece.Player);
 			pp.MovePromotedPiece(newXY[0], newXY[1], currPiece, PromotedPiece);
 			pp.UnhighlightAllPromotingButtons();
 		}
@@ -180,25 +167,22 @@ public class BoardController : MonoBehaviour
 	}
 
 	public void SetPiecePos(Piece piece, int pos)
-    {
+	{
 		pieces[pos] = piece;
 	}
 
 	public void RemovePiece(int pos)
-    {
+	{
 		pieces[pos] = null;
-    }
+	}
 
 	public void DestroyOpponentPiece(Piece piece, int pos)
-    {
-		if (pieces[pos] != null && pieces[pos].Player != piece.Player)
-		{
-			Destroy(pieces[pos].gameObject);
-		}
+	{
+		if (pieces[pos] != null && pieces[pos].Player != piece.Player) Destroy(pieces[pos].gameObject);
 	}
 
 	public void InvokeMove(int pos)
-    {
+	{
 		pieces[pos].OnMove?.Invoke();
 	}
 

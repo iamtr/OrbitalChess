@@ -14,11 +14,13 @@ public class PawnPromotion : MonoBehaviour
 	[SerializeField] private PromotionButton promotionButton;
 
     private GameController gc;
+	private BoardController bc;
 	private int promotingNumber = 4;
 
 	void Start()
     {
 		gc = GameObject.Find("Game Controller").GetComponent<GameController>();
+		bc = GameObject.Find("Board").GetComponent<BoardController>();
 		promotingBlack = new PromotionButton[promotingNumber];
 		promotingWhite = new PromotionButton[promotingNumber];
         for (int i = 0; i < promotingNumber; i++)
@@ -92,5 +94,24 @@ public class PawnPromotion : MonoBehaviour
 		{
 			square.gameObject.SetActive(false);
 		}
+	}
+
+	public void MovePromotedPiece(int x, int y, Piece oldPiece, Piece newPiece)
+	{
+		int newPos = bc.ConvertToPos(x, y);
+		int oldPos = oldPiece.CurrPos;
+
+		bc.RemovePiece(oldPos);
+		Destroy(oldPiece.gameObject);
+
+		bc.DestroyOpponentPiece(oldPiece, newPos);
+
+		Instantiate(newPiece, new Vector3(x, y, 0), Quaternion.identity);
+		bc.SetPiecePos(newPiece, newPos);
+		newPiece.SetCoords(x, y);
+
+		bc.InvokeMove(newPos);
+
+		gc.RoundEnd();
 	}
 }

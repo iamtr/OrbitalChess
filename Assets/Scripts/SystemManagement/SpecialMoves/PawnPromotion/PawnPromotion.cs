@@ -104,9 +104,9 @@ public class PawnPromotion : MonoBehaviour
 		bc.RemovePiece(oldPos);
 		Destroy(oldPiece.gameObject);
 
+		bc.DestroyOpponentPiece(oldPiece, newPos);
 		Piece temp = bc.InstantiatePiece(newPiece, newPos);
 
-		bc.DestroyOpponentPiece(oldPiece, newPos);
 		bc.SetPiecePos(temp, newPos);
 		bc.InvokeMove(newPos);
 		gc.RoundEnd();

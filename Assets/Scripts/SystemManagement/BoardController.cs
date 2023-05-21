@@ -138,6 +138,7 @@ public class BoardController : MonoBehaviour
 		if (collider.gameObject.CompareTag("Piece") && collider.GetComponent<Piece>().Player == gc.CurrPlayer)
 		{
 			UnhighlightAllSqaures();
+			pp.UnhighlightAllPromotingButtons();
 			currPiece = collider.GetComponent<Piece>();
 			currPiece.GetAvailableMoves();
 		}

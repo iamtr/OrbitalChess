@@ -39,12 +39,22 @@ public class BoardController : MonoBehaviour
 
 			if (pieces[i] != null)
 			{
-				Piece temp = Instantiate(pieces[i], new Vector3(x, y, 0), Quaternion.identity);
-				pieces[i] = temp;
-				temp.transform.parent = pieceTransform;
-				temp.SetCoords(x, y);
+				InstantiatePiece(pieces[i], i);
 			}
 		}
+	}
+
+	public Piece InstantiatePiece(Piece piece, int pos)
+	{
+		int x = ConvertToXY(pos)[0];
+		int y = ConvertToXY(pos)[1];
+
+		Piece newPiece = Instantiate(piece, new Vector3(x, y, 0), Quaternion.identity);
+		pieces[pos] = newPiece;
+		newPiece.transform.parent = pieceTransform;
+		newPiece.SetCoords(x, y);
+
+		return newPiece;
 	}
 
     public bool IsLegalMove(int x, int y, Piece p) 

@@ -7,10 +7,9 @@ using UnityEngine.UI;
 public abstract class Piece : MonoBehaviour 
 {
 
-
 	[SerializeField] protected BoardController bc;
-	protected int currX;
-	protected int currY;
+	[SerializeField] protected int currX;
+	[SerializeField] protected int currY;
 	public int CurrPos { get; private set; }
 	protected int[,] delta;
 

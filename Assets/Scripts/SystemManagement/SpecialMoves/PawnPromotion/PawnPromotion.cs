@@ -103,12 +103,15 @@ public class PawnPromotion : MonoBehaviour
 
 		bc.RemovePiece(oldPos);
 		Destroy(oldPiece.gameObject);
-		Instantiate(newPiece.gameObject);
-		newPiece.SetCoords(x, y);
+
+		Piece temp = bc.GetPieces()[newPos];
+		temp = Instantiate(newPiece, new Vector3(x, y, 0), Quaternion.identity);
+		temp.SetCoords(x, y);
+		temp.transform.parent = GameObject.Find("Pieces").transform;
 
 		bc.DestroyOpponentPiece(oldPiece, newPos);
 
-		bc.SetPiecePos(newPiece, newPos);
+		bc.SetPiecePos(temp, newPos);
 		
 		bc.InvokeMove(newPos);
 

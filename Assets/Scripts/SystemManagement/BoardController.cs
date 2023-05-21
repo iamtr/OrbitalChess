@@ -84,13 +84,13 @@ public class BoardController : MonoBehaviour
 		int newPos = ConvertToPos(x, y);
 		int oldPos = piece.CurrPos;
 
-		RemovePiece(oldPos);
+		// RemovePiece(oldPos);
 		piece.SetCoords(x, y);
 
 		DestroyOpponentPiece(piece, newPos);
 
 		SetPiecePos(piece, newPos);
-
+		RemovePiece(oldPos);
 		InvokeMove(newPos);
 
 		gc.RoundEnd();
@@ -190,5 +190,10 @@ public class BoardController : MonoBehaviour
 	public void InvokeMove(int pos)
     {
 		pieces[pos].OnMove?.Invoke();
+	}
+
+	public Piece[] GetPieces()
+	{
+		return pieces;
 	}
 }

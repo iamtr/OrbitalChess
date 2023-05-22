@@ -22,6 +22,15 @@ public class PawnPromotion : MonoBehaviour
 		promotingBlack = new PromotionButton[promotingNumber];
 		promotingWhite = new PromotionButton[promotingNumber];
 
+		InstantiatePromotionButtons();
+
+		// Singleton initialization
+		if (i != null && i != this) Destroy(this);
+		else i = this;
+	}
+
+	public void InstantiatePromotionButtons()
+	{
 		for (var i = 0; i < promotingNumber; i++)
 		{
 			promotingBlack[i] = Instantiate(promotionButton, new Vector3(8.5f, 5 - i, 0), Quaternion.identity);
@@ -40,10 +49,6 @@ public class PawnPromotion : MonoBehaviour
 			promotingBlack[i].gameObject.transform.parent = promotionButtonTransform;
 			promotingWhite[i].gameObject.SetActive(false);
 		}
-
-		// Singleton initialization
-		if (i != null && i != this) Destroy(this);
-		else i = this;
 	}
 
 	public Piece FindPromotion(int id, PlayerType player)

@@ -7,10 +7,15 @@ public class InputManager : MonoBehaviour
 {
 	public static InputManager i { get; private set; }
 
-	private void Start()
+	private void Awake()
 	{
 		if (i != null && i != this) Destroy(this);
 		else i = this;
+	}
+
+	private void Start()
+	{
+
 	}
 
 	public void HandleColliderClicked(Collider2D col)

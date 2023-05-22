@@ -4,14 +4,18 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    [SerializeField] private BoardController boardController;
     [SerializeField] private PlayerType currPlayer;
+	[SerializeField] private GameState gameState;
+
+	public static GameController i;
 
     public PlayerType CurrPlayer => currPlayer;
+	public GameState GameState => gameState;
 
 	private void Start()
 	{
-        boardController = GameObject.Find("Board").GetComponent<BoardController>();
+        if (i != null && i != this) Destroy(this);
+        else i = this;
     }
 	private void Update()
 	{
@@ -22,7 +26,7 @@ public class GameController : MonoBehaviour
 
             if (collider != null)
             {
-                boardController.HandleColliderClicked(collider);
+                InputManager.i.HandleColliderClicked(collider);
             }
         }
     }
@@ -39,7 +43,12 @@ public class GameController : MonoBehaviour
 		}
 	}
 
-    
+	public void SetGameState(GameState newState)
+	{
+		gameState = newState;
+	}
 }
 
 public enum PlayerType { Black, White }
+
+public enum GameState { Play, Promoting, GameOver, Pause }

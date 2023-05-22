@@ -40,3 +40,4 @@ public class Queen : Piece
 		return true;
 	}
 }
+

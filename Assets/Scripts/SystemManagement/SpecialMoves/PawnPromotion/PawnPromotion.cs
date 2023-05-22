@@ -86,6 +86,7 @@ public class PawnPromotion : MonoBehaviour
 
 	public void PromotePiece(Piece promotedPiece)
 	{
+		Destroy(bc.GetPieces()[bc.CurrPiece.CurrPos].gameObject);
 		bc.InstantiatePiece(promotedPiece, bc.CurrPiece.CurrPos);
 	}
 }

@@ -41,10 +41,10 @@ public class BoardController : MonoBehaviour
 
 	public Piece InstantiatePiece(Piece piece, int pos)
 	{
-		var x = ConvertToXY(pos)[0];
-		var y = ConvertToXY(pos)[1];
+		int x = ConvertToXY(pos)[0];
+		int y = ConvertToXY(pos)[1];
 
-		var newPiece = Instantiate(piece, new Vector3(x, y, 0), Quaternion.identity);
+		Piece newPiece = Instantiate(piece, new Vector3(x, y, 0), Quaternion.identity);
 		pieces[pos] = newPiece;
 		newPiece.transform.parent = pieceTransform;
 		newPiece.SetCoords(x, y);

@@ -61,7 +61,7 @@ public class PawnPromotion : MonoBehaviour
 	{
 		if (piece is Pawn)
 		{
-			var temp = (Pawn)piece;
+			Pawn temp = (Pawn)piece;
 			if (temp.IsPromoted(y)) return true;
 		}
 

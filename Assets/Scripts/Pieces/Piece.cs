@@ -13,7 +13,8 @@ public abstract class Piece : MonoBehaviour
 	public int CurrPos { get; private set; }
 	protected int[,] delta;
 
-	public Action OnMove;
+	public Action OnBeforeMove;
+	public Action OnAfterMove;
 
 	// Do not change to property! We want this to be serializable
 	[SerializeField] protected PlayerType player;

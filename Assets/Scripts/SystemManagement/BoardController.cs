@@ -81,17 +81,16 @@ public class BoardController : MonoBehaviour
 
 	public void MovePiece(int x, int y, Piece piece)
 	{
+
 		var newPos = ConvertToPos(x, y);
 		var oldPos = piece.CurrPos;
 
-		// RemovePiece(oldPos);
+		InvokeOnBeforeMove(oldPos);
 		piece.SetCoords(x, y);
-
 		DestroyOpponentPiece(piece, newPos);
-
 		SetPiecePos(piece, newPos);
 		RemovePiece(oldPos);
-		InvokeMove(newPos);
+		InvokeOnAfterMove(newPos);
 
 		gc.RoundEnd();
 	}
@@ -120,16 +119,8 @@ public class BoardController : MonoBehaviour
 			var h = collider.GetComponent<HighlightSquare>();
 			var temp = ConvertToXY(h.Position);
 			newXY = temp;
-			if (pp.IsPromoting(currPiece, temp[1]))
-			{
-				pp.ShowPromotion((Pawn)currPiece);
-				UnhighlightAllSqaures();
-			}
-			else
-			{
-				MovePiece(temp[0], temp[1], currPiece);
-				UnhighlightAllSqaures();
-			}
+			MovePiece(newXY[0], newXY[1], currPiece);
+			UnhighlightAllSqaures();
 		}
 
 		if (collider.gameObject.CompareTag("Piece") && collider.GetComponent<Piece>().Player == gc.CurrPlayer)
@@ -143,9 +134,10 @@ public class BoardController : MonoBehaviour
 		if (collider.gameObject.CompareTag("Promotion Button"))
 		{
 			var id = collider.GetComponent<PromotionButton>().id;
-			var PromotedPiece = pp.FindPromotion(id, currPiece.Player);
-			pp.MovePromotedPiece(newXY[0], newXY[1], currPiece, PromotedPiece);
+			var promotedPiece = pp.FindPromotion(id, currPiece.Player);
+			pp.MovePromotedPiece(newXY[0], newXY[1], currPiece, promotedPiece);
 			pp.UnhighlightAllPromotingButtons();
+			gc.RoundEnd();
 		}
 	}
 
@@ -181,9 +173,14 @@ public class BoardController : MonoBehaviour
 		if (pieces[pos] != null && pieces[pos].Player != piece.Player) Destroy(pieces[pos].gameObject);
 	}
 
-	public void InvokeMove(int pos)
+	public void InvokeOnBeforeMove(int pos)
 	{
-		pieces[pos].OnMove?.Invoke();
+		pieces[pos].OnBeforeMove?.Invoke();
+	}
+
+	public void InvokeOnAfterMove(int pos)
+	{
+		pieces[pos].OnAfterMove?.Invoke();
 	}
 
 	public Piece[] GetPieces()

@@ -5,11 +5,13 @@ using UnityEngine;
 public class Pawn : Piece
 {
     private bool hasMoved = false;
+	public PawnPromotion pp;
 
-    public override void InitPiece(PlayerType p)
+	public override void InitPiece(PlayerType p)
     {
         base.InitPiece(p);
-        OnMove += SetPawnBoolean;
+        OnAfterMove += CheckForPromotion;
+        OnAfterMove += SetPawnBoolean;
     }
 
     public override void GetAvailableMoves()
@@ -58,20 +60,23 @@ public class Pawn : Piece
         }
     }
 
-    public bool IsPromoted(int y)
+    public bool IsAvailableForPromotion()
     {
-        if (this.Player == PlayerType.Black)
-        {
-            return y == 7;
-        } 
-        else
-        {
-            return y == 0;
-        }
+        return this.Player == PlayerType.Black ? currY >= 7 : currY <= 0;
     }
 
     public void SetPawnBoolean()
     {
         hasMoved = true;
+    }
+
+    public void CheckForPromotion()
+    {
+        if (IsAvailableForPromotion()) ChoosePromotion();
+	}
+
+    public void ChoosePromotion()
+    {
+        PawnPromotion.i.ShowPromotion(this);
     }
 }

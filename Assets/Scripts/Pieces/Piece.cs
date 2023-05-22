@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public abstract class Piece : MonoBehaviour 
 {
-
 	[SerializeField] protected BoardController bc;
 	[SerializeField] protected int currX;
 	[SerializeField] protected int currY;

@@ -37,6 +37,8 @@ public class PawnPromotion : MonoBehaviour
 			promotingBlack[i].id = i;
 			promotingBlack[i].spriteRen.sprite = blackSprites[i];
 			promotingBlack[i].gameObject.transform.parent = promotionButtonTransform;
+			promotingBlack[i].gameObject.transform.localScale = new Vector3(4.55f, 4.55f, 1f);
+			promotingBlack[i].GetComponent<BoxCollider2D>().size = new Vector2(0.2f, 0.2f);
 			promotingBlack[i].gameObject.SetActive(false);
 
 		}
@@ -46,7 +48,9 @@ public class PawnPromotion : MonoBehaviour
 			promotingWhite[i] = Instantiate(promotionButton, new Vector3(9.5f, 5 - i, 0), Quaternion.identity);
 			promotingWhite[i].id = i;
 			promotingWhite[i].spriteRen.sprite = whiteSprites[i];
-			promotingBlack[i].gameObject.transform.parent = promotionButtonTransform;
+			promotingWhite[i].gameObject.transform.parent = promotionButtonTransform;
+			promotingWhite[i].gameObject.transform.localScale = new Vector3(4.55f, 4.55f, 1f);
+			promotingWhite[i].GetComponent<BoxCollider2D>().size = new Vector2(0.2f, 0.2f);
 			promotingWhite[i].gameObject.SetActive(false);
 		}
 	}

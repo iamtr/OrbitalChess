@@ -22,8 +22,6 @@ public class BoardController : MonoBehaviour
 		else i = this;
 		
 		InstantiatePieces();
-
-
 	}
 
 	private void InstantiatePieces()
@@ -114,8 +112,6 @@ public class BoardController : MonoBehaviour
 	{
 		return new int[] { pos % 8, pos / 8 };
 	}
-
-
 
 	public bool IsSamePlayer(int pos1, int pos2)
 	{

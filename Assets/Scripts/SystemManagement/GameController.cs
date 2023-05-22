@@ -6,10 +6,12 @@ public class GameController : MonoBehaviour
 {
     [SerializeField] private BoardController boardController;
     [SerializeField] private PlayerType currPlayer;
+	[SerializeField] private GameState gameState;
 
-    public static GameController i;
+	public static GameController i;
 
     public PlayerType CurrPlayer => currPlayer;
+	public GameState GameState => gameState;
 
 	private void Start()
 	{
@@ -43,7 +45,12 @@ public class GameController : MonoBehaviour
 		}
 	}
 
-    
+	public void SetGameState(GameState newState)
+	{
+		gameState = newState;
+	}
 }
 
 public enum PlayerType { Black, White }
+
+public enum GameState { Play, Promoting, GameOver, Pause }

@@ -8,11 +8,11 @@ public class BoardController : MonoBehaviour
 	[SerializeField] public Piece CurrPiece { get; set; }
 	[SerializeField] private PawnPromotion pp;
 
+
 	private GameController gc;
 	private Transform highlightTransform;
 	private Transform pieceTransform;
 	private int[] newXY;
-
 
 	public static BoardController i { get; private set; }
 

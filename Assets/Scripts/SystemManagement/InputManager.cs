@@ -23,7 +23,9 @@ public class InputManager : MonoBehaviour
 			BoardController.i.UnhighlightAllSqaures();
 		}
 
-		if (col.gameObject.CompareTag("Piece") && col.GetComponent<Piece>().Player == GameController.i.CurrPlayer)
+		if (col.gameObject.CompareTag("Piece") 
+			&& col.GetComponent<Piece>().Player == GameController.i.CurrPlayer
+			&& GameController.i.GameState == GameState.Play)
 		{
 			BoardController.i.UnhighlightAllSqaures();
 			PawnPromotion.i.UnhighlightAllPromotingButtons();
@@ -31,12 +33,13 @@ public class InputManager : MonoBehaviour
 			BoardController.i.CurrPiece.GetAvailableMoves();
 		}
 
-		if (col.gameObject.CompareTag("Promotion Button"))
+		if (col.gameObject.CompareTag("Promotion Button") && GameController.i.GameState == GameState.Promoting)
 		{
 			int id = col.GetComponent<PromotionButton>().id;
 			Piece promotedPiece = PawnPromotion.i.FindPromotion(id, BoardController.i.CurrPiece.Player);
 			PawnPromotion.i.PromotePiece(promotedPiece);
 			PawnPromotion.i.UnhighlightAllPromotingButtons();
+			GameController.i.SetGameState(GameState.Play);
 		}
 	}
 }

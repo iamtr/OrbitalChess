@@ -23,6 +23,8 @@ public abstract class Piece : MonoBehaviour
 	{
 		bc = GameObject.Find("Board").GetComponent<BoardController>();
 		InitPiece(Player);
+
+		OnAfterMove += GameController.i.RoundEnd;
 	}
 
 	public virtual void InitPiece(PlayerType p)

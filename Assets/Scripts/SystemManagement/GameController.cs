@@ -7,11 +7,15 @@ public class GameController : MonoBehaviour
     [SerializeField] private BoardController boardController;
     [SerializeField] private PlayerType currPlayer;
 
+    public static GameController i;
+
     public PlayerType CurrPlayer => currPlayer;
 
 	private void Start()
 	{
         boardController = GameObject.Find("Board").GetComponent<BoardController>();
+        if (i != null && i != this) Destroy(this);
+        else i = this;
     }
 	private void Update()
 	{
@@ -22,7 +26,7 @@ public class GameController : MonoBehaviour
 
             if (collider != null)
             {
-                boardController.HandleColliderClicked(collider);
+                InputManager.i.HandleColliderClicked(collider);
             }
         }
     }

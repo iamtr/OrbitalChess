@@ -82,6 +82,10 @@ public class PawnPromotion : MonoBehaviour
 
 		bc.SetPiecePos(temp, newPos);
 		bc.InvokeOnAfterMove(newPos);
-		gc.RoundEnd();
+	}
+
+	public void PromotePiece(Piece promotedPiece)
+	{
+		bc.InstantiatePiece(promotedPiece, bc.CurrPiece.CurrPos);
 	}
 }

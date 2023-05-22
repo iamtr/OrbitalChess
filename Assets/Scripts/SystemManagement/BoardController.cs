@@ -5,7 +5,7 @@ public class BoardController : MonoBehaviour
 	[SerializeField] private Piece[] pieces;
 	[SerializeField] private HighlightSquare[] highlights;
 	[SerializeField] private HighlightSquare highlightSquare;
-	[SerializeField] private Piece currPiece;
+	[SerializeField] public Piece CurrPiece { get; set; }
 	[SerializeField] private PawnPromotion pp;
 
 	private GameController gc;
@@ -13,12 +13,21 @@ public class BoardController : MonoBehaviour
 	private Transform pieceTransform;
 	private int[] newXY;
 
+
+	public static BoardController i { get; private set; }
+
 	private void Start()
 	{
 		gc = GameObject.Find("Game Controller").GetComponent<GameController>();
 		highlightTransform = GameObject.Find("Highlight Squares").transform;
 		pieceTransform = GameObject.Find("Pieces").transform;
+
+		if (i != null && i != this) Destroy(this);
+		else i = this;
+		
 		InstantiatePieces();
+
+
 	}
 
 	private void InstantiatePieces()
@@ -71,7 +80,7 @@ public class BoardController : MonoBehaviour
 
 	public void Highlight(int x, int y, Piece currPiece)
 	{
-		this.currPiece = currPiece;
+		this.CurrPiece = currPiece;
 		var pos = ConvertToPos(x, y);
 
 		if (pieces[pos] == null)
@@ -91,8 +100,6 @@ public class BoardController : MonoBehaviour
 		SetPiecePos(piece, newPos);
 		RemovePiece(oldPos);
 		InvokeOnAfterMove(newPos);
-
-		gc.RoundEnd();
 	}
 
 	public void UnhighlightAllSqaures()
@@ -112,34 +119,7 @@ public class BoardController : MonoBehaviour
 		return new int[] { pos % 8, pos / 8 };
 	}
 
-	public void HandleColliderClicked(Collider2D collider)
-	{
-		if (collider.gameObject.CompareTag("Highlight Square"))
-		{
-			var h = collider.GetComponent<HighlightSquare>();
-			var temp = ConvertToXY(h.Position);
-			newXY = temp;
-			MovePiece(newXY[0], newXY[1], currPiece);
-			UnhighlightAllSqaures();
-		}
 
-		if (collider.gameObject.CompareTag("Piece") && collider.GetComponent<Piece>().Player == gc.CurrPlayer)
-		{
-			UnhighlightAllSqaures();
-			pp.UnhighlightAllPromotingButtons();
-			currPiece = collider.GetComponent<Piece>();
-			currPiece.GetAvailableMoves();
-		}
-
-		if (collider.gameObject.CompareTag("Promotion Button"))
-		{
-			var id = collider.GetComponent<PromotionButton>().id;
-			var promotedPiece = pp.FindPromotion(id, currPiece.Player);
-			pp.MovePromotedPiece(newXY[0], newXY[1], currPiece, promotedPiece);
-			pp.UnhighlightAllPromotingButtons();
-			gc.RoundEnd();
-		}
-	}
 
 	public bool IsSamePlayer(int pos1, int pos2)
 	{

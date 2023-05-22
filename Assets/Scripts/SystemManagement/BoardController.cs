@@ -6,10 +6,7 @@ public class BoardController : MonoBehaviour
 	[SerializeField] private HighlightSquare[] highlights;
 	[SerializeField] private HighlightSquare highlightSquare;
 	[SerializeField] public Piece CurrPiece { get; set; }
-	[SerializeField] private PawnPromotion pp;
 
-
-	private GameController gc;
 	private Transform highlightTransform;
 	private Transform pieceTransform;
 	private int[] newXY;
@@ -18,7 +15,6 @@ public class BoardController : MonoBehaviour
 
 	private void Start()
 	{
-		gc = GameObject.Find("Game Controller").GetComponent<GameController>();
 		highlightTransform = GameObject.Find("Highlight Squares").transform;
 		pieceTransform = GameObject.Find("Pieces").transform;
 

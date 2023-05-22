@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    [SerializeField] private BoardController boardController;
     [SerializeField] private PlayerType currPlayer;
 	[SerializeField] private GameState gameState;
 
@@ -15,7 +14,6 @@ public class GameController : MonoBehaviour
 
 	private void Start()
 	{
-        boardController = GameObject.Find("Board").GetComponent<BoardController>();
         if (i != null && i != this) Destroy(this);
         else i = this;
     }

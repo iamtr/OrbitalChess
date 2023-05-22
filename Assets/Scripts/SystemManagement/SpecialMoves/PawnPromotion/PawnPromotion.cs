@@ -10,8 +10,6 @@ public class PawnPromotion : MonoBehaviour
 	[SerializeField] private Piece[] promotionWhiteList;
 	[SerializeField] private PromotionButton promotionButton;
 
-	private GameController gc;
-	private BoardController bc;
 	private Transform promotionButtonTransform;
 	private readonly int promotingNumber = 4;
 
@@ -20,8 +18,6 @@ public class PawnPromotion : MonoBehaviour
 
 	private void Start()
 	{
-		gc = GameObject.Find("Game Controller").GetComponent<GameController>();
-		bc = GameObject.Find("Board").GetComponent<BoardController>();
 		promotionButtonTransform = GameObject.Find("Promotion Buttons").transform;
 		promotingBlack = new PromotionButton[promotingNumber];
 		promotingWhite = new PromotionButton[promotingNumber];
@@ -71,22 +67,22 @@ public class PawnPromotion : MonoBehaviour
 
 	public void MovePromotedPiece(int x, int y, Piece oldPiece, Piece newPiece)
 	{
-		var newPos = bc.ConvertToPos(x, y);
+		var newPos = BoardController.i.ConvertToPos(x, y);
 		var oldPos = oldPiece.CurrPos;
 
-		bc.RemovePiece(oldPos);
+		BoardController.i.RemovePiece(oldPos);
 		Destroy(oldPiece.gameObject);
 
-		bc.DestroyOpponentPiece(oldPiece, newPos);
-		var temp = bc.InstantiatePiece(newPiece, newPos);
+		BoardController.i.DestroyOpponentPiece(oldPiece, newPos);
+		var temp = BoardController.i.InstantiatePiece(newPiece, newPos);
 
-		bc.SetPiecePos(temp, newPos);
-		bc.InvokeOnAfterMove(newPos);
+		BoardController.i.SetPiecePos(temp, newPos);
+		BoardController.i.InvokeOnAfterMove(newPos);
 	}
 
 	public void PromotePiece(Piece promotedPiece)
 	{
-		Destroy(bc.GetPieces()[bc.CurrPiece.CurrPos].gameObject);
-		bc.InstantiatePiece(promotedPiece, bc.CurrPiece.CurrPos);
+		Destroy(BoardController.i.GetPieces()[BoardController.i.CurrPiece.CurrPos].gameObject);
+		BoardController.i.InstantiatePiece(promotedPiece, BoardController.i.CurrPiece.CurrPos);
 	}
 }

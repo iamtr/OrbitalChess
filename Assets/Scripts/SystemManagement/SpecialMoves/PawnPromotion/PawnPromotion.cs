@@ -22,17 +22,12 @@ public class PawnPromotion : MonoBehaviour
 		promotingBlack = new PromotionButton[promotingNumber];
 		promotingWhite = new PromotionButton[promotingNumber];
 
-		InstantiatePromotionButtons();
+		InstantiatePromotionButtons(blackSprites, promotingBlack);
+		InstantiatePromotionButtons(whiteSprites, promotingWhite);
 
 		// Singleton initialization
 		if (i != null && i != this) Destroy(this);
 		else i = this;
-	}
-
-	public void InstantiatePromotionButtons()
-	{
-		InstantiatePromotionButtons(blackSprites, promotingBlack);
-		InstantiatePromotionButtons(whiteSprites, promotingWhite);
 	}
 
 	private void InstantiatePromotionButtons(Sprite[] sprites, PromotionButton[] buttons)

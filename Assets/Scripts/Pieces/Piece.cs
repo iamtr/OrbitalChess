@@ -1,8 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public abstract class Piece : MonoBehaviour 
 {
@@ -12,8 +9,10 @@ public abstract class Piece : MonoBehaviour
 	public int CurrPos { get; private set; }
 	protected int[,] delta;
 
-	public Action OnBeforeMove;
-	public Action OnAfterMove;
+	public event Action OnBeforeMove;
+	public event Action OnAfterMove;
+
+	public PlayerType Player => player;
 
 	// Do not change to property! We want this to be serializable
 	[SerializeField] protected PlayerType player;
@@ -34,13 +33,6 @@ public abstract class Piece : MonoBehaviour
 	public abstract void GetAvailableMoves();
 
 	public abstract bool IsLegalMove(int x, int y, Piece p);
-
-	
-
-	// Getters
-	public PlayerType Player => player;
-
-	// Setters
 	public void SetCoords(int x, int y) { 
 		currX = x; 
 		currY = y;
@@ -50,4 +42,12 @@ public abstract class Piece : MonoBehaviour
 	}
 	public void SetPlayer(PlayerType p) => player = p;
 
+	public void InvokeOnBeforeMove(int pos)
+	{
+		OnBeforeMove?.Invoke();
+	}
+	public void InvokeOnAfterMove(int pos)
+	{
+		OnAfterMove?.Invoke();
+	}
 }

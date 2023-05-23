@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
@@ -33,14 +31,7 @@ public class GameController : MonoBehaviour
 
     public void RoundEnd()
 	{
-        if (currPlayer == PlayerType.Black)
-		{
-            currPlayer = PlayerType.White;
-		} 
-        else if (currPlayer == PlayerType.White)
-		{
-            currPlayer = PlayerType.Black;
-		}
+        currPlayer = currPlayer == PlayerType.Black ? PlayerType.White : PlayerType.Black;
 	}
 
 	public void SetGameState(GameState newState)

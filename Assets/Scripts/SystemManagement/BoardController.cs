@@ -74,26 +74,25 @@ public class BoardController : MonoBehaviour
 
 	public void Highlight(int x, int y, Piece currPiece)
 	{
-		this.CurrPiece = currPiece;
-		var pos = ConvertToPos(x, y);
-
+		int pos = ConvertToPos(x, y);
 		if (pieces[pos] == null)
 			SetHighlightColor(pos, Color.blue);
-		else if (pieces[pos]?.Player != currPiece.Player) SetHighlightColor(pos, Color.red);
+		else if (pieces[pos]?.Player != currPiece.Player) 
+			SetHighlightColor(pos, Color.red);
 	}
 
 	public void MovePiece(int x, int y, Piece piece)
 	{
 
-		var newPos = ConvertToPos(x, y);
-		var oldPos = piece.CurrPos;
+		int newPos = ConvertToPos(x, y);
+		int oldPos = piece.CurrPos;
 
-		InvokeOnBeforeMove(oldPos);
+		piece.InvokeOnBeforeMove(oldPos);
 		piece.SetCoords(x, y);
 		DestroyOpponentPiece(piece, newPos);
 		SetPiecePos(piece, newPos);
 		RemovePiece(oldPos);
-		InvokeOnAfterMove(newPos);
+		piece.InvokeOnAfterMove(newPos);
 	}
 
 	public void UnhighlightAllSqaures()
@@ -138,21 +137,13 @@ public class BoardController : MonoBehaviour
 	public void RemovePiece(int pos)
 	{
 		pieces[pos] = null;
+		Destroy(pieces[pos]?.gameObject);
 	}
 
 	public void DestroyOpponentPiece(Piece piece, int pos)
 	{
-		if (pieces[pos] != null && pieces[pos].Player != piece.Player) Destroy(pieces[pos].gameObject);
-	}
-
-	public void InvokeOnBeforeMove(int pos)
-	{
-		pieces[pos].OnBeforeMove?.Invoke();
-	}
-
-	public void InvokeOnAfterMove(int pos)
-	{
-		pieces[pos].OnAfterMove?.Invoke();
+		if (pieces[pos] != null && pieces[pos].Player != piece.Player) 
+			Destroy(pieces[pos].gameObject);
 	}
 
 	public Piece[] GetPieces()

@@ -31,27 +31,21 @@ public class PawnPromotion : MonoBehaviour
 
 	public void InstantiatePromotionButtons()
 	{
+		InstantiatePromotionButtons(blackSprites, promotingBlack);
+		InstantiatePromotionButtons(whiteSprites, promotingWhite);
+	}
+
+	private void InstantiatePromotionButtons(Sprite[] sprites, PromotionButton[] buttons)
+	{
 		for (var i = 0; i < promotingNumber; i++)
 		{
-			promotingBlack[i] = Instantiate(promotionButton, new Vector3(8.5f, 5 - i, 0), Quaternion.identity);
-			promotingBlack[i].id = i;
-			promotingBlack[i].spriteRen.sprite = blackSprites[i];
-			promotingBlack[i].gameObject.transform.parent = promotionButtonTransform;
-			promotingBlack[i].gameObject.transform.localScale = new Vector3(4.55f, 4.55f, 1f);
-			promotingBlack[i].GetComponent<BoxCollider2D>().size = new Vector2(0.2f, 0.2f);
-			promotingBlack[i].gameObject.SetActive(false);
-
-		}
-
-		for (var i = 0; i < promotingNumber; i++)
-		{
-			promotingWhite[i] = Instantiate(promotionButton, new Vector3(9.5f, 5 - i, 0), Quaternion.identity);
-			promotingWhite[i].id = i;
-			promotingWhite[i].spriteRen.sprite = whiteSprites[i];
-			promotingWhite[i].gameObject.transform.parent = promotionButtonTransform;
-			promotingWhite[i].gameObject.transform.localScale = new Vector3(4.55f, 4.55f, 1f);
-			promotingWhite[i].GetComponent<BoxCollider2D>().size = new Vector2(0.2f, 0.2f);
-			promotingWhite[i].gameObject.SetActive(false);
+			buttons[i] = Instantiate(promotionButton, new Vector3(8.5f, 5 - i, 0), Quaternion.identity);
+			buttons[i].id = i;
+			buttons[i].spriteRen.sprite = sprites[i];
+			buttons[i].gameObject.transform.parent = promotionButtonTransform;
+			buttons[i].gameObject.transform.localScale = new Vector3(4.55f, 4.55f, 1f);
+			buttons[i].GetComponent<BoxCollider2D>().size = new Vector2(0.2f, 0.2f);
+			buttons[i].gameObject.SetActive(false);
 		}
 	}
 
@@ -72,21 +66,6 @@ public class PawnPromotion : MonoBehaviour
 	{
 		foreach (var square in promotingBlack) square.gameObject.SetActive(false);
 		foreach (var square in promotingWhite) square.gameObject.SetActive(false);
-	}
-
-	public void MovePromotedPiece(int x, int y, Piece oldPiece, Piece newPiece)
-	{
-		var newPos = BoardController.i.ConvertToPos(x, y);
-		var oldPos = oldPiece.CurrPos;
-
-		BoardController.i.RemovePiece(oldPos);
-		Destroy(oldPiece.gameObject);
-
-		BoardController.i.DestroyOpponentPiece(oldPiece, newPos);
-		var temp = BoardController.i.InstantiatePiece(newPiece, newPos);
-
-		BoardController.i.SetPiecePos(temp, newPos);
-		BoardController.i.InvokeOnAfterMove(newPos);
 	}
 
 	public void PromotePiece(Piece promotedPiece)

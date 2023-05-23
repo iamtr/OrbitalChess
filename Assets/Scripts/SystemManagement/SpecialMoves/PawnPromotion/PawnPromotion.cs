@@ -13,7 +13,6 @@ public class PawnPromotion : MonoBehaviour
 	private Transform promotionButtonTransform;
 	private readonly int promotingNumber = 4;
 
-	// Singleton instance
 	public static PawnPromotion i { get; private set; }
 
 	private void Start()
@@ -22,76 +21,81 @@ public class PawnPromotion : MonoBehaviour
 		promotingBlack = new PromotionButton[promotingNumber];
 		promotingWhite = new PromotionButton[promotingNumber];
 
-		InstantiatePromotionButtons();
+		InstantiatePromotionButtons(blackSprites, promotingBlack);
+		InstantiatePromotionButtons(whiteSprites, promotingWhite);
 
 		// Singleton initialization
 		if (i != null && i != this) Destroy(this);
 		else i = this;
 	}
 
-	public void InstantiatePromotionButtons()
+	private void InstantiatePromotionButtons(Sprite[] sprites, PromotionButton[] buttons)
 	{
 		for (var i = 0; i < promotingNumber; i++)
 		{
-			promotingBlack[i] = Instantiate(promotionButton, new Vector3(8.5f, 5 - i, 0), Quaternion.identity);
-			promotingBlack[i].id = i;
-			promotingBlack[i].spriteRen.sprite = blackSprites[i];
-			promotingBlack[i].gameObject.transform.parent = promotionButtonTransform;
-			promotingBlack[i].gameObject.transform.localScale = new Vector3(4.55f, 4.55f, 1f);
-			promotingBlack[i].GetComponent<BoxCollider2D>().size = new Vector2(0.2f, 0.2f);
-			promotingBlack[i].gameObject.SetActive(false);
-
-		}
-
-		for (var i = 0; i < promotingNumber; i++)
-		{
-			promotingWhite[i] = Instantiate(promotionButton, new Vector3(9.5f, 5 - i, 0), Quaternion.identity);
-			promotingWhite[i].id = i;
-			promotingWhite[i].spriteRen.sprite = whiteSprites[i];
-			promotingWhite[i].gameObject.transform.parent = promotionButtonTransform;
-			promotingWhite[i].gameObject.transform.localScale = new Vector3(4.55f, 4.55f, 1f);
-			promotingWhite[i].GetComponent<BoxCollider2D>().size = new Vector2(0.2f, 0.2f);
-			promotingWhite[i].gameObject.SetActive(false);
+			buttons[i] = Instantiate(promotionButton, new Vector3(8.5f, 5 - i, 0), Quaternion.identity);
+			buttons[i].id = i;
+			buttons[i].spriteRen.sprite = sprites[i];
+			buttons[i].gameObject.transform.parent = promotionButtonTransform;
+			buttons[i].gameObject.transform.localScale = new Vector3(4.55f, 4.55f, 1f);
+			buttons[i].GetComponent<BoxCollider2D>().size = new Vector2(0.2f, 0.2f);
+			buttons[i].gameObject.SetActive(false);
 		}
 	}
 
-	public Piece FindPromotion(int id, PlayerType player)
+	/// <summary>
+	/// Gets the promoted piece type based on the id given
+	/// </summary>
+	/// <param name="id">The type of piece to be promoted</param>
+	/// <param name="player">Player type</param>
+	/// <returns>The promoted piece (Queen, Knight, Rook, Bishop)</returns>
+	public Piece GetPromotionPiece(int id, PlayerType player)
 	{
 		return player == PlayerType.Black ? promotionBlackList[id] : promotionWhiteList[id];
 	}
 
-	public void ShowPromotion(Pawn pawn)
+	/// <summary>
+	/// Shows the promotion buttons
+	/// </summary>
+	/// <param name="p">Player Type</param>
+	public void ShowPromotionButtons(PlayerType p)
 	{
-		if (pawn.Player == PlayerType.Black)
+		if (p == PlayerType.Black)
 			for (var i = 0; i < promotingNumber; i++) promotingBlack[i].gameObject.SetActive(true);
 		else
 			for (var i = 0; i < promotingNumber; i++) promotingWhite[i].gameObject.SetActive(true);
 	}
 
+
+	/// <summary>
+	/// Hides the promotion buttons
+	/// </summary>
 	public void UnhighlightAllPromotingButtons()
 	{
 		foreach (var square in promotingBlack) square.gameObject.SetActive(false);
 		foreach (var square in promotingWhite) square.gameObject.SetActive(false);
 	}
 
-	public void MovePromotedPiece(int x, int y, Piece oldPiece, Piece newPiece)
-	{
-		var newPos = BoardController.i.ConvertToPos(x, y);
-		var oldPos = oldPiece.CurrPos;
-
-		BoardController.i.RemovePiece(oldPos);
-		Destroy(oldPiece.gameObject);
-
-		BoardController.i.DestroyOpponentPiece(oldPiece, newPos);
-		var temp = BoardController.i.InstantiatePiece(newPiece, newPos);
-
-		BoardController.i.SetPiecePos(temp, newPos);
-		BoardController.i.InvokeOnAfterMove(newPos);
-	}
-
+	/// <summary>
+	/// Destroys the pawn and instantiates the promoted piece
+	/// </summary>
+	/// <param name="promotedPiece">The piece type to be instantiated</param>
 	public void PromotePiece(Piece promotedPiece)
 	{
-		Destroy(BoardController.i.GetPieces()[BoardController.i.CurrPiece.CurrPos].gameObject);
+		BoardController.i.DestroyPiece(BoardController.i.CurrPiece.CurrPos);
 		BoardController.i.InstantiatePiece(promotedPiece, BoardController.i.CurrPiece.CurrPos);
+	}
+
+	/// <summary>
+	/// Handles the promotion button clicked functionality
+	/// </summary>
+	/// <param name="col"></param>
+	public void HandlePromotionButtonClicked(Collider2D col)
+	{
+		int id = col.GetComponent<PromotionButton>().id;
+		Piece promotedPiece = GetPromotionPiece(id, BoardController.i.CurrPiece.Player);
+		PromotePiece(promotedPiece);
+		UnhighlightAllPromotingButtons();
+		GameController.i.SetGameState(GameState.Play);
 	}
 }

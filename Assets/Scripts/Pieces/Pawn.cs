@@ -49,12 +49,16 @@ public class Pawn : Piece
         int leftX = currX - 1;
         int newY = currY + direction;
 
-        if (bc.GetPieceFromPos(bc.ConvertToPos(rightX, newY)) != null && bc.GetPieceFromPos(bc.ConvertToPos(rightX, newY)).Player != this.Player && bc.IsLegalMove(rightX, newY, this))
+        if (bc.IsLegalMove(rightX, newY, this)
+            &&bc.GetPieceFromPos(bc.ConvertToPos(rightX, newY)) != null 
+            && bc.GetPieceFromPos(bc.ConvertToPos(rightX, newY)).Player != this.Player)
         {
             bc.Highlight(rightX, newY, this);
         }
 
-        if (bc.GetPieceFromPos(bc.ConvertToPos(leftX, newY)) != null && bc.GetPieceFromPos(bc.ConvertToPos(leftX, newY)).Player != this.Player && bc.IsLegalMove(leftX, newY, this))
+        if (bc.IsLegalMove(leftX, newY, this)
+			&& bc.GetPieceFromPos(bc.ConvertToPos(leftX, newY)) != null 
+            && bc.GetPieceFromPos(bc.ConvertToPos(leftX, newY)).Player != this.Player)
         {
             bc.Highlight(leftX, newY, this);
         }
@@ -78,6 +82,6 @@ public class Pawn : Piece
     public void ChoosePromotion()
     {
         GameController.i.SetGameState(GameState.Promoting);
-        PawnPromotion.i.ShowPromotion(this);
+        PawnPromotion.i.ShowPromotionButtons(this.Player);
     }
 }

@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class GameController : MonoBehaviour
 {
@@ -9,13 +8,21 @@ public class GameController : MonoBehaviour
 
 	public static GameController i;
 
+    /// <summary>
+    /// Current player type (Black, White)
+    /// </summary>
     public PlayerType CurrPlayer => currPlayer;
+    /// <summary>
+    /// Current game state (Play, Promoting, Check, etc)
+    /// </summary>
 	public GameState GameState => gameState;
-
+    public event Action OnRoundEnd;
 	private void Start()
 	{
         if (i != null && i != this) Destroy(this);
         else i = this;
+
+        OnRoundEnd += SetPlayer;
     }
 	private void Update()
 	{
@@ -24,29 +31,40 @@ public class GameController : MonoBehaviour
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Collider2D collider = Physics2D.OverlapPoint(mousePosition);
 
-            if (collider != null)
-            {
-                InputManager.i.HandleColliderClicked(collider);
-            }
+            if (collider == null) return;
+            InputManager.i.HandleColliderClicked(collider);
         }
     }
 
-    public void RoundEnd()
-	{
-        if (currPlayer == PlayerType.Black)
-		{
-            currPlayer = PlayerType.White;
-		} 
-        else if (currPlayer == PlayerType.White)
-		{
-            currPlayer = PlayerType.Black;
-		}
-	}
+    /// <summary>
+    /// Sets the current player to the opposite player
+    /// </summary>
+    public void SetPlayer()
+    {
+        currPlayer = currPlayer == PlayerType.Black ? PlayerType.White : PlayerType.Black;
+    }
 
+    /// <summary>
+    /// Changes the game state according to the parameter
+    /// </summary>
+    /// <param name="newState">The state to set</param>
 	public void SetGameState(GameState newState)
 	{
 		gameState = newState;
 	}
+
+    /// <summary>
+    /// Parameterless method to set game state to play
+    /// </summary>
+    public void SetGameStateToPlay()
+	{
+		gameState = GameState.Play;
+	}
+
+    public void InvokeOnRoundEnd() 
+    {
+        OnRoundEnd?.Invoke();
+    }
 }
 
 public enum PlayerType { Black, White }

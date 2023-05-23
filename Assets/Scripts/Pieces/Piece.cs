@@ -1,21 +1,25 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public abstract class Piece : MonoBehaviour 
 {
 	[SerializeField] protected BoardController bc;
 	[SerializeField] protected int currX;
 	[SerializeField] protected int currY;
+
+	/// <summary>
+	/// Current position, from 0 - 63
+	/// </summary>
 	public int CurrPos { get; private set; }
-	protected int[,] delta;
 
-	public Action OnBeforeMove;
-	public Action OnAfterMove;
+	public event Action OnBeforeMove;
+	public event Action OnAfterMove;
 
-	// Do not change to property! We want this to be serializable
+	/// <summary>
+	/// Current player type
+	/// </summary>
+	public PlayerType Player => player;
+
 	[SerializeField] protected PlayerType player;
 
 	private void Start()
@@ -23,24 +27,32 @@ public abstract class Piece : MonoBehaviour
 		bc = GameObject.Find("Board").GetComponent<BoardController>();
 		InitPiece(Player);
 
-		OnAfterMove += GameController.i.RoundEnd;
+		OnAfterMove += GameController.i.InvokeOnRoundEnd;
 	}
 
+	/// <summary>
+	/// Initializes the piece
+	/// </summary>
 	public virtual void InitPiece(PlayerType p)
 	{
-		player = p;
+		SetPlayer(p);
 	}
 
+	/// <summary>
+	/// Calculates all available moves for this piece and highlights them
+	/// </summary>
 	public abstract void GetAvailableMoves();
 
+	/// <summary>
+	/// Checks if the move is legal
+	/// </summary>
 	public abstract bool IsLegalMove(int x, int y, Piece p);
 
-	
-
-	// Getters
-	public PlayerType Player => player;
-
-	// Setters
+	/// <summary>
+	/// Set the currX and currY values of this piece
+	/// </summary>
+	/// <param name="x"> currX </param>
+	/// <param name="y"> currY </param>
 	public void SetCoords(int x, int y) { 
 		currX = x; 
 		currY = y;
@@ -48,6 +60,25 @@ public abstract class Piece : MonoBehaviour
 		transform.position = new Vector3(currX, currY, 0);
 
 	}
+	/// <summary>
+	/// Set the player type for this piece
+	/// </summary>
+	/// <param name="p">Player type</param>
 	public void SetPlayer(PlayerType p) => player = p;
 
+	/// <summary>
+	/// Calls the OnBeforeMove event
+	/// </summary>
+	public void InvokeOnBeforeMove()
+	{
+		OnBeforeMove?.Invoke();
+	}
+
+	/// <summary>
+	/// Calls the OnAfterMove event
+	/// </summary>
+	public void InvokeOnAfterMove()
+	{
+		OnAfterMove?.Invoke();
+	}
 }

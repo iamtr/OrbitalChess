@@ -82,6 +82,6 @@ public class Pawn : Piece
     public void ChoosePromotion()
     {
         GameController.i.SetGameState(GameState.Promoting);
-        PawnPromotion.i.ShowPromotionButtons(this);
+        PawnPromotion.i.ShowPromotionButtons(this.Player);
     }
 }

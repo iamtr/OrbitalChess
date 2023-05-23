@@ -5,11 +5,13 @@ public class BoardController : MonoBehaviour
 	[SerializeField] private Piece[] pieces;
 	[SerializeField] private HighlightSquare[] highlights;
 	[SerializeField] private HighlightSquare highlightSquare;
+	/// <summary>
+	/// The current piece that is being clicked by the player
+	/// </summary>
 	[SerializeField] public Piece CurrPiece { get; set; }
 
 	private Transform highlightTransform;
 	private Transform pieceTransform;
-	private int[] newXY;
 
 	public static BoardController i { get; private set; }
 
@@ -24,6 +26,9 @@ public class BoardController : MonoBehaviour
 		InstantiatePieces();
 	}
 
+	/// <summary>
+	/// Instantiates all pieces and highlight squares
+	/// </summary>
 	private void InstantiatePieces()
 	{
 		highlights = new HighlightSquare[64];
@@ -42,6 +47,12 @@ public class BoardController : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Instantiate a single piece on the board
+	/// </summary>
+	/// <param name="piece">Type of piece to be instantiated</param>
+	/// <param name="pos">Position on board to be instantiated</param>
+	/// <returns></returns>
 	public Piece InstantiatePiece(Piece piece, int pos)
 	{
 		int x = ConvertToXY(pos)[0];
@@ -72,6 +83,12 @@ public class BoardController : MonoBehaviour
 		highlights[pos].gameObject.SetActive(true);
 	}
 
+	/// <summary>
+	/// Highlights a certain sqaure on the board
+	/// </summary>
+	/// <param name="x"></param>
+	/// <param name="y"></param>
+	/// <param name="currPiece">The current piece chosen by player</param>
 	public void Highlight(int x, int y, Piece currPiece)
 	{
 		int pos = ConvertToPos(x, y);
@@ -81,37 +98,59 @@ public class BoardController : MonoBehaviour
 			SetHighlightColor(pos, Color.red);
 	}
 
+	/// <summary>
+	/// Moves a piece to position x, y on the board.
+	/// Before move, InvokeOnBeforeMove() is called on the piece.
+	/// After move, InvokeOnAfterMove() is called on the piece.
+	/// </summary>
+	/// <param name="currPiece">The current piece chosen by player</param>
 	public void MovePiece(int x, int y, Piece piece)
 	{
 
 		int newPos = ConvertToPos(x, y);
 		int oldPos = piece.CurrPos;
 
-		piece.InvokeOnBeforeMove(oldPos);
+		piece.InvokeOnBeforeMove();
 		piece.SetCoords(x, y);
 		DestroyOpponentPiece(piece, newPos);
 		SetPiecePos(piece, newPos);
-		RemovePiece(oldPos);
-		piece.InvokeOnAfterMove(newPos);
+		DestroyPiece(oldPos);
+		piece.InvokeOnAfterMove();
 	}
 
+	/// <summary>
+	/// Unhighlights all squares on the board
+	/// </summary>
 	public void UnhighlightAllSqaures()
 	{
 		foreach (var square in highlights) square.gameObject.SetActive(false);
 	}
 
-	// Converts (x, y) coords to 0 - 63
+	/// <summary>
+	/// Converts x, y coordinates to 0 - 63
+	/// </summary>
+	/// <param name="x"></param>
+	/// <param name="y"></param>
+	/// <returns></returns>
 	public int ConvertToPos(int x, int y)
 	{
 		return y * 8 + x;
 	}
 
-	// Converts 0 - 63 to (x, y)
+	/// <summary>
+	/// Converts 0 - 63 position numbers to x, y coordinates 
+	/// </summary>
+	/// <param name="pos"></param>
+	/// <returns></returns>
 	public int[] ConvertToXY(int pos)
 	{
 		return new int[] { pos % 8, pos / 8 };
 	}
 
+	/// <summary>
+	/// Checks if the piece at pos1 is the same player as the piece at pos2
+	/// If any one of the pieces is null, return false
+	/// </summary>
 	public bool IsSamePlayer(int pos1, int pos2)
 	{
 		Piece p1 = GetPieceFromPos(pos1);
@@ -119,38 +158,61 @@ public class BoardController : MonoBehaviour
 		return p1?.Player == p2?.Player;
 	}
 
+	/// <summary>
+	/// Returns the piece from a certain position on the board
+	/// </summary>	
 	public Piece GetPieceFromPos(int pos)
 	{
 		return pieces[pos];
 	}
 
+	/// <summary>
+	/// Checks if a certain position on the board is occupied
+	/// </summary>
 	public bool IsOccupied(int pos)
 	{
 		return pieces[pos] != null;
 	}
 
+	/// <summary>
+	/// Sets the piece at a certain position on the board
+	/// Also calls SetCoords() on the piece
+	/// </summary>
+	/// <param name="piece">Piece to be moved</param>
+	/// <param name="pos">New position on board</param>
 	public void SetPiecePos(Piece piece, int pos)
 	{
 		pieces[pos] = piece;
+		int x = ConvertToXY(pos)[0];
+		int y = ConvertToXY(pos)[1];
+		pieces[pos].SetCoords(x, y);
 	}
 
-	public void RemovePiece(int pos)
+	/// <summary>
+	/// Removes the piece at specified board position and destroys the gameobject
+	/// </summary>
+	/// <param name="pos"></param>
+	public void DestroyPiece(int pos)
 	{
 		pieces[pos] = null;
 		Destroy(pieces[pos]?.gameObject);
 	}
 
+	/// <summary>
+	/// Destroys the opponent piece at a certain position on the board, and destroys the gameobject
+	/// </summary>
+	/// <param name="piece"></param>
+	/// <param name="pos"></param>
 	public void DestroyOpponentPiece(Piece piece, int pos)
 	{
 		if (pieces[pos] != null && pieces[pos].Player != piece.Player) 
 			Destroy(pieces[pos].gameObject);
 	}
 
-	public Piece[] GetPieces()
-	{
-		return pieces;
-	}
-
+	/// <summary>
+	/// Handles the logic after a highlight square is clicked
+	/// </summary>
+	/// <param name="col"></param>
 	public void HandleHighlightSquareClicked(Collider2D col)
 	{
 		var h = col.GetComponent<HighlightSquare>();
@@ -159,6 +221,10 @@ public class BoardController : MonoBehaviour
 		UnhighlightAllSqaures();
 	}
 
+	/// <summary>
+	/// Handles the logic after a piece of the current player is clicked
+	/// </summary>
+	/// <param name="col"></param>
 	public void HandlePieceClicked(Collider2D col)
 	{
 		UnhighlightAllSqaures();

@@ -65,7 +65,7 @@ public class PawnPromotion : MonoBehaviour
 
 	public void PromotePiece(Piece promotedPiece)
 	{
-		Destroy(BoardController.i.GetPieces()[BoardController.i.CurrPiece.CurrPos].gameObject);
+		BoardController.i.DestroyPiece(BoardController.i.CurrPiece.CurrPos);
 		BoardController.i.InstantiatePiece(promotedPiece, BoardController.i.CurrPiece.CurrPos);
 	}
 

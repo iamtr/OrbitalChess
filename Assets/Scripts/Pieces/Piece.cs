@@ -6,12 +6,18 @@ public abstract class Piece : MonoBehaviour
 	[SerializeField] protected BoardController bc;
 	[SerializeField] protected int currX;
 	[SerializeField] protected int currY;
+
+	/// <summary>
+	/// Current position, from 0 - 63
+	/// </summary>
 	public int CurrPos { get; private set; }
-	protected int[,] delta;
 
 	public event Action OnBeforeMove;
 	public event Action OnAfterMove;
 
+	/// <summary>
+	/// Current player type
+	/// </summary>
 	public PlayerType Player => player;
 
 	[SerializeField] protected PlayerType player;
@@ -24,14 +30,29 @@ public abstract class Piece : MonoBehaviour
 		OnAfterMove += GameController.i.InvokeOnRoundEnd;
 	}
 
+	/// <summary>
+	/// Initializes the piece
+	/// </summary>
 	public virtual void InitPiece(PlayerType p)
 	{
-		player = p;
+		SetPlayer(p);
 	}
 
+	/// <summary>
+	/// Calculates all available moves for this piece and highlights them
+	/// </summary>
 	public abstract void GetAvailableMoves();
 
+	/// <summary>
+	/// Checks if the move is legal
+	/// </summary>
 	public abstract bool IsLegalMove(int x, int y, Piece p);
+
+	/// <summary>
+	/// Set the currX and currY values of this piece
+	/// </summary>
+	/// <param name="x"> currX </param>
+	/// <param name="y"> currY </param>
 	public void SetCoords(int x, int y) { 
 		currX = x; 
 		currY = y;
@@ -39,13 +60,24 @@ public abstract class Piece : MonoBehaviour
 		transform.position = new Vector3(currX, currY, 0);
 
 	}
+	/// <summary>
+	/// Set the player type for this piece
+	/// </summary>
+	/// <param name="p">Player type</param>
 	public void SetPlayer(PlayerType p) => player = p;
 
-	public void InvokeOnBeforeMove(int pos)
+	/// <summary>
+	/// Calls the OnBeforeMove event
+	/// </summary>
+	public void InvokeOnBeforeMove()
 	{
 		OnBeforeMove?.Invoke();
 	}
-	public void InvokeOnAfterMove(int pos)
+
+	/// <summary>
+	/// Calls the OnAfterMove event
+	/// </summary>
+	public void InvokeOnAfterMove()
 	{
 		OnAfterMove?.Invoke();
 	}

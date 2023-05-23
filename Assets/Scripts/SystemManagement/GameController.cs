@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public class GameController : MonoBehaviour
 {
@@ -9,11 +10,13 @@ public class GameController : MonoBehaviour
 
     public PlayerType CurrPlayer => currPlayer;
 	public GameState GameState => gameState;
-
+    public event Action OnRoundEnd;
 	private void Start()
 	{
         if (i != null && i != this) Destroy(this);
         else i = this;
+
+        OnRoundEnd += SetPlayer;
     }
 	private void Update()
 	{
@@ -22,22 +25,30 @@ public class GameController : MonoBehaviour
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Collider2D collider = Physics2D.OverlapPoint(mousePosition);
 
-            if (collider != null)
-            {
-                InputManager.i.HandleColliderClicked(collider);
-            }
+            if (collider == null) return;
+            InputManager.i.HandleColliderClicked(collider);
         }
     }
 
-    public void RoundEnd()
-	{
+    public void SetPlayer()
+    {
         currPlayer = currPlayer == PlayerType.Black ? PlayerType.White : PlayerType.Black;
-	}
+    }
 
 	public void SetGameState(GameState newState)
 	{
 		gameState = newState;
 	}
+
+    public void SetGameStateToPlay()
+	{
+		gameState = GameState.Play;
+	}
+
+    public void InvokeOnRoundEnd() 
+    {
+        OnRoundEnd?.Invoke();
+    }
 }
 
 public enum PlayerType { Black, White }

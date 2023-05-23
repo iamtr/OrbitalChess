@@ -14,7 +14,6 @@ public abstract class Piece : MonoBehaviour
 
 	public PlayerType Player => player;
 
-	// Do not change to property! We want this to be serializable
 	[SerializeField] protected PlayerType player;
 
 	private void Start()
@@ -22,7 +21,7 @@ public abstract class Piece : MonoBehaviour
 		bc = GameObject.Find("Board").GetComponent<BoardController>();
 		InitPiece(Player);
 
-		OnAfterMove += GameController.i.RoundEnd;
+		OnAfterMove += GameController.i.InvokeOnRoundEnd;
 	}
 
 	public virtual void InitPiece(PlayerType p)

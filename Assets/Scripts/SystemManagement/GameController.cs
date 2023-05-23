@@ -8,7 +8,13 @@ public class GameController : MonoBehaviour
 
 	public static GameController i;
 
+    /// <summary>
+    /// Current player type (Black, White)
+    /// </summary>
     public PlayerType CurrPlayer => currPlayer;
+    /// <summary>
+    /// Current game state (Play, Promoting, Check, etc)
+    /// </summary>
 	public GameState GameState => gameState;
     public event Action OnRoundEnd;
 	private void Start()
@@ -30,16 +36,26 @@ public class GameController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sets the current player to the opposite player
+    /// </summary>
     public void SetPlayer()
     {
         currPlayer = currPlayer == PlayerType.Black ? PlayerType.White : PlayerType.Black;
     }
 
+    /// <summary>
+    /// Changes the game state according to the parameter
+    /// </summary>
+    /// <param name="newState">The state to set</param>
 	public void SetGameState(GameState newState)
 	{
 		gameState = newState;
 	}
 
+    /// <summary>
+    /// Parameterless method to set game state to play
+    /// </summary>
     public void SetGameStateToPlay()
 	{
 		gameState = GameState.Play;

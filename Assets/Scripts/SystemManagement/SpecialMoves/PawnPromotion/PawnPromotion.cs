@@ -73,4 +73,13 @@ public class PawnPromotion : MonoBehaviour
 		Destroy(BoardController.i.GetPieces()[BoardController.i.CurrPiece.CurrPos].gameObject);
 		BoardController.i.InstantiatePiece(promotedPiece, BoardController.i.CurrPiece.CurrPos);
 	}
+
+	public void HandlePromotionButtonClicked(Collider2D col)
+	{
+		int id = col.GetComponent<PromotionButton>().id;
+		Piece promotedPiece = FindPromotion(id, BoardController.i.CurrPiece.Player);
+		PromotePiece(promotedPiece);
+		UnhighlightAllPromotingButtons();
+		GameController.i.SetGameState(GameState.Play);
+	}
 }

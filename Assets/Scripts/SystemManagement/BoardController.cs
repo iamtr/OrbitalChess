@@ -150,4 +150,20 @@ public class BoardController : MonoBehaviour
 	{
 		return pieces;
 	}
+
+	public void HandleHighlightSquareClicked(Collider2D col)
+	{
+		var h = col.GetComponent<HighlightSquare>();
+		var temp = ConvertToXY(h.Position);
+		MovePiece(temp[0], temp[1], CurrPiece);
+		UnhighlightAllSqaures();
+	}
+
+	public void HandlePieceClicked(Collider2D col)
+	{
+		UnhighlightAllSqaures();
+		PawnPromotion.i.UnhighlightAllPromotingButtons();
+		CurrPiece = col.GetComponent<Piece>();
+		CurrPiece.GetAvailableMoves();
+	}
 }

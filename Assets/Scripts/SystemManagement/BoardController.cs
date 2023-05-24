@@ -114,7 +114,7 @@ public class BoardController : MonoBehaviour
 		piece.SetCoords(x, y);
 		DestroyOpponentPiece(piece, newPos);
 		SetPiecePos(piece, newPos);
-		DestroyPiece(oldPos);
+		pieces[oldPos] = null;
 		piece.InvokeOnAfterMove();
 	}
 
@@ -194,8 +194,8 @@ public class BoardController : MonoBehaviour
 	/// <param name="pos"></param>
 	public void DestroyPiece(int pos)
 	{
-		pieces[pos] = null;
 		Destroy(pieces[pos]?.gameObject);
+		pieces[pos] = null;
 	}
 
 	/// <summary>

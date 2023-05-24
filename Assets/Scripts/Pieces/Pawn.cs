@@ -6,12 +6,15 @@ public class Pawn : Piece
 {
     private bool hasMoved = false;
 	public PawnPromotion pp;
+    private Timer timer;
+    public Timer Timer;
 
 	public override void InitPiece(PlayerType p)
     {
         base.InitPiece(p);
         OnAfterMove += CheckForPromotion;
         OnAfterMove += SetPawnBoolean;
+        timer = Instantiate(Timer);
     }
 
     public override void GetAvailableMoves()
@@ -71,6 +74,7 @@ public class Pawn : Piece
 
     public void SetPawnBoolean()
     {
+        if(!hasMoved) timer.TriggerTimer(this);
         hasMoved = true;
     }
 

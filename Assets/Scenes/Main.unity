@@ -123,6 +123,29 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &573061283 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8226139268355818604, guid: 89b95e78412e73a4d8e239d19ff78fae, type: 3}
+  m_PrefabInstance: {fileID: 1129936831}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &573061285 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8226139268355818607, guid: 89b95e78412e73a4d8e239d19ff78fae, type: 3}
+  m_PrefabInstance: {fileID: 1129936831}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &573061287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 573061283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83fbfd64827309147ade8ded7ce20bb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRen: {fileID: 573061285}
 --- !u!1001 &789144579
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -234,7 +257,7 @@ PrefabInstance:
     - target: {fileID: 2089230408395239871, guid: 89b95e78412e73a4d8e239d19ff78fae, type: 3}
       propertyPath: promotionButton
       value: 
-      objectReference: {fileID: 1721266068009524728, guid: da2546dc82c409c478ee6c462a2cd196, type: 3}
+      objectReference: {fileID: 573061287}
     - target: {fileID: 2089230408395239871, guid: 89b95e78412e73a4d8e239d19ff78fae, type: 3}
       propertyPath: promotingBlack.Array.data[0]
       value: 

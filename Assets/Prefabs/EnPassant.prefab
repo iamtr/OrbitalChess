@@ -63,7 +63,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   Timer: {fileID: 798271485539950172, guid: 2490c3d28c0f802499ac9ada1abb00b6, type: 3}
-  id: 0
+  bc: {fileID: 3356771542428484175, guid: 2ef4521551224614f8dfca1d2a9f6a9e, type: 3}
 --- !u!1001 &6822431393949739653
 PrefabInstance:
   m_ObjectHideFlags: 0

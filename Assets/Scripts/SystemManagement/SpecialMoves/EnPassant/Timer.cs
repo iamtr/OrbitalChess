@@ -31,4 +31,9 @@ public class Timer : MonoBehaviour
         if (IsTimerAvailable()) return;
         justMoved = false;
     }
+
+    public bool IsJustMoved()
+    {
+        return justMoved;
+    }
 }

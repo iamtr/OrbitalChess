@@ -77,7 +77,7 @@ public class BoardController : MonoBehaviour
 		return x >= 0 && x < 8 && y >= 0 && y < 8;
 	}
 
-	private void SetHighlightColor(int pos, Color color)
+	public void SetHighlightColor(int pos, Color color)
 	{
 		highlights[pos].GetComponent<SpriteRenderer>().color = color;
 		highlights[pos].gameObject.SetActive(true);
@@ -106,7 +106,6 @@ public class BoardController : MonoBehaviour
 	/// <param name="currPiece">The current piece chosen by player</param>
 	public void MovePiece(int x, int y, Piece piece)
 	{
-
 		int newPos = ConvertToPos(x, y);
 		int oldPos = piece.CurrPos;
 
@@ -217,7 +216,14 @@ public class BoardController : MonoBehaviour
 	{
 		var h = col.GetComponent<HighlightSquare>();
 		var temp = ConvertToXY(h.Position);
-		MovePiece(temp[0], temp[1], CurrPiece);
+        if (h.Color.Equals(Color.yellow))
+        {
+			EnPassant.i.MoveEnPassantPiece(temp[0], temp[1], CurrPiece);
+        }
+		else
+        {
+			MovePiece(temp[0], temp[1], CurrPiece);
+		}
 		UnhighlightAllSqaures();
 	}
 

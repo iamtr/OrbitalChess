@@ -38,7 +38,38 @@ public class Pawn : Piece
             }
         }
 
+        HighlightEnPassant(direction);
         HighlightPawnDiagonals(direction);
+        
+    }
+
+    public void HighlightEnPassant(int direction)
+    {
+        int rightX = currX + 1;
+        int leftX = currX - 1;
+        int newY = currY + direction;
+        Piece rightPiece = bc.GetPieceFromPos(bc.ConvertToPos(rightX, currY));
+        Piece leftPiece = bc.GetPieceFromPos(bc.ConvertToPos(leftX, currY));
+
+        if (bc.IsLegalMove(rightX, newY, this)
+            && rightPiece != null
+            && rightPiece.Player != this.Player
+            && ep.CheckEnPassant(rightPiece))
+        {
+            int pos = bc.ConvertToPos(rightX, newY);
+            bc.SetHighlightColor(pos, Color.yellow);
+            //ep.SetHighlightEnPassant(rightX, newY);
+        }
+
+        if (bc.IsLegalMove(leftX, newY, this)
+            && leftPiece != null
+            && leftPiece.Player != this.Player
+            && ep.CheckEnPassant(leftPiece))
+        {
+            int pos = bc.ConvertToPos(leftX, newY);
+            bc.SetHighlightColor(pos, Color.yellow);
+            //ep.SetHighlightEnPassant(leftX, newY);
+        }
     }
 
     public override bool IsLegalMove(int x, int y, Piece p)
@@ -57,17 +88,19 @@ public class Pawn : Piece
         int rightX = currX + 1;
         int leftX = currX - 1;
         int newY = currY + direction;
+        Piece rightPiece = bc.GetPieceFromPos(bc.ConvertToPos(rightX, newY));
+        Piece leftPiece = bc.GetPieceFromPos(bc.ConvertToPos(leftX, newY));
 
         if (bc.IsLegalMove(rightX, newY, this)
-            &&bc.GetPieceFromPos(bc.ConvertToPos(rightX, newY)) != null 
-            && bc.GetPieceFromPos(bc.ConvertToPos(rightX, newY)).Player != this.Player)
+            && rightPiece != null 
+            && rightPiece.Player != this.Player)
         {
             bc.Highlight(rightX, newY, this);
         }
 
         if (bc.IsLegalMove(leftX, newY, this)
-			&& bc.GetPieceFromPos(bc.ConvertToPos(leftX, newY)) != null 
-            && bc.GetPieceFromPos(bc.ConvertToPos(leftX, newY)).Player != this.Player)
+			&& leftPiece != null 
+            && leftPiece.Player != this.Player)
         {
             bc.Highlight(leftX, newY, this);
         }
@@ -95,8 +128,8 @@ public class Pawn : Piece
         PawnPromotion.i.ShowPromotionButtons(this.Player);
     }
 
-    public bool getHasMoved()
+    public Timer getTimer()
     {
-        return hasMoved;
+        return timer;
     }
 }

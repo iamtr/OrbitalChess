@@ -118,10 +118,10 @@ public class BoardController : MonoBehaviour
 		piece.InvokeOnAfterMove();
 	}
 
-	/// <summary>
-	/// Unhighlights all squares on the board
-	/// </summary>
-	public void UnhighlightAllSqaures()
+    /// <summary>
+    /// Unhighlights all squares on the board
+    /// </summary>
+    public void UnhighlightAllSqaures()
 	{
 		foreach (var square in highlights) square.gameObject.SetActive(false);
 	}
@@ -232,4 +232,5 @@ public class BoardController : MonoBehaviour
 		CurrPiece = col.GetComponent<Piece>();
 		CurrPiece.GetAvailableMoves();
 	}
+
 }

@@ -6,6 +6,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private PlayerType currPlayer;
 	[SerializeField] private GameState gameState;
 
+    public EnPassant ep;
 	public static GameController i;
 
     /// <summary>
@@ -64,6 +65,7 @@ public class GameController : MonoBehaviour
     public void InvokeOnRoundEnd() 
     {
         OnRoundEnd?.Invoke();
+        ep.InvokeEveryTimer();
     }
 }
 

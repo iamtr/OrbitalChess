@@ -6,15 +6,21 @@ public class Pawn : Piece
 {
     private bool hasMoved = false;
 	public PawnPromotion pp;
+    public EnPassant ep;
     private Timer timer;
-    public Timer Timer;
 
 	public override void InitPiece(PlayerType p)
     {
         base.InitPiece(p);
         OnAfterMove += CheckForPromotion;
         OnAfterMove += SetPawnBoolean;
-        timer = Instantiate(Timer);
+        timer = ep.InstantiateTimer();
+    }
+
+    private void OnDestroy()
+    {
+        if (timer == null) return;
+        Destroy(timer.gameObject);
     }
 
     public override void GetAvailableMoves()
@@ -87,5 +93,10 @@ public class Pawn : Piece
     {
         GameController.i.SetGameState(GameState.Promoting);
         PawnPromotion.i.ShowPromotionButtons(this.Player);
+    }
+
+    public bool getHasMoved()
+    {
+        return hasMoved;
     }
 }

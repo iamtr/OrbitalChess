@@ -11,6 +11,7 @@ public class EnPassant : MonoBehaviour
     private int numOfPawns = 16;
 
     private BoardController bc;
+    private Transform timerTransform;
 
     //Singleton
     public static EnPassant i { get; private set; }
@@ -18,6 +19,7 @@ public class EnPassant : MonoBehaviour
     private void Start()
     {
         bc = GameObject.Find("Board").GetComponent<BoardController>();
+        timerTransform = GameObject.Find("Timers").transform;
 
         if (i != null && i != this) Destroy(this);
         else i = this;
@@ -31,6 +33,8 @@ public class EnPassant : MonoBehaviour
         }
         Timer timer = Instantiate(Timer);
         timers[id] = timer;
+        timers[id].transform.parent = timerTransform;
+        timers[id].gameObject.SetActive(false);
         id += 1;
         return timer;
     }
@@ -72,7 +76,7 @@ public class EnPassant : MonoBehaviour
         piece.SetCoords(x, y);
         bc.DestroyOpponentPiece(piece, enemyPos);
         bc.SetPiecePos(piece, newPos);
-        bc.DestroyPiece(oldPos);
+        bc.SetPieceNull(oldPos);
         piece.InvokeOnAfterMove();
     }
 

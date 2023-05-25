@@ -77,10 +77,15 @@ public class BoardController : MonoBehaviour
 		return x >= 0 && x < 8 && y >= 0 && y < 8;
 	}
 
-	private void SetHighlightColor(int pos, Color color)
+	public void SetHighlightColor(int pos, Color color)
 	{
+        
 		highlights[pos].GetComponent<SpriteRenderer>().color = color;
 		highlights[pos].gameObject.SetActive(true);
+		if (color == Color.yellow)
+		{
+			highlights[pos].Special = "EnPassant";
+		}
 	}
 
 	/// <summary>
@@ -106,7 +111,6 @@ public class BoardController : MonoBehaviour
 	/// <param name="currPiece">The current piece chosen by player</param>
 	public void MovePiece(int x, int y, Piece piece)
 	{
-
 		int newPos = ConvertToPos(x, y);
 		int oldPos = piece.CurrPos;
 
@@ -118,10 +122,10 @@ public class BoardController : MonoBehaviour
 		piece.InvokeOnAfterMove();
 	}
 
-	/// <summary>
-	/// Unhighlights all squares on the board
-	/// </summary>
-	public void UnhighlightAllSqaures()
+    /// <summary>
+    /// Unhighlights all squares on the board
+    /// </summary>
+    public void UnhighlightAllSqaures()
 	{
 		foreach (var square in highlights) square.gameObject.SetActive(false);
 	}
@@ -217,7 +221,14 @@ public class BoardController : MonoBehaviour
 	{
 		var h = col.GetComponent<HighlightSquare>();
 		var temp = ConvertToXY(h.Position);
-		MovePiece(temp[0], temp[1], CurrPiece);
+        if (h.Special == "EnPassant")
+        {
+			EnPassant.i.MoveEnPassantPiece(temp[0], temp[1], CurrPiece);
+        }
+		else
+        {
+			MovePiece(temp[0], temp[1], CurrPiece);
+		}
 		UnhighlightAllSqaures();
 	}
 
@@ -232,4 +243,10 @@ public class BoardController : MonoBehaviour
 		CurrPiece = col.GetComponent<Piece>();
 		CurrPiece.GetAvailableMoves();
 	}
+	
+	public void SetPieceNull(int pos)
+    {
+		pieces[pos] = null;
+    }
+
 }

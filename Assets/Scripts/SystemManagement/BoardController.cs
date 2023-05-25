@@ -209,7 +209,7 @@ public class BoardController : MonoBehaviour
 	/// <param name="pos"></param>
 	public void DestroyOpponentPiece(Piece piece, int pos)
 	{
-		if (pieces[pos] != null && pieces[pos].Player != piece.Player) 
+		if (pieces[pos] != null && pieces[pos].Player != piece.Player)
 			Destroy(pieces[pos].gameObject);
 	}
 
@@ -224,6 +224,7 @@ public class BoardController : MonoBehaviour
         if (h.Special == "EnPassant")
         {
 			EnPassant.i.MoveEnPassantPiece(temp[0], temp[1], CurrPiece);
+			EnPassant.i.SetHighLightToPlay(h);
         }
 		else
         {

@@ -80,4 +80,9 @@ public class EnPassant : MonoBehaviour
         piece.InvokeOnAfterMove();
     }
 
+    public void SetHighLightToPlay(HighlightSquare highlight)
+    {
+        highlight.Special = "Play";
+    }
+
 }

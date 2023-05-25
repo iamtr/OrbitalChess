@@ -67,7 +67,6 @@ public class EnPassant : MonoBehaviour
         int newPos = bc.ConvertToPos(x, y);
         int oldPos = piece.CurrPos;
         int enemyPos = bc.ConvertToPos(x, bc.ConvertToXY(oldPos)[1]);
-        Debug.Log(enemyPos);
 
         piece.InvokeOnBeforeMove();
         piece.SetCoords(x, y);

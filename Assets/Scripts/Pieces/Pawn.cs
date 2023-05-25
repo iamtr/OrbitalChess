@@ -6,7 +6,6 @@ public class Pawn : Piece
 {
     private bool hasMoved = false;
 	public PawnPromotion pp;
-    public EnPassant ep;
     private Timer timer;
 
 	public override void InitPiece(PlayerType p)
@@ -14,7 +13,7 @@ public class Pawn : Piece
         base.InitPiece(p);
         OnAfterMove += CheckForPromotion;
         OnAfterMove += SetPawnBoolean;
-        timer = ep.InstantiateTimer();
+        timer = EnPassant.i.InstantiateTimer();
     }
 
     private void OnDestroy()
@@ -54,7 +53,7 @@ public class Pawn : Piece
         if (bc.IsLegalMove(rightX, newY, this)
             && rightPiece != null
             && rightPiece.Player != this.Player
-            && ep.CheckEnPassant(rightPiece))
+            && EnPassant.i.CheckEnPassant(rightPiece))
         {
             int pos = bc.ConvertToPos(rightX, newY);
             bc.SetHighlightColor(pos, Color.yellow);
@@ -64,7 +63,7 @@ public class Pawn : Piece
         if (bc.IsLegalMove(leftX, newY, this)
             && leftPiece != null
             && leftPiece.Player != this.Player
-            && ep.CheckEnPassant(leftPiece))
+            && EnPassant.i.CheckEnPassant(leftPiece))
         {
             int pos = bc.ConvertToPos(leftX, newY);
             bc.SetHighlightColor(pos, Color.yellow);

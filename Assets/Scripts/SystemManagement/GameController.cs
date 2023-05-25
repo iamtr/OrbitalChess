@@ -65,7 +65,7 @@ public class GameController : MonoBehaviour
     public void InvokeOnRoundEnd() 
     {
         OnRoundEnd?.Invoke();
-        ep.InvokeEveryTimer();
+        EnPassant.i.InvokeEveryTimer();
     }
 }
 

@@ -7,4 +7,6 @@ public class HighlightSquare : MonoBehaviour
     [SerializeField] public Color Color { get; set; }
     [SerializeField] public BoxCollider2D Collider { get; set; }
     [SerializeField] public int Position { get; set; }
+
+    public string Special = "Play";
 }

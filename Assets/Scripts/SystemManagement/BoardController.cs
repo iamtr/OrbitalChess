@@ -79,13 +79,10 @@ public class BoardController : MonoBehaviour
 
 	public void SetHighlightColor(int pos, Color color)
 	{
-        
 		highlights[pos].GetComponent<SpriteRenderer>().color = color;
 		highlights[pos].gameObject.SetActive(true);
-		if (color == Color.yellow)
-		{
-			highlights[pos].Special = "EnPassant";
-		}
+		if (color == Color.yellow) highlights[pos].Special = "EnPassant";
+		if (color == Color.green) highlights[pos].Special = "Castling";
 	}
 
 	/// <summary>
@@ -224,8 +221,12 @@ public class BoardController : MonoBehaviour
         if (h.Special == "EnPassant")
         {
 			EnPassant.i.MoveEnPassantPiece(temp[0], temp[1], CurrPiece);
-			EnPassant.i.SetHighLightToPlay(h);
+			SetHighLightToPlay(h);
         }
+		//else if (h.Special == "Castling")
+        //{
+			//SetHighLightToPlay(h);
+        //}
 		else
         {
 			MovePiece(temp[0], temp[1], CurrPiece);
@@ -249,5 +250,8 @@ public class BoardController : MonoBehaviour
     {
 		pieces[pos] = null;
     }
-
+	public void SetHighLightToPlay(HighlightSquare highlight)
+	{
+		highlight.Special = "Play";
+	}
 }

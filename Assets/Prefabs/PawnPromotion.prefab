@@ -75,9 +75,9 @@ MonoBehaviour:
   - {fileID: 643328333909121127, guid: 7fedfafde506e3c499fc2b0bfd6ce816, type: 3}
   - {fileID: 3612869549090268381, guid: baa9d6b7f35fd1b4c8d69985411573bf, type: 3}
   - {fileID: -3165024563381924141, guid: 54a7b93c4e4e2564698c8d15772d2f8c, type: 3}
-  promotionButton: {fileID: 1721266068009524728, guid: da2546dc82c409c478ee6c462a2cd196, type: 3}
---- !u!1 &8226139268355818604
-GameObject:
+  promotionButton: {fileID: -3006246794898249546, guid: da2546dc82c409c478ee6c462a2cd196, type: 3}
+--- !u!1001 &7334732436105435542
+PrefabInstance:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}

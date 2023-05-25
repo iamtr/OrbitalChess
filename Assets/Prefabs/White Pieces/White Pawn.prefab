@@ -83,4 +83,3 @@ MonoBehaviour:
   currY: 0
   player: 1
   pp: {fileID: 2089230408395239871, guid: 89b95e78412e73a4d8e239d19ff78fae, type: 3}
-  ep: {fileID: 446238045289090876, guid: 9fe58e1fdf27fdb4eba627d62e28dbe3, type: 3}

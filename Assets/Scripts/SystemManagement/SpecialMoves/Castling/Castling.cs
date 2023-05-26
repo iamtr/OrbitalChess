@@ -38,24 +38,22 @@ public class Castling : MonoBehaviour
 
     public void MoveCastling(int x, int y, Piece piece)
     {
+        Piece piece1 = BoardController.i.GetPieceFromPos(BoardController.i.ConvertToPos(x,y));
         int oldPos = piece.CurrPos;
         int[] oldXY = BoardController.i.ConvertToXY(oldPos);
         int newX;
+        int rookDirection;
         if (x == 0)
         {
             newX = oldXY[0] - 2;
+            rookDirection = 1;
         }
         else
         {
             newX = oldXY[0] + 2;
+            rookDirection = -1;
         }
-        int newPos = BoardController.i.ConvertToPos(newX, y);
-        
-        piece.InvokeOnBeforeMove();
-        piece.SetCoords(x, y);
-        ////////
-        BoardController.i.SetPiecePos(piece, newPos);
-        BoardController.i.SetPieceNull(oldPos);
-        piece.InvokeOnAfterMove();
+
+        BoardController.i.MoveTwoPieceSimutaneously(newX, y, piece, newX + rookDirection, y, piece1);
     }
 }

@@ -119,6 +119,25 @@ public class BoardController : MonoBehaviour
 		piece.InvokeOnAfterMove();
 	}
 
+	/// <summary>
+	/// Moves two pieces on the board simutaneously into their respectively positions.
+	/// Acts similarly to MovePiece(int,int,Piece)
+	/// </summary>
+	/// <param name="piece1"></param>
+	/// <param name="piece2"></param>
+	public void MoveTwoPieceSimutaneously(int x1, int y1, Piece piece1, int x2, int y2, Piece piece2)
+    {
+		int newPos = ConvertToPos(x1, y1);
+		int oldPos = piece1.CurrPos;
+
+		piece1.InvokeOnBeforeMove();
+		piece1.SetCoords(x1, y1);
+		DestroyOpponentPiece(piece1, newPos);
+		SetPiecePos(piece1, newPos);
+		pieces[oldPos] = null;
+		MovePiece(x2, y2, piece2);
+	}
+
     /// <summary>
     /// Unhighlights all squares on the board
     /// </summary>
@@ -221,16 +240,16 @@ public class BoardController : MonoBehaviour
         if (h.Special == "EnPassant")
         {
 			EnPassant.i.MoveEnPassantPiece(temp[0], temp[1], CurrPiece);
-			SetHighLightToPlay(h);
-        }
-		//else if (h.Special == "Castling")
-        //{
-			//SetHighLightToPlay(h);
-        //}
-		else
+		}
+		if (h.Special == "Castling")
+        {
+			Castling.i.MoveCastling(temp[0], temp[1], CurrPiece);
+		}
+		if (h.Special == "Play")
         {
 			MovePiece(temp[0], temp[1], CurrPiece);
 		}
+		SetHighLightToPlay(h);
 		UnhighlightAllSqaures();
 	}
 

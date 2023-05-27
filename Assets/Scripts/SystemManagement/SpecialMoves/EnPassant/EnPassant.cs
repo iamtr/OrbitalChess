@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class EnPassant : MonoBehaviour
 {
-    [SerializeField] private Timer[] timers;
-    public Timer Timer;
+    [SerializeField] private TurnCountdown[] turnCountdowns;
+    [SerializeField] private TurnCountdown TurnCountdown;
 
     private int id;
     private int numOfPawns = 16;
 
     private BoardController bc;
-    private Transform timerTransform;
+    private Transform TurnCountdownTransform;
 
     //Singleton
     public static EnPassant i { get; private set; }
@@ -19,29 +19,29 @@ public class EnPassant : MonoBehaviour
     private void Start()
     {
         bc = GameObject.Find("Board").GetComponent<BoardController>();
-        timerTransform = GameObject.Find("Timers").transform;
+        TurnCountdownTransform = GameObject.Find("TurnCountdowns").transform;
 
         if (i != null && i != this) Destroy(this);
         else i = this;
     }
 
-    public Timer InstantiateTimer()
+    public TurnCountdown InstantiateTurnCountdown()
     {
         if (id == numOfPawns)
         {
             id = 0;
         }
-        Timer timer = Instantiate(Timer);
-        timers[id] = timer;
-        timers[id].transform.parent = timerTransform;
-        timers[id].gameObject.SetActive(false);
+        TurnCountdown turnCountdown = Instantiate(TurnCountdown);
+        turnCountdowns[id] = turnCountdown;
+        turnCountdowns[id].transform.parent = TurnCountdownTransform;
+        turnCountdowns[id].gameObject.SetActive(false);
         id += 1;
-        return timer;
+        return turnCountdown;
     }
 
     public void InvokeEveryTimer()
     {
-        foreach (Timer timer in timers)
+        foreach (TurnCountdown timer in turnCountdowns)
         {
             timer.InvokeTimer();
         }
@@ -52,7 +52,7 @@ public class EnPassant : MonoBehaviour
         if (piece is Pawn)
         {
             Pawn pawn = (Pawn)piece;
-            if (pawn.getTimer().IsJustMoved())
+            if (pawn.getTurnCountdown().IsJustMoved() && pawn.GetTwoStepBool())
             {
                 return true;
             }

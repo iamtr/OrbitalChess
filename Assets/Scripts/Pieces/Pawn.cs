@@ -5,21 +5,22 @@ using UnityEngine;
 public class Pawn : Piece
 {
     private bool hasMoved = false;
+    private bool twoStep = false;
 	public PawnPromotion pp;
-    private Timer timer;
+    private TurnCountdown turnCountdown;
 
 	public override void InitPiece(PlayerType p)
     {
         base.InitPiece(p);
         OnAfterMove += CheckForPromotion;
         OnAfterMove += SetPawnBoolean;
-        timer = EnPassant.i.InstantiateTimer();
+        turnCountdown = EnPassant.i.InstantiateTurnCountdown();
     }
 
     private void OnDestroy()
     {
-        if (timer == null) return;
-        Destroy(timer.gameObject);
+        if (turnCountdown == null) return;
+        Destroy(turnCountdown.gameObject);
     }
 
     public override void GetAvailableMoves()
@@ -112,8 +113,22 @@ public class Pawn : Piece
 
     public void SetPawnBoolean()
     {
-        if(!hasMoved) timer.TriggerTimer(this);
+        if(!hasMoved) turnCountdown.TriggerTurnCountdown(this);
         hasMoved = true;
+    }
+
+    public void SetTwoStepMove(int y)
+    {
+        int difference = System.Math.Abs(this.currY - y);
+        if (difference > 1)
+        {
+            twoStep = true;
+        }
+    }
+
+    public bool GetTwoStepBool()
+    {
+        return twoStep;
     }
 
     public void CheckForPromotion()
@@ -127,8 +142,8 @@ public class Pawn : Piece
         PawnPromotion.i.ShowPromotionButtons(this.Player);
     }
 
-    public Timer getTimer()
+    public TurnCountdown getTurnCountdown()
     {
-        return timer;
+        return turnCountdown;
     }
 }

@@ -237,6 +237,11 @@ public class BoardController : MonoBehaviour
 	{
 		var h = col.GetComponent<HighlightSquare>();
 		var temp = ConvertToXY(h.Position);
+        if (h.Special == "Play" && CurrPiece is Pawn)
+		{
+			Pawn pawn = (Pawn)CurrPiece;
+			pawn.SetTwoStepMove(temp[1]);
+        }
         if (h.Special == "EnPassant")
         {
 			EnPassant.i.MoveEnPassantPiece(temp[0], temp[1], CurrPiece);

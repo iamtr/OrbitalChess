@@ -2,20 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Timer : MonoBehaviour
+public class TurnCountdown : MonoBehaviour
 {
-    public bool justMoved = false;
-    private PlayerType player;
+    private bool justMoved = false;
     public GameController gc;
     private int TurnRemain;
-    public void TriggerTimer(Pawn pawn)
+    public void TriggerTurnCountdown(Pawn pawn)
     {
         justMoved = true;
-        player = pawn.Player;
         TurnRemain = 1;
     }
 
-    public bool IsTimerAvailable()
+    public bool IsCountdownAvailable()
     {
         if (TurnRemain > 0)
         {
@@ -28,7 +26,7 @@ public class Timer : MonoBehaviour
 
     public void InvokeTimer()
     {
-        if (IsTimerAvailable()) return;
+        if (IsCountdownAvailable()) return;
         justMoved = false;
     }
 

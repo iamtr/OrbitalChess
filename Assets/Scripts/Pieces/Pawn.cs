@@ -5,6 +5,7 @@ using UnityEngine;
 public class Pawn : Piece
 {
     private bool hasMoved = false;
+    private bool twoStep = false;
 	public PawnPromotion pp;
     private Timer timer;
 
@@ -114,6 +115,20 @@ public class Pawn : Piece
     {
         if(!hasMoved) timer.TriggerTimer(this);
         hasMoved = true;
+    }
+
+    public void SetTwoStepMove(int y)
+    {
+        int difference = System.Math.Abs(this.currY - y);
+        if (difference > 1)
+        {
+            twoStep = true;
+        }
+    }
+
+    public bool GetTwoStepBool()
+    {
+        return twoStep;
     }
 
     public void CheckForPromotion()

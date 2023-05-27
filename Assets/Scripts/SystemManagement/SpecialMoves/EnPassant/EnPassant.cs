@@ -52,7 +52,7 @@ public class EnPassant : MonoBehaviour
         if (piece is Pawn)
         {
             Pawn pawn = (Pawn)piece;
-            if (pawn.getTimer().IsJustMoved())
+            if (pawn.getTimer().IsJustMoved() && pawn.GetTwoStepBool())
             {
                 return true;
             }

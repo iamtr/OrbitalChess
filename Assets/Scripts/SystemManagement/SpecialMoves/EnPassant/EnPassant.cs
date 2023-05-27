@@ -79,10 +79,4 @@ public class EnPassant : MonoBehaviour
         bc.SetPieceNull(oldPos);
         piece.InvokeOnAfterMove();
     }
-
-    public void SetHighLightToPlay(HighlightSquare highlight)
-    {
-        highlight.Special = "Play";
-    }
-
 }

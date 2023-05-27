@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class Rook : Piece
 {
+	private bool hasMoved = false;
+
+	public override void InitPiece(PlayerType p)
+	{
+		base.InitPiece(p);
+		OnAfterMove += SetRookBoolean;
+	}
+
 	public override void GetAvailableMoves()
 	{
 		void HighlightDirection(BoardController bc, int currX, int currY, int dx, int dy, int maxDistance)
@@ -34,5 +42,15 @@ public class Rook : Piece
 		} 
 
 		return true;
+	}
+
+	public bool IsMoved()
+    {
+		return hasMoved;
+    }
+
+	public void SetRookBoolean()
+    {
+		hasMoved = true;
 	}
 }

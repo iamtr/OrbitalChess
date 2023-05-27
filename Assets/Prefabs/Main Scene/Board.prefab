@@ -166,8 +166,6 @@ MonoBehaviour:
   - {fileID: 3612869549090268381, guid: baa9d6b7f35fd1b4c8d69985411573bf, type: 3}
   highlights: []
   highlightSquare: {fileID: 5428884020771124365, guid: cc5e019f9b7428f4a9bf457da0bcb6ed, type: 3}
-  currPiece: {fileID: 0}
-  pp: {fileID: 6515037687860245995, guid: 89b95e78412e73a4d8e239d19ff78fae, type: 3}
 --- !u!1 &7926353709060286352
 GameObject:
   m_ObjectHideFlags: 0

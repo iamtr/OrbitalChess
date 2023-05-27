@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29cc556e441cdf042b906daeb2b0198f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timers:
+  turnCountdowns:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -62,7 +62,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  Timer: {fileID: 798271485539950172, guid: 2490c3d28c0f802499ac9ada1abb00b6, type: 3}
+  TurnCountdown: {fileID: 6823362341061236820}
 --- !u!1 &5671339821451980345
 GameObject:
   m_ObjectHideFlags: 0
@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 5788798327571817474}
   - component: {fileID: 6823362341061236820}
   m_Layer: 0
-  m_Name: Timer
+  m_Name: TurnCountdown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -107,5 +107,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c0a042aaae37d743aed1fb8843030d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  justMoved: 0
   gc: {fileID: 7943841704991687211, guid: 3adaeb294de97034283bf1432bea6ae0, type: 3}

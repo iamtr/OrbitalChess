@@ -81,8 +81,8 @@ public class BoardController : MonoBehaviour
 	{
 		highlights[pos].GetComponent<SpriteRenderer>().color = color;
 		highlights[pos].gameObject.SetActive(true);
-		if (color == Color.yellow) highlights[pos].Special = "EnPassant";
-		if (color == Color.green) highlights[pos].Special = "Castling";
+		if (color == Color.yellow) highlights[pos].Special = HighlightType.EnPassant;
+		if (color == Color.green) highlights[pos].Special = HighlightType.Castling;
 	}
 
 	/// <summary>
@@ -237,24 +237,25 @@ public class BoardController : MonoBehaviour
 	{
 		var h = col.GetComponent<HighlightSquare>();
 		var temp = ConvertToXY(h.Position);
-        if (h.Special == "Play" && CurrPiece is Pawn)
+		if (h.Special == HighlightType.Play && CurrPiece is Pawn)
 		{
 			Pawn pawn = (Pawn)CurrPiece;
 			pawn.SetTwoStepMove(temp[1]);
-        }
-        if (h.Special == "EnPassant")
-        {
+		}
+		if (h.Special == HighlightType.EnPassant)
+		{
 			EnPassant.i.MoveEnPassantPiece(temp[0], temp[1], CurrPiece);
 		}
-		if (h.Special == "Castling")
-        {
+		if (h.Special == HighlightType.Castling)
+		{
 			Castling.i.MoveCastling(temp[0], temp[1], CurrPiece);
 		}
-		if (h.Special == "Play")
-        {
+		if (h.Special == HighlightType.Play)
+		{
 			MovePiece(temp[0], temp[1], CurrPiece);
 		}
-		SetHighLightToPlay(h);
+
+		SetHighLightType(h, HighlightType.Play);
 		UnhighlightAllSqaures();
 	}
 
@@ -270,12 +271,8 @@ public class BoardController : MonoBehaviour
 		CurrPiece.GetAvailableMoves();
 	}
 	
-	public void SetPieceNull(int pos)
-    {
-		pieces[pos] = null;
-    }
-	public void SetHighLightToPlay(HighlightSquare highlight)
+	public void SetHighLightType(HighlightSquare highlight, HighlightType type)
 	{
-		highlight.Special = "Play";
+		highlight.Special = type;
 	}
 }

@@ -76,7 +76,7 @@ public class EnPassant : MonoBehaviour
         piece.SetCoords(x, y);
         bc.DestroyOpponentPiece(piece, enemyPos);
         bc.SetPiecePos(piece, newPos);
-        bc.SetPieceNull(oldPos);
+        bc.DestroyPiece(oldPos);
         piece.InvokeOnAfterMove();
     }
 }

@@ -57,7 +57,7 @@ public abstract class Piece : MonoBehaviour
 		currX = x; 
 		currY = y;
 		CurrPos = y * 8 + x;
-		transform.position = new Vector3(currX, currY, 0);
+		transform.position = new Vector3(currX, currY, 2);
 
 	}
 	/// <summary>

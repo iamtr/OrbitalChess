@@ -5,6 +5,14 @@ public class BoardController : MonoBehaviour
 	[SerializeField] private Piece[] pieces;
 	[SerializeField] private HighlightSquare[] highlights;
 	[SerializeField] private HighlightSquare highlightSquare;
+
+	[SerializeField] private TurnCountdown[] turnCountdowns;
+	[SerializeField] private TurnCountdown TurnCountdown;
+
+	private int id;
+	private int numOfPawns = 16;
+
+	private Transform TurnCountdownTransform;
 	/// <summary>
 	/// The current piece that is being clicked by the player
 	/// </summary>
@@ -19,6 +27,7 @@ public class BoardController : MonoBehaviour
 	{
 		highlightTransform = GameObject.Find("Highlight Squares").transform;
 		pieceTransform = GameObject.Find("Pieces").transform;
+		TurnCountdownTransform = GameObject.Find("TurnCountdowns").transform;
 
 		if (i != null && i != this) Destroy(this);
 		else i = this;
@@ -64,6 +73,20 @@ public class BoardController : MonoBehaviour
 		newPiece.SetCoords(x, y);
 
 		return newPiece;
+	}
+
+	public TurnCountdown InstantiateTurnCountdown()
+	{
+		if (id == numOfPawns)
+		{
+			id = 0;
+		}
+		TurnCountdown turnCountdown = Instantiate(TurnCountdown);
+		turnCountdowns[id] = turnCountdown;
+		turnCountdowns[id].transform.parent = TurnCountdownTransform;
+		turnCountdowns[id].gameObject.SetActive(false);
+		id += 1;
+		return turnCountdown;
 	}
 
 	public bool IsLegalMove(int x, int y, Piece p)
@@ -138,6 +161,20 @@ public class BoardController : MonoBehaviour
 		MovePiece(x2, y2, piece2);
 	}
 
+	public void MoveEnPassantPiece(int x, int y, Piece piece)
+	{
+		int newPos = ConvertToPos(x, y);
+		int oldPos = piece.CurrPos;
+		int enemyPos = ConvertToPos(x, ConvertToXY(oldPos)[1]);
+
+		piece.InvokeOnBeforeMove();
+		piece.SetCoords(x, y);
+		DestroyOpponentPiece(piece, enemyPos);
+		SetPiecePos(piece, newPos);
+		pieces[oldPos] = null;
+		piece.InvokeOnAfterMove();
+	}
+
 	public void MoveCastling(int x, int y, Piece piece)
 	{
 		Piece piece1 = GetPieceFromPos(ConvertToPos(x, y));
@@ -164,6 +201,14 @@ public class BoardController : MonoBehaviour
 	public void UnhighlightAllSqaures()
 	{
 		foreach (var square in highlights) square.gameObject.SetActive(false);
+	}
+
+	public void InvokeEveryTimer()
+	{
+		foreach (TurnCountdown timer in turnCountdowns)
+		{
+			timer.InvokeTimer();
+		}
 	}
 
 	/// <summary>
@@ -264,7 +309,7 @@ public class BoardController : MonoBehaviour
         }
         if (h.Special == SpecialMove.EnPassant)
         {
-			EnPassant.i.MoveEnPassantPiece(temp[0], temp[1], CurrPiece);
+			MoveEnPassantPiece(temp[0], temp[1], CurrPiece);
 		}
 		if (h.Special == SpecialMove.Castling)
         {
@@ -290,10 +335,6 @@ public class BoardController : MonoBehaviour
 		CurrPiece.GetAvailableMoves();
 	}
 	
-	public void SetPieceNull(int pos)
-    {
-		pieces[pos] = null;
-    }
 	public void SetHighLightToPlay(HighlightSquare highlight)
 	{
 		highlight.Special = SpecialMove.Play;

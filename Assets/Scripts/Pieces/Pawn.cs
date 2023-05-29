@@ -6,8 +6,8 @@ public class Pawn : Piece
 {
     private bool hasMoved = false;
     private bool twoStep = false;
-	public PawnPromotion pp;
     private TurnCountdown turnCountdown;
+    public MenuManagerScript menuManager;
 
 	public override void InitPiece(PlayerType p)
     {
@@ -134,7 +134,7 @@ public class Pawn : Piece
     public void ChoosePromotion()
     {
         GameController.i.SetGameState(GameState.Promoting);
-        PawnPromotion.i.ShowPromotionButtons(this.Player);
+        menuManager.ShowPromotionButtons(this.Player);
     }
 
     public bool CheckEnPassant(Piece piece)

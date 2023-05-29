@@ -6,11 +6,16 @@ public class BoardController : MonoBehaviour
 	[SerializeField] private HighlightSquare[] highlights;
 	[SerializeField] private HighlightSquare highlightSquare;
 
+	[SerializeField] private Piece[] promotionBlackList;
+	[SerializeField] private Piece[] promotionWhiteList;
+
 	[SerializeField] private TurnCountdown[] turnCountdowns;
 	[SerializeField] private TurnCountdown TurnCountdown;
 
 	private int id;
 	private int numOfPawns = 16;
+
+	[SerializeField] MenuManagerScript MenuManager;
 
 	private Transform TurnCountdownTransform;
 	/// <summary>
@@ -330,11 +335,47 @@ public class BoardController : MonoBehaviour
 	public void HandlePieceClicked(Collider2D col)
 	{
 		UnhighlightAllSqaures();
-		PawnPromotion.i.UnhighlightAllPromotingButtons();
+		MenuManager.UnhighlightAllPromotingButtons();
 		CurrPiece = col.GetComponent<Piece>();
 		CurrPiece.GetAvailableMoves();
 	}
-	
+
+	/// <summary>
+	/// Destroys the pawn and instantiates the promoted piece
+	/// </summary>
+	/// <param name="promotedPiece">The piece type to be instantiated</param>
+	public void PromotePiece(Piece promotedPiece)
+	{
+		DestroyPiece(CurrPiece.CurrPos);
+		InstantiatePiece(promotedPiece, CurrPiece.CurrPos);
+	}
+
+	/// <summary>
+	/// Handles the promotion button clicked functionality
+	/// </summary>
+	/// <param name="col"></param>
+	public void HandlePromotionButtonClicked(Collider2D col)
+	{
+		int id = col.GetComponent<PromotionButton>().id;
+		Piece promotedPiece = GetPromotionPiece(id, BoardController.i.CurrPiece.Player);
+		PromotePiece(promotedPiece);
+		MenuManager.UnhighlightAllPromotingButtons();
+		GameController.i.SetGameState(GameState.Play);
+	}
+
+	/// <summary>
+	/// Gets the promoted piece type based on the id given
+	/// </summary>
+	/// <param name="id">The type of piece to be promoted</param>
+	/// <param name="player">Player type</param>
+	/// <returns>The promoted piece (Queen, Knight, Rook, Bishop)</returns>
+	public Piece GetPromotionPiece(int id, PlayerType player)
+	{
+		return player == PlayerType.Black ? promotionBlackList[id] : promotionWhiteList[id];
+	}
+
+
+
 	public void SetHighLightToPlay(HighlightSquare highlight)
 	{
 		highlight.Special = SpecialMove.Play;

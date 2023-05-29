@@ -14,7 +14,7 @@ public class Pawn : Piece
         base.InitPiece(p);
         OnAfterMove += CheckForPromotion;
         OnAfterMove += SetPawnBoolean;
-        turnCountdown = EnPassant.i.InstantiateTurnCountdown();
+        // turnCountdown = EnPassant.i.InstantiateTurnCountdown();
     }
 
     private void OnDestroy()

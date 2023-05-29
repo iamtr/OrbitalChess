@@ -23,6 +23,8 @@ public class GameController : MonoBehaviour
         if (i != null && i != this) Destroy(this);
         else i = this;
 
+        BoardController.i.InstantiatePieces();
+
         OnRoundEnd += SetPlayer;
     }
 	private void Update()

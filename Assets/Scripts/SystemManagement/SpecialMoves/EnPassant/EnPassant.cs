@@ -16,13 +16,15 @@ public class EnPassant : MonoBehaviour
     //Singleton
     public static EnPassant i { get; private set; }
 
-    private void Start()
+	private void Awake()
+	{
+		if (i != null && i != this) Destroy(this);
+		else i = this;
+	}
+	private void Start()
     {
         bc = GameObject.Find("Board").GetComponent<BoardController>();
         TurnCountdownTransform = GameObject.Find("TurnCountdowns").transform;
-
-        if (i != null && i != this) Destroy(this);
-        else i = this;
     }
 
     public TurnCountdown InstantiateTurnCountdown()

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class Piece : MonoBehaviour 
 {
-	[SerializeField] protected BoardController bc;
+	[HideInInspector] public BoardController bc { get; set; }
 	[SerializeField] protected int currX;
 	[SerializeField] protected int currY;
 

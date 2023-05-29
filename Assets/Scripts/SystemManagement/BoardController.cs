@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class BoardController : MonoBehaviour
@@ -15,22 +16,50 @@ public class BoardController : MonoBehaviour
 
 	public static BoardController i { get; private set; }
 
-	private void Start()
+	private void Awake()
 	{
-		highlightTransform = GameObject.Find("Highlight Squares")?.transform;
-		pieceTransform = GameObject.Find("Pieces")?.transform;
-
 		if (i != null && i != this) Destroy(this);
 		else i = this;
-		
-		InstantiatePieces();
 	}
+
+	/// <summary>
+	/// Setup the board and highlight arrays for testing
+	/// </summary>
+	public void TestSetup()
+	{
+		InstantiateBoardArray();
+		InstantiateHighlightArray();
+	}
+
+
+	/// <summary>
+	/// (For testing) Creates a new int[] array of size 64 for testing 
+	/// </summary>
+	public void InstantiateBoardArray()
+	{
+		pieces = new Piece[64];
+	}
+
+	/// <summary>
+	/// (For testing) Creates a new HighlightSquare[] array of size 64 for testing 
+	/// </summary>
+	public void InstantiateHighlightArray()
+	{
+		highlights = new HighlightSquare[64];
+		GameObject temp = new GameObject();
+		temp.AddComponent<SpriteRenderer>();
+		HighlightSquare h = temp.AddComponent<HighlightSquare>();
+		Array.Fill<HighlightSquare>(highlights, h);
+	}
+
 
 	/// <summary>
 	/// Instantiates all pieces and highlight squares
 	/// </summary>
-	private void InstantiatePieces()
+	public void InstantiatePieces()
 	{
+		highlightTransform = GameObject.Find("Highlight Squares")?.transform;
+		pieceTransform = GameObject.Find("Pieces")?.transform;
 		highlights = new HighlightSquare[64];
 
 		for (var i = 0; i < 64; i++)

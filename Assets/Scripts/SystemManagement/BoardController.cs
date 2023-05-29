@@ -81,8 +81,8 @@ public class BoardController : MonoBehaviour
 	{
 		highlights[pos].GetComponent<SpriteRenderer>().color = color;
 		highlights[pos].gameObject.SetActive(true);
-		if (color == Color.yellow) highlights[pos].Special = "EnPassant";
-		if (color == Color.green) highlights[pos].Special = "Castling";
+		if (color == Color.yellow) highlights[pos].Special = SpecialMove.EnPassant;
+		if (color == Color.green) highlights[pos].Special = SpecialMove.Castling;
 	}
 
 	/// <summary>
@@ -257,20 +257,20 @@ public class BoardController : MonoBehaviour
 	{
 		var h = col.GetComponent<HighlightSquare>();
 		var temp = ConvertToXY(h.Position);
-        if (h.Special == "Play" && CurrPiece is Pawn)
+        if (h.Special == SpecialMove.Play && CurrPiece is Pawn)
 		{
 			Pawn pawn = (Pawn)CurrPiece;
 			pawn.SetTwoStepMove(temp[1]);
         }
-        if (h.Special == "EnPassant")
+        if (h.Special == SpecialMove.EnPassant)
         {
 			EnPassant.i.MoveEnPassantPiece(temp[0], temp[1], CurrPiece);
 		}
-		if (h.Special == "Castling")
+		if (h.Special == SpecialMove.Castling)
         {
 			MoveCastling(temp[0], temp[1], CurrPiece);
 		}
-		if (h.Special == "Play")
+		if (h.Special == SpecialMove.Play)
         {
 			MovePiece(temp[0], temp[1], CurrPiece);
 		}
@@ -296,6 +296,6 @@ public class BoardController : MonoBehaviour
     }
 	public void SetHighLightToPlay(HighlightSquare highlight)
 	{
-		highlight.Special = "Play";
+		highlight.Special = SpecialMove.Play;
 	}
 }

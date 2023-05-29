@@ -33,7 +33,7 @@ public class InputManager : MonoBehaviour
 
 		if (col.gameObject.CompareTag("Promotion Button") && GameController.i.GameState == GameState.Promoting)
 		{
-			PawnPromotion.i.HandlePromotionButtonClicked(col);
+			BoardController.i.HandlePromotionButtonClicked(col);
 		}
 	}
 }

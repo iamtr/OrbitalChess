@@ -4,6 +4,7 @@ using UnityEngine;
 public abstract class Piece : MonoBehaviour 
 {
 	[SerializeField] protected BoardController bc;
+	[SerializeField] protected UIManager UIManager;
 	[SerializeField] protected int currX;
 	[SerializeField] protected int currY;
 
@@ -25,6 +26,7 @@ public abstract class Piece : MonoBehaviour
 	private void Start()
 	{
 		bc = GameObject.Find("Board").GetComponent<BoardController>();
+		UIManager = GameObject.Find("UIManager").GetComponent<UIManager>();
 		InitPiece(Player);
 
 		OnAfterMove += GameController.i.InvokeOnRoundEnd;

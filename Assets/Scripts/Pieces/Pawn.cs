@@ -6,15 +6,15 @@ public class Pawn : Piece
 {
     private bool hasMoved = false;
     private bool twoStep = false;
-	public PawnPromotion pp;
     private TurnCountdown turnCountdown;
+    
 
-	public override void InitPiece(PlayerType p)
+    public override void InitPiece(PlayerType p)
     {
         base.InitPiece(p);
         OnAfterMove += CheckForPromotion;
         OnAfterMove += SetPawnBoolean;
-        turnCountdown = EnPassant.i.InstantiateTurnCountdown();
+        turnCountdown = BoardController.i.InstantiateTurnCountdown();
     }
 
     private void OnDestroy()
@@ -54,7 +54,7 @@ public class Pawn : Piece
         if (bc.IsLegalMove(rightX, newY, this)
             && rightPiece != null
             && rightPiece.Player != this.Player
-            && EnPassant.i.CheckEnPassant(rightPiece))
+            && CheckEnPassant(rightPiece))
         {
             int pos = bc.ConvertToPos(rightX, newY);
             bc.SetHighlightColor(pos, Color.yellow);
@@ -64,7 +64,7 @@ public class Pawn : Piece
         if (bc.IsLegalMove(leftX, newY, this)
             && leftPiece != null
             && leftPiece.Player != this.Player
-            && EnPassant.i.CheckEnPassant(leftPiece))
+            && CheckEnPassant(leftPiece))
         {
             int pos = bc.ConvertToPos(leftX, newY);
             bc.SetHighlightColor(pos, Color.yellow);
@@ -126,11 +126,6 @@ public class Pawn : Piece
         }
     }
 
-    public bool GetTwoStepBool()
-    {
-        return twoStep;
-    }
-
     public void CheckForPromotion()
     {
         if (IsAvailableForPromotion()) ChoosePromotion();
@@ -139,11 +134,19 @@ public class Pawn : Piece
     public void ChoosePromotion()
     {
         GameController.i.SetGameState(GameState.Promoting);
-        PawnPromotion.i.ShowPromotionButtons(this.Player);
+        UIManager.ShowPromotionButtons(this.Player);
     }
 
-    public TurnCountdown getTurnCountdown()
+    public bool CheckEnPassant(Piece piece)
     {
-        return turnCountdown;
+        if (piece is Pawn)
+        {
+            Pawn pawn = (Pawn)piece;
+            if (pawn.turnCountdown.IsJustMoved() && pawn.twoStep)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

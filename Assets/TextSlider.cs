@@ -9,7 +9,6 @@ public class TextSlider : MonoBehaviour
 
     public void SetVolumeNumber(float value)
     {
-        int i = (int)value;
-        volumeNumber.text = i.ToString();
+        volumeNumber.text = value.ToString();
     }
 }

@@ -15,7 +15,7 @@ public class BoardController : MonoBehaviour
 	private int id;
 	private int numOfPawns = 16;
 
-	[SerializeField] MenuManagerScript MenuManager;
+	[SerializeField] UIManager UIManager;
 
 	private Transform TurnCountdownTransform;
 	/// <summary>
@@ -175,6 +175,7 @@ public class BoardController : MonoBehaviour
 		piece.InvokeOnBeforeMove();
 		piece.SetCoords(x, y);
 		DestroyOpponentPiece(piece, enemyPos);
+		pieces[enemyPos] = null; 
 		SetPiecePos(piece, newPos);
 		pieces[oldPos] = null;
 		piece.InvokeOnAfterMove();
@@ -335,7 +336,7 @@ public class BoardController : MonoBehaviour
 	public void HandlePieceClicked(Collider2D col)
 	{
 		UnhighlightAllSqaures();
-		MenuManager.UnhighlightAllPromotingButtons();
+		UIManager.UnhighlightAllPromotingButtons();
 		CurrPiece = col.GetComponent<Piece>();
 		CurrPiece.GetAvailableMoves();
 	}
@@ -359,7 +360,7 @@ public class BoardController : MonoBehaviour
 		int id = col.GetComponent<PromotionButton>().id;
 		Piece promotedPiece = GetPromotionPiece(id, BoardController.i.CurrPiece.Player);
 		PromotePiece(promotedPiece);
-		MenuManager.UnhighlightAllPromotingButtons();
+		UIManager.UnhighlightAllPromotingButtons();
 		GameController.i.SetGameState(GameState.Play);
 	}
 

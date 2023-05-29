@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class Queen : Piece
 {
-	public override void GetAvailableMoves()
+	public override List<int> GetAvailableMoves()
 	{
 		void HighlightDirection(BoardController bc, int currX, int currY, int dx, int dy, int maxDistance)
 		{
@@ -27,6 +28,8 @@ public class Queen : Piece
 		HighlightDirection(bc, currX, currY, -1, 0, 8); // Left
 		HighlightDirection(bc, currX, currY, 0, 1, 8); // Up
 		HighlightDirection(bc, currX, currY, 0, -1, 8); // Down
+
+		return null;
 	}
 
 	public override bool IsLegalMove(int x, int y, Piece p)

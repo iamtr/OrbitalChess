@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Piece : MonoBehaviour 
@@ -24,7 +25,7 @@ public abstract class Piece : MonoBehaviour
 
 	private void Start()
 	{
-		bc = GameObject.Find("Board").GetComponent<BoardController>();
+		bc = GameObject.Find("Board")?.GetComponent<BoardController>();
 		InitPiece(Player);
 
 		OnAfterMove += GameController.i.InvokeOnRoundEnd;
@@ -41,7 +42,12 @@ public abstract class Piece : MonoBehaviour
 	/// <summary>
 	/// Calculates all available moves for this piece and highlights them
 	/// </summary>
-	public abstract void GetAvailableMoves();
+	public abstract List<int> GetAvailableMoves();
+
+	/// <summary>
+	/// Calculates all available moves for this piece and highlights them
+	/// </summary>
+	//public abstract void GetAvailableMoves();
 
 	/// <summary>
 	/// Checks if the move is legal

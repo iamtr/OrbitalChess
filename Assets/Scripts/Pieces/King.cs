@@ -12,7 +12,7 @@ public class King : Piece
 		OnAfterMove += SetKingBoolean;
 	}
 
-	public override void GetAvailableMoves()
+	public override List<int> GetAvailableMoves()
 	{
 		void HighlightDirection(BoardController bc, int currX, int currY, int dx, int dy, int maxDistance)
 		{
@@ -36,6 +36,8 @@ public class King : Piece
 		HighlightDirection(bc, currX, currY, 0, 1, 1); // Up
 		HighlightDirection(bc, currX, currY, 0, -1, 1); // Down
 		HighlightCastling();
+
+		return null;
 	}
 
 	public void HighlightCastling()

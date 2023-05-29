@@ -12,7 +12,7 @@ public class Rook : Piece
 		OnAfterMove += SetRookBoolean;
 	}
 
-	public override void GetAvailableMoves()
+	public override List<int> GetAvailableMoves()
 	{
 		void HighlightDirection(BoardController bc, int currX, int currY, int dx, int dy, int maxDistance)
 		{
@@ -31,6 +31,8 @@ public class Rook : Piece
 		HighlightDirection(bc, currX, currY, -1, 0, 8); // Left
 		HighlightDirection(bc, currX, currY, 0, 1, 8); // Up
 		HighlightDirection(bc, currX, currY, 0, -1, 8); // Down
+
+		return null;
 	}
 
 	public override bool IsLegalMove(int x, int y, Piece p)

@@ -17,8 +17,8 @@ public class BoardController : MonoBehaviour
 
 	private void Start()
 	{
-		highlightTransform = GameObject.Find("Highlight Squares").transform;
-		pieceTransform = GameObject.Find("Pieces").transform;
+		highlightTransform = GameObject.Find("Highlight Squares")?.transform;
+		pieceTransform = GameObject.Find("Pieces")?.transform;
 
 		if (i != null && i != this) Destroy(this);
 		else i = this;

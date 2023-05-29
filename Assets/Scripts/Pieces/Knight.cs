@@ -18,7 +18,7 @@ public class Knight : Piece
 
 	}
 
-	public override void GetAvailableMoves()
+	public override List<int> GetAvailableMoves()
 	{
 		for (int i = 0; i < deltas.GetLength(0); i++)
 		{
@@ -30,5 +30,7 @@ public class Knight : Piece
 				bc.Highlight(currX + deltaX, currY + deltaY, this);
 			}
 		}
+
+		return null;
 	}
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Bishop : Piece
 {
-	public override void GetAvailableMoves()
+	public override List<int> GetAvailableMoves()
 	{
 		void HighlightDirection(int dx, int dy, int maxDistance)
 		{
@@ -23,6 +23,8 @@ public class Bishop : Piece
 		HighlightDirection(-1, 1, 8); 
 		HighlightDirection(1, -1, 8); 
 		HighlightDirection(-1, -1, 8);
+
+		return null;
 	}
 
 	public override bool IsLegalMove(int x, int y, Piece p)

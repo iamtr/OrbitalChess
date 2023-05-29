@@ -7,9 +7,17 @@ using UnityEngine.TestTools;
 public class PieceMovementTestScript
 {
     [UnityTest]
-    public IEnumerator Piece_TestMovement()
+    public IEnumerator MovePiece_Pawn_MoveTwoSteps()
     {
-        var board = new GameObject().AddComponent<BoardController>();   
+        // Arrange
+        var bc = new GameObject().AddComponent<BoardController>();   
+        var pawn = bc.InstantiatePiece(new GameObject().AddComponent<Pawn>(), 8);
+
+        // Act
+        List<int> listOfAvailableMoves = pawn.GetAvailableMoves();
+
+        // Assert
+        Assert.AreEqual(listOfAvailableMoves, new List<int>() { 16, 24 });
 
         yield return null;
     }

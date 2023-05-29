@@ -23,28 +23,35 @@ public class Pawn : Piece
         Destroy(turnCountdown.gameObject);
     }
 
-    public override void GetAvailableMoves()
+    public override List<int> GetAvailableMoves()
     {
+        List<int> availableMovesArray = new List<int>();
+
         int direction = (Player == PlayerType.Black) ? 1 : -1;
         int newY = currY + direction;
 
         if (IsLegalMove(currX, newY, this))
         {
             bc.Highlight(currX, newY, this);
+            availableMovesArray.Add(bc.ConvertToPos(currX, newY));
 
             if (!hasMoved && !bc.IsOccupied(bc.ConvertToPos(currX, newY + direction)))
             {
                 bc.Highlight(currX, newY + direction, this);
+                availableMovesArray.Add(bc.ConvertToPos(currX, newY + direction));
             }
         }
 
         HighlightEnPassant(direction);
         HighlightPawnDiagonals(direction);
-        
+
+        return availableMovesArray;
     }
 
-    public void HighlightEnPassant(int direction)
+    public List<int> HighlightEnPassant(int direction)
     {
+        List<int> temp = new List<int>();
+
         int rightX = currX + 1;
         int leftX = currX - 1;
         int newY = currY + direction;
@@ -58,6 +65,7 @@ public class Pawn : Piece
         {
             int pos = bc.ConvertToPos(rightX, newY);
             bc.SetHighlightColor(pos, Color.yellow);
+            temp.Add(pos);
             //ep.SetHighlightEnPassant(rightX, newY);
         }
 
@@ -68,8 +76,11 @@ public class Pawn : Piece
         {
             int pos = bc.ConvertToPos(leftX, newY);
             bc.SetHighlightColor(pos, Color.yellow);
+            temp.Add(pos);
             //ep.SetHighlightEnPassant(leftX, newY);
         }
+
+        return temp;
     }
 
     public override bool IsLegalMove(int x, int y, Piece p)
@@ -83,8 +94,10 @@ public class Pawn : Piece
         return true;
     }
 
-    public void HighlightPawnDiagonals(int direction)
+    public List<int> HighlightPawnDiagonals(int direction)
     {
+        List<int> temp = new List<int>();
+
         int rightX = currX + 1;
         int leftX = currX - 1;
         int newY = currY + direction;
@@ -96,6 +109,7 @@ public class Pawn : Piece
             && rightPiece.Player != this.Player)
         {
             bc.Highlight(rightX, newY, this);
+            temp.Add(bc.ConvertToPos(rightX, newY));
         }
 
         if (bc.IsLegalMove(leftX, newY, this)
@@ -103,7 +117,10 @@ public class Pawn : Piece
             && leftPiece.Player != this.Player)
         {
             bc.Highlight(leftX, newY, this);
+            temp.Add(bc.ConvertToPos(leftX, newY));
         }
+
+        return temp;
     }
 
     public bool IsAvailableForPromotion()

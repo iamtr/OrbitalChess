@@ -138,10 +138,30 @@ public class BoardController : MonoBehaviour
 		MovePiece(x2, y2, piece2);
 	}
 
-    /// <summary>
-    /// Unhighlights all squares on the board
-    /// </summary>
-    public void UnhighlightAllSqaures()
+	public void MoveCastling(int x, int y, Piece piece)
+	{
+		Piece piece1 = GetPieceFromPos(ConvertToPos(x, y));
+		int oldPos = piece.CurrPos;
+		int[] oldXY = ConvertToXY(oldPos);
+		int newX;
+		int rookDirection;
+		if (x == 0)
+		{
+			newX = oldXY[0] - 2;
+			rookDirection = 1;
+		}
+		else
+		{
+			newX = oldXY[0] + 2;
+			rookDirection = -1;
+		}
+		MoveTwoPieceSimutaneously(newX, y, piece, newX + rookDirection, y, piece1);
+	}
+
+	/// <summary>
+	/// Unhighlights all squares on the board
+	/// </summary>
+	public void UnhighlightAllSqaures()
 	{
 		foreach (var square in highlights) square.gameObject.SetActive(false);
 	}
@@ -248,7 +268,7 @@ public class BoardController : MonoBehaviour
 		}
 		if (h.Special == "Castling")
         {
-			Castling.i.MoveCastling(temp[0], temp[1], CurrPiece);
+			MoveCastling(temp[0], temp[1], CurrPiece);
 		}
 		if (h.Special == "Play")
         {

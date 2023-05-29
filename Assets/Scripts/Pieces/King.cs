@@ -43,18 +43,41 @@ public class King : Piece
 		if (hasMoved) return;
 		int leftDirection = -1;
 		int rightDirection = 1;
-		int x = currX;
-		if (Castling.i.IsAbleToCastling(currX, currY, leftDirection))
+		if (IsAbleToCastling(leftDirection))
         {
 			int pos = BoardController.i.ConvertToPos(0, currY);
 			BoardController.i.SetHighlightColor(pos, Color.green);
 		}
 			
-		if (Castling.i.IsAbleToCastling(currX, currY, rightDirection))
+		if (IsAbleToCastling(rightDirection))
 		{
 			int pos = BoardController.i.ConvertToPos(7, currY);
 			BoardController.i.SetHighlightColor(pos, Color.green);
 		}
+	}
+
+	public bool IsAbleToCastling(int direction)
+	{
+		int x = currX;
+		Piece foundPiece;
+		while (true)
+		{
+			x += direction;
+			int pos = BoardController.i.ConvertToPos(x, currY);
+			if (!BoardController.i.IsInBounds(x, currY)) return false;
+			Piece piece = BoardController.i.GetPieceFromPos(pos);
+			if (piece != null)
+			{
+				foundPiece = piece;
+				break;
+			}
+		}
+		if (foundPiece is Rook)
+		{
+			Rook rook = (Rook)foundPiece;
+			return !rook.IsMoved();
+		}
+		return false;
 	}
 
 	public override bool IsLegalMove(int x, int y, Piece p)

@@ -3,10 +3,9 @@ using System;
 
 public class GameController : MonoBehaviour
 {
-    [SerializeField] private PlayerType currPlayer;
-	[SerializeField] private GameState gameState;
+    [SerializeField] private static PlayerType currPlayer;
+	[SerializeField] private static GameState gameState;
 
-    public EnPassant ep;
 	public static GameController i;
 
     /// <summary>
@@ -17,15 +16,24 @@ public class GameController : MonoBehaviour
     /// Current game state (Play, Promoting, Check, etc)
     /// </summary>
 	public GameState GameState => gameState;
-    public event Action OnRoundEnd;
+
+    public static event Action OnRoundEnd;
+    public static event Action OnGameEnd;
+
+	private void OnEnable()
+	{
+		OnRoundEnd += SetPlayer;
+	}
+
+	private void OnDisable()
+	{
+        OnRoundEnd -= SetPlayer;
+	}
+
 	private void Start()
 	{
         if (i != null && i != this) Destroy(this);
         else i = this;
-
-        BoardController.i.InstantiatePieces();
-
-        OnRoundEnd += SetPlayer;
     }
 	private void Update()
 	{
@@ -35,7 +43,7 @@ public class GameController : MonoBehaviour
             Collider2D collider = Physics2D.OverlapPoint(mousePosition);
 
             if (collider == null) return;
-            InputManager.i.HandleColliderClicked(collider);
+            InputManager.HandleColliderClicked(collider);
         }
     }
 
@@ -48,26 +56,27 @@ public class GameController : MonoBehaviour
     }
 
     /// <summary>
-    /// Changes the game state according to the parameter
+    /// Changes the game state according to the parameter. Is static.
     /// </summary>
     /// <param name="newState">The state to set</param>
-	public void SetGameState(GameState newState)
+	public static void SetGameState(GameState newState)
 	{
 		gameState = newState;
 	}
 
-    /// <summary>
-    /// Parameterless method to set game state to play
-    /// </summary>
-    public void SetGameStateToPlay()
-	{
-		gameState = GameState.Play;
-	}
-
-    public void InvokeOnRoundEnd() 
+    public static void InvokeOnRoundEnd() 
     {
         OnRoundEnd?.Invoke();
-        EnPassant.i.InvokeEveryTimer();
+    }
+
+    public static GameState GetGameState()
+    {
+        return gameState;
+    }
+
+    public static PlayerType GetCurrPlayer()
+    {
+        return currPlayer;
     }
 }
 

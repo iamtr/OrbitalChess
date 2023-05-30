@@ -17,7 +17,7 @@ public class InputManager : MonoBehaviour
 	/// Handles the mouse events (click)
 	/// </summary>
 	/// <param name="col"></param>
-	public void HandleColliderClicked(Collider2D col)
+	public static void HandleColliderClicked(Collider2D col)
 	{
 		if (col.gameObject.CompareTag("Highlight Square"))
 		{
@@ -25,15 +25,15 @@ public class InputManager : MonoBehaviour
 		}
 
 		if (col.gameObject.CompareTag("Piece") 
-			&& col.GetComponent<Piece>().Player == GameController.i.CurrPlayer
-			&& GameController.i.GameState == GameState.Play)
+			&& col.GetComponent<Piece>().Player == GameController.GetCurrPlayer()
+			&& GameController.GetGameState() == GameState.Play)
 		{
 			BoardController.i.HandlePieceClicked(col);
 		}
 
-		if (col.gameObject.CompareTag("Promotion Button") && GameController.i.GameState == GameState.Promoting)
+		if (col.gameObject.CompareTag("Promotion Button") && GameController.GetGameState() == GameState.Promoting)
 		{
-			PawnPromotion.i.HandlePromotionButtonClicked(col);
+			BoardController.i.HandlePromotionButtonClicked(col);
 		}
 	}
 }

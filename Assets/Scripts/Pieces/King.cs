@@ -45,24 +45,46 @@ public class King : Piece
 		if (hasMoved) return;
 		int leftDirection = -1;
 		int rightDirection = 1;
-		int x = currX;
-		if (Castling.i.IsAbleToCastling(currX, currY, leftDirection))
+		if (IsAbleToCastling(leftDirection))
         {
-			int pos = BoardController.i.ConvertToPos(0, currY);
+			int pos = BoardController.ConvertToPos(0, currY);
 			BoardController.i.SetHighlightColor(pos, Color.green);
 		}
 			
-		if (Castling.i.IsAbleToCastling(currX, currY, rightDirection))
+		if (IsAbleToCastling(rightDirection))
 		{
-			int pos = BoardController.i.ConvertToPos(7, currY);
+			int pos = BoardController.ConvertToPos(7, currY);
 			BoardController.i.SetHighlightColor(pos, Color.green);
 		}
+	}
+
+	public bool IsAbleToCastling(int direction)
+	{
+		int x = currX;
+		Piece foundPiece;
+		while (true)
+		{
+			x += direction;
+			int pos = BoardController.ConvertToPos(x, currY);
+			if (!BoardController.IsInBounds(x, currY)) return false;
+			Piece piece = BoardController.i.GetPieceFromPos(pos);
+			if (piece != null)
+			{
+				foundPiece = piece;
+				break;
+			}
+		}
+		if (foundPiece is Rook rook)
+		{
+			return !rook.IsMoved();
+		}
+		return false;
 	}
 
 	public override bool IsLegalMove(int x, int y, Piece p)
 	{
 		int pos = y * 8 + x;
-		if (!bc.IsInBounds(x, y) || bc.IsSamePlayer(this.CurrPos, pos))
+		if (!BoardController.IsInBounds(x, y) || bc.IsSamePlayer(this.CurrPos, pos))
 		{
 			return false;
 		}

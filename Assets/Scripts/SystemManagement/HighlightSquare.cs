@@ -8,5 +8,7 @@ public class HighlightSquare : MonoBehaviour
     [SerializeField] public BoxCollider2D Collider { get; set; }
     [SerializeField] public int Position { get; set; }
 
-    public string Special = "Play";
+    public SpecialMove Special = SpecialMove.Play;
 }
+
+public enum SpecialMove {Play, EnPassant, Castling}

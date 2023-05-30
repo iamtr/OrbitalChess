@@ -1,23 +1,56 @@
 using System;
 using UnityEngine;
 
+
+/// <summary>
+/// Controls all the piece logic and movement logic on the board
+/// </summary>
 public class BoardController : MonoBehaviour
 {
 	[SerializeField] private Piece[] pieces;
 	[SerializeField] private HighlightSquare[] highlights;
 	[SerializeField] private HighlightSquare highlightSquare;
+
+	[SerializeField] private Piece[] promotionBlackList;
+	[SerializeField] private Piece[] promotionWhiteList;
+
+	[SerializeField] private TurnCountdown[] turnCountdowns;
+	[SerializeField] private TurnCountdown TurnCountdown;
+
+	private int id;
+	private int numOfPawns = 16;
+
+	[SerializeField] UIManager UIManager;
+
+	private Transform TurnCountdownTransform;
 	/// <summary>
 	/// The current piece that is being clicked by the player
 	/// </summary>
-	[SerializeField] public Piece CurrPiece { get; set; }
+	public Piece CurrPiece { get; set; }
 
 	private Transform highlightTransform;
 	private Transform pieceTransform;
 
 	public static BoardController i { get; private set; }
 
-	private void Awake()
+	private void OnEnable()
 	{
+		GameController.OnRoundEnd += UnhighlightAllSqaures;
+		GameController.OnRoundEnd += InvokeEveryTimer;
+	}
+
+	private void OnDisable()
+	{
+		GameController.OnRoundEnd -= UnhighlightAllSqaures;
+		GameController.OnRoundEnd -= InvokeEveryTimer;
+	}
+
+	private void Start()
+	{
+		highlightTransform = GameObject.Find("Highlight Squares")?.transform;
+		pieceTransform = GameObject.Find("Pieces")?.transform;
+		TurnCountdownTransform = GameObject.Find("TurnCountdowns")?.transform;
+
 		if (i != null && i != this) Destroy(this);
 		else i = this;
 	}
@@ -95,13 +128,27 @@ public class BoardController : MonoBehaviour
 		return newPiece;
 	}
 
+	public TurnCountdown InstantiateTurnCountdown()
+	{
+		if (id == numOfPawns)
+		{
+			id = 0;
+		}
+		TurnCountdown turnCountdown = Instantiate(TurnCountdown);
+		turnCountdowns[id] = turnCountdown;
+		turnCountdowns[id].transform.parent = TurnCountdownTransform;
+		turnCountdowns[id].gameObject.SetActive(false);
+		id += 1;
+		return turnCountdown;
+	}
+
 	public bool IsLegalMove(int x, int y, Piece p)
 	{
 		var pos = y * 8 + x;
 		return IsInBounds(x, y) && pieces[pos]?.Player != p.Player;
 	}
 
-	public bool IsInBounds(int x, int y)
+	public static bool IsInBounds(int x, int y)
 	{
 		return x >= 0 && x < 8 && y >= 0 && y < 8;
 	}
@@ -110,8 +157,8 @@ public class BoardController : MonoBehaviour
 	{
 		highlights[pos].GetComponent<SpriteRenderer>().color = color;
 		highlights[pos].gameObject.SetActive(true);
-		if (color == Color.yellow) highlights[pos].Special = "EnPassant";
-		if (color == Color.green) highlights[pos].Special = "Castling";
+		if (color == Color.yellow) highlights[pos].Special = SpecialMove.EnPassant;
+		if (color == Color.green) highlights[pos].Special = SpecialMove.Castling;
 	}
 
 	/// <summary>
@@ -167,12 +214,55 @@ public class BoardController : MonoBehaviour
 		MovePiece(x2, y2, piece2);
 	}
 
-    /// <summary>
-    /// Unhighlights all squares on the board
-    /// </summary>
-    public void UnhighlightAllSqaures()
+	public void MoveEnPassantPiece(int x, int y, Piece piece)
+	{
+		int newPos = ConvertToPos(x, y);
+		int oldPos = piece.CurrPos;
+		int enemyPos = ConvertToPos(x, ConvertToXY(oldPos)[1]);
+
+		piece.InvokeOnBeforeMove();
+		piece.SetCoords(x, y);
+		DestroyOpponentPiece(piece, enemyPos);
+		pieces[enemyPos] = null; 
+		SetPiecePos(piece, newPos);
+		pieces[oldPos] = null;
+		piece.InvokeOnAfterMove();
+	}
+
+	public void MoveCastling(int x, int y, Piece piece)
+	{
+		Piece piece1 = GetPieceFromPos(ConvertToPos(x, y));
+		int oldPos = piece.CurrPos;
+		int[] oldXY = ConvertToXY(oldPos);
+		int newX;
+		int rookDirection;
+		if (x == 0)
+		{
+			newX = oldXY[0] - 2;
+			rookDirection = 1;
+		}
+		else
+		{
+			newX = oldXY[0] + 2;
+			rookDirection = -1;
+		}
+		MoveTwoPieceSimutaneously(newX, y, piece, newX + rookDirection, y, piece1);
+	}
+
+	/// <summary>
+	/// Unhighlights all squares on the board
+	/// </summary>
+	public void UnhighlightAllSqaures()
 	{
 		foreach (var square in highlights) square.gameObject.SetActive(false);
+	}
+
+	public void InvokeEveryTimer()
+	{
+		foreach (TurnCountdown timer in turnCountdowns)
+		{
+			timer.InvokeTimer();
+		}
 	}
 
 	/// <summary>
@@ -181,7 +271,7 @@ public class BoardController : MonoBehaviour
 	/// <param name="x"></param>
 	/// <param name="y"></param>
 	/// <returns></returns>
-	public int ConvertToPos(int x, int y)
+	public static int ConvertToPos(int x, int y)
 	{
 		return y * 8 + x;
 	}
@@ -191,7 +281,7 @@ public class BoardController : MonoBehaviour
 	/// </summary>
 	/// <param name="pos"></param>
 	/// <returns></returns>
-	public int[] ConvertToXY(int pos)
+	public static int[] ConvertToXY(int pos)
 	{
 		return new int[] { pos % 8, pos / 8 };
 	}
@@ -266,25 +356,24 @@ public class BoardController : MonoBehaviour
 	{
 		var h = col.GetComponent<HighlightSquare>();
 		var temp = ConvertToXY(h.Position);
-        if (h.Special == "Play" && CurrPiece is Pawn)
+        if (h.Special == SpecialMove.Play && CurrPiece is Pawn pawn)
 		{
-			Pawn pawn = (Pawn)CurrPiece;
 			pawn.SetTwoStepMove(temp[1]);
         }
-        if (h.Special == "EnPassant")
+        if (h.Special == SpecialMove.EnPassant)
         {
-			EnPassant.i.MoveEnPassantPiece(temp[0], temp[1], CurrPiece);
+			MoveEnPassantPiece(temp[0], temp[1], CurrPiece);
 		}
-		if (h.Special == "Castling")
+		if (h.Special == SpecialMove.Castling)
         {
-			Castling.i.MoveCastling(temp[0], temp[1], CurrPiece);
+			MoveCastling(temp[0], temp[1], CurrPiece);
 		}
-		if (h.Special == "Play")
+		if (h.Special == SpecialMove.Play)
         {
 			MovePiece(temp[0], temp[1], CurrPiece);
 		}
-		SetHighLightToPlay(h);
-		UnhighlightAllSqaures();
+		SetHighLightSpecial(h, SpecialMove.Play);
+		// UnhighlightAllSqaures();
 	}
 
 	/// <summary>
@@ -294,17 +383,54 @@ public class BoardController : MonoBehaviour
 	public void HandlePieceClicked(Collider2D col)
 	{
 		UnhighlightAllSqaures();
-		PawnPromotion.i.UnhighlightAllPromotingButtons();
+		UIManager.UnhighlightAllPromotingButtons();
 		CurrPiece = col.GetComponent<Piece>();
 		CurrPiece.GetAvailableMoves();
 	}
-	
-	public void SetPieceNull(int pos)
-    {
-		pieces[pos] = null;
-    }
-	public void SetHighLightToPlay(HighlightSquare highlight)
+
+	/// <summary>
+	/// Calls Promote() on the current piece
+	/// </summary>
+	/// <param name="promotedPiece">The piece type to be instantiated</param>
+	public void PromotePiece(Piece promotedPiece)
 	{
-		highlight.Special = "Play";
+		try
+		{
+			IPromotable pawnToPromote = CurrPiece as IPromotable;
+			pawnToPromote.Promote(promotedPiece);
+		}
+		catch (NullReferenceException)
+		{
+			Debug.Log("Tried to promote a non-promotable piece!");
+		}
+	}
+
+	/// <summary>
+	/// Handles the promotion button clicked functionality
+	/// </summary>
+	/// <param name="col"></param>
+	public void HandlePromotionButtonClicked(Collider2D col)
+	{
+		int id = col.GetComponent<PromotionButton>().id;
+		Piece promotedPiece = GetPromotionPiece(id, BoardController.i.CurrPiece.Player);
+		PromotePiece(promotedPiece);
+		UIManager.UnhighlightAllPromotingButtons();
+		GameController.SetGameState(GameState.Play);
+	}
+
+	/// <summary>
+	/// Gets the promoted piece type based on the id given
+	/// </summary>
+	/// <param name="id">The type of piece to be promoted</param>
+	/// <param name="player">Player type</param>
+	/// <returns>The promoted piece (Queen, Knight, Rook, Bishop)</returns>
+	public Piece GetPromotionPiece(int id, PlayerType player)
+	{
+		return player == PlayerType.Black ? promotionBlackList[id] : promotionWhiteList[id];
+	}
+
+	public void SetHighLightSpecial(HighlightSquare highlight, SpecialMove specialMove)
+	{
+		highlight.Special = specialMove;
 	}
 }

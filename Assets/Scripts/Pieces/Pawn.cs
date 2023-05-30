@@ -1,20 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class Pawn : Piece
+public class Pawn : Piece, IPromotable
 {
     private bool hasMoved = false;
     private bool twoStep = false;
-	public PawnPromotion pp;
     private TurnCountdown turnCountdown;
+    
 
-	public override void InitPiece(PlayerType p)
+    public override void InitPiece(PlayerType p)
     {
         base.InitPiece(p);
-        OnAfterMove += CheckForPromotion;
+        OnAfterMove += ShowPromotions;
         OnAfterMove += SetPawnBoolean;
-        // turnCountdown = EnPassant.i.InstantiateTurnCountdown();
+        turnCountdown = BoardController.i.InstantiateTurnCountdown();
     }
 
     private void OnDestroy()
@@ -35,7 +36,7 @@ public class Pawn : Piece
             bc.Highlight(currX, newY, this);
             availableMovesArray.Add(bc.ConvertToPos(currX, newY));
 
-            if (!hasMoved && !bc.IsOccupied(bc.ConvertToPos(currX, newY + direction)))
+            if (!hasMoved && !bc.IsOccupied(BoardController.ConvertToPos(currX, newY + direction)))
             {
                 bc.Highlight(currX, newY + direction, this);
                 availableMovesArray.Add(bc.ConvertToPos(currX, newY + direction));
@@ -55,28 +56,26 @@ public class Pawn : Piece
         int rightX = currX + 1;
         int leftX = currX - 1;
         int newY = currY + direction;
-        Piece rightPiece = bc.GetPieceFromPos(bc.ConvertToPos(rightX, currY));
-        Piece leftPiece = bc.GetPieceFromPos(bc.ConvertToPos(leftX, currY));
+        Piece rightPiece = bc.GetPieceFromPos(BoardController.ConvertToPos(rightX, currY));
+        Piece leftPiece = bc.GetPieceFromPos(BoardController.ConvertToPos(leftX, currY));
 
         if (bc.IsLegalMove(rightX, newY, this)
             && rightPiece != null
             && rightPiece.Player != this.Player
-            && EnPassant.i.CheckEnPassant(rightPiece))
+            && CheckEnPassant(rightPiece))
         {
-            int pos = bc.ConvertToPos(rightX, newY);
-            bc.SetHighlightColor(pos, Color.yellow);
-            temp.Add(pos);
+            int pos = BoardController.ConvertToPos(rightX, newY);
+            BoardController.i.SetHighlightColor(pos, Color.yellow);
             //ep.SetHighlightEnPassant(rightX, newY);
         }
 
         if (bc.IsLegalMove(leftX, newY, this)
             && leftPiece != null
             && leftPiece.Player != this.Player
-            && EnPassant.i.CheckEnPassant(leftPiece))
+            && CheckEnPassant(leftPiece))
         {
-            int pos = bc.ConvertToPos(leftX, newY);
-            bc.SetHighlightColor(pos, Color.yellow);
-            temp.Add(pos);
+            int pos = BoardController.ConvertToPos(leftX, newY);
+            BoardController.i.SetHighlightColor(pos, Color.yellow);
             //ep.SetHighlightEnPassant(leftX, newY);
         }
 
@@ -86,7 +85,7 @@ public class Pawn : Piece
     public override bool IsLegalMove(int x, int y, Piece p)
     {
         int pos = y * 8 + x;
-        if (!bc.IsInBounds(x, y) || bc.IsSamePlayer(this.CurrPos, pos) || bc.IsOccupied(bc.ConvertToPos(x, y)))
+        if (!BoardController.IsInBounds(x, y) || bc.IsSamePlayer(this.CurrPos, pos) || bc.IsOccupied(BoardController.ConvertToPos(x, y)))
         {
             return false;
         }
@@ -101,8 +100,8 @@ public class Pawn : Piece
         int rightX = currX + 1;
         int leftX = currX - 1;
         int newY = currY + direction;
-        Piece rightPiece = bc.GetPieceFromPos(bc.ConvertToPos(rightX, newY));
-        Piece leftPiece = bc.GetPieceFromPos(bc.ConvertToPos(leftX, newY));
+        Piece rightPiece = bc.GetPieceFromPos(BoardController.ConvertToPos(rightX, newY));
+        Piece leftPiece = bc.GetPieceFromPos(BoardController.ConvertToPos(leftX, newY));
 
         if (bc.IsLegalMove(rightX, newY, this)
             && rightPiece != null 
@@ -123,14 +122,9 @@ public class Pawn : Piece
         return temp;
     }
 
-    public bool IsAvailableForPromotion()
-    {
-        return this.Player == PlayerType.Black ? currY >= 7 : currY <= 0;
-    }
-
     public void SetPawnBoolean()
     {
-        if(!hasMoved) turnCountdown.TriggerTurnCountdown(this);
+        if(!hasMoved) turnCountdown.TriggerTurnCountdown();
         hasMoved = true;
     }
 
@@ -143,24 +137,33 @@ public class Pawn : Piece
         }
     }
 
-    public bool GetTwoStepBool()
-    {
-        return twoStep;
-    }
-
-    public void CheckForPromotion()
-    {
-        if (IsAvailableForPromotion()) ChoosePromotion();
+	public bool IsAvailableForPromotion()
+	{
+		return this.Player == PlayerType.Black ? currY >= 7 : currY <= 0;
 	}
 
-    public void ChoosePromotion()
+
+	public void ShowPromotions()
     {
-        GameController.i.SetGameState(GameState.Promoting);
-        PawnPromotion.i.ShowPromotionButtons(this.Player);
+        if (IsAvailableForPromotion())
+        {
+			GameController.SetGameState(GameState.Promoting);
+			UIManager.ShowPromotionButtons(this.Player);
+		}
+	}
+
+    public void Promote(Piece newPiece)
+    {
+        bc.InstantiatePiece(newPiece, CurrPos);
+        Destroy(this.gameObject);
     }
 
-    public TurnCountdown getTurnCountdown()
+    public bool CheckEnPassant(Piece piece)
     {
-        return turnCountdown;
+        if (piece is Pawn pawn)
+        {
+            if (pawn.turnCountdown.IsJustMoved() && pawn.twoStep) return true;
+        }
+        return false;
     }
 }

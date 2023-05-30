@@ -4,7 +4,8 @@ using UnityEngine;
 
 public abstract class Piece : MonoBehaviour 
 {
-	[HideInInspector] public BoardController bc { get; set; }
+	[SerializeField] protected BoardController bc;
+	[SerializeField] protected UIManager UIManager;
 	[SerializeField] protected int currX;
 	[SerializeField] protected int currY;
 
@@ -23,12 +24,21 @@ public abstract class Piece : MonoBehaviour
 
 	[SerializeField] protected PlayerType player;
 
-	private void Start()
+	private void OnEnable()
 	{
-		bc = GameObject.Find("Board")?.GetComponent<BoardController>();
-		InitPiece(Player);
+		OnAfterMove += GameController.InvokeOnRoundEnd;
+	}
 
-		OnAfterMove += GameController.i.InvokeOnRoundEnd;
+	private void OnDisable()
+	{
+		OnAfterMove -= GameController.InvokeOnRoundEnd;
+	}
+
+	private void Awake()
+	{
+		bc = GameObject.Find("Board").GetComponent<BoardController>();
+		UIManager = GameObject.Find("UIManager").GetComponent<UIManager>();
+		InitPiece(Player);
 	}
 
 	/// <summary>

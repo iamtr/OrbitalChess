@@ -12,9 +12,9 @@ public class PieceMovementTestScript
         // Arrange
         var bc = new GameObject().AddComponent<BoardController>();
         var dummyPawn = new GameObject().AddComponent<Pawn>();
-        bc.TestSetup();
-		var pawn = bc.InstantiatePiece(new GameObject().AddComponent<Pawn>(), 8);
-        pawn.bc = bc;
+        bc.InitBoardForTesting();
+		Piece pawn = bc.InstantiatePiece(new GameObject().AddComponent<Pawn>(), 8);
+        pawn.InitPieceForTesting(bc);
         var expected = new List<int> { 16, 24 };
 
         // Act

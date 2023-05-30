@@ -34,12 +34,12 @@ public class Pawn : Piece, IPromotable
         if (IsLegalMove(currX, newY, this))
         {
             bc.Highlight(currX, newY, this);
-            availableMovesArray.Add(bc.ConvertToPos(currX, newY));
+            availableMovesArray.Add(BoardController.ConvertToPos(currX, newY));
 
             if (!hasMoved && !bc.IsOccupied(BoardController.ConvertToPos(currX, newY + direction)))
             {
                 bc.Highlight(currX, newY + direction, this);
-                availableMovesArray.Add(bc.ConvertToPos(currX, newY + direction));
+                availableMovesArray.Add(BoardController.ConvertToPos(currX, newY + direction));
             }
         }
 
@@ -108,7 +108,7 @@ public class Pawn : Piece, IPromotable
             && rightPiece.Player != this.Player)
         {
             bc.Highlight(rightX, newY, this);
-            temp.Add(bc.ConvertToPos(rightX, newY));
+            temp.Add(BoardController.ConvertToPos(rightX, newY));
         }
 
         if (bc.IsLegalMove(leftX, newY, this)
@@ -116,7 +116,7 @@ public class Pawn : Piece, IPromotable
             && leftPiece.Player != this.Player)
         {
             bc.Highlight(leftX, newY, this);
-            temp.Add(bc.ConvertToPos(leftX, newY));
+            temp.Add(BoardController.ConvertToPos(leftX, newY));
         }
 
         return temp;

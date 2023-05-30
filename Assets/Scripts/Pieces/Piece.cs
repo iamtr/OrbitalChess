@@ -24,6 +24,11 @@ public abstract class Piece : MonoBehaviour
 
 	[SerializeField] protected PlayerType player;
 
+	public void InitPieceForTesting(BoardController bc)
+	{
+		this.bc = bc;
+	}
+
 	private void OnEnable()
 	{
 		OnAfterMove += GameController.InvokeOnRoundEnd;
@@ -36,8 +41,8 @@ public abstract class Piece : MonoBehaviour
 
 	private void Awake()
 	{
-		bc = GameObject.Find("Board").GetComponent<BoardController>();
-		UIManager = GameObject.Find("UIManager").GetComponent<UIManager>();
+		bc = GameObject.Find("Board")?.GetComponent<BoardController>();
+		UIManager = GameObject.Find("UIManager")?.GetComponent<UIManager>();
 		InitPiece(Player);
 	}
 

@@ -58,7 +58,7 @@ public class BoardController : MonoBehaviour
 	/// <summary>
 	/// Setup the board and highlight arrays for testing
 	/// </summary>
-	public void TestSetup()
+	public void InitBoardForTesting()
 	{
 		InstantiateBoardArray();
 		InstantiateHighlightArray();

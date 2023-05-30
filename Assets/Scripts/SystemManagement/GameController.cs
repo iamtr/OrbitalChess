@@ -64,14 +64,6 @@ public class GameController : MonoBehaviour
 		gameState = newState;
 	}
 
-    /// <summary>
-    /// Parameterless method to set game state to play
-    /// </summary>
-    public void SetGameStateToPlay()
-	{
-		gameState = GameState.Play;
-	}
-
     public static void InvokeOnRoundEnd() 
     {
         OnRoundEnd?.Invoke();

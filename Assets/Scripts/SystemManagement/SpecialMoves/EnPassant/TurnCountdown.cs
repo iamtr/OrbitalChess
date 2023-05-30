@@ -1,6 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+//using System.Collections;
+//using System.Collections.Generic;
+//using UnityEngine;
 
 /// <summary>
 /// A countdown that decreases its 'timer' with each turn
@@ -13,7 +13,6 @@ public class TurnCountdown : MonoBehaviour
     /// </summary>
     private bool IsCountdownOngoing = false;
     private int TurnsRemaining;
-    public GameController gc;
 
     /// <summary>
     /// Triggers the countdown and sets the turns remaining to 1
@@ -36,8 +35,16 @@ public class TurnCountdown : MonoBehaviour
             return true;
         }
         return false;
-
     }
+    //    public bool IsCountdownAvailable()
+    //    {
+    //        if (TurnRemain > 0)
+    //        {
+    //            TurnRemain -= 1;
+    //            return true;
+    //        }
+    //        return false;
+    //    }
 
     /// <summary>
     /// Adjust the countdown boolean depending on the availability of the countdown

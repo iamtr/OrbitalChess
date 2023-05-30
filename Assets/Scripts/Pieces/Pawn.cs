@@ -9,22 +9,17 @@ public class Pawn : Piece, IPromotable
     /// </summary>
     private bool hasMoved = false;
 
-    /// <summary>
-    /// A boolean of whether the pawn is moved by two squares in its initial move
-    /// </summary>
-    private bool twoStep = false;
+    public bool JustMoved { get; set; } = false;
+    public  bool TwoStep { get; set; } = false;
 
-    /// <summary>
-    /// A turn countdown to determine en passant movement of pawn
-    /// </summary>
-    private TurnCountdown turnCountdown;
+    // private TurnCountdown turnCountdown;
     
     public override void InitPiece(PlayerType p)
     {
         base.InitPiece(p);
         OnAfterMove += CheckForPromotion;
         OnAfterMove += SetPawnBoolean;
-        turnCountdown = BoardController.i.InstantiateTurnCountdown();
+        //turnCountdown = bc.InstantiateTurnCountdown();
     }
     
     /// <summary>
@@ -32,8 +27,8 @@ public class Pawn : Piece, IPromotable
     /// </summary>
     private void OnDestroy()
     {
-        if (turnCountdown == null) return;
-        Destroy(turnCountdown.gameObject);
+        //if (turnCountdown == null) return;
+        //Destroy(turnCountdown.gameObject);
     }
 
     public override void GetAvailableMoves()
@@ -137,7 +132,7 @@ public class Pawn : Piece, IPromotable
     /// </summary>
     public void SetPawnBoolean()
     {
-        if(!hasMoved) turnCountdown.TriggerTurnCountdown();
+        JustMoved = true;
         hasMoved = true;
     }
 
@@ -150,7 +145,7 @@ public class Pawn : Piece, IPromotable
         int difference = System.Math.Abs(this.currY - y);
         if (difference > 1)
         {
-            twoStep = true;
+            TwoStep = true;
         }
     }
 
@@ -184,10 +179,7 @@ public class Pawn : Piece, IPromotable
     {
         if (piece is Pawn pawn)
         {
-            if (pawn.turnCountdown.getCountdownOngoing() && pawn.twoStep)
-            {
-                return true;
-            }
+            if (pawn.JustMoved && pawn.TwoStep) return true;
         }
         return false;
     }

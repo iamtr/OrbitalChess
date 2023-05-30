@@ -21,7 +21,7 @@ public class BoardController : MonoBehaviour
 	/// <summary>
 	/// The current piece that is being clicked by the player
 	/// </summary>
-	[SerializeField] public Piece CurrPiece { get; set; }
+	public Piece CurrPiece { get; set; }
 
 	private Transform highlightTransform;
 	private Transform pieceTransform;
@@ -40,9 +40,9 @@ public class BoardController : MonoBehaviour
 
 	private void Start()
 	{
-		highlightTransform = GameObject.Find("Highlight Squares").transform;
-		pieceTransform = GameObject.Find("Pieces").transform;
-		TurnCountdownTransform = GameObject.Find("TurnCountdowns").transform;
+		highlightTransform = GameObject.Find("Highlight Squares")?.transform;
+		pieceTransform = GameObject.Find("Pieces")?.transform;
+		TurnCountdownTransform = GameObject.Find("TurnCountdowns")?.transform;
 
 		if (i != null && i != this) Destroy(this);
 		else i = this;
@@ -318,9 +318,8 @@ public class BoardController : MonoBehaviour
 	{
 		var h = col.GetComponent<HighlightSquare>();
 		var temp = ConvertToXY(h.Position);
-        if (h.Special == SpecialMove.Play && CurrPiece is Pawn)
+        if (h.Special == SpecialMove.Play && CurrPiece is Pawn pawn)
 		{
-			Pawn pawn = (Pawn)CurrPiece;
 			pawn.SetTwoStepMove(temp[1]);
         }
         if (h.Special == SpecialMove.EnPassant)

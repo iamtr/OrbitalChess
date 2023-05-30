@@ -72,9 +72,8 @@ public class King : Piece
 				break;
 			}
 		}
-		if (foundPiece is Rook)
+		if (foundPiece is Rook rook)
 		{
-			Rook rook = (Rook)foundPiece;
 			return !rook.IsMoved();
 		}
 		return false;

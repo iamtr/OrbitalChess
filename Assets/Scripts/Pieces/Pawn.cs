@@ -139,9 +139,8 @@ public class Pawn : Piece
 
     public bool CheckEnPassant(Piece piece)
     {
-        if (piece is Pawn)
+        if (piece is Pawn pawn)
         {
-            Pawn pawn = (Pawn)piece;
             if (pawn.turnCountdown.IsJustMoved() && pawn.twoStep)
             {
                 return true;

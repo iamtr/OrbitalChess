@@ -110,7 +110,7 @@ public class BoardController : MonoBehaviour
 		return IsInBounds(x, y) && pieces[pos]?.Player != p.Player;
 	}
 
-	public bool IsInBounds(int x, int y)
+	public static bool IsInBounds(int x, int y)
 	{
 		return x >= 0 && x < 8 && y >= 0 && y < 8;
 	}
@@ -233,7 +233,7 @@ public class BoardController : MonoBehaviour
 	/// <param name="x"></param>
 	/// <param name="y"></param>
 	/// <returns></returns>
-	public int ConvertToPos(int x, int y)
+	public static int ConvertToPos(int x, int y)
 	{
 		return y * 8 + x;
 	}
@@ -243,7 +243,7 @@ public class BoardController : MonoBehaviour
 	/// </summary>
 	/// <param name="pos"></param>
 	/// <returns></returns>
-	public int[] ConvertToXY(int pos)
+	public static int[] ConvertToXY(int pos)
 	{
 		return new int[] { pos % 8, pos / 8 };
 	}
@@ -335,7 +335,7 @@ public class BoardController : MonoBehaviour
         {
 			MovePiece(temp[0], temp[1], CurrPiece);
 		}
-		SetHighLightToPlay(h);
+		SetHighLightSpecial(h, SpecialMove.Play);
 		UnhighlightAllSqaures();
 	}
 
@@ -387,8 +387,8 @@ public class BoardController : MonoBehaviour
 
 
 
-	public void SetHighLightToPlay(HighlightSquare highlight)
+	public void SetHighLightSpecial(HighlightSquare highlight, SpecialMove specialMove)
 	{
-		highlight.Special = SpecialMove.Play;
+		highlight.Special = specialMove;
 	}
 }

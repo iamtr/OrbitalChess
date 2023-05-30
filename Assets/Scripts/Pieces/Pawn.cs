@@ -32,7 +32,7 @@ public class Pawn : Piece
         {
             bc.Highlight(currX, newY, this);
 
-            if (!hasMoved && !bc.IsOccupied(bc.ConvertToPos(currX, newY + direction)))
+            if (!hasMoved && !bc.IsOccupied(BoardController.ConvertToPos(currX, newY + direction)))
             {
                 bc.Highlight(currX, newY + direction, this);
             }
@@ -48,16 +48,16 @@ public class Pawn : Piece
         int rightX = currX + 1;
         int leftX = currX - 1;
         int newY = currY + direction;
-        Piece rightPiece = bc.GetPieceFromPos(bc.ConvertToPos(rightX, currY));
-        Piece leftPiece = bc.GetPieceFromPos(bc.ConvertToPos(leftX, currY));
+        Piece rightPiece = bc.GetPieceFromPos(BoardController.ConvertToPos(rightX, currY));
+        Piece leftPiece = bc.GetPieceFromPos(BoardController.ConvertToPos(leftX, currY));
 
         if (bc.IsLegalMove(rightX, newY, this)
             && rightPiece != null
             && rightPiece.Player != this.Player
             && CheckEnPassant(rightPiece))
         {
-            int pos = bc.ConvertToPos(rightX, newY);
-            bc.SetHighlightColor(pos, Color.yellow);
+            int pos = BoardController.ConvertToPos(rightX, newY);
+            BoardController.i.SetHighlightColor(pos, Color.yellow);
             //ep.SetHighlightEnPassant(rightX, newY);
         }
 
@@ -66,8 +66,8 @@ public class Pawn : Piece
             && leftPiece.Player != this.Player
             && CheckEnPassant(leftPiece))
         {
-            int pos = bc.ConvertToPos(leftX, newY);
-            bc.SetHighlightColor(pos, Color.yellow);
+            int pos = BoardController.ConvertToPos(leftX, newY);
+            BoardController.i.SetHighlightColor(pos, Color.yellow);
             //ep.SetHighlightEnPassant(leftX, newY);
         }
     }
@@ -75,7 +75,7 @@ public class Pawn : Piece
     public override bool IsLegalMove(int x, int y, Piece p)
     {
         int pos = y * 8 + x;
-        if (!bc.IsInBounds(x, y) || bc.IsSamePlayer(this.CurrPos, pos) || bc.IsOccupied(bc.ConvertToPos(x, y)))
+        if (!BoardController.IsInBounds(x, y) || bc.IsSamePlayer(this.CurrPos, pos) || bc.IsOccupied(BoardController.ConvertToPos(x, y)))
         {
             return false;
         }
@@ -88,8 +88,8 @@ public class Pawn : Piece
         int rightX = currX + 1;
         int leftX = currX - 1;
         int newY = currY + direction;
-        Piece rightPiece = bc.GetPieceFromPos(bc.ConvertToPos(rightX, newY));
-        Piece leftPiece = bc.GetPieceFromPos(bc.ConvertToPos(leftX, newY));
+        Piece rightPiece = bc.GetPieceFromPos(BoardController.ConvertToPos(rightX, newY));
+        Piece leftPiece = bc.GetPieceFromPos(BoardController.ConvertToPos(leftX, newY));
 
         if (bc.IsLegalMove(rightX, newY, this)
             && rightPiece != null 

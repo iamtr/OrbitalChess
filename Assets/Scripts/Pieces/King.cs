@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class King : Piece
 {
+	/// <summary>
+	/// A boolean to check whether the pawn has moved from its initial position
+	/// The boolean is set to false by default
+	/// </summary>
 	private bool hasMoved = false;
 
 	public override void InitPiece(PlayerType p)
@@ -14,7 +18,7 @@ public class King : Piece
 
 	public override void GetAvailableMoves()
 	{
-		void HighlightDirection(BoardController bc, int currX, int currY, int dx, int dy, int maxDistance)
+		void HighlightDirection(int dx, int dy, int maxDistance)
 		{
 			for (int i = 1; i <= maxDistance; i++)
 			{
@@ -27,20 +31,23 @@ public class King : Piece
 			}
 		}
 
-		HighlightDirection(bc, currX, currY, 1, 1, 1);
-		HighlightDirection(bc, currX, currY, -1, 1, 1);
-		HighlightDirection(bc, currX, currY, 1, -1, 1);
-		HighlightDirection(bc, currX, currY, -1, -1, 1);
-		HighlightDirection(bc, currX, currY, 1, 0, 1); // Right
-		HighlightDirection(bc, currX, currY, -1, 0, 1); // Left
-		HighlightDirection(bc, currX, currY, 0, 1, 1); // Up
-		HighlightDirection(bc, currX, currY, 0, -1, 1); // Down
+		HighlightDirection(1, 1, 1);
+		HighlightDirection(-1, 1, 1);
+		HighlightDirection(1, -1, 1);
+		HighlightDirection(-1, -1, 1);
+		HighlightDirection(1, 0, 1); // Right
+		HighlightDirection(-1, 0, 1); // Left
+		HighlightDirection(0, 1, 1); // Up
+		HighlightDirection(0, -1, 1); // Down
+
 		HighlightCastling();
 	}
 
+	/// <summary>
+	/// If available and legal, highlights the castling of king and rook
+	/// </summary>
 	public void HighlightCastling()
 	{
-		if (hasMoved) return;
 		int leftDirection = -1;
 		int rightDirection = 1;
 		if (IsAbleToCastling(leftDirection))
@@ -58,6 +65,7 @@ public class King : Piece
 
 	public bool IsAbleToCastling(int direction)
 	{
+		if (hasMoved) return false;
 		int x = currX;
 		Piece foundPiece;
 		while (true)
@@ -90,6 +98,9 @@ public class King : Piece
 		return true;
 	}
 
+	/// <summary>
+	/// Sets the hasMoved boolean in its inital move
+	/// </summary>
 	public void SetKingBoolean()
 	{
 		hasMoved = true;

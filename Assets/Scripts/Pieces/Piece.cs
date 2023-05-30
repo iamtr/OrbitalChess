@@ -13,6 +13,9 @@ public abstract class Piece : MonoBehaviour
 	/// </summary>
 	public int CurrPos { get; private set; }
 
+	/// <summary>
+	/// Events that is called before and after a movement is made respectively
+	/// </summary>
 	public event Action OnBeforeMove;
 	public event Action OnAfterMove;
 

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pawn : Piece
+public class Pawn : Piece, IPromotable
 {
     /// <summary>
     /// A boolean of whether the pawn has moved from its initial position
@@ -169,12 +169,18 @@ public class Pawn : Piece
         UIManager.ShowPromotionButtons(this.Player);
     }
 
-    /// <summary>
-    /// Checks whether the opponent piece is able to be en passant-ed
-    /// </summary>
-    /// <param name="piece">The opponent piece</param>
-    /// <returns></returns>
-    public bool CheckEnPassant(Piece piece)
+	public void Promote(Piece newPiece)
+	{
+		bc.InstantiatePiece(newPiece, CurrPos);
+		Destroy(this.gameObject);
+	}
+
+	/// <summary>
+	/// Checks whether the opponent piece is able to be en passant-ed
+	/// </summary>
+	/// <param name="piece">The opponent piece</param>
+	/// <returns></returns>
+	public bool CheckEnPassant(Piece piece)
     {
         if (piece is Pawn pawn)
         {

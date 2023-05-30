@@ -178,7 +178,7 @@ public class Pawn : Piece
     {
         if (piece is Pawn pawn)
         {
-            if (pawn.turnCountdown.IsJustMoved() && pawn.twoStep)
+            if (pawn.turnCountdown.getCountdownOngoing() && pawn.twoStep)
             {
                 return true;
             }

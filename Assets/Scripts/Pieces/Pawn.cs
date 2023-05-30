@@ -133,7 +133,7 @@ public class Pawn : Piece
 
     public void ChoosePromotion()
     {
-        GameController.i.SetGameState(GameState.Promoting);
+        GameController.SetGameState(GameState.Promoting);
         UIManager.ShowPromotionButtons(this.Player);
     }
 

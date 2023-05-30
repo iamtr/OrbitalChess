@@ -4,7 +4,7 @@ using System;
 public class GameController : MonoBehaviour
 {
     [SerializeField] private PlayerType currPlayer;
-	[SerializeField] private GameState gameState;
+	[SerializeField] private static GameState gameState;
 
 	public static GameController i;
 
@@ -16,13 +16,24 @@ public class GameController : MonoBehaviour
     /// Current game state (Play, Promoting, Check, etc)
     /// </summary>
 	public GameState GameState => gameState;
-    public event Action OnRoundEnd;
+
+    public static event Action OnRoundEnd;
+    public static event Action OnGameEnd;
+
+	private void OnEnable()
+	{
+		OnRoundEnd += SetPlayer;
+	}
+
+	private void OnDisable()
+	{
+        OnRoundEnd -= SetPlayer;
+	}
+
 	private void Start()
 	{
         if (i != null && i != this) Destroy(this);
         else i = this;
-
-        OnRoundEnd += SetPlayer;
     }
 	private void Update()
 	{
@@ -41,14 +52,14 @@ public class GameController : MonoBehaviour
     /// </summary>
     public void SetPlayer()
     {
-        currPlayer = currPlayer == PlayerType.Black ? PlayerType.White : PlayerType.Black;
+/**/        currPlayer = currPlayer == PlayerType.Black ? PlayerType.White : PlayerType.Black;
     }
 
     /// <summary>
-    /// Changes the game state according to the parameter
+    /// Changes the game state according to the parameter. Is static.
     /// </summary>
     /// <param name="newState">The state to set</param>
-	public void SetGameState(GameState newState)
+	public static void SetGameState(GameState newState)
 	{
 		gameState = newState;
 	}
@@ -61,10 +72,14 @@ public class GameController : MonoBehaviour
 		gameState = GameState.Play;
 	}
 
-    public void InvokeOnRoundEnd() 
+    public static void InvokeOnRoundEnd() 
     {
         OnRoundEnd?.Invoke();
-        BoardController.i.InvokeEveryTimer();
+    }
+
+    public static GameState GetGameState()
+    {
+        return gameState;
     }
 }
 

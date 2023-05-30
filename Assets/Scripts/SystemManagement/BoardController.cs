@@ -28,6 +28,16 @@ public class BoardController : MonoBehaviour
 
 	public static BoardController i { get; private set; }
 
+	private void OnEnable()
+	{
+		GameController.OnRoundEnd += InvokeEveryTimer;
+	}
+
+	private void OnDisable()
+	{
+		GameController.OnRoundEnd += InvokeEveryTimer;
+	}
+
 	private void Start()
 	{
 		highlightTransform = GameObject.Find("Highlight Squares").transform;
@@ -361,7 +371,7 @@ public class BoardController : MonoBehaviour
 		Piece promotedPiece = GetPromotionPiece(id, BoardController.i.CurrPiece.Player);
 		PromotePiece(promotedPiece);
 		UIManager.UnhighlightAllPromotingButtons();
-		GameController.i.SetGameState(GameState.Play);
+		GameController.SetGameState(GameState.Play);
 	}
 
 	/// <summary>

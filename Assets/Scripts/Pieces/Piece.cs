@@ -23,13 +23,21 @@ public abstract class Piece : MonoBehaviour
 
 	[SerializeField] protected PlayerType player;
 
+	private void OnEnable()
+	{
+		OnAfterMove += GameController.InvokeOnRoundEnd;
+	}
+
+	private void OnDisable()
+	{
+		OnAfterMove -= GameController.InvokeOnRoundEnd;
+	}
+
 	private void Start()
 	{
 		bc = GameObject.Find("Board").GetComponent<BoardController>();
 		UIManager = GameObject.Find("UIManager").GetComponent<UIManager>();
 		InitPiece(Player);
-
-		OnAfterMove += GameController.i.InvokeOnRoundEnd;
 	}
 
 	/// <summary>

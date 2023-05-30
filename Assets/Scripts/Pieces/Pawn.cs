@@ -6,8 +6,11 @@ using UnityEngine;
 public class Pawn : Piece, IPromotable
 {
     private bool hasMoved = false;
-    private bool twoStep = false;
-    private TurnCountdown turnCountdown;
+
+    public bool JustMoved { get; set; } = false;
+    public  bool TwoStep { get; set; } = false;
+
+    // private TurnCountdown turnCountdown;
     
 
     public override void InitPiece(PlayerType p)
@@ -15,13 +18,13 @@ public class Pawn : Piece, IPromotable
         base.InitPiece(p);
         OnAfterMove += ShowPromotions;
         OnAfterMove += SetPawnBoolean;
-        turnCountdown = BoardController.i.InstantiateTurnCountdown();
+        //turnCountdown = bc.InstantiateTurnCountdown();
     }
 
     private void OnDestroy()
     {
-        if (turnCountdown == null) return;
-        Destroy(turnCountdown.gameObject);
+        //if (turnCountdown == null) return;
+        //Destroy(turnCountdown.gameObject);
     }
 
     public override void GetAvailableMoves()
@@ -109,7 +112,7 @@ public class Pawn : Piece, IPromotable
 
     public void SetPawnBoolean()
     {
-        if(!hasMoved) turnCountdown.TriggerTurnCountdown();
+        JustMoved = true;
         hasMoved = true;
     }
 
@@ -118,7 +121,7 @@ public class Pawn : Piece, IPromotable
         int difference = System.Math.Abs(this.currY - y);
         if (difference > 1)
         {
-            twoStep = true;
+            TwoStep = true;
         }
     }
 
@@ -147,7 +150,7 @@ public class Pawn : Piece, IPromotable
     {
         if (piece is Pawn pawn)
         {
-            if (pawn.turnCountdown.IsJustMoved() && pawn.twoStep) return true;
+            if (pawn.JustMoved && pawn.TwoStep) return true;
         }
         return false;
     }

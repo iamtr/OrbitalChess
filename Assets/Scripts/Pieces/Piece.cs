@@ -3,7 +3,7 @@ using UnityEngine;
 
 public abstract class Piece : MonoBehaviour 
 {
-	[SerializeField] protected BoardController bc;
+	[SerializeField] public BoardController bc;
 	[SerializeField] protected UIManager UIManager;
 	[SerializeField] protected int currX;
 	[SerializeField] protected int currY;

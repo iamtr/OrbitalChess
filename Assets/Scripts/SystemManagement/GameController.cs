@@ -17,17 +17,20 @@ public class GameController : MonoBehaviour
     /// </summary>
 	public GameState GameState => gameState;
 
+    public static event Action OnRoundStart;
     public static event Action OnRoundEnd;
     public static event Action OnGameEnd;
 
 	private void OnEnable()
 	{
 		OnRoundEnd += SetPlayer;
+        OnRoundEnd += InvokeOnRoundStart;
 	}
 
 	private void OnDisable()
 	{
-        OnRoundEnd -= SetPlayer;
+		OnRoundEnd -= SetPlayer;
+		OnRoundEnd += InvokeOnRoundStart;
 	}
 
 	private void Start()
@@ -64,7 +67,12 @@ public class GameController : MonoBehaviour
 		gameState = newState;
 	}
 
-    public static void InvokeOnRoundEnd() 
+	public static void InvokeOnRoundStart()
+	{
+		OnRoundStart?.Invoke();
+	}
+
+	public static void InvokeOnRoundEnd() 
     {
         OnRoundEnd?.Invoke();
     }

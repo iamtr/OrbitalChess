@@ -14,8 +14,8 @@ public class BoardController : MonoBehaviour
 	[SerializeField] private Piece[] promotionBlackList;
 	[SerializeField] private Piece[] promotionWhiteList;
 
-	[SerializeField] private TurnCountdown[] turnCountdowns;
-	[SerializeField] private TurnCountdown TurnCountdown;
+	//[SerializeField] private TurnCountdown[] turnCountdowns;
+	//[SerializeField] private TurnCountdown TurnCountdown;
 
 	private int id;
 	private int numOfPawns = 16;
@@ -36,13 +36,15 @@ public class BoardController : MonoBehaviour
 	private void OnEnable()
 	{
 		GameController.OnRoundEnd += UnhighlightAllSqaures;
-		GameController.OnRoundEnd += InvokeEveryTimer;
+		//GameController.OnRoundEnd += InvokeEveryTimer;
+		GameController.OnRoundStart += SetJustMovedToFalse;
 	}
 
 	private void OnDisable()
 	{
 		GameController.OnRoundEnd -= UnhighlightAllSqaures;
-		GameController.OnRoundEnd -= InvokeEveryTimer;
+		//GameController.OnRoundEnd -= InvokeEveryTimer;
+		GameController.OnRoundStart -= SetJustMovedToFalse;
 	}
 
 	private void Start()
@@ -50,6 +52,8 @@ public class BoardController : MonoBehaviour
 		highlightTransform = GameObject.Find("Highlight Squares")?.transform;
 		pieceTransform = GameObject.Find("Pieces")?.transform;
 		TurnCountdownTransform = GameObject.Find("TurnCountdowns")?.transform;
+
+		InstantiatePieces();
 
 		if (i != null && i != this) Destroy(this);
 		else i = this;
@@ -97,19 +101,19 @@ public class BoardController : MonoBehaviour
 		return newPiece;
 	}
 
-	public TurnCountdown InstantiateTurnCountdown()
-	{
-		if (id == numOfPawns)
-		{
-			id = 0;
-		}
-		TurnCountdown turnCountdown = Instantiate(TurnCountdown);
-		turnCountdowns[id] = turnCountdown;
-		turnCountdowns[id].transform.parent = TurnCountdownTransform;
-		turnCountdowns[id].gameObject.SetActive(false);
-		id += 1;
-		return turnCountdown;
-	}
+	//public TurnCountdown InstantiateTurnCountdown()
+	//{
+	//	if (id == numOfPawns)
+	//	{
+	//		id = 0;
+	//	}
+	//	TurnCountdown turnCountdown = Instantiate(TurnCountdown);
+	//	turnCountdowns[id] = turnCountdown;
+	//	turnCountdowns[id].transform.parent = TurnCountdownTransform;
+	//	turnCountdowns[id].gameObject.SetActive(false);
+	//	id += 1;
+	//	return turnCountdown;
+	//}
 
 	public bool IsLegalMove(int x, int y, Piece p)
 	{
@@ -226,13 +230,13 @@ public class BoardController : MonoBehaviour
 		foreach (var square in highlights) square.gameObject.SetActive(false);
 	}
 
-	public void InvokeEveryTimer()
-	{
-		foreach (TurnCountdown timer in turnCountdowns)
-		{
-			timer.InvokeTimer();
-		}
-	}
+	//public void InvokeEveryTimer()
+	//{
+	//	foreach (TurnCountdown timer in turnCountdowns)
+	//	{
+	//		timer.InvokeTimer();
+	//	}
+	//}
 
 	/// <summary>
 	/// Converts x, y coordinates to 0 - 63
@@ -401,5 +405,20 @@ public class BoardController : MonoBehaviour
 	public void SetHighLightSpecial(HighlightSquare highlight, SpecialMove specialMove)
 	{
 		highlight.Special = specialMove;
+	}
+
+	public void SetJustMovedToFalse()
+	{
+		foreach (Piece piece in pieces)
+		{
+			if (piece?.Player == GameController.GetCurrPlayer())
+			{
+				if (piece is Pawn pawn)
+				{
+					pawn.JustMoved = false;
+					pawn.TwoStep = false;
+				}
+			}
+		}
 	}
 }

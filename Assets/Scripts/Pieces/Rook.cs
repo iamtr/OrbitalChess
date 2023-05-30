@@ -36,7 +36,7 @@ public class Rook : Piece
 	public override bool IsLegalMove(int x, int y, Piece p)
 	{
 		int pos = y * 8 + x;
-		if (!bc.IsInBounds(x, y) || bc.IsSamePlayer(this.CurrPos, pos))
+		if (!BoardController.IsInBounds(x, y) || bc.IsSamePlayer(this.CurrPos, pos))
 		{
 			return false;
 		} 

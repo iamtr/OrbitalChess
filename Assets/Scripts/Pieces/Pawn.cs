@@ -172,7 +172,7 @@ public class Pawn : Piece
     /// <summary>
     /// Checks whether the opponent piece is able to be en passant-ed
     /// </summary>
-    /// <param name="piece"></param>
+    /// <param name="piece">The opponent piece</param>
     /// <returns></returns>
     public bool CheckEnPassant(Piece piece)
     {

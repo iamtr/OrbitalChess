@@ -42,7 +42,7 @@ public class TurnCountdown : MonoBehaviour
     /// <summary>
     /// Adjust the countdown boolean depending on the availability of the countdown
     /// </summary>
-    public void InvokeTimer()
+    public void InvokeTurnCountdown()
     {
         if (IsCountdownAvailable()) return;
         IsCountdownOngoing = false;

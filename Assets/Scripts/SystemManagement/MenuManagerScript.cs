@@ -8,8 +8,6 @@ public class MenuManagerScript : MonoBehaviour
     public string menuScene = "main-menu";
     public string gameStartScene = "Main";
 
-    
-
     public void StartGame()
     {
         SceneManager.LoadScene(gameStartScene);

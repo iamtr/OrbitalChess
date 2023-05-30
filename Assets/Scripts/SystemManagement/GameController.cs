@@ -3,7 +3,7 @@ using System;
 
 public class GameController : MonoBehaviour
 {
-    [SerializeField] private PlayerType currPlayer;
+    [SerializeField] private static PlayerType currPlayer;
 	[SerializeField] private static GameState gameState;
 
 	public static GameController i;
@@ -52,7 +52,7 @@ public class GameController : MonoBehaviour
     /// </summary>
     public void SetPlayer()
     {
-/**/        currPlayer = currPlayer == PlayerType.Black ? PlayerType.White : PlayerType.Black;
+        currPlayer = currPlayer == PlayerType.Black ? PlayerType.White : PlayerType.Black;
     }
 
     /// <summary>
@@ -80,6 +80,11 @@ public class GameController : MonoBehaviour
     public static GameState GetGameState()
     {
         return gameState;
+    }
+
+    public static PlayerType GetCurrPlayer()
+    {
+        return currPlayer;
     }
 }
 

@@ -25,13 +25,13 @@ public class InputManager : MonoBehaviour
 		}
 
 		if (col.gameObject.CompareTag("Piece") 
-			&& col.GetComponent<Piece>().Player == GameController.i.CurrPlayer
-			&& GameController.i.GameState == GameState.Play)
+			&& col.GetComponent<Piece>().Player == GameController.GetCurrPlayer()
+			&& GameController.GetGameState() == GameState.Play)
 		{
 			BoardController.i.HandlePieceClicked(col);
 		}
 
-		if (col.gameObject.CompareTag("Promotion Button") && GameController.i.GameState == GameState.Promoting)
+		if (col.gameObject.CompareTag("Promotion Button") && GameController.GetGameState() == GameState.Promoting)
 		{
 			BoardController.i.HandlePromotionButtonClicked(col);
 		}

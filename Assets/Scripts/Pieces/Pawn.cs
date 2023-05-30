@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class Pawn : Piece
+public class Pawn : Piece, IPromotable
 {
     private bool hasMoved = false;
     private bool twoStep = false;
@@ -12,7 +13,7 @@ public class Pawn : Piece
     public override void InitPiece(PlayerType p)
     {
         base.InitPiece(p);
-        OnAfterMove += CheckForPromotion;
+        OnAfterMove += ShowPromotions;
         OnAfterMove += SetPawnBoolean;
         turnCountdown = BoardController.i.InstantiateTurnCountdown();
     }
@@ -106,11 +107,6 @@ public class Pawn : Piece
         }
     }
 
-    public bool IsAvailableForPromotion()
-    {
-        return this.Player == PlayerType.Black ? currY >= 7 : currY <= 0;
-    }
-
     public void SetPawnBoolean()
     {
         if(!hasMoved) turnCountdown.TriggerTurnCountdown();
@@ -126,25 +122,32 @@ public class Pawn : Piece
         }
     }
 
-    public void CheckForPromotion()
-    {
-        if (IsAvailableForPromotion()) ChoosePromotion();
+	public bool IsAvailableForPromotion()
+	{
+		return this.Player == PlayerType.Black ? currY >= 7 : currY <= 0;
 	}
 
-    public void ChoosePromotion()
+
+	public void ShowPromotions()
     {
-        GameController.SetGameState(GameState.Promoting);
-        UIManager.ShowPromotionButtons(this.Player);
+        if (IsAvailableForPromotion())
+        {
+			GameController.SetGameState(GameState.Promoting);
+			UIManager.ShowPromotionButtons(this.Player);
+		}
+	}
+
+    public void Promote(Piece newPiece)
+    {
+        bc.InstantiatePiece(newPiece, CurrPos);
+        Destroy(this.gameObject);
     }
 
     public bool CheckEnPassant(Piece piece)
     {
         if (piece is Pawn pawn)
         {
-            if (pawn.turnCountdown.IsJustMoved() && pawn.twoStep)
-            {
-                return true;
-            }
+            if (pawn.turnCountdown.IsJustMoved() && pawn.twoStep) return true;
         }
         return false;
     }

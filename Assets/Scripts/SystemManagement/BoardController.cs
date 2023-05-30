@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 
@@ -34,11 +35,13 @@ public class BoardController : MonoBehaviour
 
 	private void OnEnable()
 	{
+		GameController.OnRoundEnd += UnhighlightAllSqaures;
 		GameController.OnRoundEnd += InvokeEveryTimer;
 	}
 
 	private void OnDisable()
 	{
+		GameController.OnRoundEnd -= UnhighlightAllSqaures;
 		GameController.OnRoundEnd -= InvokeEveryTimer;
 	}
 
@@ -339,7 +342,7 @@ public class BoardController : MonoBehaviour
 			MovePiece(temp[0], temp[1], CurrPiece);
 		}
 		SetHighLightSpecial(h, SpecialMove.Play);
-		UnhighlightAllSqaures();
+		// UnhighlightAllSqaures();
 	}
 
 	/// <summary>
@@ -360,8 +363,15 @@ public class BoardController : MonoBehaviour
 	/// <param name="promotedPiece">The piece type to be instantiated</param>
 	public void PromotePiece(Piece promotedPiece)
 	{
-		DestroyPiece(CurrPiece.CurrPos);
-		InstantiatePiece(promotedPiece, CurrPiece.CurrPos);
+		try
+		{
+			IPromotable pawnToPromote = CurrPiece as IPromotable;
+			pawnToPromote.Promote(promotedPiece);
+		}
+		catch (NullReferenceException)
+		{
+			Debug.Log("Tried to promote a non-promotable piece!");
+		}
 	}
 
 	/// <summary>
@@ -387,8 +397,6 @@ public class BoardController : MonoBehaviour
 	{
 		return player == PlayerType.Black ? promotionBlackList[id] : promotionWhiteList[id];
 	}
-
-
 
 	public void SetHighLightSpecial(HighlightSquare highlight, SpecialMove specialMove)
 	{

@@ -33,7 +33,7 @@ public abstract class Piece : MonoBehaviour
 		OnAfterMove -= GameController.InvokeOnRoundEnd;
 	}
 
-	private void Start()
+	private void Awake()
 	{
 		bc = GameObject.Find("Board").GetComponent<BoardController>();
 		UIManager = GameObject.Find("UIManager").GetComponent<UIManager>();

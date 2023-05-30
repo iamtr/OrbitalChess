@@ -7,7 +7,7 @@ public class TurnCountdown : MonoBehaviour
     private bool justMoved = false;
     public GameController gc;
     private int TurnRemain;
-    public void TriggerTurnCountdown(Pawn pawn)
+    public void TriggerTurnCountdown()
     {
         justMoved = true;
         TurnRemain = 1;

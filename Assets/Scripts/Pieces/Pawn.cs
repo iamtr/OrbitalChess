@@ -113,7 +113,7 @@ public class Pawn : Piece
 
     public void SetPawnBoolean()
     {
-        if(!hasMoved) turnCountdown.TriggerTurnCountdown(this);
+        if(!hasMoved) turnCountdown.TriggerTurnCountdown();
         hasMoved = true;
     }
 

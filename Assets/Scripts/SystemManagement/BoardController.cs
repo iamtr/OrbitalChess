@@ -1,5 +1,9 @@
 using UnityEngine;
 
+
+/// <summary>
+/// Controls all the piece logic and movement logic on the board
+/// </summary>
 public class BoardController : MonoBehaviour
 {
 	[SerializeField] private Piece[] pieces;
@@ -35,7 +39,7 @@ public class BoardController : MonoBehaviour
 
 	private void OnDisable()
 	{
-		GameController.OnRoundEnd += InvokeEveryTimer;
+		GameController.OnRoundEnd -= InvokeEveryTimer;
 	}
 
 	private void Start()

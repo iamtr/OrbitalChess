@@ -43,7 +43,7 @@ public class GameController : MonoBehaviour
             Collider2D collider = Physics2D.OverlapPoint(mousePosition);
 
             if (collider == null) return;
-            InputManager.i.HandleColliderClicked(collider);
+            InputManager.HandleColliderClicked(collider);
         }
     }
 

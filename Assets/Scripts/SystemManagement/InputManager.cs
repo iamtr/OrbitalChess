@@ -17,7 +17,7 @@ public class InputManager : MonoBehaviour
 	/// Handles the mouse events (click)
 	/// </summary>
 	/// <param name="col"></param>
-	public void HandleColliderClicked(Collider2D col)
+	public static void HandleColliderClicked(Collider2D col)
 	{
 		if (col.gameObject.CompareTag("Highlight Square"))
 		{

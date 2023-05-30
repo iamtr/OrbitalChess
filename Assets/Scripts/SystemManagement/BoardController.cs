@@ -358,7 +358,7 @@ public class BoardController : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Destroys the pawn and instantiates the promoted piece
+	/// Calls Promote() on the current piece
 	/// </summary>
 	/// <param name="promotedPiece">The piece type to be instantiated</param>
 	public void PromotePiece(Piece promotedPiece)

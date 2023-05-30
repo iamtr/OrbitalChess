@@ -1,48 +1,59 @@
 using System;
 using UnityEngine;
 
-
 /// <summary>
 /// Controls all the piece logic and movement logic on the board
 /// </summary>
 public class BoardController : MonoBehaviour
 {
+	/// <summary>
+	/// Array of the pieces available on the board where
+	/// the index of the array is the position of the piece on the board
+	/// </summary>
 	[SerializeField] private Piece[] pieces;
+
+	/// <summary>
+	/// Array of the highlights on the board where
+	/// the index of the array is the position of the square on the board
+	/// </summary>
 	[SerializeField] private HighlightSquare[] highlights;
 	[SerializeField] private HighlightSquare highlightSquare;
 
+	/// <summary>
+	/// Array of the piece used for pawn promotion
+	/// </summary>
 	[SerializeField] private Piece[] promotionBlackList;
 	[SerializeField] private Piece[] promotionWhiteList;
 
 	[SerializeField] private TurnCountdown[] turnCountdowns;
 	[SerializeField] private TurnCountdown TurnCountdown;
 
-	private int id;
+	private int turnCountdownID;
 	private int numOfPawns = 16;
 
 	[SerializeField] UIManager UIManager;
 
 	private Transform TurnCountdownTransform;
+	private Transform highlightTransform;
+	private Transform pieceTransform;
+
 	/// <summary>
 	/// The current piece that is being clicked by the player
 	/// </summary>
 	public Piece CurrPiece { get; set; }
-
-	private Transform highlightTransform;
-	private Transform pieceTransform;
 
 	public static BoardController i { get; private set; }
 
 	private void OnEnable()
 	{
 		GameController.OnRoundEnd += UnhighlightAllSqaures;
-		GameController.OnRoundEnd += InvokeEveryTimer;
+		GameController.OnRoundEnd += InvokeAllTurnCountdown;
 	}
 
 	private void OnDisable()
 	{
 		GameController.OnRoundEnd -= UnhighlightAllSqaures;
-		GameController.OnRoundEnd -= InvokeEveryTimer;
+		GameController.OnRoundEnd -= InvokeAllTurnCountdown;
 	}
 
 	private void Start()
@@ -97,17 +108,21 @@ public class BoardController : MonoBehaviour
 		return newPiece;
 	}
 
+	/// <summary>
+	/// Instantiate a turn countdown and store it in the array
+	/// </summary>
+	/// <returns></returns>
 	public TurnCountdown InstantiateTurnCountdown()
 	{
-		if (id == numOfPawns)
+		if (turnCountdownID == numOfPawns)
 		{
-			id = 0;
+			turnCountdownID = 0;
 		}
 		TurnCountdown turnCountdown = Instantiate(TurnCountdown);
-		turnCountdowns[id] = turnCountdown;
-		turnCountdowns[id].transform.parent = TurnCountdownTransform;
-		turnCountdowns[id].gameObject.SetActive(false);
-		id += 1;
+		turnCountdowns[turnCountdownID] = turnCountdown;
+		turnCountdowns[turnCountdownID].transform.parent = TurnCountdownTransform;
+		turnCountdowns[turnCountdownID].gameObject.SetActive(false);
+		turnCountdownID += 1;
 		return turnCountdown;
 	}
 
@@ -122,6 +137,11 @@ public class BoardController : MonoBehaviour
 		return x >= 0 && x < 8 && y >= 0 && y < 8;
 	}
 
+	/// <summary>
+	/// Set the highlight color and activate the highlight to be active
+	/// </summary>
+	/// <param name="pos"></param>
+	/// <param name="color"></param>
 	public void SetHighlightColor(int pos, Color color)
 	{
 		highlights[pos].GetComponent<SpriteRenderer>().color = color;
@@ -147,8 +167,8 @@ public class BoardController : MonoBehaviour
 
 	/// <summary>
 	/// Moves a piece to position x, y on the board.
-	/// Before move, InvokeOnBeforeMove() is called on the piece.
-	/// After move, InvokeOnAfterMove() is called on the piece.
+	/// Before movement, the piece's OnBeforeMove is invoked.
+	/// After movement, the piece's OnAfterMove is invoked.
 	/// </summary>
 	/// <param name="currPiece">The current piece chosen by player</param>
 	public void MovePiece(int x, int y, Piece piece)
@@ -166,7 +186,7 @@ public class BoardController : MonoBehaviour
 
 	/// <summary>
 	/// Moves two pieces on the board simutaneously into their respectively positions.
-	/// Acts similarly to MovePiece(int,int,Piece)
+	/// Acts similarly to MovePiece(int,int,Piece).
 	/// </summary>
 	/// <param name="piece1"></param>
 	/// <param name="piece2"></param>
@@ -219,18 +239,18 @@ public class BoardController : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Unhighlights all squares on the board
+	/// Deactivates all squares on the board
 	/// </summary>
 	public void UnhighlightAllSqaures()
 	{
 		foreach (var square in highlights) square.gameObject.SetActive(false);
 	}
 
-	public void InvokeEveryTimer()
+	public void InvokeAllTurnCountdown()
 	{
-		foreach (TurnCountdown timer in turnCountdowns)
+		foreach (TurnCountdown tc in turnCountdowns)
 		{
-			timer.InvokeTimer();
+			tc.InvokeTurnCountdown();
 		}
 	}
 

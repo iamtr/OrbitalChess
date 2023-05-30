@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Rook : Piece
 {
+	/// <summary>
+	/// A boolean to check whether the pawn has moved from its initial position
+	/// The boolean is set to false by default
+	/// </summary>
 	private bool hasMoved = false;
 
 	public override void InitPiece(PlayerType p)
@@ -14,7 +18,7 @@ public class Rook : Piece
 
 	public override void GetAvailableMoves()
 	{
-		void HighlightDirection(BoardController bc, int currX, int currY, int dx, int dy, int maxDistance)
+		void HighlightDirection(int dx, int dy, int maxDistance)
 		{
 			for (int i = 1; i <= maxDistance; i++)
 			{
@@ -27,10 +31,10 @@ public class Rook : Piece
 			}
 		}
 
-		HighlightDirection(bc, currX, currY, 1, 0, 8); // Right
-		HighlightDirection(bc, currX, currY, -1, 0, 8); // Left
-		HighlightDirection(bc, currX, currY, 0, 1, 8); // Up
-		HighlightDirection(bc, currX, currY, 0, -1, 8); // Down
+		HighlightDirection(1, 0, 8); // Right
+		HighlightDirection(-1, 0, 8); // Left
+		HighlightDirection(0, 1, 8); // Up
+		HighlightDirection(0, -1, 8); // Down
 	}
 
 	public override bool IsLegalMove(int x, int y, Piece p)
@@ -49,6 +53,9 @@ public class Rook : Piece
 		return hasMoved;
     }
 
+	/// <summary>
+	/// Sets the hasMoved boolean in its inital move
+	/// </summary>
 	public void SetRookBoolean()
     {
 		hasMoved = true;

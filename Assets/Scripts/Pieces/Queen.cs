@@ -6,7 +6,7 @@ public class Queen : Piece
 {
 	public override void GetAvailableMoves()
 	{
-		void HighlightDirection(BoardController bc, int currX, int currY, int dx, int dy, int maxDistance)
+		void HighlightDirection(int dx, int dy, int maxDistance)
 		{
 			for (int i = 1; i <= maxDistance; i++)
 			{
@@ -19,14 +19,14 @@ public class Queen : Piece
 			}
 		}
 
-		HighlightDirection(bc, currX, currY, 1, 1, 8); 
-		HighlightDirection(bc, currX, currY, -1, 1, 8); 
-		HighlightDirection(bc, currX, currY, 1, -1, 8); 
-		HighlightDirection(bc, currX, currY, -1, -1, 8);
-		HighlightDirection(bc, currX, currY, 1, 0, 8); // Right
-		HighlightDirection(bc, currX, currY, -1, 0, 8); // Left
-		HighlightDirection(bc, currX, currY, 0, 1, 8); // Up
-		HighlightDirection(bc, currX, currY, 0, -1, 8); // Down
+		HighlightDirection(1, 1, 8); 
+		HighlightDirection(-1, 1, 8); 
+		HighlightDirection(1, -1, 8); 
+		HighlightDirection(-1, -1, 8);
+		HighlightDirection(1, 0, 8); // Right
+		HighlightDirection(-1, 0, 8); // Left
+		HighlightDirection(0, 1, 8); // Up
+		HighlightDirection(0, -1, 8); // Down
 	}
 
 	public override bool IsLegalMove(int x, int y, Piece p)

@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// A button that is exclusively for promoting a piece
+/// </summary>
 public class PromotionButton : MonoBehaviour
 {
     [SerializeField] public SpriteRenderer spriteRen;

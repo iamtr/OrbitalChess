@@ -5,7 +5,9 @@ using UnityEngine;
 
 public class TutorialManager : MonoBehaviour
 {
-    [SerializeField] private Piece[] movementLoadout;
+    [SerializeField] private Piece[] PawnAndKnightPiece;
+    [SerializeField] private Piece[] BishopAndRookPiece;
+    [SerializeField] private Piece[] QueenAndKingPiece;
 
     [SerializeField] private TMP_Text tutorialText;
 
@@ -16,19 +18,12 @@ public class TutorialManager : MonoBehaviour
 
     private int FileIndex = 0;
     private int LineIndex = 0;
-
-    private bool loadTextOnce = true;
     
     private void Start()
     {
         ReadAndStoreFiles(introFile, pieceMovementFile);
-    }
-
-    private void Update()
-    {
-        if (!loadTextOnce) return;
         tutorialText.text = Lines[FileIndex][LineIndex];
-        loadTextOnce = false;
+        BoardController.i.UnloadCurrentPieces();
     }
 
     public void ReadAndStoreFiles(params TextAsset[] files)
@@ -42,9 +37,35 @@ public class TutorialManager : MonoBehaviour
             index++;
         }
     }
-
-    public void LoadoutPieces(Piece[] pieces)
+    
+    public void TriggerPrevLine()
     {
+        BoardController.i.UnloadCurrentPieces();
+        if (FileIndex == 0 && LineIndex == 0) return;
+        if (LineIndex == 0)
+        {
+            FileIndex--;
+            LineIndex = Lines[FileIndex].Length - 1;
+        }
+        else
+        {
+            LineIndex--;
+        }
+        tutorialText.text = Lines[FileIndex][LineIndex];
+    }
 
+    public void TriggerNextLine()
+    {
+        var CurrFile = Lines[FileIndex];
+        if (LineIndex == CurrFile.Length - 1)
+        {
+            if (FileIndex == Lines.Length - 1) return;
+            FileIndex++;
+            LineIndex = 0;
+        } else
+        {
+            LineIndex++;
+        }
+        tutorialText.text = Lines[FileIndex][LineIndex];
     }
 }

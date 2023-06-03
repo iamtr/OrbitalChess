@@ -437,4 +437,21 @@ public class BoardController : MonoBehaviour
 			}
 		}
 	}
+
+	public void UnloadCurrentPieces()
+	{
+		for (int i = 0; i < pieces.Length; i++)
+		{
+			Destroy(pieces[i]?.gameObject);
+			pieces[i] = null;
+		}
+	}
+
+	public void LoadoutPieces(Piece[] pieces)
+	{
+        for (int i = 0; i < pieces.Length; i++)
+        {
+			if (pieces[i] != null) InstantiatePiece(pieces[i], i);
+		}
+	}
 }

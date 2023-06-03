@@ -346,6 +346,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2ef4521551224614f8dfca1d2a9f6a9e, type: 3}
+--- !u!114 &633707101 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8260280371891513228, guid: 6e77047100c7b274f9fe249fed5dc9ae, type: 3}
+  m_PrefabInstance: {fileID: 8260280371072010743}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd62a46f9dde53442958821324226257, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1247653688
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -508,6 +519,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 300143506, guid: 105a3331f9b4d6a4a952bf197b077522, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 633707101}
+    - target: {fileID: 534481574, guid: 105a3331f9b4d6a4a952bf197b077522, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 633707101}
     - target: {fileID: 9055910892915959491, guid: 105a3331f9b4d6a4a952bf197b077522, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -657,6 +676,106 @@ PrefabInstance:
       propertyPath: tutorialText
       value: 
       objectReference: {fileID: 1951096382}
+    - target: {fileID: 8260280371891513228, guid: 6e77047100c7b274f9fe249fed5dc9ae, type: 3}
+      propertyPath: QueenAndKingPiece.Array.size
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 8260280371891513228, guid: 6e77047100c7b274f9fe249fed5dc9ae, type: 3}
+      propertyPath: BishopAndRookPiece.Array.size
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 8260280371891513228, guid: 6e77047100c7b274f9fe249fed5dc9ae, type: 3}
+      propertyPath: PawnAndKnightPiece.Array.size
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 8260280371891513228, guid: 6e77047100c7b274f9fe249fed5dc9ae, type: 3}
+      propertyPath: PawnAndKnightPiece.Array.data[0]
+      value: 
+      objectReference: {fileID: 6931133926701968798, guid: da08d4da8aae30349aba0c9b47a54d61, type: 3}
+    - target: {fileID: 8260280371891513228, guid: 6e77047100c7b274f9fe249fed5dc9ae, type: 3}
+      propertyPath: PawnAndKnightPiece.Array.data[6]
+      value: 
+      objectReference: {fileID: 6931133926701968798, guid: da08d4da8aae30349aba0c9b47a54d61, type: 3}
+    - target: {fileID: 8260280371891513228, guid: 6e77047100c7b274f9fe249fed5dc9ae, type: 3}
+      propertyPath: PawnAndKnightPiece.Array.data[7]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8260280371891513228, guid: 6e77047100c7b274f9fe249fed5dc9ae, type: 3}
+      propertyPath: PawnAndKnightPiece.Array.data[8]
+      value: 
+      objectReference: {fileID: 2105344910545598611, guid: d2a10b49d2231ee46a160238e6dc7176, type: 3}
+    - target: {fileID: 8260280371891513228, guid: 6e77047100c7b274f9fe249fed5dc9ae, type: 3}
+      propertyPath: PawnAndKnightPiece.Array.data[9]
+      value: 
+      objectReference: {fileID: 2105344910545598611, guid: d2a10b49d2231ee46a160238e6dc7176, type: 3}
+    - target: {fileID: 8260280371891513228, guid: 6e77047100c7b274f9fe249fed5dc9ae, type: 3}
+      propertyPath: PawnAndKnightPiece.Array.data[10]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8260280371891513228, guid: 6e77047100c7b274f9fe249fed5dc9ae, type: 3}
+      propertyPath: PawnAndKnightPiece.Array.data[11]
+      value: 
+      objectReference: {fileID: 2105344910545598611, guid: d2a10b49d2231ee46a160238e6dc7176, type: 3}
+    - target: {fileID: 8260280371891513228, guid: 6e77047100c7b274f9fe249fed5dc9ae, type: 3}
+      propertyPath: PawnAndKnightPiece.Array.data[12]
+      value: 
+      objectReference: {fileID: 2105344910545598611, guid: d2a10b49d2231ee46a160238e6dc7176, type: 3}
+    - target: {fileID: 8260280371891513228, guid: 6e77047100c7b274f9fe249fed5dc9ae, type: 3}
+      propertyPath: PawnAndKnightPiece.Array.data[14]
+      value: 
+      objectReference: {fileID: 2105344910545598611, guid: d2a10b49d2231ee46a160238e6dc7176, type: 3}
+    - target: {fileID: 8260280371891513228, guid: 6e77047100c7b274f9fe249fed5dc9ae, type: 3}
+      propertyPath: PawnAndKnightPiece.Array.data[15]
+      value: 
+      objectReference: {fileID: 2105344910545598611, guid: d2a10b49d2231ee46a160238e6dc7176, type: 3}
+    - target: {fileID: 8260280371891513228, guid: 6e77047100c7b274f9fe249fed5dc9ae, type: 3}
+      propertyPath: PawnAndKnightPiece.Array.data[22]
+      value: 
+      objectReference: {fileID: 6374707855436061919, guid: 5a6e7cdad2d7c9741ab3757e82c9ee25, type: 3}
+    - target: {fileID: 8260280371891513228, guid: 6e77047100c7b274f9fe249fed5dc9ae, type: 3}
+      propertyPath: PawnAndKnightPiece.Array.data[34]
+      value: 
+      objectReference: {fileID: 2105344910545598611, guid: d2a10b49d2231ee46a160238e6dc7176, type: 3}
+    - target: {fileID: 8260280371891513228, guid: 6e77047100c7b274f9fe249fed5dc9ae, type: 3}
+      propertyPath: PawnAndKnightPiece.Array.data[36]
+      value: 
+      objectReference: {fileID: 6374707855436061919, guid: 5a6e7cdad2d7c9741ab3757e82c9ee25, type: 3}
+    - target: {fileID: 8260280371891513228, guid: 6e77047100c7b274f9fe249fed5dc9ae, type: 3}
+      propertyPath: PawnAndKnightPiece.Array.data[42]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8260280371891513228, guid: 6e77047100c7b274f9fe249fed5dc9ae, type: 3}
+      propertyPath: PawnAndKnightPiece.Array.data[48]
+      value: 
+      objectReference: {fileID: 6374707855436061919, guid: 5a6e7cdad2d7c9741ab3757e82c9ee25, type: 3}
+    - target: {fileID: 8260280371891513228, guid: 6e77047100c7b274f9fe249fed5dc9ae, type: 3}
+      propertyPath: PawnAndKnightPiece.Array.data[49]
+      value: 
+      objectReference: {fileID: 6374707855436061919, guid: 5a6e7cdad2d7c9741ab3757e82c9ee25, type: 3}
+    - target: {fileID: 8260280371891513228, guid: 6e77047100c7b274f9fe249fed5dc9ae, type: 3}
+      propertyPath: PawnAndKnightPiece.Array.data[50]
+      value: 
+      objectReference: {fileID: 6374707855436061919, guid: 5a6e7cdad2d7c9741ab3757e82c9ee25, type: 3}
+    - target: {fileID: 8260280371891513228, guid: 6e77047100c7b274f9fe249fed5dc9ae, type: 3}
+      propertyPath: PawnAndKnightPiece.Array.data[51]
+      value: 
+      objectReference: {fileID: 6374707855436061919, guid: 5a6e7cdad2d7c9741ab3757e82c9ee25, type: 3}
+    - target: {fileID: 8260280371891513228, guid: 6e77047100c7b274f9fe249fed5dc9ae, type: 3}
+      propertyPath: PawnAndKnightPiece.Array.data[53]
+      value: 
+      objectReference: {fileID: 6374707855436061919, guid: 5a6e7cdad2d7c9741ab3757e82c9ee25, type: 3}
+    - target: {fileID: 8260280371891513228, guid: 6e77047100c7b274f9fe249fed5dc9ae, type: 3}
+      propertyPath: PawnAndKnightPiece.Array.data[55]
+      value: 
+      objectReference: {fileID: 2105344910545598611, guid: d2a10b49d2231ee46a160238e6dc7176, type: 3}
+    - target: {fileID: 8260280371891513228, guid: 6e77047100c7b274f9fe249fed5dc9ae, type: 3}
+      propertyPath: PawnAndKnightPiece.Array.data[57]
+      value: 
+      objectReference: {fileID: 643328333909121127, guid: 7fedfafde506e3c499fc2b0bfd6ce816, type: 3}
+    - target: {fileID: 8260280371891513228, guid: 6e77047100c7b274f9fe249fed5dc9ae, type: 3}
+      propertyPath: PawnAndKnightPiece.Array.data[62]
+      value: 
+      objectReference: {fileID: 643328333909121127, guid: 7fedfafde506e3c499fc2b0bfd6ce816, type: 3}
     - target: {fileID: 8260280371891513229, guid: 6e77047100c7b274f9fe249fed5dc9ae, type: 3}
       propertyPath: m_Name
       value: TutorialManager

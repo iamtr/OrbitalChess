@@ -19,19 +19,24 @@ public class InputManager : MonoBehaviour
 	/// <param name="col"></param>
 	public static void HandleColliderClicked(Collider2D col)
 	{
-		if (col.gameObject.CompareTag("Highlight Square"))
+		if (col == null)
+		{
+			BoardController.i.UnhighlightAllSqaures();
+		}
+		
+		else if (col.gameObject.CompareTag("Highlight Square"))
 		{
 			BoardController.i.HandleHighlightSquareClicked(col);
 		}
 
-		if (col.gameObject.CompareTag("Piece") 
+		else if (col.gameObject.CompareTag("Piece") 
 			&& col.GetComponent<Piece>().Player == GameController.GetCurrPlayer()
 			&& GameController.GetGameState() == GameState.Play)
 		{
 			BoardController.i.HandlePieceClicked(col);
 		}
 
-		if (col.gameObject.CompareTag("Promotion Button") && GameController.GetGameState() == GameState.Promoting)
+		else if (col.gameObject.CompareTag("Promotion Button") && GameController.GetGameState() == GameState.Promoting)
 		{
 			BoardController.i.HandlePromotionButtonClicked(col);
 		}

@@ -29,9 +29,9 @@ public class Pawn : Piece, IPromotable
 
     public override List<Move> GetLegalMoves()
     {
-        List<Move> moves = new List<Move>();
+		moves.Clear();
 
-        int direction = (Player == PlayerType.Black) ? 1 : -1;
+		int direction = (Player == PlayerType.Black) ? 1 : -1;
         int newY = currY + direction;
 
         if (IsLegalMove(currX, newY, this))
@@ -41,19 +41,17 @@ public class Pawn : Piece, IPromotable
 
 		if (!hasMoved && !BoardController.i.IsOccupied(BoardController.i.ConvertToPos(currX, newY + direction)))
 		{
-			moves.Add(new Move(CurrPos, BoardController.i.ConvertToPos(currX, newY), this, Move.Flag.PawnTwoForward));
+			moves.Add(new Move(CurrPos, BoardController.i.ConvertToPos(currX, newY + direction), this, Move.Flag.PawnTwoForward));
 		}
 
-		moves.AddRange(GetEnPassantMoves(direction));
-        moves.AddRange(GetPawnDiagonalMoves(direction));
+		GetEnPassantMoves(direction);
+        GetPawnDiagonalMoves(direction);
 
         return moves;
     }
 
-    public List<Move> GetEnPassantMoves(int direction)
+    public void GetEnPassantMoves(int direction)
     {
-        List<Move> moves = new List<Move>();
-
         int rightX = currX + 1;
         int leftX = currX - 1;
         int newY = currY + direction;
@@ -84,14 +82,10 @@ public class Pawn : Piece, IPromotable
 			//ep.SetHighlightEnPassant(leftX, newY);
 			moves.Add(new Move(CurrPos, pos, this, Move.Flag.EnPassantCapture));
 		}
-
-        return moves;
     }
 
-	public List<Move> GetPawnDiagonalMoves(int direction)
+	public void GetPawnDiagonalMoves(int direction)
 	{
-        List<Move> moves = new List<Move>();
-
 		int rightX = currX + 1;
 		int leftX = currX - 1;
 		int newY = currY + direction;
@@ -115,8 +109,6 @@ public class Pawn : Piece, IPromotable
             int pos = BoardController.i.ConvertToPos(leftX, newY);
 			moves.Add(new Move(CurrPos, pos, this));
 		}
-
-        return moves;
 	}
 
 	public override bool IsLegalMove(int x, int y, Piece p)

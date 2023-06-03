@@ -20,7 +20,7 @@ public class Knight : Piece
 
 	public override List<Move> GetLegalMoves()
 	{
-		List<Move> moves = new List<Move>();
+		moves.Clear();
 
 		for (int i = 0; i < deltas.GetLength(0); i++)
 		{

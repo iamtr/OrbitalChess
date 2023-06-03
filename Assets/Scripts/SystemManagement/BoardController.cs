@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -136,13 +137,27 @@ public class BoardController : MonoBehaviour
 	/// <param name="x"></param>
 	/// <param name="y"></param>
 	/// <param name="currPiece">The current piece chosen by player</param>
-	public void Highlight(int x, int y, Piece currPiece)
+	public void Highlight(Move move)
 	{
-		int pos = i.ConvertToPos(x, y);
-		if (pieces[pos] == null)
-			SetHighlightColor(pos, Color.blue);
-		else if (pieces[pos]?.Player != currPiece.Player) 
-			SetHighlightColor(pos, Color.red);
+		int pos = move.TargetSquare;
+		int flag = move.MoveFlag;
+
+		switch (flag)
+		{
+			case Move.Flag.Castling:
+				SetHighlightColor(CurrPiece.CurrPos, Color.green);
+				SetHighlightColor(pos, Color.green);
+				break;
+			case Move.Flag.EnPassantCapture:
+				SetHighlightColor(pos, Color.yellow);
+				break;
+			default:
+				if (pieces[pos] == null)
+					SetHighlightColor(pos, Color.blue);
+				else if (pieces[pos]?.Player != CurrPiece.Player)
+					SetHighlightColor(pos, Color.red);
+				break;
+		}
 	}
 
 	/// <summary>
@@ -354,7 +369,10 @@ public class BoardController : MonoBehaviour
 		UnhighlightAllSqaures();
 		UIManager.i.UnhighlightAllPromotingButtons();
 		CurrPiece = col.GetComponent<Piece>();
-		CurrPiece.GetLegalMoves();
+		List<Move> moves = CurrPiece.GetLegalMoves();
+
+		foreach(Move move in moves) Highlight(move);
+		
 	}
 
 	/// <summary>

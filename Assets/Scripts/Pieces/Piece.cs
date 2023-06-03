@@ -7,6 +7,8 @@ public abstract class Piece : MonoBehaviour
 	[SerializeField] protected int currX;
 	[SerializeField] protected int currY;
 
+	protected List<Move> moves = new List<Move>();
+
 	/// <summary>
 	/// Current position, from 0 - 63
 	/// </summary>

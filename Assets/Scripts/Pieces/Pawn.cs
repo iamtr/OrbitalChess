@@ -171,12 +171,6 @@ public class Pawn : Piece, IPromotable
         Destroy(this.gameObject);
     }
 
-	public void Promote(Piece newPiece)
-	{
-		BoardController.i.InstantiatePiece(newPiece, CurrPos);
-		Destroy(this.gameObject);
-	}
-
 	/// <summary>
 	/// Checks whether the opponent piece is able to be en passant-ed
 	/// </summary>
@@ -189,5 +183,10 @@ public class Pawn : Piece, IPromotable
             if (pawn.JustMoved && pawn.TwoStep) return true;
         }
         return false;
+    }
+
+    public bool IsAvailableForPromotion()
+    {
+        return (this.Player == PlayerType.Black && this.currY == 7) || (this.Player == PlayerType.White && this.currY == 0);   
     }
 }

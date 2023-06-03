@@ -4,6 +4,5 @@ using UnityEngine;
 
 public interface IPromotable
 { 
-	bool IsAvailableForPromotion();
 	void Promote(Piece newPiece);
 }

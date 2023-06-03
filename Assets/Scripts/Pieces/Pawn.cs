@@ -173,7 +173,7 @@ public class Pawn : Piece, IPromotable
 
 	public void Promote(Piece newPiece)
 	{
-		bc.InstantiatePiece(newPiece, CurrPos);
+		BoardController.i.InstantiatePiece(newPiece, CurrPos);
 		Destroy(this.gameObject);
 	}
 

@@ -9,7 +9,7 @@ public class Knight : Piece
 	public override bool IsLegalMove(int x, int y, Piece p) 
 	{
 		int pos = y * 8 + x;
-		if (!BoardController.IsInBounds(x, y) || bc.IsSamePlayer(this.CurrPos, pos))
+		if (!BoardController.i.IsInBounds(x, y) || BoardController.i.IsSamePlayer(this.CurrPos, pos))
 		{
 			return false;
 		}
@@ -27,7 +27,7 @@ public class Knight : Piece
 
 			if (IsLegalMove(currX + deltaX, currY + deltaY, this))
 			{
-				bc.Highlight(currX + deltaX, currY + deltaY, this);
+				BoardController.i.Highlight(currX + deltaX, currY + deltaY, this);
 			}
 		}
 	}

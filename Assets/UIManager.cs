@@ -13,7 +13,13 @@ public class UIManager : MonoBehaviour
     private Transform promotionButtonTransform;
     private readonly int promotingNumber = 4;
 
-    private void Start()
+    public static UIManager i { get; set; }
+
+	public void Awake()
+	{
+		i = this;
+	}
+	private void Start()
     {
         promotionButtonTransform = GameObject.Find("Promotion Buttons").transform;
         //promotingBlack = new PromotionButton[promotingNumber];

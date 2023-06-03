@@ -3,8 +3,6 @@ using UnityEngine;
 
 public abstract class Piece : MonoBehaviour 
 {
-	[SerializeField] public BoardController bc;
-	[SerializeField] protected UIManager UIManager;
 	[SerializeField] protected int currX;
 	[SerializeField] protected int currY;
 
@@ -35,8 +33,6 @@ public abstract class Piece : MonoBehaviour
 
 	private void Awake()
 	{
-		bc = GameObject.Find("Board").GetComponent<BoardController>();
-		UIManager = GameObject.Find("UIManager").GetComponent<UIManager>();
 		InitPiece(Player);
 	}
 

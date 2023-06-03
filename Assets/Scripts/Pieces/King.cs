@@ -22,19 +22,19 @@ public class King : Piece
 				int y = currY + i * dy;
 				int pos = y * 8 + x;
 				if (!IsLegalMove(x, y, this)) break;
-				bc.Highlight(x, y, this);
-				if (bc.IsOccupied(pos) && !bc.IsSamePlayer(this.CurrPos, pos)) break;
+				BoardController.i.Highlight(x, y, this);
+				if (BoardController.i.IsOccupied(pos) && !BoardController.i.IsSamePlayer(this.CurrPos, pos)) break;
 			}
 		}
 
-		HighlightDirection(bc, currX, currY, 1, 1, 1);
-		HighlightDirection(bc, currX, currY, -1, 1, 1);
-		HighlightDirection(bc, currX, currY, 1, -1, 1);
-		HighlightDirection(bc, currX, currY, -1, -1, 1);
-		HighlightDirection(bc, currX, currY, 1, 0, 1); // Right
-		HighlightDirection(bc, currX, currY, -1, 0, 1); // Left
-		HighlightDirection(bc, currX, currY, 0, 1, 1); // Up
-		HighlightDirection(bc, currX, currY, 0, -1, 1); // Down
+		HighlightDirection(BoardController.i, currX, currY, 1, 1, 1);
+		HighlightDirection(BoardController.i, currX, currY, -1, 1, 1);
+		HighlightDirection(BoardController.i, currX, currY, 1, -1, 1);
+		HighlightDirection(BoardController.i, currX, currY, -1, -1, 1);
+		HighlightDirection(BoardController.i, currX, currY, 1, 0, 1); // Right
+		HighlightDirection(BoardController.i, currX, currY, -1, 0, 1); // Left
+		HighlightDirection(BoardController.i, currX, currY, 0, 1, 1); // Up
+		HighlightDirection(BoardController.i, currX, currY, 0, -1, 1); // Down
 		HighlightCastling();
 	}
 
@@ -45,13 +45,13 @@ public class King : Piece
 		int rightDirection = 1;
 		if (IsAbleToCastling(leftDirection))
         {
-			int pos = BoardController.ConvertToPos(0, currY);
+			int pos = BoardController.i.ConvertToPos(0, currY);
 			BoardController.i.SetHighlightColor(pos, Color.green);
 		}
 			
 		if (IsAbleToCastling(rightDirection))
 		{
-			int pos = BoardController.ConvertToPos(7, currY);
+			int pos = BoardController.i.ConvertToPos(7, currY);
 			BoardController.i.SetHighlightColor(pos, Color.green);
 		}
 	}
@@ -63,8 +63,8 @@ public class King : Piece
 		while (true)
 		{
 			x += direction;
-			int pos = BoardController.ConvertToPos(x, currY);
-			if (!BoardController.IsInBounds(x, currY)) return false;
+			int pos = BoardController.i.ConvertToPos(x, currY);
+			if (!BoardController.i.IsInBounds(x, currY)) return false;
 			Piece piece = BoardController.i.GetPieceFromPos(pos);
 			if (piece != null)
 			{
@@ -82,7 +82,7 @@ public class King : Piece
 	public override bool IsLegalMove(int x, int y, Piece p)
 	{
 		int pos = y * 8 + x;
-		if (!BoardController.IsInBounds(x, y) || bc.IsSamePlayer(this.CurrPos, pos))
+		if (!BoardController.i.IsInBounds(x, y) || BoardController.i.IsSamePlayer(this.CurrPos, pos))
 		{
 			return false;
 		}

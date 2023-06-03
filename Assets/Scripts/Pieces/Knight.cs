@@ -18,8 +18,10 @@ public class Knight : Piece
 
 	}
 
-	public override void GetAvailableMoves()
+	public override List<Move> GetLegalMoves()
 	{
+		List<Move> moves = new List<Move>();
+
 		for (int i = 0; i < deltas.GetLength(0); i++)
 		{
 			int deltaX = deltas[i, 0];
@@ -27,8 +29,12 @@ public class Knight : Piece
 
 			if (IsLegalMove(currX + deltaX, currY + deltaY, this))
 			{
-				BoardController.i.Highlight(currX + deltaX, currY + deltaY, this);
+				// BoardController.i.Highlight(currX + deltaX, currY + deltaY, this);
+				int newPos = BoardController.i.ConvertToPos(currX + deltaX, currY + deltaY);
+				moves.Add(new Move(CurrPos, newPos, this));
 			}
 		}
+
+		return moves;
 	}
 }

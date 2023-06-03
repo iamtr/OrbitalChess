@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Piece : MonoBehaviour 
@@ -47,7 +48,7 @@ public abstract class Piece : MonoBehaviour
 	/// <summary>
 	/// Calculates all available moves for this piece and highlights them
 	/// </summary>
-	public abstract void GetAvailableMoves();
+	public abstract List<Move> GetLegalMoves();
 
 	/// <summary>
 	/// Checks if the move is legal

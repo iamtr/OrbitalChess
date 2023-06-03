@@ -354,7 +354,7 @@ public class BoardController : MonoBehaviour
 		UnhighlightAllSqaures();
 		UIManager.i.UnhighlightAllPromotingButtons();
 		CurrPiece = col.GetComponent<Piece>();
-		CurrPiece.GetAvailableMoves();
+		CurrPiece.GetLegalMoves();
 	}
 
 	/// <summary>
@@ -397,6 +397,8 @@ public class BoardController : MonoBehaviour
 	{
 		return player == PlayerType.Black ? promotionBlackList[id] : promotionWhiteList[id];
 	}
+
+
 
 	public void SetHighLightSpecial(HighlightSquare highlight, SpecialMove specialMove)
 	{

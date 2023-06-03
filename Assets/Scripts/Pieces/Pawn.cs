@@ -27,28 +27,33 @@ public class Pawn : Piece, IPromotable
     //    //Destroy(turnCountdown.gameObject);
     //}
 
-    public override void GetAvailableMoves()
+    public override List<Move> GetLegalMoves()
     {
+        List<Move> moves = new List<Move>();
+
         int direction = (Player == PlayerType.Black) ? 1 : -1;
         int newY = currY + direction;
 
         if (IsLegalMove(currX, newY, this))
         {
-            BoardController.i.Highlight(currX, newY, this);
-
-            if (!hasMoved && !BoardController.i.IsOccupied(BoardController.i.ConvertToPos(currX, newY + direction)))
-            {
-                BoardController.i.Highlight(currX, newY + direction, this);
-            }
+            moves.Add(new Move(CurrPos, BoardController.i.ConvertToPos(currX, newY), this));
         }
 
-        HighlightEnPassant(direction);
-        HighlightPawnDiagonals(direction);
-        
+		if (!hasMoved && !BoardController.i.IsOccupied(BoardController.i.ConvertToPos(currX, newY + direction)))
+		{
+			moves.Add(new Move(CurrPos, BoardController.i.ConvertToPos(currX, newY), this, Move.Flag.PawnTwoForward));
+		}
+
+		moves.AddRange(GetEnPassantMoves(direction));
+        moves.AddRange(GetPawnDiagonalMoves(direction));
+
+        return moves;
     }
 
-    public void HighlightEnPassant(int direction)
+    public List<Move> GetEnPassantMoves(int direction)
     {
+        List<Move> moves = new List<Move>();
+
         int rightX = currX + 1;
         int leftX = currX - 1;
         int newY = currY + direction;
@@ -61,8 +66,12 @@ public class Pawn : Piece, IPromotable
             && CheckEnPassant(rightPiece))
         {
             int pos = BoardController.i.ConvertToPos(rightX, newY);
-            BoardController.i.SetHighlightColor(pos, Color.yellow);
+
+            // TODO
+            // BoardController.i.SetHighlightColor(pos, Color.yellow);
             //ep.SetHighlightEnPassant(rightX, newY);
+
+            moves.Add(new Move(CurrPos, pos, this, Move.Flag.EnPassantCapture));
         }
 
         if (BoardController.i.IsLegalMove(leftX, newY, this)
@@ -71,12 +80,46 @@ public class Pawn : Piece, IPromotable
             && CheckEnPassant(leftPiece))
         {
             int pos = BoardController.i.ConvertToPos(leftX, newY);
-            BoardController.i.SetHighlightColor(pos, Color.yellow);
-            //ep.SetHighlightEnPassant(leftX, newY);
-        }
+            //BoardController.i.SetHighlightColor(pos, Color.yellow);
+			//ep.SetHighlightEnPassant(leftX, newY);
+			moves.Add(new Move(CurrPos, pos, this, Move.Flag.EnPassantCapture));
+		}
+
+        return moves;
     }
 
-    public override bool IsLegalMove(int x, int y, Piece p)
+	public List<Move> GetPawnDiagonalMoves(int direction)
+	{
+        List<Move> moves = new List<Move>();
+
+		int rightX = currX + 1;
+		int leftX = currX - 1;
+		int newY = currY + direction;
+		Piece rightPiece = BoardController.i.GetPieceFromPos(BoardController.i.ConvertToPos(rightX, newY));
+		Piece leftPiece = BoardController.i.GetPieceFromPos(BoardController.i.ConvertToPos(leftX, newY));
+
+		if (BoardController.i.IsLegalMove(rightX, newY, this)
+			&& rightPiece != null
+			&& rightPiece.Player != this.Player)
+		{
+            // BoardController.i.Highlight(rightX, newY, this);
+            int pos = BoardController.i.ConvertToPos(rightX, newY);
+            moves.Add(new Move(CurrPos, pos, this));
+		}
+
+		if (BoardController.i.IsLegalMove(leftX, newY, this)
+			&& leftPiece != null
+			&& leftPiece.Player != this.Player)
+		{
+            // BoardController.i.Highlight(leftX, newY, this);
+            int pos = BoardController.i.ConvertToPos(leftX, newY);
+			moves.Add(new Move(CurrPos, pos, this));
+		}
+
+        return moves;
+	}
+
+	public override bool IsLegalMove(int x, int y, Piece p)
     {
         int pos = y * 8 + x;
         if (!BoardController.i.IsInBounds(x, y) || BoardController.i.IsSamePlayer(this.CurrPos, pos) || BoardController.i.IsOccupied(BoardController.i.ConvertToPos(x, y)))
@@ -87,28 +130,6 @@ public class Pawn : Piece, IPromotable
         return true;
     }
 
-    public void HighlightPawnDiagonals(int direction)
-    {
-        int rightX = currX + 1;
-        int leftX = currX - 1;
-        int newY = currY + direction;
-        Piece rightPiece = BoardController.i.GetPieceFromPos(BoardController.i.ConvertToPos(rightX, newY));
-        Piece leftPiece = BoardController.i.GetPieceFromPos(BoardController.i.ConvertToPos(leftX, newY));
-
-        if (BoardController.i.IsLegalMove(rightX, newY, this)
-            && rightPiece != null 
-            && rightPiece.Player != this.Player)
-        {
-            BoardController.i.Highlight(rightX, newY, this);
-        }
-
-        if (BoardController.i.IsLegalMove(leftX, newY, this)
-			&& leftPiece != null 
-            && leftPiece.Player != this.Player)
-        {
-            BoardController.i.Highlight(leftX, newY, this);
-        }
-    }
 
     public void SetPawnBoolean()
     {

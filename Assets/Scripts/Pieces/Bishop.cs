@@ -1,28 +1,37 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Bishop : Piece
 {
-	public override void GetAvailableMoves()
+	public override List<Move> GetLegalMoves()
 	{
-		void HighlightDirection(int dx, int dy, int maxDistance)
+		List<Move> moves = new List<Move>();
+
+		List<Move> GetMovesFromDirection(int dx, int dy, int maxDistance)
 		{
+			List<Move> m = new List<Move>();
+
 			for (int i = 1; i <= maxDistance; i++)
 			{
 				int x = currX + i * dx;
 				int y = currY + i * dy;
 				int pos = BoardController.i.ConvertToPos(x, y);
 				if (!IsLegalMove(x, y, this)) break;
-				BoardController.i.Highlight(x, y, this);
+				m.Add(new Move(CurrPos, pos, this));
 				if (BoardController.i.IsOccupied(pos) && !BoardController.i.IsSamePlayer(this.CurrPos, pos)) break;
 			}
+
+			return m;
 		}
 
-		HighlightDirection(1, 1, 8); 
-		HighlightDirection(-1, 1, 8); 
-		HighlightDirection(1, -1, 8); 
-		HighlightDirection(-1, -1, 8);
+		moves.AddRange(GetMovesFromDirection(1, 1, 8));
+		moves.AddRange(GetMovesFromDirection(1, -1, 8));
+		moves.AddRange(GetMovesFromDirection(-1, 1, 8));
+		moves.AddRange(GetMovesFromDirection(-1, -1, 8));
+
+		return moves;
 	}
 
 	public override bool IsLegalMove(int x, int y, Piece p)

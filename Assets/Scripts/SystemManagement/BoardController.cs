@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -30,8 +31,6 @@ public class BoardController : MonoBehaviour
 
 	private int turnCountdownID;
 	private int numOfPawns = 16;
-
-	[SerializeField] UIManager UIManager;
 
 	private Transform TurnCountdownTransform;
 	private Transform highlightTransform;
@@ -68,8 +67,6 @@ public class BoardController : MonoBehaviour
 
 		if (i != null && i != this) Destroy(this);
 		else i = this;
-		
-		InstantiatePieces();
 	}
 
 	/// <summary>
@@ -132,7 +129,7 @@ public class BoardController : MonoBehaviour
 		return IsInBounds(x, y) && pieces[pos]?.Player != p.Player;
 	}
 
-	public static bool IsInBounds(int x, int y)
+	public bool IsInBounds(int x, int y)
 	{
 		return x >= 0 && x < 8 && y >= 0 && y < 8;
 	}
@@ -156,13 +153,27 @@ public class BoardController : MonoBehaviour
 	/// <param name="x"></param>
 	/// <param name="y"></param>
 	/// <param name="currPiece">The current piece chosen by player</param>
-	public void Highlight(int x, int y, Piece currPiece)
+	public void Highlight(Move move)
 	{
-		int pos = ConvertToPos(x, y);
-		if (pieces[pos] == null)
-			SetHighlightColor(pos, Color.blue);
-		else if (pieces[pos]?.Player != currPiece.Player) 
-			SetHighlightColor(pos, Color.red);
+		int pos = move.TargetSquare;
+		int flag = move.MoveFlag;
+
+		switch (flag)
+		{
+			case Move.Flag.Castling:
+				SetHighlightColor(CurrPiece.CurrPos, Color.green);
+				SetHighlightColor(pos, Color.green);
+				break;
+			case Move.Flag.EnPassantCapture:
+				SetHighlightColor(pos, Color.yellow);
+				break;
+			default:
+				if (pieces[pos] == null)
+					SetHighlightColor(pos, Color.blue);
+				else if (pieces[pos]?.Player != CurrPiece.Player)
+					SetHighlightColor(pos, Color.red);
+				break;
+		}
 	}
 
 	/// <summary>
@@ -173,7 +184,7 @@ public class BoardController : MonoBehaviour
 	/// <param name="currPiece">The current piece chosen by player</param>
 	public void MovePiece(int x, int y, Piece piece)
 	{
-		int newPos = ConvertToPos(x, y);
+		int newPos = i.ConvertToPos(x, y);
 		int oldPos = piece.CurrPos;
 
 		piece.InvokeOnBeforeMove();
@@ -192,7 +203,7 @@ public class BoardController : MonoBehaviour
 	/// <param name="piece2"></param>
 	public void MoveTwoPieceSimutaneously(int x1, int y1, Piece piece1, int x2, int y2, Piece piece2)
     {
-		int newPos = ConvertToPos(x1, y1);
+		int newPos = i.ConvertToPos(x1, y1);
 		int oldPos = piece1.CurrPos;
 
 		piece1.InvokeOnBeforeMove();
@@ -205,9 +216,9 @@ public class BoardController : MonoBehaviour
 
 	public void MoveEnPassantPiece(int x, int y, Piece piece)
 	{
-		int newPos = ConvertToPos(x, y);
+		int newPos = i.ConvertToPos(x, y);
 		int oldPos = piece.CurrPos;
-		int enemyPos = ConvertToPos(x, ConvertToXY(oldPos)[1]);
+		int enemyPos = i.ConvertToPos(x, ConvertToXY(oldPos)[1]);
 
 		piece.InvokeOnBeforeMove();
 		piece.SetCoords(x, y);
@@ -220,7 +231,7 @@ public class BoardController : MonoBehaviour
 
 	public void MoveCastling(int x, int y, Piece piece)
 	{
-		Piece piece1 = GetPieceFromPos(ConvertToPos(x, y));
+		Piece piece1 = GetPieceFromPos(i.ConvertToPos(x, y));
 		int oldPos = piece.CurrPos;
 		int[] oldXY = ConvertToXY(oldPos);
 		int newX;
@@ -260,7 +271,7 @@ public class BoardController : MonoBehaviour
 	/// <param name="x"></param>
 	/// <param name="y"></param>
 	/// <returns></returns>
-	public static int ConvertToPos(int x, int y)
+	public int ConvertToPos(int x, int y)
 	{
 		return y * 8 + x;
 	}
@@ -372,9 +383,12 @@ public class BoardController : MonoBehaviour
 	public void HandlePieceClicked(Collider2D col)
 	{
 		UnhighlightAllSqaures();
-		UIManager.UnhighlightAllPromotingButtons();
+		UIManager.i.UnhighlightAllPromotingButtons();
 		CurrPiece = col.GetComponent<Piece>();
-		CurrPiece.GetAvailableMoves();
+		List<Move> moves = CurrPiece.GetLegalMoves();
+
+		foreach(Move move in moves) Highlight(move);
+		
 	}
 
 	/// <summary>
@@ -403,7 +417,7 @@ public class BoardController : MonoBehaviour
 		int id = col.GetComponent<PromotionButton>().id;
 		Piece promotedPiece = GetPromotionPiece(id, BoardController.i.CurrPiece.Player);
 		PromotePiece(promotedPiece);
-		UIManager.UnhighlightAllPromotingButtons();
+		UIManager.i.UnhighlightAllPromotingButtons();
 		GameController.SetGameState(GameState.Play);
 	}
 
@@ -417,6 +431,8 @@ public class BoardController : MonoBehaviour
 	{
 		return player == PlayerType.Black ? promotionBlackList[id] : promotionWhiteList[id];
 	}
+
+
 
 	public void SetHighLightSpecial(HighlightSquare highlight, SpecialMove specialMove)
 	{

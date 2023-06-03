@@ -45,7 +45,6 @@ public class GameController : MonoBehaviour
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Collider2D collider = Physics2D.OverlapPoint(mousePosition);
 
-            if (collider == null) return;
             InputManager.HandleColliderClicked(collider);
         }
     }

@@ -1,12 +1,13 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Piece : MonoBehaviour 
 {
-	[SerializeField] public BoardController bc;
-	[SerializeField] protected UIManager UIManager;
 	[SerializeField] protected int currX;
 	[SerializeField] protected int currY;
+
+	protected List<Move> moves = new List<Move>();
 
 	/// <summary>
 	/// Current position, from 0 - 63
@@ -38,8 +39,6 @@ public abstract class Piece : MonoBehaviour
 
 	private void Awake()
 	{
-		bc = GameObject.Find("Board").GetComponent<BoardController>();
-		UIManager = GameObject.Find("UIManager").GetComponent<UIManager>();
 		InitPiece(Player);
 	}
 
@@ -54,7 +53,7 @@ public abstract class Piece : MonoBehaviour
 	/// <summary>
 	/// Calculates all available moves for this piece and highlights them
 	/// </summary>
-	public abstract void GetAvailableMoves();
+	public abstract List<Move> GetLegalMoves();
 
 	/// <summary>
 	/// Checks if the move is legal

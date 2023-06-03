@@ -1,34 +1,39 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Bishop : Piece
 {
-	public override void GetAvailableMoves()
+	public override List<Move> GetLegalMoves()
 	{
-		void HighlightDirection(int dx, int dy, int maxDistance)
+		moves.Clear();
+
+		void GetMovesFromDirection(int dx, int dy, int maxDistance)
 		{
 			for (int i = 1; i <= maxDistance; i++)
 			{
 				int x = currX + i * dx;
 				int y = currY + i * dy;
-				int pos = BoardController.ConvertToPos(x, y);
+				int pos = BoardController.i.ConvertToPos(x, y);
 				if (!IsLegalMove(x, y, this)) break;
-				bc.Highlight(x, y, this);
-				if (bc.IsOccupied(pos) && !bc.IsSamePlayer(this.CurrPos, pos)) break;
+				moves.Add(new Move(CurrPos, pos, this));
+				if (BoardController.i.IsOccupied(pos) && !BoardController.i.IsSamePlayer(this.CurrPos, pos)) break;
 			}
 		}
 
-		HighlightDirection(1, 1, 8); 
-		HighlightDirection(-1, 1, 8); 
-		HighlightDirection(1, -1, 8); 
-		HighlightDirection(-1, -1, 8);
+		GetMovesFromDirection(1, 1, 8);
+		GetMovesFromDirection(1, -1, 8);
+		GetMovesFromDirection(-1, 1, 8);
+		GetMovesFromDirection(-1, -1, 8);
+
+		return moves;
 	}
 
 	public override bool IsLegalMove(int x, int y, Piece p)
 	{
-		int pos = BoardController.ConvertToPos(x, y);
-		if (!BoardController.IsInBounds(x, y) || bc.IsSamePlayer(this.CurrPos, pos))
+		int pos = BoardController.i.ConvertToPos(x, y);
+		if (!BoardController.i.IsInBounds(x, y) || BoardController.i.IsSamePlayer(this.CurrPos, pos))
 		{
 			return false;
 		}

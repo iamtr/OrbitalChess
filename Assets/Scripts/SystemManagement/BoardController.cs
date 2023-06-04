@@ -40,6 +40,8 @@ public class BoardController : MonoBehaviour
 	private Transform highlightTransform;
 	private Transform pieceTransform;
 
+	public Piece[] testArray;
+
 	public int BlackKingPos { get;  set; }	
 	public int WhiteKingPos { get;  set; }
 
@@ -54,14 +56,14 @@ public class BoardController : MonoBehaviour
 	{
 		GameController.OnRoundEnd += UnhighlightAllSqaures;
 		//GameController.OnRoundEnd += InvokeEveryTimer;
-		GameController.OnRoundStart += SetJustMovedToFalse;
+		GameController.OnRoundStart += SetPawnBooleansToFalse;
 	}
 
 	private void OnDisable()
 	{
 		GameController.OnRoundEnd -= UnhighlightAllSqaures;
 		//GameController.OnRoundEnd -= InvokeEveryTimer;
-		GameController.OnRoundStart -= SetJustMovedToFalse;
+		GameController.OnRoundStart -= SetPawnBooleansToFalse;
 	}
 
 	private void Start()
@@ -69,6 +71,8 @@ public class BoardController : MonoBehaviour
 		highlightTransform = GameObject.Find("Highlight Squares")?.transform;
 		pieceTransform = GameObject.Find("Pieces")?.transform;
 		TurnCountdownTransform = GameObject.Find("TurnCountdowns")?.transform;
+
+		testArray = pieces.Clone() as Piece[];
 
 		InstantiatePieces();
 
@@ -230,25 +234,37 @@ public class BoardController : MonoBehaviour
 		SetPiecePos(piece.CurrPos, newPos);
 	}
 
-	public void MovePiece(Move move)
-	{
-		int oldPos = move.StartSquare;
-		int newPos = move.TargetSquare;
-		Piece piece = pieces[oldPos];
+	//public void MovePiece(Move move)
+	//{
+	//	int oldPos = move.StartSquare;
+	//	int newPos = move.TargetSquare;
+	//	Piece piece = pieces[oldPos];
+	//	int flag = move.MoveFlag;
 
-		if (piece == null) Debug.Log($"Piece at MovePiece() at {oldPos} is null! Tried to move a null piece.");
-		SetPiecePos(piece.CurrPos, newPos);
-	}
+	//	if (piece == null) Debug.Log($"Piece at MovePiece() at {oldPos} is null! Tried to move a null piece.");
+
+	//	switch (flag)
+	//	{
+	//		case Move.Flag.Castling:
+	//			MoveCastling(x, y, piece);
+	//			break;
+	//		case Move.Flag.EnPassantCapture:
+	//			MoveEnPassantPiece(x, y, piece);
+	//			break;
+	//		default:
+	//			SetPiecePos(piece.CurrPos, newPos);
+	//			break;
+	//	}
+	//}
 
 
 	public void MoveEnPassantPiece(int x, int y, Piece piece)
 	{
-		int newPos = i.ConvertToPos(x, y);
-		int enemyPos = i.ConvertToPos(x, ConvertToXY(piece.CurrPos)[1]);
+		int newPos = ConvertToPos(x, y);
+		int enemyPos = ConvertToPos(x, ConvertToXY(piece.CurrPos)[1]);
 
 		DestroyPiece(enemyPos);
 		SetPiecePos(piece.CurrPos, newPos);
-
 	}
 
 	public void MoveCastling(int x, int y, Piece piece)
@@ -450,7 +466,10 @@ public class BoardController : MonoBehaviour
 		highlight.Special = specialMove;
 	}
 
-	public void SetJustMovedToFalse()
+	/// <summary>
+	/// Sets the pawn JustMoved and TwoStep booleans to false
+	/// </summary>
+	public void SetPawnBooleansToFalse()
 	{
 		foreach (Piece piece in pieces)
 		{
@@ -465,37 +484,92 @@ public class BoardController : MonoBehaviour
 		}
 	}
 
-	public bool IsCheckAfterMove(PlayerType p)
+	public bool IsCheckAfterMove()
 	{
 		List<Move> allMoves = new List<Move>();
 
 		foreach(Piece piece in pieces)
 		{
-			if (piece.Player == p)
+			if (piece.Player == GameController.GetCurrPlayer())
 			{
 				allMoves.AddRange(piece.GetLegalMoves());
 			}
 		}
 
-		return allMoves.Any(move => move.TargetSquare == GetOpponentKingPosition());
+		bool temp = allMoves.Any(move => move.TargetSquare == GetOpponentKingPosition());
+		Debug.Log("Is Check : " + temp);
+		return temp;
 	}
 
-	public void SimulateMovePiece(Move move, PlayerType p)
+	public void UpdateTestArray(Move move, PlayerType p)
 	{
 		int oldPos = move.StartSquare;
 		int newPos = move.TargetSquare;
-		Piece piece = pieces[oldPos];
+		Piece piece = move.Piece;
+		int flag = move.MoveFlag;
 
-		Piece[] testArray = pieces;
+		testArray = pieces.Clone() as Piece[];
 
-		if (piece == null) Debug.Log($"Piece at {oldPos} is null");
+		switch (flag)
+		{
+			case Move.Flag.EnPassantCapture:
+				int temp = p == PlayerType.Black ? newPos - 8 : newPos + 8;
+				testArray[newPos] = testArray[oldPos];
+				testArray[oldPos] = null;
+				testArray[temp] = null;
+				break;
 
-		piece.InvokeOnBeforeMove();
-		piece.SetCoords(newPos);
-		DestroyPiece(newPos);
-		SetPiecePos(piece.CurrPos, newPos);
-		pieces[oldPos] = null;
-		piece.InvokeOnAfterMove();
+			case Move.Flag.Castling:
+				if (newPos == 2 || newPos == 58)
+				{
+					testArray[newPos] = testArray[oldPos];
+					testArray[oldPos] = null;
+					testArray[newPos + 1] = testArray[newPos - 2];
+					testArray[newPos - 2] = null;
+				} 
+				else if (newPos == 6 || newPos == 61)
+				{
+					testArray[newPos] = testArray[oldPos];
+					testArray[oldPos] = null;
+					testArray[newPos - 1] = testArray[newPos + 1];
+					testArray[newPos + 1] = null;
+				}
+				else
+				{
+					Debug.Log("Error on PieceArrayAfterSimulatedMove");
+				}
+				break;
+			default:
+				if (piece == null) Debug.Log($"Piece at {oldPos} is null");
+
+				testArray[newPos] = pieces[oldPos];
+				testArray[oldPos] = null;
+				break;
+		}
+	}
+
+	public bool IsBeingCheckedAfterMove(Move move)
+	{
+		UpdateTestArray(move, GameController.GetCurrPlayer());
+
+		List<Move> allMoves = new List<Move>();
+
+		foreach (Piece piece in testArray)
+		{
+			if (piece == null || piece.Player == GameController.GetCurrPlayer()) continue;
+			allMoves.AddRange(piece.GetLegalMoves());
+
+		}
+
+		bool temp = allMoves.Any(move => move.TargetSquare == GetOwnKingPosition());
+		Debug.Log("Is Being Checked : " + temp);
+		return temp;
+
+	}
+
+	public int GetOwnKingPosition()
+	{
+		return GameController.GetCurrPlayer() == PlayerType.White ? WhiteKingPos : BlackKingPos;
 	}
 
 	public int GetOpponentKingPosition()

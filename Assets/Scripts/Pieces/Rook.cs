@@ -10,10 +10,19 @@ public class Rook : Piece
 	/// </summary>
 	private bool hasMoved = false;
 
+	private void OnEnable()
+	{
+		OnAfterMove += SetRookBoolean;
+	}
+
+	private void OnDisable()
+	{
+		OnAfterMove -= SetRookBoolean;
+	}
+
 	public override void InitPiece(PlayerType p)
 	{
 		base.InitPiece(p);
-		OnAfterMove += SetRookBoolean;
 	}
 
 	public override List<Move> GetLegalMoves()
@@ -27,9 +36,11 @@ public class Rook : Piece
 				int x = currX + i * dx;
 				int y = currY + i * dy;
 				int pos = y * 8 + x;
-				if (!IsLegalMove(x, y, this)) break;
-				//BoardController.i.Highlight(x, y, this);
-				moves.Add(new Move(CurrPos, pos, this));
+
+				Move m = new Move(CurrPos, pos, this);
+
+				if (!IsLegalMove(m)) break;
+				moves.Add(m);
 				if (BoardController.i.IsOccupied(pos) && !BoardController.i.IsSamePlayer(this.CurrPos, pos)) break;
 			}
 		}
@@ -42,14 +53,10 @@ public class Rook : Piece
 		return moves;
 	}
 
-	public override bool IsLegalMove(int x, int y, Piece p)
+	public override bool IsLegalMove(Move move)
 	{
-		int pos = y * 8 + x;
-		if (!BoardController.i.IsInBounds(x, y) || BoardController.i.IsSamePlayer(this.CurrPos, pos))
-		{
-			return false;
-		} 
-
+		if (move.TargetSquare < 0 || move.TargetSquare > 63 || BoardController.i.IsSamePlayer(CurrPos, move.TargetSquare)) return false;
+		if (BoardController.i.IsBeingCheckedAfterMove(move)) return false;
 		return true;
 	}
 

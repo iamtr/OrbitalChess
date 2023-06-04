@@ -12,13 +12,23 @@ public class Pawn : Piece, IPromotable
     public bool JustMoved { get; set; } = false;
     public  bool TwoStep { get; set; } = false;
 
-    // private TurnCountdown turnCountdown;
-    
-    public override void InitPiece(PlayerType p)
+	// private TurnCountdown turnCountdown;
+
+	private void OnEnable()
+	{
+		OnAfterMove += CheckForPromotion;
+		OnAfterMove += SetPawnBoolean;
+	}
+
+	private void OnDisable()
+	{
+		OnAfterMove -= CheckForPromotion;
+		OnAfterMove -= SetPawnBoolean;
+	}
+
+	public override void InitPiece(PlayerType p)
     {
         base.InitPiece(p);
-        OnAfterMove += CheckForPromotion;
-        OnAfterMove += SetPawnBoolean;
         //turnCountdown = BoardController.i.InstantiateTurnCountdown();
     }
 
@@ -35,14 +45,18 @@ public class Pawn : Piece, IPromotable
 		int direction = (Player == PlayerType.Black) ? 1 : -1;
         int newY = currY + direction;
 
-        if (IsLegalMove(currX, newY, this))
+        Move m = new Move(CurrPos, BoardController.i.ConvertToPos(currX, newY), this);
+
+        if (IsLegalMove(m))
         {
-            moves.Add(new Move(CurrPos, BoardController.i.ConvertToPos(currX, newY), this));
+            moves.Add(m);
         }
 
-		if (!hasMoved && !BoardController.i.IsOccupied(BoardController.i.ConvertToPos(currX, newY + direction)))
+        m = new Move(CurrPos, BoardController.i.ConvertToPos(currX, newY + direction), this);
+
+		if (!hasMoved && IsLegalMove(m))
 		{
-			moves.Add(new Move(CurrPos, BoardController.i.ConvertToPos(currX, newY + direction), this, Move.Flag.PawnTwoForward));
+			moves.Add(m);
 		}
 
 		GetEnPassantMoves(direction);
@@ -69,8 +83,8 @@ public class Pawn : Piece, IPromotable
             // TODO
             // BoardController.i.SetHighlightColor(pos, Color.yellow);
             //ep.SetHighlightEnPassant(rightX, newY);
-
-            moves.Add(new Move(CurrPos, pos, this, Move.Flag.EnPassantCapture));
+            Move m = new Move(CurrPos, pos, this, Move.Flag.EnPassantCapture);
+            if (IsLegalMove(m)) moves.Add(m);
         }
 
         if (BoardController.i.IsLegalMove(leftX, newY, this)
@@ -81,7 +95,8 @@ public class Pawn : Piece, IPromotable
             int pos = BoardController.i.ConvertToPos(leftX, newY);
             //BoardController.i.SetHighlightColor(pos, Color.yellow);
 			//ep.SetHighlightEnPassant(leftX, newY);
-			moves.Add(new Move(CurrPos, pos, this, Move.Flag.EnPassantCapture));
+            Move m = new Move(CurrPos, pos, this, Move.Flag.EnPassantCapture);
+			if (IsLegalMove(m)) moves.Add(m);
 		}
     }
 
@@ -97,32 +112,20 @@ public class Pawn : Piece, IPromotable
 			&& rightPiece != null
 			&& rightPiece.Player != this.Player)
 		{
-            // BoardController.i.Highlight(rightX, newY, this);
             int pos = BoardController.i.ConvertToPos(rightX, newY);
-            moves.Add(new Move(CurrPos, pos, this));
+            Move m = new Move(CurrPos, pos, this);
+            if (IsLegalMove(m)) moves.Add(m);
 		}
 
 		if (BoardController.i.IsLegalMove(leftX, newY, this)
 			&& leftPiece != null
 			&& leftPiece.Player != this.Player)
 		{
-            // BoardController.i.Highlight(leftX, newY, this);
             int pos = BoardController.i.ConvertToPos(leftX, newY);
-			moves.Add(new Move(CurrPos, pos, this));
+            Move m = new Move(CurrPos, pos, this);
+			if (IsLegalMove(m)) moves.Add(m);
 		}
 	}
-
-	public override bool IsLegalMove(int x, int y, Piece p)
-    {
-        int pos = y * 8 + x;
-        if (!BoardController.i.IsInBounds(x, y) || BoardController.i.IsSamePlayer(this.CurrPos, pos) || BoardController.i.IsOccupied(BoardController.i.ConvertToPos(x, y)))
-        {
-            return false;
-        }
-
-        return true;
-    }
-
 
     /// <summary>
     /// Sets the hasMoved boolean and triggers the Turn Countdown 
@@ -189,4 +192,14 @@ public class Pawn : Piece, IPromotable
     {
         return (this.Player == PlayerType.Black && this.currY == 7) || (this.Player == PlayerType.White && this.currY == 0);   
     }
+
+    public override bool IsLegalMove(Move move)
+    {
+        if (move.TargetSquare < 0
+            || move.TargetSquare > 63
+            || BoardController.i.IsSamePlayer(CurrPos, move.TargetSquare)
+            || BoardController.i.IsOccupied(move.TargetSquare)) return false;
+		if (BoardController.i.IsBeingCheckedAfterMove(move)) return false;
+		return true;
+	}
 }

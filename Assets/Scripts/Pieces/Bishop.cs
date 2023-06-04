@@ -16,8 +16,9 @@ public class Bishop : Piece
 				int x = currX + i * dx;
 				int y = currY + i * dy;
 				int pos = BoardController.i.ConvertToPos(x, y);
-				if (!IsLegalMove(x, y, this)) break;
-				moves.Add(new Move(CurrPos, pos, this));
+				Move m = new Move(CurrPos, pos, this);
+				if (!IsLegalMove(m)) break;
+				moves.Add(m);
 				if (BoardController.i.IsOccupied(pos) && !BoardController.i.IsSamePlayer(this.CurrPos, pos)) break;
 			}
 		}
@@ -30,14 +31,10 @@ public class Bishop : Piece
 		return moves;
 	}
 
-	public override bool IsLegalMove(int x, int y, Piece p)
+	public override bool IsLegalMove(Move move)
 	{
-		int pos = BoardController.i.ConvertToPos(x, y);
-		if (!BoardController.i.IsInBounds(x, y) || BoardController.i.IsSamePlayer(this.CurrPos, pos))
-		{
-			return false;
-		}
-
+		if (move.TargetSquare < 0 || move.TargetSquare > 63 || BoardController.i.IsSamePlayer(CurrPos, move.TargetSquare)) return false;
+		if (BoardController.i.IsBeingCheckedAfterMove(move)) return false;
 		return true;
 	}
 }

@@ -11,10 +11,21 @@ public class King : Piece
 	/// </summary>
 	private bool hasMoved = false;
 
+	private void OnEnable()
+	{
+		OnAfterMove += SetKingBoolean;
+		OnAfterMove += UpdateKingPosition;
+	}
+
+	private void OnDisable()
+	{
+		OnAfterMove -= SetKingBoolean;
+		OnAfterMove -= UpdateKingPosition;
+	}
+
 	public override void InitPiece(PlayerType p)
 	{
 		base.InitPiece(p);
-		OnAfterMove += SetKingBoolean;
 	}
 
 	public override List<Move> GetLegalMoves()
@@ -31,7 +42,7 @@ public class King : Piece
 
 				Move m = new Move(CurrPos, pos, this);
 
-				if (!IsLegalMove(x, y, this)) break;
+				if (!IsLegalMove(m)) break;
 				moves.Add(m);
 				if (BoardController.i.IsOccupied(pos) && !BoardController.i.IsSamePlayer(this.CurrPos, pos)) break;
 			}
@@ -58,17 +69,15 @@ public class King : Piece
 		if (IsAbleToCastling(leftDirection))
         {
 			int pos = BoardController.i.ConvertToPos(0, currY);
-			moves.Add(new Move(CurrPos, pos, this, Move.Flag.Castling));
-			// TODO: Highlight
-			// BoardController.i.SetHighlightColor(pos, Color.green);
+			Move m = new Move(CurrPos, pos, this, Move.Flag.Castling);
+			if (IsLegalMove(m)) moves.Add(m);
 		}
 			
 		if (IsAbleToCastling(rightDirection))
 		{
 			int pos = BoardController.i.ConvertToPos(7, currY);
-			moves.Add(new Move(CurrPos, pos, this, Move.Flag.Castling));
-			// TODO: Highlight
-			// BoardController.i.SetHighlightColor(pos, Color.green);
+			Move m = new Move(CurrPos, pos, this, Move.Flag.Castling);
+			if (IsLegalMove(m)) moves.Add(m);
 		}
 
 		return moves;
@@ -98,22 +107,10 @@ public class King : Piece
 		return false;
 	}
 
-	public override bool IsLegalMove(int x, int y, Piece p)
+	public override bool IsLegalMove(Move move)
 	{
-		int pos = y * 8 + x;
-		if (!BoardController.i.IsInBounds(x, y) || BoardController.i.IsSamePlayer(this.CurrPos, pos))
-		{
-			return false;
-		}
-
-		return true;
-	}
-
-	public bool IsLegalMove(Move m)
-	{
-		if (m.TargetSquare > 63 || m.TargetSquare < 0 || BoardController.i.IsSamePlayer(this.CurrPos, m.TargetSquare)) return false;
-		BoardController.i.MovePiece(m);
-
+		if (move.TargetSquare < 0 || move.TargetSquare > 63 || BoardController.i.IsSamePlayer(CurrPos, move.TargetSquare)) return false;
+		if (BoardController.i.IsBeingCheckedAfterMove(move)) return false;
 		return true;
 	}
 
@@ -123,5 +120,11 @@ public class King : Piece
 	public void SetKingBoolean()
 	{
 		hasMoved = true;
+	}
+
+	public void UpdateKingPosition()
+	{
+		if (GameController.GetCurrPlayer() == PlayerType.Black) BoardController.i.BlackKingPos = CurrPos;
+		else BoardController.i.WhiteKingPos = CurrPos;
 	}
 }

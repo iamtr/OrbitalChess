@@ -6,16 +6,11 @@ public class Knight : Piece
 {
 	private int[,] deltas = new int[,] { { 1, 2 }, { 2, 1 }, { -1, 2 }, { -2, 1 }, { 1, -2 }, { 2, -1 }, { -1, -2 }, { -2, -1 } };
 
-	public override bool IsLegalMove(int x, int y, Piece p) 
+	public override bool IsLegalMove(Move move)
 	{
-		int pos = y * 8 + x;
-		if (!BoardController.i.IsInBounds(x, y) || BoardController.i.IsSamePlayer(this.CurrPos, pos))
-		{
-			return false;
-		}
-
+		if (move.TargetSquare < 0 || move.TargetSquare > 63 || BoardController.i.IsSamePlayer(CurrPos, move.TargetSquare)) return false;
+		if (BoardController.i.IsBeingCheckedAfterMove(move)) return false;
 		return true;
-
 	}
 
 	public override List<Move> GetLegalMoves()
@@ -26,12 +21,13 @@ public class Knight : Piece
 		{
 			int deltaX = deltas[i, 0];
 			int deltaY = deltas[i, 1];
+			int newPos = BoardController.i.ConvertToPos(currX + deltaX, currY + deltaY);
 
-			if (IsLegalMove(currX + deltaX, currY + deltaY, this))
+			Move m = new Move(CurrPos, newPos, this);
+
+			if (IsLegalMove(m))
 			{
-				// BoardController.i.Highlight(currX + deltaX, currY + deltaY, this);
-				int newPos = BoardController.i.ConvertToPos(currX + deltaX, currY + deltaY);
-				moves.Add(new Move(CurrPos, newPos, this));
+				moves.Add(m);
 			}
 		}
 

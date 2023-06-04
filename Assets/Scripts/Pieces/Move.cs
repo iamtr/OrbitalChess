@@ -104,5 +104,7 @@ public readonly struct Move
 			return moveValue == 0;
 		}
 	}
+
+	public Piece Piece => piece;
 }
 

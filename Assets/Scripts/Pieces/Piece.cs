@@ -58,7 +58,7 @@ public abstract class Piece : MonoBehaviour
 	/// <summary>
 	/// Checks if the move is legal
 	/// </summary>
-	public abstract bool IsLegalMove(int x, int y, Piece p);
+	public abstract bool IsLegalMove(Move m);
 
 	/// <summary>
 	/// Set the currX and currY values of this piece

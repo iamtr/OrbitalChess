@@ -19,7 +19,7 @@ public class GameController : MonoBehaviour
 
     public static event Action OnRoundStart;
     public static event Action OnRoundEnd;
-    public static event Action OnGameEnd;
+    //public static event Action OnGameEnd;
 
 	private void OnEnable()
 	{

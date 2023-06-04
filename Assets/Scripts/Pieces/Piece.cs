@@ -70,7 +70,14 @@ public abstract class Piece : MonoBehaviour
 		currY = y;
 		CurrPos = y * 8 + x;
 		transform.position = new Vector3(currX, currY, 2);
+	}
 
+	public void SetCoords(int pos)
+	{
+		currX = BoardController.ConvertToXY(pos)[0];
+		currY = BoardController.ConvertToXY(pos)[1];
+		CurrPos = pos;
+		transform.position = new Vector3(currX, currY, 2);
 	}
 	/// <summary>
 	/// Set the player type for this piece

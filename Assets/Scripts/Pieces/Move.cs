@@ -6,6 +6,8 @@ bit 0-5: from square (0 to 63)
 bit 6-11: to square (0 to 63)
 bit 12-15: flag
 */
+
+[System.Serializable]
 public readonly struct Move
 {
 

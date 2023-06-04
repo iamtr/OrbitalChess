@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class King : Piece
 {
@@ -27,8 +28,11 @@ public class King : Piece
 				int x = currX + i * dx;
 				int y = currY + i * dy;
 				int pos = y * 8 + x;
+
+				Move m = new Move(CurrPos, pos, this);
+
 				if (!IsLegalMove(x, y, this)) break;
-				moves.Add(new Move(CurrPos, pos, this));
+				moves.Add(m);
 				if (BoardController.i.IsOccupied(pos) && !BoardController.i.IsSamePlayer(this.CurrPos, pos)) break;
 			}
 		}
@@ -101,6 +105,14 @@ public class King : Piece
 		{
 			return false;
 		}
+
+		return true;
+	}
+
+	public bool IsLegalMove(Move m)
+	{
+		if (m.TargetSquare > 63 || m.TargetSquare < 0 || BoardController.i.IsSamePlayer(this.CurrPos, m.TargetSquare)) return false;
+		BoardController.i.MovePiece(m);
 
 		return true;
 	}

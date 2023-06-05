@@ -34,7 +34,7 @@ public class BoardController : MonoBehaviour
 	//[SerializeField] private TurnCountdown TurnCountdown;
 
 	private int turnCountdownID;
-	private int numOfPawns = 16;
+	// private int numOfPawns = 16;
 
 	private Transform TurnCountdownTransform;
 	private Transform highlightTransform;

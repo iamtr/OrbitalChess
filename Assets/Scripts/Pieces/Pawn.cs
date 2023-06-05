@@ -9,6 +9,8 @@ public class Pawn : Piece, IPromotable
     /// </summary>
     private bool hasMoved = false;
 
+	public List<Move> testMoves;
+
     public bool JustMoved { get; set; } = false;
     public  bool TwoStep { get; set; } = false;
 
@@ -49,14 +51,14 @@ public class Pawn : Piece, IPromotable
 
         Move m = new Move(CurrPos, BoardController.i.ConvertToPos(currX, newY), this);
 
-        if (IsLegalMove(m))
+        if (IsLegalMove(m) && !BoardController.i.IsOccupied(m.TargetSquare))
         {
             moves.Add(m);
         }
 
         m = new Move(CurrPos, BoardController.i.ConvertToPos(currX, newY + direction), this);
 
-		if (!hasMoved && IsLegalMove(m))
+		if (!hasMoved && IsLegalMove(m) && !BoardController.i.IsOccupied(m.TargetSquare))
 		{
 			moves.Add(m);
 		}
@@ -69,29 +71,29 @@ public class Pawn : Piece, IPromotable
 
 	public override List<Move> GetAllMoves()
 	{
-		moves.Clear();
+		testMoves.Clear();
 
 		int direction = (Player == PlayerType.Black) ? 1 : -1;
 		int newY = currY + direction;
 
 		Move m = new Move(CurrPos, BoardController.i.ConvertToPos(currX, newY), this);
 
-		if (IsLegalMove(m))
+		if (IsLegalMove(m) && !BoardController.i.IsOccupied(m.TargetSquare))
 		{
-			moves.Add(m);
+			testMoves.Add(m);
 		}
 
 		m = new Move(CurrPos, BoardController.i.ConvertToPos(currX, newY + direction), this);
 
-		if (!hasMoved && IsLegalMove(m))
+		if (!hasMoved && IsLegalMove(m) && !BoardController.i.IsOccupied(m.TargetSquare))
 		{
-			moves.Add(m);
+			testMoves.Add(m);
 		}
 
 		GetAllEnPassantMoves(direction);
 		GetAllPawnDiagonalMoves(direction);
 
-		return moves;
+		return testMoves;
 	}
 
 	public void GetEnPassantMoves(int direction)
@@ -165,7 +167,7 @@ public class Pawn : Piece, IPromotable
 		{
 			int pos = BoardController.i.ConvertToPos(rightX, newY);
 			Move m = new Move(CurrPos, pos, this, Move.Flag.EnPassantCapture);
-			if (IsLegalMove(m)) moves.Add(m);
+			if (IsLegalMove(m)) testMoves.Add(m);
 		}
 
 		if (BoardController.i.IsLegalMove(leftX, newY, this)
@@ -175,7 +177,7 @@ public class Pawn : Piece, IPromotable
 		{
 			int pos = BoardController.i.ConvertToPos(leftX, newY);
 			Move m = new Move(CurrPos, pos, this, Move.Flag.EnPassantCapture);
-			if (IsLegalMove(m)) moves.Add(m);
+			if (IsLegalMove(m)) testMoves.Add(m);
 		}
 	}
 
@@ -193,7 +195,7 @@ public class Pawn : Piece, IPromotable
 		{
 			int pos = BoardController.i.ConvertToPos(rightX, newY);
 			Move m = new Move(CurrPos, pos, this);
-			if (IsLegalMove(m)) moves.Add(m);
+			if (IsLegalMove(m)) testMoves.Add(m);
 		}
 
 		if (BoardController.i.IsLegalMove(leftX, newY, this)
@@ -202,7 +204,7 @@ public class Pawn : Piece, IPromotable
 		{
 			int pos = BoardController.i.ConvertToPos(leftX, newY);
 			Move m = new Move(CurrPos, pos, this);
-			if (IsLegalMove(m)) moves.Add(m);
+			if (IsLegalMove(m)) testMoves.Add(m);
 		}
 	}
 
@@ -276,8 +278,7 @@ public class Pawn : Piece, IPromotable
     {
         if (move.TargetSquare < 0
             || move.TargetSquare > 63
-            || BoardController.i.IsSamePlayer(CurrPos, move.TargetSquare)
-            || BoardController.i.IsOccupied(move.TargetSquare)) return false;
+            || BoardController.i.IsSamePlayer(CurrPos, move.TargetSquare)) return false;
 		return true;
 	}
 }

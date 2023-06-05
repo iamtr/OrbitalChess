@@ -234,30 +234,6 @@ public class BoardController : MonoBehaviour
 		SetPiecePos(piece.CurrPos, newPos);
 	}
 
-	//public void MovePiece(Move move)
-	//{
-	//	int oldPos = move.StartSquare;
-	//	int newPos = move.TargetSquare;
-	//	Piece piece = pieces[oldPos];
-	//	int flag = move.MoveFlag;
-
-	//	if (piece == null) Debug.Log($"Piece at MovePiece() at {oldPos} is null! Tried to move a null piece.");
-
-	//	switch (flag)
-	//	{
-	//		case Move.Flag.Castling:
-	//			MoveCastling(x, y, piece);
-	//			break;
-	//		case Move.Flag.EnPassantCapture:
-	//			MoveEnPassantPiece(x, y, piece);
-	//			break;
-	//		default:
-	//			SetPiecePos(piece.CurrPos, newPos);
-	//			break;
-	//	}
-	//}
-
-
 	public void MoveEnPassantPiece(int x, int y, Piece piece)
 	{
 		int newPos = ConvertToPos(x, y);
@@ -400,7 +376,7 @@ public class BoardController : MonoBehaviour
 			MovePiece(temp[0], temp[1], CurrPiece);
 		}
 		SetHighLightSpecial(h, SpecialMove.Play);
-		// UnhighlightAllSqaures();
+		UnhighlightAllSqaures();
 
 		CurrPiece.InvokeOnAfterMove();
 	}
@@ -557,7 +533,7 @@ public class BoardController : MonoBehaviour
 		foreach (Piece piece in testArray)
 		{
 			if (piece == null || piece.Player == GameController.GetCurrPlayer()) continue;
-			allMoves.AddRange(piece.GetLegalMoves());
+			allMoves.AddRange(piece.GetAllMoves());
 
 		}
 

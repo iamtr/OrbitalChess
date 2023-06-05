@@ -25,21 +25,21 @@ public readonly struct Move
 
 	readonly ushort moveValue;
 
-	const ushort startSquareMask = 0b0000000000111111;
-	const ushort targetSquareMask = 0b0000111111000000;
+	const ushort startSquareMask = 0b000000000001111111;
+	const ushort targetSquareMask = 0b000011111110000000;
 	const ushort flagMask = 0b1111000000000000;
 
 	readonly Piece piece;
 
 	public Move(int startSquare, int targetSquare, Piece piece)
 	{
-		moveValue = (ushort)(startSquare | targetSquare << 6);
+		moveValue = (ushort)(startSquare | targetSquare << 7);
 		this.piece = piece;
 	}
 
 	public Move(int startSquare, int targetSquare, Piece piece, int flag)
 	{
-		moveValue = (ushort)(startSquare | targetSquare << 6 | flag << 12);
+		moveValue = (ushort)(startSquare | targetSquare << 7 | flag << 14);
 		this.piece = piece;
 	}
 
@@ -55,7 +55,7 @@ public readonly struct Move
 	{
 		get
 		{
-			return (moveValue & targetSquareMask) >> 6;
+			return (moveValue & targetSquareMask) >> 7;
 		}
 	}
 
@@ -72,7 +72,7 @@ public readonly struct Move
 	{
 		get
 		{
-			return moveValue >> 12;
+			return moveValue >> 14;
 		}
 	}
 

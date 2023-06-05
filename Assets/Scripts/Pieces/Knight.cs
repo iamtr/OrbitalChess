@@ -6,10 +6,18 @@ public class Knight : Piece
 {
 	private int[,] deltas = new int[,] { { 1, 2 }, { 2, 1 }, { -1, 2 }, { -2, 1 }, { 1, -2 }, { 2, -1 }, { -1, -2 }, { -2, -1 } };
 
+	private void OnEnable()
+	{
+		OnAfterMove += GameController.InvokeOnRoundEnd;
+	}
+	private void OnDisable()
+	{
+		OnAfterMove -= GameController.InvokeOnRoundEnd;
+	}
+
 	public override bool IsLegalMove(Move move)
 	{
 		if (move.TargetSquare < 0 || move.TargetSquare > 63 || BoardController.i.IsSamePlayer(CurrPos, move.TargetSquare)) return false;
-		if (BoardController.i.IsBeingCheckedAfterMove(move)) return false;
 		return true;
 	}
 
@@ -21,6 +29,29 @@ public class Knight : Piece
 		{
 			int deltaX = deltas[i, 0];
 			int deltaY = deltas[i, 1];
+			if (deltaX < 0 || deltaY < 0 || deltaX > 7 || deltaY > 7) continue;
+			int newPos = BoardController.i.ConvertToPos(currX + deltaX, currY + deltaY);
+
+			Move m = new Move(CurrPos, newPos, this);
+
+			if (IsLegalMove(m) && !BoardController.i.IsBeingCheckedAfterMove(m))
+			{
+				moves.Add(m);
+			}
+		}
+
+		return moves;
+	}
+
+	public override List<Move> GetAllMoves()
+	{
+		moves.Clear();
+
+		for (int i = 0; i < deltas.GetLength(0); i++)
+		{
+			int deltaX = deltas[i, 0];
+			int deltaY = deltas[i, 1];
+			if (deltaX < 0 || deltaY < 0 || deltaX > 7 || deltaY > 7) continue;
 			int newPos = BoardController.i.ConvertToPos(currX + deltaX, currY + deltaY);
 
 			Move m = new Move(CurrPos, newPos, this);

@@ -27,15 +27,15 @@ public abstract class Piece : MonoBehaviour
 
 	[SerializeField] protected PlayerType player;
 
-	private void OnEnable()
-	{
-		OnAfterMove += GameController.InvokeOnRoundEnd;
-	}
+	//private void OnEnable()
+	//{
+	//	OnAfterMove += GameController.InvokeOnRoundEnd;
+	//}
 
-	private void OnDisable()
-	{
-		OnAfterMove -= GameController.InvokeOnRoundEnd;
-	}
+	//private void OnDisable()
+	//{
+	//	OnAfterMove -= GameController.InvokeOnRoundEnd;
+	//}
 
 	private void Awake()
 	{
@@ -54,6 +54,12 @@ public abstract class Piece : MonoBehaviour
 	/// Calculates all available moves for this piece and highlights them
 	/// </summary>
 	public abstract List<Move> GetLegalMoves();
+
+	/// <summary>
+	/// Calculates all available moves for this piece, regardless if it results on a check to own king.
+	/// </summary>
+	/// <returns></returns>
+	public abstract List<Move> GetAllMoves();
 
 	/// <summary>
 	/// Checks if the move is legal

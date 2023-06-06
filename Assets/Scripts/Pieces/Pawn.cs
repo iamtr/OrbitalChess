@@ -8,13 +8,8 @@ public class Pawn : Piece, IPromotable
     /// A boolean of whether the pawn has moved from its initial position
     /// </summary>
     private bool hasMoved = false;
-
-	public List<Move> testMoves;
-
     public bool JustMoved { get; set; } = false;
     public  bool TwoStep { get; set; } = false;
-
-	// private TurnCountdown turnCountdown;
 
 	private void OnEnable()
 	{
@@ -33,14 +28,7 @@ public class Pawn : Piece, IPromotable
 	public override void InitPiece(PlayerType p)
     {
         base.InitPiece(p);
-        //turnCountdown = BoardController.i.InstantiateTurnCountdown();
     }
-
-    //private void OnDestroy()
-    //{
-    //    //if (turnCountdown == null) return;
-    //    //Destroy(turnCountdown.gameObject);
-    //}
 
     public override List<Move> GetLegalMoves()
     {
@@ -252,7 +240,7 @@ public class Pawn : Piece, IPromotable
     public void Promote(Piece newPiece)
     {
         BoardController.i.InstantiatePiece(newPiece, CurrPos);
-        Destroy(this.gameObject);
+        Destroy(gameObject);
     }
 
 	/// <summary>

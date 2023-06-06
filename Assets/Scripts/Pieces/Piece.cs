@@ -10,7 +10,8 @@ public abstract class Piece : MonoBehaviour, ICloneable
 	[SerializeField] protected int testX;
 	[SerializeField] protected int testY;
 
-	protected List<Move> moves = new List<Move>();
+	[SerializeField] protected List<Move> moves = new List<Move>();
+	[SerializeField] protected List<Move> testMoves = new List<Move>();
 
 	/// <summary>
 	/// Current position, from 0 - 63

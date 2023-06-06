@@ -1,9 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 /// <summary>
@@ -38,6 +35,8 @@ public class BoardController : MonoBehaviour
 	public int BlackKingPos = 3;
 	public int WhiteKingPos = 59;
 
+	public List<Move> allMoves;
+
 	/// <summary>
 	/// The current piece that is being clicked by the player
 	/// </summary>
@@ -48,14 +47,12 @@ public class BoardController : MonoBehaviour
 	private void OnEnable()
 	{
 		GameController.OnRoundEnd += UnhighlightAllSqaures;
-		//GameController.OnRoundEnd += InvokeEveryTimer;
 		GameController.OnRoundStart += SetPawnBooleansToFalse;
 	}
 
 	private void OnDisable()
 	{
 		GameController.OnRoundEnd -= UnhighlightAllSqaures;
-		//GameController.OnRoundEnd -= InvokeEveryTimer;
 		GameController.OnRoundStart -= SetPawnBooleansToFalse;
 	}
 
@@ -64,8 +61,8 @@ public class BoardController : MonoBehaviour
 		highlightTransform = GameObject.Find("Highlight Squares")?.transform;
 		pieceTransform = GameObject.Find("Pieces")?.transform;
 
+		allMoves = new List<Move>();
 		testArray = pieces.Clone() as Piece[];
-
 		InstantiatePieces();
 
 		if (i != null && i != this) Destroy(this);
@@ -107,31 +104,30 @@ public class BoardController : MonoBehaviour
 		Piece newPiece = Instantiate(piece, new Vector3(x, y, 2), Quaternion.identity);
 		pieces[pos] = newPiece;
 		newPiece.transform.parent = pieceTransform;
-		newPiece.SetCoords(x, y);
+		newPiece.SetCoords(pos);
 
 		return newPiece;
 	}
 
-	//public TurnCountdown InstantiateTurnCountdown()
-	//{
-	//	if (id == numOfPawns)
-	//	{
-	//		id = 0;
-	//	}
-	//	TurnCountdown turnCountdown = Instantiate(TurnCountdown);
-	//	turnCountdowns[id] = turnCountdown;
-	//	turnCountdowns[id].transform.parent = TurnCountdownTransform;
-	//	turnCountdowns[id].gameObject.SetActive(false);
-	//	id += 1;
-	//	return turnCountdown;
-	//}
-
+	/// <summary>
+	/// Check if a certain move is legal
+	/// </summary>
+	/// <param name="x"></param>
+	/// <param name="y"></param>
+	/// <param name="p"></param>
+	/// <returns></returns>
 	public bool IsLegalMove(int x, int y, Piece p)
 	{
 		var pos = y * 8 + x;
 		return IsInBounds(x, y) && pieces[pos]?.Player != p.Player;
 	}
 
+	/// <summary>
+	/// Checks if a certain move is in bouds of the board
+	/// </summary>
+	/// <param name="x"></param>
+	/// <param name="y"></param>
+	/// <returns></returns>
 	public bool IsInBounds(int x, int y)
 	{
 		return x >= 0 && x < 8 && y >= 0 && y < 8;
@@ -181,8 +177,7 @@ public class BoardController : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Sets the piece at a certain position on the board
-	/// Also calls SetCoords() on the piece
+	/// Sets the transform of piece at a certain position and also modifies the pieces[] array
 	/// </summary>
 	/// <param name="piece">Piece to be moved</param>
 	/// <param name="pos">New position on board</param>
@@ -236,45 +231,23 @@ public class BoardController : MonoBehaviour
 		SetPiecePos(piece.CurrPos, newPos);
 	}
 
-	public void MoveCastling(int x, int y, Piece piece)
+	public void MoveCastling(int targetX, int targetY, Piece piece)
 	{
-		Piece rook = GetPieceFromPos(i.ConvertToPos(x, y));
+		Piece rook = GetPieceFromPos(i.ConvertToPos(targetX, targetY));
 		PlayerType player = rook.Player;
 
 		int oldX = ConvertToXY(piece.CurrPos)[0];
-		int kingNewX;
-		int rookNewX;
+		int kingNewX = oldX - 2;
+		int rookNewX = ConvertToXY(rook.CurrPos + 2)[0];
 
-		if (x == 0)
+		if (targetX != 0)
 		{
-			if (player == PlayerType.Black)
-			{
-				kingNewX = oldX - 2;
-				rookNewX = ConvertToXY(rook.CurrPos + 2)[0];
-			} 
-			else
-			{
-				kingNewX = oldX - 2;
-				rookNewX = ConvertToXY(rook.CurrPos + 2)[0];
-			}
+			kingNewX = oldX + 2;
+			rookNewX = ConvertToXY(rook.CurrPos - 3)[0];
+		}
 
-		}
-		else
-		{
-			if (player == PlayerType.Black)
-			{
-				kingNewX = oldX + 2;
-				rookNewX = ConvertToXY(rook.CurrPos - 3)[0];
-			}
-			else
-			{
-				kingNewX = oldX + 2;
-				rookNewX = ConvertToXY(rook.CurrPos - 3)[0];
-			}
-		}
-		
-		MovePiece(kingNewX, y, piece);
-		MovePiece(rookNewX, y, rook);
+		MovePiece(kingNewX, targetY, piece);
+		MovePiece(rookNewX, targetY, rook);
 	}
 
 	/// <summary>
@@ -284,14 +257,6 @@ public class BoardController : MonoBehaviour
 	{
 		foreach (var square in highlights) square.gameObject.SetActive(false);
 	}
-
-	//public void InvokeEveryTimer()
-	//{
-	//	foreach (TurnCountdown timer in turnCountdowns)
-	//	{
-	//		timer.InvokeTimer();
-	//	}
-	//}
 
 	/// <summary>
 	/// Converts x, y coordinates to 0 - 63
@@ -349,28 +314,27 @@ public class BoardController : MonoBehaviour
 	{
 		var h = col.GetComponent<HighlightSquare>();
 		var temp = ConvertToXY(h.Position);
-
 		CurrPiece.InvokeOnBeforeMove();
 
-        if (h.Special == SpecialMove.Play && CurrPiece is Pawn pawn)
+		if (h.Special == SpecialMove.Play && CurrPiece is Pawn pawn)
 		{
 			pawn.SetTwoStepMove(temp[1]);
-        }
-        if (h.Special == SpecialMove.EnPassant)
-        {
+		}
+		if (h.Special == SpecialMove.EnPassant)
+		{
 			MoveEnPassantPiece(temp[0], temp[1], CurrPiece);
 		}
 		if (h.Special == SpecialMove.Castling)
-        {
+		{
 			MoveCastling(temp[0], temp[1], CurrPiece);
 		}
 		if (h.Special == SpecialMove.Play)
-        {
+		{
 			MovePiece(temp[0], temp[1], CurrPiece);
 		}
+
 		SetHighLightSpecial(h, SpecialMove.Play);
 		UnhighlightAllSqaures();
-
 		CurrPiece.InvokeOnAfterMove();
 	}
 
@@ -385,8 +349,8 @@ public class BoardController : MonoBehaviour
 		CurrPiece = col.GetComponent<Piece>();
 		List<Move> moves = CurrPiece.GetLegalMoves();
 
-		foreach(Move move in moves) Highlight(move);
-		
+		foreach (Move move in moves) Highlight(move);
+
 	}
 
 	/// <summary>
@@ -430,6 +394,11 @@ public class BoardController : MonoBehaviour
 		return player == PlayerType.Black ? promotionBlackList[id] : promotionWhiteList[id];
 	}
 
+	/// <summary>
+	/// Sets the "special" property of the highlight
+	/// </summary>
+	/// <param name="highlight"></param>
+	/// <param name="specialMove"></param>
 	public void SetHighLightSpecial(HighlightSquare highlight, SpecialMove specialMove)
 	{
 		highlight.Special = specialMove;
@@ -442,22 +411,23 @@ public class BoardController : MonoBehaviour
 	{
 		foreach (Piece piece in pieces)
 		{
-			if (piece?.Player == GameController.GetCurrPlayer())
+			if (piece?.Player == GameController.GetCurrPlayer() && piece is Pawn pawn)
 			{
-				if (piece is Pawn pawn)
-				{
-					pawn.JustMoved = false;
-					pawn.TwoStep = false;
-				}
+				pawn.JustMoved = false;
+				pawn.TwoStep = false;
 			}
 		}
 	}
 
+	/// <summary>
+	/// Checks if current player checks opponent after move
+	/// </summary>
+	/// <returns></returns>
 	public bool IsCheckAfterMove()
 	{
-		List<Move> allMoves = new List<Move>();
+		allMoves.Clear();
 
-		foreach(Piece piece in pieces)
+		foreach (Piece piece in pieces)
 		{
 			if (piece != null && piece.Player == GameController.GetCurrPlayer())
 			{
@@ -470,15 +440,20 @@ public class BoardController : MonoBehaviour
 		return temp;
 	}
 
+	/// <summary>
+	/// Checks if a certain move will result in a check to selfs
+	/// </summary>
+	/// <param name="move"></param>
+	/// <returns></returns>
 	public bool IsBeingCheckedAfterMove(Move move)
 	{
 		UpdateTestArray(move, GameController.GetCurrPlayer());
 
-		List<Move> allMoves = new List<Move>();
+		allMoves.Clear();
 
 		int tempKingPos = -1;
 
-		tempKingPos = move.Piece is King ? move.TargetSquare :  GetOwnKingPosition();
+		tempKingPos = move.Piece is King ? move.TargetSquare : GetOwnKingPosition();
 
 		foreach (Piece piece in testArray)
 		{
@@ -490,14 +465,25 @@ public class BoardController : MonoBehaviour
 		bool temp = allMoves.Any(move => move.TargetSquare == tempKingPos);
 		Debug.Log("Is Being Checked : " + temp);
 		return temp;
-
 	}
 
+	/// <summary>
+	/// Updates testArray, which is an array that is used to simulate if a move will result in a check for testing purposes
+	/// </summary>
+	/// <param name="move"></param>
+	/// <param name="p"></param>
 	public void UpdateTestArray(Move move, PlayerType p)
 	{
-		for (int i = 0; i < 64; i++)
+		void MovePieceAndSetCoords(int from, int to)
 		{
-			testArray[i] = null;
+			testArray[to] = testArray[from];
+			testArray[to].SetCoords(to);
+			testArray[from] = null;
+		}
+
+		Array.Clear(testArray, 0, testArray.Length);
+		for (int i = 0; i < pieces.Length; i++)
+		{
 			if (pieces[i] != null) testArray[i] = pieces[i].Clone() as Piece;
 		}
 
@@ -509,42 +495,32 @@ public class BoardController : MonoBehaviour
 		{
 			case Move.Flag.EnPassantCapture:
 				int temp = p == PlayerType.Black ? newPos - 8 : newPos + 8;
-				testArray[newPos] = testArray[oldPos];
-				testArray[newPos].SetCoords(newPos);
-				testArray[oldPos] = null;
+				MovePieceAndSetCoords(oldPos, newPos);
 				testArray[temp] = null;
 				break;
 
 			case Move.Flag.Castling:
 				if (newPos == 2 || newPos == 58)
 				{
-					testArray[newPos] = testArray[oldPos];
-					testArray[newPos].SetCoords(newPos);
-					testArray[oldPos] = null;
-					testArray[newPos + 1] = testArray[newPos - 2];
-					testArray[newPos + 1].SetCoords(newPos + 1);
-					testArray[newPos - 2] = null;
-				} 
+					MovePieceAndSetCoords(oldPos, newPos);
+					MovePieceAndSetCoords(newPos - 2, newPos + 1);
+				}
 				else if (newPos == 6 || newPos == 61)
 				{
-					testArray[newPos] = testArray[oldPos];
-					testArray[newPos].SetCoords(newPos);
-					testArray[oldPos] = null;
-					testArray[newPos - 1] = testArray[newPos + 1];
-					testArray[newPos - 1].SetCoords(newPos - 1);
-					testArray[newPos + 1] = null;
+					MovePieceAndSetCoords(oldPos, newPos);
+					MovePieceAndSetCoords(newPos + 1, newPos - 1);
 				}
 				else
 				{
 					Debug.Log("Error on PieceArrayAfterSimulatedMove");
 				}
 				break;
-			default:
-				if (testArray[oldPos] == null) Debug.Log($"Piece at {oldPos} is null");
 
-				testArray[newPos] = testArray[oldPos];
-				testArray[newPos].SetCoords(newPos);
-				testArray[oldPos] = null;
+			default:
+				if (testArray[oldPos] == null)
+					Debug.Log($"Piece at {oldPos} is null");
+
+				MovePieceAndSetCoords(oldPos, newPos);
 				break;
 		}
 	}

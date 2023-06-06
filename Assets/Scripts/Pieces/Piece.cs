@@ -69,17 +69,11 @@ public abstract class Piece : MonoBehaviour, ICloneable
 	/// </summary>
 	public abstract bool IsLegalMove(Move m);
 
+
 	/// <summary>
 	/// Set the currX and currY values of this piece
 	/// </summary>
-	/// <param name="x"> currX </param>
-	/// <param name="y"> currY </param>
-	public void SetCoords(int x, int y) { 
-		currX = x; 
-		currY = y;
-		CurrPos = y * 8 + x;
-	}
-
+	/// <param name="pos"></param>
 	public void SetCoords(int pos)
 	{
 		currX = BoardController.ConvertToXY(pos)[0];

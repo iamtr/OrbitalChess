@@ -51,14 +51,14 @@ public class Pawn : Piece, IPromotable
 
         Move m = new Move(CurrPos, BoardController.i.ConvertToPos(currX, newY), this);
 
-        if (IsLegalMove(m) && !BoardController.i.IsOccupied(m.TargetSquare))
+        if (IsLegalMove(m) && !BoardController.i.IsOccupied(m.TargetSquare) && !BoardController.i.IsBeingCheckedAfterMove(m))
         {
             moves.Add(m);
         }
 
         m = new Move(CurrPos, BoardController.i.ConvertToPos(currX, newY + direction), this);
 
-		if (!hasMoved && IsLegalMove(m) && !BoardController.i.IsOccupied(m.TargetSquare))
+		if (!hasMoved && IsLegalMove(m) && !BoardController.i.IsOccupied(m.TargetSquare) && !BoardController.i.IsBeingCheckedAfterMove(m))
 		{
 			moves.Add(m);
 		}
@@ -78,14 +78,14 @@ public class Pawn : Piece, IPromotable
 
 		Move m = new Move(CurrPos, BoardController.i.ConvertToPos(currX, newY), this);
 
-		if (IsLegalMove(m) && !BoardController.i.IsOccupied(m.TargetSquare))
+		if (IsLegalMove(m) && !BoardController.i.TestArrayIsOccupied(m.TargetSquare))
 		{
 			testMoves.Add(m);
 		}
 
 		m = new Move(CurrPos, BoardController.i.ConvertToPos(currX, newY + direction), this);
 
-		if (!hasMoved && IsLegalMove(m) && !BoardController.i.IsOccupied(m.TargetSquare))
+		if (!hasMoved && IsLegalMove(m) && !BoardController.i.TestArrayIsOccupied(m.TargetSquare))
 		{
 			testMoves.Add(m);
 		}
@@ -277,8 +277,7 @@ public class Pawn : Piece, IPromotable
     public override bool IsLegalMove(Move move)
     {
         if (move.TargetSquare < 0
-            || move.TargetSquare > 63
-            || BoardController.i.IsSamePlayer(CurrPos, move.TargetSquare)) return false;
+            || move.TargetSquare > 63) return false;
 		return true;
 	}
 }

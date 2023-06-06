@@ -11,6 +11,8 @@ public class King : Piece
 	/// </summary>
 	private bool hasMoved = false;
 
+	public List<Move> testMoves;
+
 	private void OnEnable()
 	{
 		OnAfterMove += SetKingBoolean;
@@ -47,7 +49,7 @@ public class King : Piece
 
 				if (!IsLegalMove(m) || BoardController.i.IsBeingCheckedAfterMove(m)) break;
 				moves.Add(m);
-				if (BoardController.i.IsOccupied(pos) && !BoardController.i.IsSamePlayer(this.CurrPos, pos)) break;
+				if (BoardController.i.IsOccupied(pos)) break;
 			}
 		}
 
@@ -66,7 +68,7 @@ public class King : Piece
 
 	public override List<Move> GetAllMoves()
 	{
-		moves.Clear();
+		testMoves.Clear();
 
 		void GetMovesFromDirection(int currX, int currY, int dx, int dy, int maxDistance)
 		{
@@ -80,8 +82,8 @@ public class King : Piece
 				Move m = new Move(CurrPos, pos, this);
 
 				if (!IsLegalMove(m)) break;
-				moves.Add(m);
-				if (BoardController.i.IsOccupied(pos) && !BoardController.i.IsSamePlayer(this.CurrPos, pos)) break;
+				testMoves.Add(m);
+				if (BoardController.i.TestArrayIsOccupied(pos)) break;
 			}
 		}
 
@@ -93,12 +95,34 @@ public class King : Piece
 		GetMovesFromDirection(currX, currY, -1, 0, 1); // Left
 		GetMovesFromDirection(currX, currY, 0, 1, 1); // Up
 		GetMovesFromDirection(currX, currY, 0, -1, 1); // Down
-		GetCastlingMoves();
+		GetAllCastlingMoves();
 
 		return moves;
 	}
 
 	public List<Move> GetCastlingMoves()
+	{
+		if (hasMoved) return moves;
+		int leftDirection = -1;
+		int rightDirection = 1;
+		if (IsAbleToCastling(leftDirection))
+		{
+			int pos = BoardController.i.ConvertToPos(0, currY);
+			Move m = new Move(CurrPos, pos, this, Move.Flag.Castling);
+			if (IsLegalMove(m) && !BoardController.i.IsBeingCheckedAfterMove(m)) moves.Add(m);
+		}
+
+		if (IsAbleToCastling(rightDirection))
+		{
+			int pos = BoardController.i.ConvertToPos(7, currY);
+			Move m = new Move(CurrPos, pos, this, Move.Flag.Castling);
+			if (IsLegalMove(m) && !BoardController.i.IsBeingCheckedAfterMove(m)) moves.Add(m);
+		}
+
+		return moves;
+	}
+
+	public List<Move> GetAllCastlingMoves()
 	{
 		if (hasMoved) return moves;
 		int leftDirection = -1;

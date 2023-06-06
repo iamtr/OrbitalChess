@@ -30,20 +30,15 @@ public class BoardController : MonoBehaviour
 	[SerializeField] private Piece[] promotionBlackList;
 	[SerializeField] private Piece[] promotionWhiteList;
 
-	//[SerializeField] private TurnCountdown[] turnCountdowns;
-	//[SerializeField] private TurnCountdown TurnCountdown;
-
 	private int turnCountdownID;
-	// private int numOfPawns = 16;
 
-	private Transform TurnCountdownTransform;
 	private Transform highlightTransform;
 	private Transform pieceTransform;
 
 	public Piece[] testArray;
 
-	public int BlackKingPos { get;  set; }	
-	public int WhiteKingPos { get;  set; }
+	public int BlackKingPos = 3;
+	public int WhiteKingPos = 59;
 
 	/// <summary>
 	/// The current piece that is being clicked by the player
@@ -70,7 +65,6 @@ public class BoardController : MonoBehaviour
 	{
 		highlightTransform = GameObject.Find("Highlight Squares")?.transform;
 		pieceTransform = GameObject.Find("Pieces")?.transform;
-		TurnCountdownTransform = GameObject.Find("TurnCountdowns")?.transform;
 
 		testArray = pieces.Clone() as Piece[];
 
@@ -209,6 +203,7 @@ public class BoardController : MonoBehaviour
 		}
 
 		pieces[oldPos].SetCoords(newPos);
+		pieces[oldPos].SetTransform();
 		pieces[newPos] = pieces[oldPos];
 		pieces[oldPos] = null;
 	}
@@ -466,7 +461,7 @@ public class BoardController : MonoBehaviour
 
 		foreach(Piece piece in pieces)
 		{
-			if (piece.Player == GameController.GetCurrPlayer())
+			if (piece != null && piece.Player == GameController.GetCurrPlayer())
 			{
 				allMoves.AddRange(piece.GetLegalMoves());
 			}
@@ -475,53 +470,6 @@ public class BoardController : MonoBehaviour
 		bool temp = allMoves.Any(move => move.TargetSquare == GetOpponentKingPosition());
 		Debug.Log("Is Check : " + temp);
 		return temp;
-	}
-
-	public void UpdateTestArray(Move move, PlayerType p)
-	{
-		int oldPos = move.StartSquare;
-		int newPos = move.TargetSquare;
-		Piece piece = move.Piece;
-		int flag = move.MoveFlag;
-
-		testArray = pieces.Clone() as Piece[];
-
-		switch (flag)
-		{
-			case Move.Flag.EnPassantCapture:
-				int temp = p == PlayerType.Black ? newPos - 8 : newPos + 8;
-				testArray[newPos] = testArray[oldPos];
-				testArray[oldPos] = null;
-				testArray[temp] = null;
-				break;
-
-			case Move.Flag.Castling:
-				if (newPos == 2 || newPos == 58)
-				{
-					testArray[newPos] = testArray[oldPos];
-					testArray[oldPos] = null;
-					testArray[newPos + 1] = testArray[newPos - 2];
-					testArray[newPos - 2] = null;
-				} 
-				else if (newPos == 6 || newPos == 61)
-				{
-					testArray[newPos] = testArray[oldPos];
-					testArray[oldPos] = null;
-					testArray[newPos - 1] = testArray[newPos + 1];
-					testArray[newPos + 1] = null;
-				}
-				else
-				{
-					Debug.Log("Error on PieceArrayAfterSimulatedMove");
-				}
-				break;
-			default:
-				if (piece == null) Debug.Log($"Piece at {oldPos} is null");
-
-				testArray[newPos] = pieces[oldPos];
-				testArray[oldPos] = null;
-				break;
-		}
 	}
 
 	public bool IsBeingCheckedAfterMove(Move move)
@@ -541,6 +489,67 @@ public class BoardController : MonoBehaviour
 		Debug.Log("Is Being Checked : " + temp);
 		return temp;
 
+	}
+
+	public void UpdateTestArray(Move move, PlayerType p)
+	{
+		for (int i = 0; i < 64; i++)
+		{
+			testArray[i] = null;
+			if (pieces[i] != null) testArray[i] = pieces[i].Clone() as Piece;
+		}
+
+		int oldPos = move.StartSquare;
+		int newPos = move.TargetSquare;
+		int flag = move.MoveFlag;
+
+		switch (flag)
+		{
+			case Move.Flag.EnPassantCapture:
+				int temp = p == PlayerType.Black ? newPos - 8 : newPos + 8;
+				testArray[newPos] = testArray[oldPos];
+				testArray[newPos].SetCoords(newPos);
+				testArray[oldPos] = null;
+				testArray[temp] = null;
+				break;
+
+			case Move.Flag.Castling:
+				if (newPos == 2 || newPos == 58)
+				{
+					testArray[newPos] = testArray[oldPos];
+					testArray[newPos].SetCoords(newPos);
+					testArray[oldPos] = null;
+					testArray[newPos + 1] = testArray[newPos - 2];
+					testArray[newPos + 1].SetCoords(newPos + 1);
+					testArray[newPos - 2] = null;
+				} 
+				else if (newPos == 6 || newPos == 61)
+				{
+					testArray[newPos] = testArray[oldPos];
+					testArray[newPos].SetCoords(newPos);
+					testArray[oldPos] = null;
+					testArray[newPos - 1] = testArray[newPos + 1];
+					testArray[newPos - 1].SetCoords(newPos - 1);
+					testArray[newPos + 1] = null;
+				}
+				else
+				{
+					Debug.Log("Error on PieceArrayAfterSimulatedMove");
+				}
+				break;
+			default:
+				if (testArray[oldPos] == null) Debug.Log($"Piece at {oldPos} is null");
+
+				testArray[newPos] = testArray[oldPos];
+				testArray[newPos].SetCoords(newPos);
+				testArray[oldPos] = null;
+				break;
+		}
+	}
+
+	public bool TestArrayIsOccupied(int pos)
+	{
+		return testArray[pos] != null;
 	}
 
 	public int GetOwnKingPosition()

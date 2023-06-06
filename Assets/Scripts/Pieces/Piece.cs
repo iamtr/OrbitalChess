@@ -2,17 +2,20 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Piece : MonoBehaviour 
+public abstract class Piece : MonoBehaviour, ICloneable
 {
 	[SerializeField] protected int currX;
 	[SerializeField] protected int currY;
+
+	[SerializeField] protected int testX;
+	[SerializeField] protected int testY;
 
 	protected List<Move> moves = new List<Move>();
 
 	/// <summary>
 	/// Current position, from 0 - 63
 	/// </summary>
-	public int CurrPos { get; private set; }
+	public int CurrPos;
 
 	/// <summary>
 	/// Events that is called before and after a movement is made respectively
@@ -75,7 +78,6 @@ public abstract class Piece : MonoBehaviour
 		currX = x; 
 		currY = y;
 		CurrPos = y * 8 + x;
-		transform.position = new Vector3(currX, currY, 2);
 	}
 
 	public void SetCoords(int pos)
@@ -83,6 +85,10 @@ public abstract class Piece : MonoBehaviour
 		currX = BoardController.ConvertToXY(pos)[0];
 		currY = BoardController.ConvertToXY(pos)[1];
 		CurrPos = pos;
+	}
+
+	public void SetTransform()
+	{
 		transform.position = new Vector3(currX, currY, 2);
 	}
 	/// <summary>
@@ -105,5 +111,10 @@ public abstract class Piece : MonoBehaviour
 	public void InvokeOnAfterMove()
 	{
 		OnAfterMove?.Invoke();
+	}
+
+	public object Clone()
+	{
+		return this.MemberwiseClone();
 	}
 }

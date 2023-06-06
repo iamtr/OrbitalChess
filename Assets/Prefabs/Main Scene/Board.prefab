@@ -176,25 +176,7 @@ MonoBehaviour:
   - {fileID: 643328333909121127, guid: 7fedfafde506e3c499fc2b0bfd6ce816, type: 3}
   - {fileID: 3612869549090268381, guid: baa9d6b7f35fd1b4c8d69985411573bf, type: 3}
   - {fileID: -3165024563381924141, guid: 54a7b93c4e4e2564698c8d15772d2f8c, type: 3}
-  turnCountdowns:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  TurnCountdown: {fileID: 3035152417938367780, guid: 2c7c36bf33206ce48b33f6dc96a4320d, type: 3}
-  UIManager: {fileID: 0}
+  testArray: []
 --- !u!1 &7926353709060286352
 GameObject:
   m_ObjectHideFlags: 0

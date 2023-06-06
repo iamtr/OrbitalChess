@@ -30,7 +30,7 @@ public class Bishop : Piece
 				Move m = new Move(CurrPos, pos, this);
 				if (!IsLegalMove(m) || BoardController.i.IsBeingCheckedAfterMove(m)) break;
 				moves.Add(m);
-				if (BoardController.i.IsOccupied(pos) && !BoardController.i.IsSamePlayer(this.CurrPos, pos)) break;
+				if (BoardController.i.TestArrayIsOccupied(pos)) break;
 			}
 		}
 
@@ -57,7 +57,7 @@ public class Bishop : Piece
 				Move m = new Move(CurrPos, pos, this);
 				if (!IsLegalMove(m)) break;
 				moves.Add(m);
-				if (BoardController.i.IsOccupied(pos) && !BoardController.i.IsSamePlayer(this.CurrPos, pos)) break;
+				if (BoardController.i.IsOccupied(pos)) break;
 			}
 		}
 
@@ -71,7 +71,7 @@ public class Bishop : Piece
 
 	public override bool IsLegalMove(Move move)
 	{
-		if (move.TargetSquare < 0 || move.TargetSquare > 63 || BoardController.i.IsSamePlayer(CurrPos, move.TargetSquare)) return false;
+		if (BoardController.i.IsSamePlayer(CurrPos, move.TargetSquare)) return false;
 		return true;
 	}
 }

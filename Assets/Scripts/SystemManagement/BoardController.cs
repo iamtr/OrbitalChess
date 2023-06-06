@@ -30,8 +30,6 @@ public class BoardController : MonoBehaviour
 	[SerializeField] private Piece[] promotionBlackList;
 	[SerializeField] private Piece[] promotionWhiteList;
 
-	private int turnCountdownID;
-
 	private Transform highlightTransform;
 	private Transform pieceTransform;
 
@@ -478,6 +476,10 @@ public class BoardController : MonoBehaviour
 
 		List<Move> allMoves = new List<Move>();
 
+		int tempKingPos = -1;
+
+		tempKingPos = move.Piece is King ? move.TargetSquare :  GetOwnKingPosition();
+
 		foreach (Piece piece in testArray)
 		{
 			if (piece == null || piece.Player == GameController.GetCurrPlayer()) continue;
@@ -485,7 +487,7 @@ public class BoardController : MonoBehaviour
 
 		}
 
-		bool temp = allMoves.Any(move => move.TargetSquare == GetOwnKingPosition());
+		bool temp = allMoves.Any(move => move.TargetSquare == tempKingPos);
 		Debug.Log("Is Being Checked : " + temp);
 		return temp;
 

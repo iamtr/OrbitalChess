@@ -161,7 +161,6 @@ public class BoardController : MonoBehaviour
 		switch (flag)
 		{
 			case Move.Flag.Castling:
-				SetHighlightColor(CurrPiece.CurrPos, Color.green);
 				SetHighlightColor(pos, Color.green);
 				break;
 			case Move.Flag.EnPassantCapture:
@@ -234,7 +233,6 @@ public class BoardController : MonoBehaviour
 	public void MoveCastling(int targetX, int targetY, Piece piece)
 	{
 		Piece rook = GetPieceFromPos(i.ConvertToPos(targetX, targetY));
-		PlayerType player = rook.Player;
 
 		int oldX = ConvertToXY(piece.CurrPos)[0];
 		int kingNewX = oldX - 2;

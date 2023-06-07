@@ -11,8 +11,6 @@ public class King : Piece
 	/// </summary>
 	private bool hasMoved = false;
 
-	public List<Move> testMoves;
-
 	private void OnEnable()
 	{
 		OnAfterMove += SetKingBoolean;
@@ -36,7 +34,7 @@ public class King : Piece
 	{
 		moves.Clear();
 
-		void GetMovesFromDirection(int currX, int currY, int dx, int dy, int maxDistance)
+		void GetMovesFromDirection(int dx, int dy, int maxDistance)
 		{
 			for (int i = 1; i <= maxDistance; i++)
 			{
@@ -53,24 +51,24 @@ public class King : Piece
 			}
 		}
 
-		GetMovesFromDirection(currX, currY, 1, 1, 1);
-		GetMovesFromDirection(currX, currY, -1, 1, 1);
-		GetMovesFromDirection(currX, currY, 1, -1, 1);
-		GetMovesFromDirection(currX, currY, -1, -1, 1);
-		GetMovesFromDirection(currX, currY, 1, 0, 1); // Right
-		GetMovesFromDirection(currX, currY, -1, 0, 1); // Left
-		GetMovesFromDirection(currX, currY, 0, 1, 1); // Up
-		GetMovesFromDirection(currX, currY, 0, -1, 1); // Down
-		GetCastlingMoves();
+		GetMovesFromDirection(1, 1, 1);
+		GetMovesFromDirection(-1, 1, 1);
+		GetMovesFromDirection(	1, -1, 1);
+		GetMovesFromDirection(-1, -1, 1);
+		GetMovesFromDirection(1, 0, 1); // Right
+		GetMovesFromDirection(-1, 0, 1); // Left
+		GetMovesFromDirection(0, 1, 1); // Up
+		GetMovesFromDirection(0, -1, 1); // Down
+		GetLegalCastlingMoves();
 
 		return moves;
 	}
 
 	public override List<Move> GetAllMoves()
 	{
-		testMoves.Clear();
+		moves.Clear();
 
-		void GetMovesFromDirection(int currX, int currY, int dx, int dy, int maxDistance)
+		void GetMovesFromDirection(int dx, int dy, int maxDistance)
 		{
 			for (int i = 1; i <= maxDistance; i++)
 			{
@@ -82,41 +80,41 @@ public class King : Piece
 				Move m = new Move(CurrPos, pos, this);
 
 				if (!IsLegalMove(m)) break;
-				testMoves.Add(m);
+				moves.Add(m);
 				if (BoardController.i.TestArrayIsOccupied(pos)) break;
 			}
 		}
 
-		GetMovesFromDirection(currX, currY, 1, 1, 1);
-		GetMovesFromDirection(currX, currY, -1, 1, 1);
-		GetMovesFromDirection(currX, currY, 1, -1, 1);
-		GetMovesFromDirection(currX, currY, -1, -1, 1);
-		GetMovesFromDirection(currX, currY, 1, 0, 1); // Right
-		GetMovesFromDirection(currX, currY, -1, 0, 1); // Left
-		GetMovesFromDirection(currX, currY, 0, 1, 1); // Up
-		GetMovesFromDirection(currX, currY, 0, -1, 1); // Down
+		GetMovesFromDirection(1, 1, 1);
+		GetMovesFromDirection(-1, 1, 1);
+		GetMovesFromDirection(1, -1, 1);
+		GetMovesFromDirection(-1, -1, 1);
+		GetMovesFromDirection(1, 0, 1); // Right
+		GetMovesFromDirection(-1, 0, 1); // Left
+		GetMovesFromDirection(0, 1, 1); // Up
+		GetMovesFromDirection(0, -1, 1); // Down
 		GetAllCastlingMoves();
 
 		return moves;
 	}
 
-	public List<Move> GetCastlingMoves()
+	public List<Move> GetLegalCastlingMoves()
 	{
 		if (hasMoved) return moves;
 		int leftDirection = -1;
 		int rightDirection = 1;
-		if (IsAbleToCastling(leftDirection))
+		if (IsAbleToCastle(leftDirection))
 		{
 			int pos = BoardController.i.ConvertToPos(0, currY);
 			Move m = new Move(CurrPos, pos, this, Move.Flag.Castling);
-			if (IsLegalMove(m) && !BoardController.i.IsBeingCheckedAfterMove(m)) moves.Add(m);
+			if (!BoardController.i.IsBeingCheckedAfterMove(m)) moves.Add(m);
 		}
 
-		if (IsAbleToCastling(rightDirection))
+		if (IsAbleToCastle(rightDirection))
 		{
 			int pos = BoardController.i.ConvertToPos(7, currY);
 			Move m = new Move(CurrPos, pos, this, Move.Flag.Castling);
-			if (IsLegalMove(m) && !BoardController.i.IsBeingCheckedAfterMove(m)) moves.Add(m);
+			if (BoardController.i.IsBeingCheckedAfterMove(m)) moves.Add(m);
 		}
 
 		return moves;
@@ -127,14 +125,14 @@ public class King : Piece
 		if (hasMoved) return moves;
 		int leftDirection = -1;
 		int rightDirection = 1;
-		if (IsAbleToCastling(leftDirection))
+		if (IsAbleToCastle(leftDirection))
         {
 			int pos = BoardController.i.ConvertToPos(0, currY);
 			Move m = new Move(CurrPos, pos, this, Move.Flag.Castling);
 			if (IsLegalMove(m)) moves.Add(m);
 		}
 			
-		if (IsAbleToCastling(rightDirection))
+		if (IsAbleToCastle(rightDirection))
 		{
 			int pos = BoardController.i.ConvertToPos(7, currY);
 			Move m = new Move(CurrPos, pos, this, Move.Flag.Castling);
@@ -144,26 +142,25 @@ public class King : Piece
 		return moves;
 	}
 
-	public bool IsAbleToCastling(int direction)
+	public bool IsAbleToCastle(int direction)
 	{
 		if (hasMoved) return false;
-		int x = currX;
-		Piece foundPiece;
-		while (true)
+
+		int x = currX + direction;
+		int pos;
+		while (BoardController.i.IsInBounds(x, currY))
 		{
-			x += direction;
-			int pos = BoardController.i.ConvertToPos(x, currY);
-			if (!BoardController.i.IsInBounds(x, currY)) return false;
+			pos = BoardController.i.ConvertToPos(x, currY);
 			Piece piece = BoardController.i.GetPieceFromPos(pos);
 			if (piece != null)
 			{
-				foundPiece = piece;
+				if (piece is Rook rook && !rook.IsMoved())
+				{
+					return true;
+				}
 				break;
 			}
-		}
-		if (foundPiece is Rook rook)
-		{
-			return !rook.IsMoved();
+			x += direction;
 		}
 		return false;
 	}

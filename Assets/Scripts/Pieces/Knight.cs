@@ -15,12 +15,6 @@ public class Knight : Piece
 		OnAfterMove -= GameController.InvokeOnRoundEnd;
 	}
 
-	public override bool IsLegalMove(Move move)
-	{
-		if (move.TargetSquare < 0 || move.TargetSquare > 63 || BoardController.i.IsSamePlayer(CurrPos, move.TargetSquare)) return false;
-		return true;
-	}
-
 	public override List<Move> GetLegalMoves()
 	{
 		moves.Clear();
@@ -56,12 +50,16 @@ public class Knight : Piece
 
 			Move m = new Move(CurrPos, newPos, this);
 
-			if (IsLegalMove(m))
-			{
-				moves.Add(m);
-			}
+			if (IsLegalMove(m)) moves.Add(m);
 		}
 
 		return moves;
+	}
+
+
+	public override bool IsLegalMove(Move move)
+	{
+		if (move.TargetSquare < 0 || move.TargetSquare > 63 || BoardController.i.IsSamePlayer(CurrPos, move.TargetSquare)) return false;
+		return true;
 	}
 }

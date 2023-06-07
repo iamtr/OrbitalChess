@@ -31,7 +31,7 @@ public class Rook : Piece
 	{
 		moves.Clear();
 
-		void GetMovesFromDirection(int currX, int currY, int dx, int dy, int maxDistance)
+		void GetMovesFromDirection(int dx, int dy, int maxDistance)
 		{
 			for (int i = 1; i <= maxDistance; i++)
 			{
@@ -44,14 +44,14 @@ public class Rook : Piece
 
 				if (!IsLegalMove(m) || BoardController.i.IsBeingCheckedAfterMove(m)) break;
 				moves.Add(m);
-				if (BoardController.i.TestArrayIsOccupied(pos)) break;
+				if (BoardController.i.IsOccupied(pos)) break;
 			}
 		}
 
-		GetMovesFromDirection(currX, currY, 1, 0, 8);
-		GetMovesFromDirection(currX, currY, -1, 0, 8);
-		GetMovesFromDirection(currX, currY, 0, 1, 8);
-		GetMovesFromDirection(currX, currY, 0, -1, 8);
+		GetMovesFromDirection(1, 0, 8);
+		GetMovesFromDirection(-1, 0, 8);
+		GetMovesFromDirection(0, 1, 8);
+		GetMovesFromDirection(0, -1, 8);
 
 		return moves;
 	}
@@ -60,7 +60,7 @@ public class Rook : Piece
 	{
 		moves.Clear();
 
-		void GetMovesFromDirection(int currX, int currY, int dx, int dy, int maxDistance)
+		void GetMovesFromDirection(int dx, int dy, int maxDistance)
 		{
 			for (int i = 1; i <= maxDistance; i++)
 			{
@@ -73,14 +73,14 @@ public class Rook : Piece
 
 				if (!IsLegalMove(m)) break;
 				moves.Add(m);
-				if (BoardController.i.IsOccupied(pos)) break;
+				if (BoardController.i.TestArrayIsOccupied(pos)) break;
 			}
 		}
 
-		GetMovesFromDirection(currX, currY, 1, 0, 8);
-		GetMovesFromDirection(currX, currY, -1, 0, 8);
-		GetMovesFromDirection(currX, currY, 0, 1, 8);
-		GetMovesFromDirection(currX, currY, 0, -1, 8);
+		GetMovesFromDirection(1, 0, 8);
+		GetMovesFromDirection(-1, 0, 8);
+		GetMovesFromDirection(0, 1, 8);
+		GetMovesFromDirection(0, -1, 8);
 
 		return moves;
 	}

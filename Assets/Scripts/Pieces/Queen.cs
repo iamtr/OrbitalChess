@@ -18,7 +18,7 @@ public class Queen : Piece
 	{
 		moves.Clear();
 
-		void GetMovesFromDirection(int currX, int currY, int dx, int dy, int maxDistance)
+		void GetMovesFromDirection(int dx, int dy, int maxDistance)
 		{
 			for (int i = 1; i <= maxDistance; i++)
 			{
@@ -27,21 +27,20 @@ public class Queen : Piece
 				if (x < 0 || x > 7 || y < 0 || y > 7) break;
 				int pos = y * 8 + x;
 				Move m = new Move(CurrPos, pos, this);
-				// if (!IsLegalMove(x, y, this)) break;
 				if (!IsLegalMove(m) || BoardController.i.IsBeingCheckedAfterMove(m)) break;
 				moves.Add(m);
 				if (BoardController.i.IsOccupied(pos)) break;
 			}
 		}
 
-		GetMovesFromDirection(currX, currY, 1, 1, 8);
-		GetMovesFromDirection(currX, currY, -1, 1, 8);
-		GetMovesFromDirection(currX, currY, 1, -1, 8);
-		GetMovesFromDirection(currX, currY, -1, -1, 8);
-		GetMovesFromDirection(currX, currY, 1, 0, 8); // Right
-		GetMovesFromDirection(currX, currY, -1, 0, 8	); // Left
-		GetMovesFromDirection(currX, currY, 0, 1, 8); // Up
-		GetMovesFromDirection(currX, currY, 0, -1, 8); // Down
+		GetMovesFromDirection(1, 1, 8);
+		GetMovesFromDirection(-1, 1, 8);
+		GetMovesFromDirection(1, -1, 8);
+		GetMovesFromDirection(-1, -1, 8);
+		GetMovesFromDirection(1, 0, 8); // Right
+		GetMovesFromDirection(-1, 0, 8); // Left
+		GetMovesFromDirection(0, 1, 8); // Up
+		GetMovesFromDirection(0, -1, 8); // Down
 
 		return moves;
 	}
@@ -50,7 +49,7 @@ public class Queen : Piece
 	{
 		moves.Clear();
 
-		void GetMovesFromDirection(int currX, int currY, int dx, int dy, int maxDistance)
+		void GetMovesFromDirection(int dx, int dy, int maxDistance)
 		{
 			for (int i = 1; i <= maxDistance; i++)
 			{
@@ -66,14 +65,14 @@ public class Queen : Piece
 			}
 		}
 
-		GetMovesFromDirection(currX, currY, 1, 1, 8);
-		GetMovesFromDirection(currX, currY, -1, 1, 8);
-		GetMovesFromDirection(currX, currY, 1, -1, 8);
-		GetMovesFromDirection(currX, currY, -1, -1, 8);
-		GetMovesFromDirection(currX, currY, 1, 0, 8); // Right
-		GetMovesFromDirection(currX, currY, -1, 0, 8); // Left
-		GetMovesFromDirection(currX, currY, 0, 1, 8); // Up
-		GetMovesFromDirection(currX, currY, 0, -1, 8); // Down
+		GetMovesFromDirection(1, 1, 8);
+		GetMovesFromDirection(-1, 1, 8);
+		GetMovesFromDirection(1, -1, 8);
+		GetMovesFromDirection(-1, -1, 8);
+		GetMovesFromDirection(1, 0, 8); // Right
+		GetMovesFromDirection(-1, 0, 8); // Left
+		GetMovesFromDirection(0, 1, 8); // Up
+		GetMovesFromDirection(0, -1, 8); // Down
 
 		return moves;
 	}

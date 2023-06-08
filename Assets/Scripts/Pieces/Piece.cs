@@ -7,9 +7,6 @@ public abstract class Piece : MonoBehaviour, ICloneable
 	[SerializeField] protected int currX;
 	[SerializeField] protected int currY;
 
-	[SerializeField] protected int testX;
-	[SerializeField] protected int testY;
-
 	[SerializeField] protected List<Move> moves = new List<Move>();
 
 	/// <summary>
@@ -29,16 +26,6 @@ public abstract class Piece : MonoBehaviour, ICloneable
 	public PlayerType Player => player;
 
 	[SerializeField] protected PlayerType player;
-
-	//private void OnEnable()
-	//{
-	//	OnAfterMove += GameController.InvokeOnRoundEnd;
-	//}
-
-	//private void OnDisable()
-	//{
-	//	OnAfterMove -= GameController.InvokeOnRoundEnd;
-	//}
 
 	private void Awake()
 	{

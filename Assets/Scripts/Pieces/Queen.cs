@@ -58,7 +58,6 @@ public class Queen : Piece
 				if (x < 0 || x > 7 || y < 0 || y > 7) break;
 				int pos = y * 8 + x;
 				Move m = new Move(CurrPos, pos, this);
-				// if (!IsLegalMove(x, y, this)) break;
 				if (!IsLegalMove(m)) break;
 				moves.Add(m);
 				if (BoardController.i.TestArrayIsOccupied(pos)) break;

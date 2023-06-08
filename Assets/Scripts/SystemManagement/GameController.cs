@@ -1,9 +1,10 @@
 using UnityEngine;
 using System;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 public class GameController : MonoBehaviour
 {
-    [SerializeField] private static PlayerType currPlayer;
+    [SerializeField] private static PlayerType currPlayer = PlayerType.White;
 	[SerializeField] private static GameState gameState;
 
 	public static GameController i;
@@ -23,14 +24,16 @@ public class GameController : MonoBehaviour
 
 	private void OnEnable()
 	{
-		OnRoundEnd += SetPlayer;
+        OnRoundEnd += HandleCheckmate;
+        OnRoundEnd += SetPlayer;
         OnRoundEnd += InvokeOnRoundStart;
 	}
 
 	private void OnDisable()
 	{
-		OnRoundEnd -= SetPlayer;
-		OnRoundEnd += InvokeOnRoundStart;
+		OnRoundEnd -= HandleCheckmate;
+        OnRoundEnd -= SetPlayer;
+		OnRoundEnd -= InvokeOnRoundStart;
 	}
 
 	private void Start()
@@ -84,6 +87,16 @@ public class GameController : MonoBehaviour
     public static PlayerType GetCurrPlayer()
     {
         return currPlayer;
+    }
+
+    public void HandleCheckmate()
+    {
+        Debug.Log("Checkmate: " + BoardController.i.IsCheckmate());
+    }
+
+    public static PlayerType GetOpponent()
+    {
+        return PlayerType.Black == currPlayer ? PlayerType.White : PlayerType.Black;
     }
 }
 

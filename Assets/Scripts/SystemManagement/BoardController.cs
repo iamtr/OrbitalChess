@@ -30,6 +30,9 @@ public class BoardController : MonoBehaviour
 	private Transform highlightTransform;
 	private Transform pieceTransform;
 
+	/// <summary>
+	/// Array that is used to simulated if a move results in a check to own king
+	/// </summary>
 	public Piece[] testArray;
 
 	public int BlackKingPos = 3;
@@ -62,12 +65,16 @@ public class BoardController : MonoBehaviour
 		pieceTransform = GameObject.Find("Pieces")?.transform;
 
 		allMoves = new List<Move>();
-		testArray = pieces.Clone() as Piece[];
+
 		InstantiatePieces();
 
 		if (i != null && i != this) Destroy(this);
 		else i = this;
+
+		testArray = pieces.Clone() as Piece[];
 	}
+
+
 
 	/// <summary>
 	/// Instantiates all pieces and highlight squares
@@ -421,13 +428,13 @@ public class BoardController : MonoBehaviour
 	/// Checks if current player checks opponent after move
 	/// </summary>
 	/// <returns></returns>
-	public bool IsCheckAfterMove()
+	public bool IsCheckAfterMove(PlayerType p)
 	{
 		allMoves.Clear();
 
 		foreach (Piece piece in pieces)
 		{
-			if (piece != null && piece.Player == GameController.GetCurrPlayer())
+			if (piece != null && piece.Player == p)
 			{
 				allMoves.AddRange(piece.GetLegalMoves());
 			}
@@ -516,7 +523,7 @@ public class BoardController : MonoBehaviour
 
 			default:
 				if (testArray[oldPos] == null)
-					Debug.Log($"Piece at {oldPos} is null");
+					Debug.Log($"UpdateTestArray: Piece at {oldPos} is null");
 
 				MovePieceAndSetCoords(oldPos, newPos);
 				break;
@@ -538,5 +545,24 @@ public class BoardController : MonoBehaviour
 		return GameController.GetCurrPlayer() == PlayerType.Black ? WhiteKingPos : BlackKingPos;
 	}
 
+	public bool IsCheckmate()
+	{
+		// List of all opponent moves
+		List<Move> moves = new List<Move>();
+
+		foreach (Piece piece in pieces)
+		{
+			if (piece == null || piece.Player == GameController.GetCurrPlayer()) continue;
+			moves.AddRange(piece.GetLegalMoves());
+		}
+
+		if (moves.Count == 0)
+		{
+			Debug.Log("Checkmate");
+			return true;
+		}
+
+		return false;
+	}
 
 }

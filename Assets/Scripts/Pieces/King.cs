@@ -32,6 +32,28 @@ public class King : Piece
 
 	public override List<Move> GetLegalMoves()
 	{
+		List<Move> GetLegalCastlingMoves()
+		{
+			if (hasMoved) return moves;
+			int leftDirection = -1;
+			int rightDirection = 1;
+			if (IsAbleToCastle(leftDirection))
+			{
+				int pos = BoardController.i.ConvertToPos(0, currY);
+				Move m = new Move(CurrPos, pos, this, Move.Flag.Castling);
+				if (!BoardController.i.IsBeingCheckedAfterMove(m)) moves.Add(m);
+			}
+
+			if (IsAbleToCastle(rightDirection))
+			{
+				int pos = BoardController.i.ConvertToPos(7, currY);
+				Move m = new Move(CurrPos, pos, this, Move.Flag.Castling);
+				if (BoardController.i.IsBeingCheckedAfterMove(m)) moves.Add(m);
+			}
+
+			return moves;
+		}
+
 		moves.Clear();
 
 		void GetMovesFromDirection(int dx, int dy, int maxDistance)
@@ -47,7 +69,10 @@ public class King : Piece
 
 				if (!IsLegalMove(m) || BoardController.i.IsBeingCheckedAfterMove(m)) break;
 				moves.Add(m);
-				if (BoardController.i.IsOccupied(pos)) break;
+				if (BoardController.i.IsOccupied(pos))
+				{
+					break;
+				}
 			}
 		}
 
@@ -66,6 +91,28 @@ public class King : Piece
 
 	public override List<Move> GetAllMoves()
 	{
+		List<Move> GetAllCastlingMoves()
+		{
+			if (hasMoved) return moves;
+			int leftDirection = -1;
+			int rightDirection = 1;
+			if (IsAbleToCastle(leftDirection))
+			{
+				int pos = BoardController.i.ConvertToPos(0, currY);
+				Move m = new Move(CurrPos, pos, this, Move.Flag.Castling);
+				if (IsLegalMove(m)) moves.Add(m);
+			}
+
+			if (IsAbleToCastle(rightDirection))
+			{
+				int pos = BoardController.i.ConvertToPos(7, currY);
+				Move m = new Move(CurrPos, pos, this, Move.Flag.Castling);
+				if (IsLegalMove(m)) moves.Add(m);
+			}
+
+			return moves;
+		}
+
 		moves.Clear();
 
 		void GetMovesFromDirection(int dx, int dy, int maxDistance)
@@ -94,50 +141,6 @@ public class King : Piece
 		GetMovesFromDirection(0, 1, 1); // Up
 		GetMovesFromDirection(0, -1, 1); // Down
 		GetAllCastlingMoves();
-
-		return moves;
-	}
-
-	public List<Move> GetLegalCastlingMoves()
-	{
-		if (hasMoved) return moves;
-		int leftDirection = -1;
-		int rightDirection = 1;
-		if (IsAbleToCastle(leftDirection))
-		{
-			int pos = BoardController.i.ConvertToPos(0, currY);
-			Move m = new Move(CurrPos, pos, this, Move.Flag.Castling);
-			if (!BoardController.i.IsBeingCheckedAfterMove(m)) moves.Add(m);
-		}
-
-		if (IsAbleToCastle(rightDirection))
-		{
-			int pos = BoardController.i.ConvertToPos(7, currY);
-			Move m = new Move(CurrPos, pos, this, Move.Flag.Castling);
-			if (BoardController.i.IsBeingCheckedAfterMove(m)) moves.Add(m);
-		}
-
-		return moves;
-	}
-
-	public List<Move> GetAllCastlingMoves()
-	{
-		if (hasMoved) return moves;
-		int leftDirection = -1;
-		int rightDirection = 1;
-		if (IsAbleToCastle(leftDirection))
-        {
-			int pos = BoardController.i.ConvertToPos(0, currY);
-			Move m = new Move(CurrPos, pos, this, Move.Flag.Castling);
-			if (IsLegalMove(m)) moves.Add(m);
-		}
-			
-		if (IsAbleToCastle(rightDirection))
-		{
-			int pos = BoardController.i.ConvertToPos(7, currY);
-			Move m = new Move(CurrPos, pos, this, Move.Flag.Castling);
-			if (IsLegalMove(m)) moves.Add(m);
-		}
 
 		return moves;
 	}

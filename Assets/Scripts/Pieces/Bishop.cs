@@ -30,7 +30,10 @@ public class Bishop : Piece
 				Move m = new Move(CurrPos, pos, this);
 				if (!IsLegalMove(m) || BoardController.i.IsBeingCheckedAfterMove(m)) break;
 				moves.Add(m);
-				if (BoardController.i.IsOccupied(pos)) break;
+				if (BoardController.i.IsOccupied(pos))
+				{
+					break;
+				}
 			}
 		}
 

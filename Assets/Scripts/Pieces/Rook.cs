@@ -37,7 +37,7 @@ public class Rook : Piece
 			{
 				int x = currX + i * dx;
 				int y = currY + i * dy;
-				if (x < 0 || x > 7 || y < 0 || y > 7) break; // Out of bounds (breaks the loop)	
+				if (x < 0 || x > 7 || y < 0 || y > 7) break; 
 				int pos = y * 8 + x;
 
 				Move m = new Move(CurrPos, pos, this);
@@ -66,7 +66,7 @@ public class Rook : Piece
 			{
 				int x = currX + i * dx;
 				int y = currY + i * dy;
-				if (x < 0 || x > 7 || y < 0 || y > 7) break; // Out of bounds (breaks the loop)	
+				if (x < 0 || x > 7 || y < 0 || y > 7) break;
 				int pos = y * 8 + x;
 
 				Move m = new Move(CurrPos, pos, this);

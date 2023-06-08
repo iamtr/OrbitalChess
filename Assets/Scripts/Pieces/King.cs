@@ -67,7 +67,7 @@ public class King : Piece
 
 				Move m = new Move(CurrPos, pos, this);
 
-				if (!IsLegalMove(m) || BoardController.i.IsBeingCheckedAfterMove(m)) break;
+				if (!BoardController.i.IsSamePlayerAtTestArray(CurrPos, pos) || BoardController.i.IsBeingCheckedAfterMove(m)) break;
 				moves.Add(m);
 				if (BoardController.i.IsOccupied(pos))
 				{

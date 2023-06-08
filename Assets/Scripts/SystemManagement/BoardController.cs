@@ -565,4 +565,11 @@ public class BoardController : MonoBehaviour
 		return false;
 	}
 
+	public bool IsSamePlayerAtTestArray(int pos1, int pos2)
+	{
+		Piece p1 = testArray[pos1];
+		Piece p2 = testArray[pos2];
+		return p1?.Player == p2?.Player;
+	}
+
 }

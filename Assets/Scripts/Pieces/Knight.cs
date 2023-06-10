@@ -28,7 +28,7 @@ public class Knight : Piece
 
 			Move m = new Move(CurrPos, newPos, this);
 
-			if (IsLegalMove(m) && !BoardController.i.IsBeingCheckedAfterMove(m))
+			if (IsLegalMove(m) && !BoardController.i.IsBeingCheckedAfterMove(m, Player))
 			{
 				moves.Add(m);
 			}

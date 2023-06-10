@@ -24,16 +24,16 @@ public class GameController : MonoBehaviour
 
 	private void OnEnable()
 	{
-        OnRoundEnd += HandleCheckmate;
-        OnRoundEnd += SetPlayer;
+		OnRoundEnd += HandleCheckAndCheckmate;
+		OnRoundEnd += SetPlayer;
         OnRoundEnd += InvokeOnRoundStart;
 	}
 
 	private void OnDisable()
-	{
-		OnRoundEnd -= HandleCheckmate;
-        OnRoundEnd -= SetPlayer;
-		OnRoundEnd -= InvokeOnRoundStart;
+    {
+		OnRoundEnd -= HandleCheckAndCheckmate;
+		OnRoundEnd -= SetPlayer;
+		OnRoundEnd -= InvokeOnRoundStart;   
 	}
 
 	private void Start()
@@ -89,9 +89,18 @@ public class GameController : MonoBehaviour
         return currPlayer;
     }
 
-    public void HandleCheckmate()
+    public void HandleCheckAndCheckmate()
     {
-        Debug.Log("Checkmate: " + BoardController.i.IsCheckmate());
+
+        if (BoardController.i.IsCheckmate())
+        {
+			Debug.Log("Checkmate");
+			SetGameState(GameState.GameOver);
+		}
+		else if (BoardController.i.IsCheck())
+        {
+			Debug.Log("Check");
+		}
     }
 
     public static PlayerType GetOpponent()

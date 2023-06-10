@@ -41,14 +41,14 @@ public class King : Piece
 			{
 				int pos = BoardController.i.ConvertToPos(0, currY);
 				Move m = new Move(CurrPos, pos, this, Move.Flag.Castling);
-				if (!BoardController.i.IsBeingCheckedAfterMove(m)) moves.Add(m);
+				if (!BoardController.i.IsBeingCheckedAfterMove(m, Player)) moves.Add(m);
 			}
 
 			if (IsAbleToCastle(rightDirection))
 			{
 				int pos = BoardController.i.ConvertToPos(7, currY);
 				Move m = new Move(CurrPos, pos, this, Move.Flag.Castling);
-				if (BoardController.i.IsBeingCheckedAfterMove(m)) moves.Add(m);
+				if (BoardController.i.IsBeingCheckedAfterMove(m, Player)) moves.Add(m);
 			}
 
 			return moves;
@@ -67,7 +67,7 @@ public class King : Piece
 
 				Move m = new Move(CurrPos, pos, this);
 
-				if (!BoardController.i.IsSamePlayerAtTestArray(CurrPos, pos) || BoardController.i.IsBeingCheckedAfterMove(m)) break;
+				if (BoardController.i.IsBeingCheckedAfterMove(m, Player) || BoardController.i.IsSamePlayer(CurrPos, pos)) break;
 				moves.Add(m);
 				if (BoardController.i.IsOccupied(pos))
 				{

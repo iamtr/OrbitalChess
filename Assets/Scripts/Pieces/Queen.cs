@@ -27,7 +27,7 @@ public class Queen : Piece
 				if (x < 0 || x > 7 || y < 0 || y > 7) break;
 				int pos = y * 8 + x;
 				Move m = new Move(CurrPos, pos, this);
-				if (!IsLegalMove(m) || BoardController.i.IsBeingCheckedAfterMove(m)) break;
+				if (!IsLegalMove(m) || BoardController.i.IsBeingCheckedAfterMove(m, Player)) break;
 				moves.Add(m);
 				if (BoardController.i.IsOccupied(pos)) break;
 			}

@@ -425,32 +425,11 @@ public class BoardController : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Checks if current player checks opponent after move
-	/// </summary>
-	/// <returns></returns>
-	public bool IsCheckAfterMove(PlayerType p)
-	{
-		allMoves.Clear();
-
-		foreach (Piece piece in pieces)
-		{
-			if (piece != null && piece.Player == p)
-			{
-				allMoves.AddRange(piece.GetLegalMoves());
-			}
-		}
-
-		bool temp = allMoves.Any(move => move.TargetSquare == GetOpponentKingPosition());
-		Debug.Log("Is Check : " + temp);
-		return temp;
-	}
-
-	/// <summary>
 	/// Checks if a certain move will result in a check to selfs
 	/// </summary>
 	/// <param name="move"></param>
 	/// <returns></returns>
-	public bool IsBeingCheckedAfterMove(Move move)
+	public bool IsBeingCheckedAfterMove(Move move, PlayerType p)
 	{
 		UpdateTestArray(move, GameController.GetCurrPlayer());
 
@@ -458,17 +437,18 @@ public class BoardController : MonoBehaviour
 
 		int tempKingPos = -1;
 
-		tempKingPos = move.Piece is King ? move.TargetSquare : GetOwnKingPosition();
+		tempKingPos = move.Piece is King && move.Piece.Player == p
+			? move.TargetSquare 
+			: GetKingPosition(p);
 
 		foreach (Piece piece in testArray)
 		{
-			if (piece == null || piece.Player == GameController.GetCurrPlayer()) continue;
+			if (piece == null || piece.Player == p) continue;
 			allMoves.AddRange(piece.GetAllMoves());
 
 		}
 
 		bool temp = allMoves.Any(move => move.TargetSquare == tempKingPos);
-		Debug.Log("Is Being Checked : " + temp);
 		return temp;
 	}
 
@@ -535,14 +515,9 @@ public class BoardController : MonoBehaviour
 		return testArray[pos] != null;
 	}
 
-	public int GetOwnKingPosition()
+	public int GetKingPosition(PlayerType p)
 	{
-		return GameController.GetCurrPlayer() == PlayerType.White ? WhiteKingPos : BlackKingPos;
-	}
-
-	public int GetOpponentKingPosition()
-	{
-		return GameController.GetCurrPlayer() == PlayerType.Black ? WhiteKingPos : BlackKingPos;
+		return p == PlayerType.White ? WhiteKingPos : BlackKingPos;
 	}
 
 	public bool IsCheckmate()
@@ -560,9 +535,23 @@ public class BoardController : MonoBehaviour
 		{
 			Debug.Log("Checkmate");
 			return true;
-		}
+		} 
 
 		return false;
+	}
+
+	public bool IsCheck()
+	{
+		List<Move> moves = new List<Move>();
+
+		foreach (Piece piece in pieces)
+		{
+			if (piece == null || piece.Player != GameController.GetCurrPlayer()) continue;
+			moves.AddRange(piece.GetLegalMoves());
+		}
+
+		bool temp = moves.Any(move => move.TargetSquare == GetKingPosition(GameController.GetOpponent()));
+		return temp;
 	}
 
 	public bool IsSamePlayerAtTestArray(int pos1, int pos2)

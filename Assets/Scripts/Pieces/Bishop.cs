@@ -28,12 +28,9 @@ public class Bishop : Piece
 				if (x < 0 || x > 7 || y < 0 || y > 7) break;
 				int pos = BoardController.i.ConvertToPos(x, y);
 				Move m = new Move(CurrPos, pos, this);
-				if (!IsLegalMove(m) || BoardController.i.IsBeingCheckedAfterMove(m)) break;
+				if (BoardController.i.IsBeingCheckedAfterMove(m, Player)) break;
 				moves.Add(m);
-				if (BoardController.i.IsOccupied(pos))
-				{
-					break;
-				}
+				if (BoardController.i.IsOccupied(pos)) break;
 			}
 		}
 
@@ -58,7 +55,6 @@ public class Bishop : Piece
 				if (x < 0 || x > 7 || y < 0 || y > 7) break;
 				int pos = BoardController.i.ConvertToPos(x, y);
 				Move m = new Move(CurrPos, pos, this);
-				if (!IsLegalMove(m)) break;
 				moves.Add(m);
 				if (BoardController.i.TestArrayIsOccupied(pos)) break;
 			}

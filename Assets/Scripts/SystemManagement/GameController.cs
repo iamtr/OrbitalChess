@@ -1,6 +1,6 @@
 using UnityEngine;
 using System;
-using System.Runtime.InteropServices.WindowsRuntime;
+using TMPro;
 
 public class GameController : MonoBehaviour
 {
@@ -21,6 +21,8 @@ public class GameController : MonoBehaviour
     public static event Action OnRoundStart;
     public static event Action OnRoundEnd;
     //public static event Action OnGameEnd;
+
+    [SerializeField] private TMP_Text checkText;
 
 	private void OnEnable()
 	{
@@ -91,15 +93,20 @@ public class GameController : MonoBehaviour
 
     public void HandleCheckAndCheckmate()
     {
-
         if (BoardController.i.IsCheckmate())
         {
-			Debug.Log("Checkmate");
 			SetGameState(GameState.GameOver);
+            checkText.gameObject.SetActive(true);
+            checkText.text = "Checkmate!";
 		}
 		else if (BoardController.i.IsCheck())
         {
-			Debug.Log("Check");
+			checkText.gameObject.SetActive(true);
+			checkText.text = "Check!";
+		}
+        else
+        {
+			checkText.gameObject.SetActive(false);
 		}
     }
 

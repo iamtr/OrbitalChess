@@ -20,7 +20,8 @@ public class Timer : MonoBehaviour
 
     void Update()
     {
-        
+        if (GameController.GetGameState() == GameState.GameOver 
+            || GameController.GetGameState() == GameState.Pause) return;
         if (GameController.GetCurrPlayer() == PlayerType.White)
         {
             whiteTimeRemaining -= Time.deltaTime;
@@ -38,13 +39,9 @@ public class Timer : MonoBehaviour
         if(timeToDisplay < 0)
         {
             timeToDisplay = 0;
+            GameController.SetGameState(GameState.GameOver);
         }
         TimeSpan time = TimeSpan.FromSeconds(timeToDisplay);
-        Text.text = time.Minutes.ToString() + ":" + time.Seconds.ToString();
-    }
-
-    public void StartTimer()
-    {
-
+        Text.text = time.ToString(@"mm\:ss");
     }
 }

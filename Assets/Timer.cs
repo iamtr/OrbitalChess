@@ -6,24 +6,27 @@ using UnityEngine;
 
 public class Timer : MonoBehaviour
 {
+    public static bool isGameStart = false;
     float blackTimeRemaining;
     float whiteTimeRemaining;
-    public int startMinutes;
-    public int secondsToAddAfterMove;
+    public static int startMinutes;
+    public static int secondsToAddAfterMove;
     public TMP_Text blackText;
     public TMP_Text whiteText;
 
     void Start()
     {
-        blackTimeRemaining = startMinutes * 60;
-        whiteTimeRemaining = startMinutes * 60;
+        
         GameController.OnRoundEnd += AddPlayerSeconds;
     }
 
     void Update()
     {
+        blackTimeRemaining = startMinutes * 60;
+        whiteTimeRemaining = startMinutes * 60;
         if (GameController.GetGameState() == GameState.GameOver 
-            || GameController.GetGameState() == GameState.Pause) return;
+            || GameController.GetGameState() == GameState.Pause
+            || !isGameStart) return;
         if (GameController.GetCurrPlayer() == PlayerType.White)
         {
             whiteTimeRemaining -= Time.deltaTime;

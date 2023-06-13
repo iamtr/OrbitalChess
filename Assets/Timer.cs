@@ -9,6 +9,7 @@ public class Timer : MonoBehaviour
     float blackTimeRemaining;
     float whiteTimeRemaining;
     public int startMinutes;
+    public int secondsToAddAfterMove;
     public TMP_Text blackText;
     public TMP_Text whiteText;
 
@@ -16,6 +17,7 @@ public class Timer : MonoBehaviour
     {
         blackTimeRemaining = startMinutes * 60;
         whiteTimeRemaining = startMinutes * 60;
+        GameController.OnRoundEnd += AddPlayerSeconds;
     }
 
     void Update()
@@ -43,5 +45,17 @@ public class Timer : MonoBehaviour
         }
         TimeSpan time = TimeSpan.FromSeconds(timeToDisplay);
         Text.text = time.ToString(@"mm\:ss");
+    }
+
+    public void AddPlayerSeconds()
+    {
+        if (GameController.GetCurrPlayer() == PlayerType.White)
+        {
+            blackTimeRemaining += secondsToAddAfterMove;
+        }
+        if (GameController.GetCurrPlayer() == PlayerType.Black)
+        {
+            whiteTimeRemaining += secondsToAddAfterMove;
+        }
     }
 }

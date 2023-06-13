@@ -449,6 +449,10 @@ PrefabInstance:
       propertyPath: startMinutes
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 686524535, guid: e33ce6fc2dc50054ca173fa218479644, type: 3}
+      propertyPath: secondsToAddAfterMove
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1238853694, guid: e33ce6fc2dc50054ca173fa218479644, type: 3}
       propertyPath: m_AnchorMax.x
       value: 1

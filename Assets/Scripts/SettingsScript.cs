@@ -6,7 +6,6 @@ public class SettingsScript : MonoBehaviour
 {
     public GameObject mainMenuPanel;
     public GameObject settingsPanel;
-    private bool IsBlack = true;
 
     public void ChangeFromMainMenuToSettings()
     {

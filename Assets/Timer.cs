@@ -22,8 +22,11 @@ public class Timer : MonoBehaviour
 
     void Update()
     {
-        blackTimeRemaining = startMinutes * 60;
-        whiteTimeRemaining = startMinutes * 60;
+        if (!isGameStart)
+        {
+            blackTimeRemaining = startMinutes * 60;
+            whiteTimeRemaining = startMinutes * 60;
+        }
         if (GameController.GetGameState() == GameState.GameOver 
             || GameController.GetGameState() == GameState.Pause
             || !isGameStart) return;

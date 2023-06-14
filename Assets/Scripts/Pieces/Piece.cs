@@ -27,6 +27,8 @@ public abstract class Piece : MonoBehaviour, ICloneable
 
 	[SerializeField] protected PlayerType player;
 
+	public static bool isBlackBelow = true;
+
 	private void Awake()
 	{
 		InitPiece(Player);
@@ -70,7 +72,18 @@ public abstract class Piece : MonoBehaviour, ICloneable
 
 	public void SetTransform()
 	{
-		transform.position = new Vector3(currX, currY, 2);
+		int xPosition;
+		int yPosition;
+        if (isBlackBelow)
+        {
+			xPosition = currX;
+			yPosition = currY;
+        } else
+        {
+			xPosition = 7 - currX;
+			yPosition = 7 - currY;
+		}
+		transform.position = new Vector3(xPosition, yPosition, 2);
 	}
 	/// <summary>
 	/// Set the player type for this piece

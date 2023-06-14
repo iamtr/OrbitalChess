@@ -40,6 +40,8 @@ public class BoardController : MonoBehaviour
 
 	public List<Move> allMoves;
 
+	public static bool isBlackBelow = true;
+
 	/// <summary>
 	/// The current piece that is being clicked by the player
 	/// </summary>
@@ -85,8 +87,17 @@ public class BoardController : MonoBehaviour
 
 		for (var i = 0; i < 64; i++)
 		{
-			var x = i % 8;
-			var y = i / 8;
+			int pos;
+			if (isBlackBelow)
+			{
+				pos = i;
+			}
+			else
+			{
+				pos = 63 - i;
+			}
+			var x = pos % 8;
+			var y = pos / 8;
 
 			highlights[i] = Instantiate(highlightSquare, new Vector3(x, y, 0), Quaternion.identity);
 			highlights[i].Position = i;
@@ -112,6 +123,7 @@ public class BoardController : MonoBehaviour
 		pieces[pos] = newPiece;
 		newPiece.transform.parent = pieceTransform;
 		newPiece.SetCoords(pos);
+		newPiece.SetTransform();
 
 		return newPiece;
 	}

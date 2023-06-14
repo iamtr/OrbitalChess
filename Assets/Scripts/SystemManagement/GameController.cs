@@ -1,12 +1,12 @@
 using UnityEngine;
 using System;
+using TMPro;
 
 public class GameController : MonoBehaviour
 {
-    [SerializeField] private PlayerType currPlayer;
-	[SerializeField] private GameState gameState;
+    [SerializeField] private static PlayerType currPlayer = PlayerType.White;
+	[SerializeField] private static GameState gameState;
 
-    public EnPassant ep;
 	public static GameController i;
 
     /// <summary>
@@ -17,13 +17,31 @@ public class GameController : MonoBehaviour
     /// Current game state (Play, Promoting, Check, etc)
     /// </summary>
 	public GameState GameState => gameState;
-    public event Action OnRoundEnd;
+
+    public static event Action OnRoundStart;
+    public static event Action OnRoundEnd;
+    //public static event Action OnGameEnd;
+
+    [SerializeField] private TMP_Text checkText;
+
+	private void OnEnable()
+	{
+		OnRoundEnd += HandleCheckAndCheckmate;
+		OnRoundEnd += SetPlayer;
+        OnRoundEnd += InvokeOnRoundStart;
+	}
+
+	private void OnDisable()
+    {
+		OnRoundEnd -= HandleCheckAndCheckmate;
+		OnRoundEnd -= SetPlayer;
+		OnRoundEnd -= InvokeOnRoundStart;   
+	}
+
 	private void Start()
 	{
         if (i != null && i != this) Destroy(this);
         else i = this;
-
-        OnRoundEnd += SetPlayer;
     }
 	private void Update()
 	{
@@ -32,8 +50,7 @@ public class GameController : MonoBehaviour
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Collider2D collider = Physics2D.OverlapPoint(mousePosition);
 
-            if (collider == null) return;
-            InputManager.i.HandleColliderClicked(collider);
+            InputManager.HandleColliderClicked(collider);
         }
     }
 
@@ -46,26 +63,56 @@ public class GameController : MonoBehaviour
     }
 
     /// <summary>
-    /// Changes the game state according to the parameter
+    /// Changes the game state according to the parameter. Is static.
     /// </summary>
     /// <param name="newState">The state to set</param>
-	public void SetGameState(GameState newState)
+	public static void SetGameState(GameState newState)
 	{
 		gameState = newState;
 	}
 
-    /// <summary>
-    /// Parameterless method to set game state to play
-    /// </summary>
-    public void SetGameStateToPlay()
+	public static void InvokeOnRoundStart()
 	{
-		gameState = GameState.Play;
+		OnRoundStart?.Invoke();
 	}
 
-    public void InvokeOnRoundEnd() 
+	public static void InvokeOnRoundEnd() 
     {
         OnRoundEnd?.Invoke();
-        EnPassant.i.InvokeEveryTimer();
+    }
+
+    public static GameState GetGameState()
+    {
+        return gameState;
+    }
+
+    public static PlayerType GetCurrPlayer()
+    {
+        return currPlayer;
+    }
+
+    public void HandleCheckAndCheckmate()
+    {
+        if (BoardController.i.IsCheckmate())
+        {
+			SetGameState(GameState.GameOver);
+            checkText.gameObject.SetActive(true);
+            checkText.text = "Checkmate!";
+		}
+		else if (BoardController.i.IsCheck())
+        {
+			checkText.gameObject.SetActive(true);
+			checkText.text = "Check!";
+		}
+        else
+        {
+			checkText.gameObject.SetActive(false);
+		}
+    }
+
+    public static PlayerType GetOpponent()
+    {
+        return PlayerType.Black == currPlayer ? PlayerType.White : PlayerType.Black;
     }
 }
 

@@ -89,6 +89,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23b23642ad111814899e8eb5ad5cf3c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currPlayer: 0
-  gameState: 0
-  ep: {fileID: 0}

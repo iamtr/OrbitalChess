@@ -1,38 +1,76 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Bishop : Piece
 {
-	public override void GetAvailableMoves()
+
+	private void OnEnable()
 	{
-		void HighlightDirection(int dx, int dy, int maxDistance)
+		OnAfterMove += GameController.InvokeOnRoundEnd;
+	}
+
+	private void OnDisable()
+	{
+		OnAfterMove -= GameController.InvokeOnRoundEnd;
+	}
+	public override List<Move> GetLegalMoves()
+	{
+		moves.Clear();
+
+		void GetMovesFromDirection(int dx, int dy, int maxDistance)
 		{
 			for (int i = 1; i <= maxDistance; i++)
 			{
 				int x = currX + i * dx;
 				int y = currY + i * dy;
-				int pos = bc.ConvertToPos(x, y);
-				if (!IsLegalMove(x, y, this)) break;
-				bc.Highlight(x, y, this);
-				if (bc.IsOccupied(pos) && !bc.IsSamePlayer(this.CurrPos, pos)) break;
+				if (x < 0 || x > 7 || y < 0 || y > 7) break;
+				int pos = BoardController.i.ConvertToPos(x, y);
+				Move m = new Move(CurrPos, pos, this);
+				if (BoardController.i.IsBeingCheckedAfterMove(m, Player)) break;
+				moves.Add(m);
+				if (BoardController.i.IsOccupied(pos)) break;
 			}
 		}
 
-		HighlightDirection(1, 1, 8); 
-		HighlightDirection(-1, 1, 8); 
-		HighlightDirection(1, -1, 8); 
-		HighlightDirection(-1, -1, 8);
+		GetMovesFromDirection(1, 1, 8);
+		GetMovesFromDirection(1, -1, 8);
+		GetMovesFromDirection(-1, 1, 8);
+		GetMovesFromDirection(-1, -1, 8);
+
+		return moves;
 	}
 
-	public override bool IsLegalMove(int x, int y, Piece p)
+	public override List<Move> GetAllMoves()
 	{
-		int pos = bc.ConvertToPos(x, y);
-		if (!bc.IsInBounds(x, y) || bc.IsSamePlayer(this.CurrPos, pos))
+		moves.Clear();
+
+		void GetMovesFromDirection(int dx, int dy, int maxDistance)
 		{
-			return false;
+			for (int i = 1; i <= maxDistance; i++)
+			{
+				int x = currX + i * dx;
+				int y = currY + i * dy;
+				if (x < 0 || x > 7 || y < 0 || y > 7) break;
+				int pos = BoardController.i.ConvertToPos(x, y);
+				Move m = new Move(CurrPos, pos, this);
+				moves.Add(m);
+				if (BoardController.i.TestArrayIsOccupied(pos)) break;
+			}
 		}
 
+		GetMovesFromDirection(1, 1, 8);
+		GetMovesFromDirection(1, -1, 8);
+		GetMovesFromDirection(-1, 1, 8);
+		GetMovesFromDirection(-1, -1, 8);
+
+		return moves;
+	}
+
+	public override bool IsLegalMove(Move move)
+	{
+		if (BoardController.i.IsSamePlayer(CurrPos, move.TargetSquare)) return false;
 		return true;
 	}
 }

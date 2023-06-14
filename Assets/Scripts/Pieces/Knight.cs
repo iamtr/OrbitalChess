@@ -6,29 +6,60 @@ public class Knight : Piece
 {
 	private int[,] deltas = new int[,] { { 1, 2 }, { 2, 1 }, { -1, 2 }, { -2, 1 }, { 1, -2 }, { 2, -1 }, { -1, -2 }, { -2, -1 } };
 
-	public override bool IsLegalMove(int x, int y, Piece p) 
+	private void OnEnable()
 	{
-		int pos = y * 8 + x;
-		if (!bc.IsInBounds(x, y) || bc.IsSamePlayer(this.CurrPos, pos))
-		{
-			return false;
-		}
-
-		return true;
-
+		OnAfterMove += GameController.InvokeOnRoundEnd;
+	}
+	private void OnDisable()
+	{
+		OnAfterMove -= GameController.InvokeOnRoundEnd;
 	}
 
-	public override void GetAvailableMoves()
+	public override List<Move> GetLegalMoves()
 	{
+		moves.Clear();
+
 		for (int i = 0; i < deltas.GetLength(0); i++)
 		{
 			int deltaX = deltas[i, 0];
 			int deltaY = deltas[i, 1];
+			if (currX + deltaX < 0 || currY + deltaY < 0 || currX + deltaX > 7 || currY + deltaY > 7) continue;
+			int newPos = BoardController.i.ConvertToPos(currX + deltaX, currY + deltaY);
 
-			if (IsLegalMove(currX + deltaX, currY + deltaY, this))
+			Move m = new Move(CurrPos, newPos, this);
+
+			if (IsLegalMove(m) && !BoardController.i.IsBeingCheckedAfterMove(m, Player))
 			{
-				bc.Highlight(currX + deltaX, currY + deltaY, this);
+				moves.Add(m);
 			}
 		}
+
+		return moves;
+	}
+
+	public override List<Move> GetAllMoves()
+	{
+		moves.Clear();
+
+		for (int i = 0; i < deltas.GetLength(0); i++)
+		{
+			int deltaX = deltas[i, 0];
+			int deltaY = deltas[i, 1];
+			if (currX + deltaX < 0 || currY + deltaY < 0 || currX + deltaX > 7 || currY + deltaY > 7) continue;
+			int newPos = BoardController.i.ConvertToPos(currX + deltaX, currY + deltaY);
+
+			Move m = new Move(CurrPos, newPos, this);
+
+			if (IsLegalMove(m)) moves.Add(m);
+		}
+
+		return moves;
+	}
+
+
+	public override bool IsLegalMove(Move move)
+	{
+		if (move.TargetSquare < 0 || move.TargetSquare > 63 || BoardController.i.IsSamePlayer(CurrPos, move.TargetSquare)) return false;
+		return true;
 	}
 }

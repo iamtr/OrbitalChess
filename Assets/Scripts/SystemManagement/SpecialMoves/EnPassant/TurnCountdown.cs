@@ -1,37 +1,62 @@
-using System.Collections;
+//using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// A countdown that decreases its 'timer' with each turn
+/// </summary>
 public class TurnCountdown : MonoBehaviour
 {
-    private bool justMoved = false;
-    public GameController gc;
-    private int TurnRemain;
-    public void TriggerTurnCountdown(Pawn pawn)
+    /// <summary>
+    /// A boolean to check whether the countdown is stil ongoing
+    /// A new instantiated turn countdown has its countdown over
+    /// </summary>
+    private bool IsCountdownOngoing = false;
+    private int TurnsRemaining;
+
+    /// <summary>
+    /// Triggers the countdown and sets the turns remaining to 1
+    /// </summary>
+    public void TriggerTurnCountdown()
     {
-        justMoved = true;
-        TurnRemain = 1;
+        IsCountdownOngoing = true;
+        TurnsRemaining = 1;
     }
 
+    /// <summary>
+    /// Checks whether the countdown is still available and reduce the 'timer' by 1
+    /// </summary>
+    /// <returns></returns>
     public bool IsCountdownAvailable()
     {
-        if (TurnRemain > 0)
+        if (TurnsRemaining > 0)
         {
-            TurnRemain -= 1;
+            TurnsRemaining -= 1;
             return true;
         }
         return false;
-
     }
+    //    public bool IsCountdownAvailable()
+    //    {
+    //        if (TurnRemain > 0)
+    //        {
+    //            TurnRemain -= 1;
+    //            return true;
+    //        }
+    //        return false;
+    //    }
 
-    public void InvokeTimer()
+    /// <summary>
+    /// Adjust the countdown boolean depending on the availability of the countdown
+    /// </summary>
+    public void InvokeTurnCountdown()
     {
         if (IsCountdownAvailable()) return;
-        justMoved = false;
+        IsCountdownOngoing = false;
     }
 
-    public bool IsJustMoved()
+    public bool getCountdownOngoing()
     {
-        return justMoved;
+        return IsCountdownOngoing;
     }
 }

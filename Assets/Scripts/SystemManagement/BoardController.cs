@@ -1,30 +1,80 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
+/// <summary>
+/// Controls all the piece logic and movement logic on the board
+/// </summary>
 public class BoardController : MonoBehaviour
 {
+	/// <summary>
+	/// Array of the pieces available on the board where
+	/// the index of the array is the position of the piece on the board
+	/// </summary>
 	[SerializeField] private Piece[] pieces;
+
+	/// <summary>
+	/// Array of the highlights on the board where
+	/// the index of the array is the position of the square on the board
+	/// </summary>
 	[SerializeField] private HighlightSquare[] highlights;
 	[SerializeField] private HighlightSquare highlightSquare;
+
 	/// <summary>
-	/// The current piece that is being clicked by the player
+	/// Array of the piece used for pawn promotion
 	/// </summary>
-	[SerializeField] public Piece CurrPiece { get; set; }
+	[SerializeField] private Piece[] promotionBlackList;
+	[SerializeField] private Piece[] promotionWhiteList;
 
 	private Transform highlightTransform;
 	private Transform pieceTransform;
 
+	/// <summary>
+	/// Array that is used to simulated if a move results in a check to own king
+	/// </summary>
+	public Piece[] testArray;
+
+	public int BlackKingPos = 3;
+	public int WhiteKingPos = 59;
+
+	public List<Move> allMoves;
+
+	/// <summary>
+	/// The current piece that is being clicked by the player
+	/// </summary>
+	public Piece CurrPiece { get; set; }
+
 	public static BoardController i { get; private set; }
+
+	private void OnEnable()
+	{
+		GameController.OnRoundEnd += UnhighlightAllSqaures;
+		GameController.OnRoundStart += SetPawnBooleansToFalse;
+	}
+
+	private void OnDisable()
+	{
+		GameController.OnRoundEnd -= UnhighlightAllSqaures;
+		GameController.OnRoundStart -= SetPawnBooleansToFalse;
+	}
 
 	private void Start()
 	{
-		highlightTransform = GameObject.Find("Highlight Squares").transform;
-		pieceTransform = GameObject.Find("Pieces").transform;
+		highlightTransform = GameObject.Find("Highlight Squares")?.transform;
+		pieceTransform = GameObject.Find("Pieces")?.transform;
+
+		allMoves = new List<Move>();
+
+		InstantiatePieces();
 
 		if (i != null && i != this) Destroy(this);
 		else i = this;
-		
-		InstantiatePieces();
+
+		testArray = pieces.Clone() as Piece[];
 	}
+
+
 
 	/// <summary>
 	/// Instantiates all pieces and highlight squares
@@ -61,28 +111,47 @@ public class BoardController : MonoBehaviour
 		Piece newPiece = Instantiate(piece, new Vector3(x, y, 2), Quaternion.identity);
 		pieces[pos] = newPiece;
 		newPiece.transform.parent = pieceTransform;
-		newPiece.SetCoords(x, y);
+		newPiece.SetCoords(pos);
 
 		return newPiece;
 	}
 
+	/// <summary>
+	/// Check if a certain move is legal
+	/// </summary>
+	/// <param name="x"></param>
+	/// <param name="y"></param>
+	/// <param name="p"></param>
+	/// <returns></returns>
 	public bool IsLegalMove(int x, int y, Piece p)
 	{
 		var pos = y * 8 + x;
 		return IsInBounds(x, y) && pieces[pos]?.Player != p.Player;
 	}
 
+	/// <summary>
+	/// Checks if a certain move is in bouds of the board
+	/// </summary>
+	/// <param name="x"></param>
+	/// <param name="y"></param>
+	/// <returns></returns>
 	public bool IsInBounds(int x, int y)
 	{
 		return x >= 0 && x < 8 && y >= 0 && y < 8;
 	}
 
+	/// <summary>
+	/// Set the highlight color and activate the highlight to be active
+	/// </summary>
+	/// <param name="pos"></param>
+	/// <param name="color"></param>
 	public void SetHighlightColor(int pos, Color color)
 	{
 		highlights[pos].GetComponent<SpriteRenderer>().color = color;
 		highlights[pos].gameObject.SetActive(true);
-		if (color == Color.yellow) highlights[pos].Special = "EnPassant";
-		if (color == Color.green) highlights[pos].Special = "Castling";
+		if (color == Color.blue || color == Color.red) highlights[pos].Special = SpecialMove.Play;
+		if (color == Color.yellow) highlights[pos].Special = SpecialMove.EnPassant;
+		if (color == Color.green) highlights[pos].Special = SpecialMove.Castling;
 	}
 
 	/// <summary>
@@ -91,57 +160,105 @@ public class BoardController : MonoBehaviour
 	/// <param name="x"></param>
 	/// <param name="y"></param>
 	/// <param name="currPiece">The current piece chosen by player</param>
-	public void Highlight(int x, int y, Piece currPiece)
+	public void Highlight(Move move)
 	{
-		int pos = ConvertToPos(x, y);
-		if (pieces[pos] == null)
-			SetHighlightColor(pos, Color.blue);
-		else if (pieces[pos]?.Player != currPiece.Player) 
-			SetHighlightColor(pos, Color.red);
+		int pos = move.TargetSquare;
+		int flag = move.MoveFlag;
+
+		switch (flag)
+		{
+			case Move.Flag.Castling:
+				SetHighlightColor(pos, Color.green);
+				break;
+			case Move.Flag.EnPassantCapture:
+				SetHighlightColor(pos, Color.yellow);
+				break;
+			default:
+				if (pieces[pos] == null)
+					SetHighlightColor(pos, Color.blue);
+				else if (pieces[pos]?.Player != CurrPiece.Player)
+					SetHighlightColor(pos, Color.red);
+				break;
+		}
+	}
+
+	/// <summary>
+	/// Sets the transform of piece at a certain position and also modifies the pieces[] array
+	/// </summary>
+	/// <param name="piece">Piece to be moved</param>
+	/// <param name="pos">New position on board</param>
+	public void SetPiecePos(int oldPos, int newPos)
+	{
+		if (pieces[oldPos] == null)
+		{
+			Debug.Log("Piece at position is null");
+			return;
+		}
+
+		if (pieces[newPos] != null)
+		{
+			Debug.Log("Destroy piece at index: " + newPos);
+			DestroyPiece(newPos);
+		}
+
+		pieces[oldPos].SetCoords(newPos);
+		pieces[oldPos].SetTransform();
+		pieces[newPos] = pieces[oldPos];
+		pieces[oldPos] = null;
+	}
+
+	/// <summary>
+	/// Removes the piece at specified board position and destroys the gameobject
+	/// </summary>
+	/// <param name="pos"></param>
+	public void DestroyPiece(int pos)
+	{
+		Destroy(pieces[pos]?.gameObject);
+		pieces[pos] = null;
 	}
 
 	/// <summary>
 	/// Moves a piece to position x, y on the board.
-	/// Before move, InvokeOnBeforeMove() is called on the piece.
-	/// After move, InvokeOnAfterMove() is called on the piece.
 	/// </summary>
 	/// <param name="currPiece">The current piece chosen by player</param>
 	public void MovePiece(int x, int y, Piece piece)
 	{
-		int newPos = ConvertToPos(x, y);
-		int oldPos = piece.CurrPos;
+		int newPos = i.ConvertToPos(x, y);
+		if (piece == null) Debug.Log("Piece at MovePiece() is null! Tried to move a null piece.");
+		SetPiecePos(piece.CurrPos, newPos);
+	}
 
-		piece.InvokeOnBeforeMove();
-		piece.SetCoords(x, y);
-		DestroyOpponentPiece(piece, newPos);
-		SetPiecePos(piece, newPos);
-		pieces[oldPos] = null;
-		piece.InvokeOnAfterMove();
+	public void MoveEnPassantPiece(int x, int y, Piece piece)
+	{
+		int newPos = ConvertToPos(x, y);
+		int enemyPos = ConvertToPos(x, ConvertToXY(piece.CurrPos)[1]);
+
+		DestroyPiece(enemyPos);
+		SetPiecePos(piece.CurrPos, newPos);
+	}
+
+	public void MoveCastling(int targetX, int targetY, Piece piece)
+	{
+		Piece rook = GetPieceFromPos(i.ConvertToPos(targetX, targetY));
+
+		int oldX = ConvertToXY(piece.CurrPos)[0];
+		int kingNewX = oldX - 2;
+		int rookNewX = ConvertToXY(rook.CurrPos + 2)[0];
+
+		if (targetX != 0)
+		{
+			kingNewX = oldX + 2;
+			rookNewX = ConvertToXY(rook.CurrPos - 3)[0];
+		}
+
+		MovePiece(kingNewX, targetY, piece);
+		MovePiece(rookNewX, targetY, rook);
 	}
 
 	/// <summary>
-	/// Moves two pieces on the board simutaneously into their respectively positions.
-	/// Acts similarly to MovePiece(int,int,Piece)
+	/// Deactivates all squares on the board
 	/// </summary>
-	/// <param name="piece1"></param>
-	/// <param name="piece2"></param>
-	public void MoveTwoPieceSimutaneously(int x1, int y1, Piece piece1, int x2, int y2, Piece piece2)
-    {
-		int newPos = ConvertToPos(x1, y1);
-		int oldPos = piece1.CurrPos;
-
-		piece1.InvokeOnBeforeMove();
-		piece1.SetCoords(x1, y1);
-		DestroyOpponentPiece(piece1, newPos);
-		SetPiecePos(piece1, newPos);
-		pieces[oldPos] = null;
-		MovePiece(x2, y2, piece2);
-	}
-
-    /// <summary>
-    /// Unhighlights all squares on the board
-    /// </summary>
-    public void UnhighlightAllSqaures()
+	public void UnhighlightAllSqaures()
 	{
 		foreach (var square in highlights) square.gameObject.SetActive(false);
 	}
@@ -162,7 +279,7 @@ public class BoardController : MonoBehaviour
 	/// </summary>
 	/// <param name="pos"></param>
 	/// <returns></returns>
-	public int[] ConvertToXY(int pos)
+	public static int[] ConvertToXY(int pos)
 	{
 		return new int[] { pos % 8, pos / 8 };
 	}
@@ -195,41 +312,6 @@ public class BoardController : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Sets the piece at a certain position on the board
-	/// Also calls SetCoords() on the piece
-	/// </summary>
-	/// <param name="piece">Piece to be moved</param>
-	/// <param name="pos">New position on board</param>
-	public void SetPiecePos(Piece piece, int pos)
-	{
-		pieces[pos] = piece;
-		int x = ConvertToXY(pos)[0];
-		int y = ConvertToXY(pos)[1];
-		pieces[pos].SetCoords(x, y);
-	}
-
-	/// <summary>
-	/// Removes the piece at specified board position and destroys the gameobject
-	/// </summary>
-	/// <param name="pos"></param>
-	public void DestroyPiece(int pos)
-	{
-		Destroy(pieces[pos]?.gameObject);
-		pieces[pos] = null;
-	}
-
-	/// <summary>
-	/// Destroys the opponent piece at a certain position on the board, and destroys the gameobject
-	/// </summary>
-	/// <param name="piece"></param>
-	/// <param name="pos"></param>
-	public void DestroyOpponentPiece(Piece piece, int pos)
-	{
-		if (pieces[pos] != null && pieces[pos].Player != piece.Player)
-			Destroy(pieces[pos].gameObject);
-	}
-
-	/// <summary>
 	/// Handles the logic after a highlight square is clicked
 	/// </summary>
 	/// <param name="col"></param>
@@ -237,25 +319,28 @@ public class BoardController : MonoBehaviour
 	{
 		var h = col.GetComponent<HighlightSquare>();
 		var temp = ConvertToXY(h.Position);
-        if (h.Special == "Play" && CurrPiece is Pawn)
+		CurrPiece.InvokeOnBeforeMove();
+
+		if (h.Special == SpecialMove.Play && CurrPiece is Pawn pawn)
 		{
-			Pawn pawn = (Pawn)CurrPiece;
 			pawn.SetTwoStepMove(temp[1]);
-        }
-        if (h.Special == "EnPassant")
-        {
-			EnPassant.i.MoveEnPassantPiece(temp[0], temp[1], CurrPiece);
 		}
-		if (h.Special == "Castling")
-        {
-			Castling.i.MoveCastling(temp[0], temp[1], CurrPiece);
+		if (h.Special == SpecialMove.EnPassant)
+		{
+			MoveEnPassantPiece(temp[0], temp[1], CurrPiece);
 		}
-		if (h.Special == "Play")
-        {
+		if (h.Special == SpecialMove.Castling)
+		{
+			MoveCastling(temp[0], temp[1], CurrPiece);
+		}
+		if (h.Special == SpecialMove.Play)
+		{
 			MovePiece(temp[0], temp[1], CurrPiece);
 		}
-		SetHighLightToPlay(h);
+
+		SetHighLightSpecial(h, SpecialMove.Play);
 		UnhighlightAllSqaures();
+		CurrPiece.InvokeOnAfterMove();
 	}
 
 	/// <summary>
@@ -265,17 +350,215 @@ public class BoardController : MonoBehaviour
 	public void HandlePieceClicked(Collider2D col)
 	{
 		UnhighlightAllSqaures();
-		PawnPromotion.i.UnhighlightAllPromotingButtons();
+		UIManager.i.UnhighlightAllPromotingButtons();
 		CurrPiece = col.GetComponent<Piece>();
-		CurrPiece.GetAvailableMoves();
+		List<Move> moves = CurrPiece.GetLegalMoves();
+
+		foreach (Move move in moves) Highlight(move);
+
 	}
-	
-	public void SetPieceNull(int pos)
-    {
-		pieces[pos] = null;
-    }
-	public void SetHighLightToPlay(HighlightSquare highlight)
+
+	/// <summary>
+	/// Calls Promote() on the current piece
+	/// </summary>
+	/// <param name="promotedPiece">The piece type to be instantiated</param>
+	public void PromotePiece(Piece promotedPiece)
 	{
-		highlight.Special = "Play";
+		try
+		{
+			IPromotable pawnToPromote = CurrPiece as IPromotable;
+			pawnToPromote.Promote(promotedPiece);
+		}
+		catch (NullReferenceException)
+		{
+			Debug.Log("Tried to promote a non-promotable piece!");
+		}
 	}
+
+	/// <summary>
+	/// Handles the promotion button clicked functionality
+	/// </summary>
+	/// <param name="col"></param>
+	public void HandlePromotionButtonClicked(Collider2D col)
+	{
+		int id = col.GetComponent<PromotionButton>().id;
+		Piece promotedPiece = GetPromotionPiece(id, BoardController.i.CurrPiece.Player);
+		PromotePiece(promotedPiece);
+		UIManager.i.UnhighlightAllPromotingButtons();
+		GameController.SetGameState(GameState.Play);
+	}
+
+	/// <summary>
+	/// Gets the promoted piece type based on the id given
+	/// </summary>
+	/// <param name="id">The type of piece to be promoted</param>
+	/// <param name="player">Player type</param>
+	/// <returns>The promoted piece (Queen, Knight, Rook, Bishop)</returns>
+	public Piece GetPromotionPiece(int id, PlayerType player)
+	{
+		return player == PlayerType.Black ? promotionBlackList[id] : promotionWhiteList[id];
+	}
+
+	/// <summary>
+	/// Sets the "special" property of the highlight
+	/// </summary>
+	/// <param name="highlight"></param>
+	/// <param name="specialMove"></param>
+	public void SetHighLightSpecial(HighlightSquare highlight, SpecialMove specialMove)
+	{
+		highlight.Special = specialMove;
+	}
+
+	/// <summary>
+	/// Sets the pawn JustMoved and TwoStep booleans to false
+	/// </summary>
+	public void SetPawnBooleansToFalse()
+	{
+		foreach (Piece piece in pieces)
+		{
+			if (piece?.Player == GameController.GetCurrPlayer() && piece is Pawn pawn)
+			{
+				pawn.JustMoved = false;
+				pawn.TwoStep = false;
+			}
+		}
+	}
+
+	/// <summary>
+	/// Checks if a certain move will result in a check to selfs
+	/// </summary>
+	/// <param name="move"></param>
+	/// <returns></returns>
+	public bool IsBeingCheckedAfterMove(Move move, PlayerType p)
+	{
+		UpdateTestArray(move, GameController.GetCurrPlayer());
+
+		allMoves.Clear();
+
+		int tempKingPos = -1;
+
+		tempKingPos = move.Piece is King && move.Piece.Player == p
+			? move.TargetSquare 
+			: GetKingPosition(p);
+
+		foreach (Piece piece in testArray)
+		{
+			if (piece == null || piece.Player == p) continue;
+			allMoves.AddRange(piece.GetAllMoves());
+
+		}
+
+		bool temp = allMoves.Any(move => move.TargetSquare == tempKingPos);
+		return temp;
+	}
+
+	/// <summary>
+	/// Updates testArray, which is an array that is used to simulate if a move will result in a check for testing purposes
+	/// </summary>
+	/// <param name="move"></param>
+	/// <param name="p"></param>
+	public void UpdateTestArray(Move move, PlayerType p)
+	{
+		void MovePieceAndSetCoords(int from, int to)
+		{
+			testArray[to] = testArray[from];
+			testArray[to].SetCoords(to);
+			testArray[from] = null;
+		}
+
+		Array.Clear(testArray, 0, testArray.Length);
+		for (int i = 0; i < pieces.Length; i++)
+		{
+			if (pieces[i] != null) testArray[i] = pieces[i].Clone() as Piece;
+		}
+
+		int oldPos = move.StartSquare;
+		int newPos = move.TargetSquare;
+		int flag = move.MoveFlag;
+
+		switch (flag)
+		{
+			case Move.Flag.EnPassantCapture:
+				int temp = p == PlayerType.Black ? newPos - 8 : newPos + 8;
+				MovePieceAndSetCoords(oldPos, newPos);
+				testArray[temp] = null;
+				break;
+
+			case Move.Flag.Castling:
+				if (newPos == 2 || newPos == 58)
+				{
+					MovePieceAndSetCoords(oldPos, newPos);
+					MovePieceAndSetCoords(newPos - 2, newPos + 1);
+				}
+				else if (newPos == 6 || newPos == 61)
+				{
+					MovePieceAndSetCoords(oldPos, newPos);
+					MovePieceAndSetCoords(newPos + 1, newPos - 1);
+				}
+				else
+				{
+					Debug.Log("Error on PieceArrayAfterSimulatedMove");
+				}
+				break;
+
+			default:
+				if (testArray[oldPos] == null)
+					Debug.Log($"UpdateTestArray: Piece at {oldPos} is null");
+
+				MovePieceAndSetCoords(oldPos, newPos);
+				break;
+		}
+	}
+
+	public bool TestArrayIsOccupied(int pos)
+	{
+		return testArray[pos] != null;
+	}
+
+	public int GetKingPosition(PlayerType p)
+	{
+		return p == PlayerType.White ? WhiteKingPos : BlackKingPos;
+	}
+
+	public bool IsCheckmate()
+	{
+		// List of all opponent moves
+		List<Move> moves = new List<Move>();
+
+		foreach (Piece piece in pieces)
+		{
+			if (piece == null || piece.Player == GameController.GetCurrPlayer()) continue;
+			moves.AddRange(piece.GetLegalMoves());
+		}
+
+		if (moves.Count == 0)
+		{
+			Debug.Log("Checkmate");
+			return true;
+		} 
+
+		return false;
+	}
+
+	public bool IsCheck()
+	{
+		List<Move> moves = new List<Move>();
+
+		foreach (Piece piece in pieces)
+		{
+			if (piece == null || piece.Player != GameController.GetCurrPlayer()) continue;
+			moves.AddRange(piece.GetLegalMoves());
+		}
+
+		bool temp = moves.Any(move => move.TargetSquare == GetKingPosition(GameController.GetOpponent()));
+		return temp;
+	}
+
+	public bool IsSamePlayerAtTestArray(int pos1, int pos2)
+	{
+		Piece p1 = testArray[pos1];
+		Piece p2 = testArray[pos2];
+		return p1?.Player == p2?.Player;
+	}
+
 }

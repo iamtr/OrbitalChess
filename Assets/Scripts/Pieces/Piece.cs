@@ -65,8 +65,8 @@ public abstract class Piece : MonoBehaviour, ICloneable
 	/// <param name="pos"></param>
 	public void SetCoords(int pos)
 	{
-		currX = BoardController.ConvertToXY(pos)[0];
-		currY = BoardController.ConvertToXY(pos)[1];
+		currX = BoardController.ConvXY(pos)[0];
+		currY = BoardController.ConvXY(pos)[1];
 		CurrPos = pos;
 	}
 

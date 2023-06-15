@@ -74,6 +74,8 @@ public class BoardController : MonoBehaviour
 		else i = this;
 
 		testArray = pieces.Clone() as Piece[];
+
+		HighlightPawnBombs();
 	}
 
 
@@ -116,8 +118,8 @@ public class BoardController : MonoBehaviour
 	/// <returns></returns>
 	public Piece InstantiatePiece(Piece piece, int pos)
 	{
-		int x = ConvertToXY(pos)[0];
-		int y = ConvertToXY(pos)[1];
+		int x = ConvXY(pos)[0];
+		int y = ConvXY(pos)[1];
 
 		Piece newPiece = Instantiate(piece, new Vector3(x, y, 2), Quaternion.identity);
 		pieces[pos] = newPiece;
@@ -166,6 +168,11 @@ public class BoardController : MonoBehaviour
 		if (color == Color.green) highlights[pos].Special = SpecialMove.Castling;
 	}
 
+	public void SetHighlightSpecial(int pos, SpecialMove sp)
+	{
+		highlights[pos].Special = sp;
+	}
+
 	/// <summary>
 	/// Highlights a certain sqaure on the board
 	/// </summary>
@@ -181,17 +188,31 @@ public class BoardController : MonoBehaviour
 		{
 			case Move.Flag.Castling:
 				SetHighlightColor(pos, Color.green);
+				SetHighlightSpecial(pos, SpecialMove.Castling);
 				break;
 			case Move.Flag.EnPassantCapture:
 				SetHighlightColor(pos, Color.yellow);
+				SetHighlightSpecial(pos, SpecialMove.EnPassant);
 				break;
 			default:
 				if (pieces[pos] == null)
+				{
 					SetHighlightColor(pos, Color.blue);
+					SetHighlightSpecial(pos, SpecialMove.Play);
+				}
 				else if (pieces[pos]?.Player != CurrPiece.Player)
+				{
 					SetHighlightColor(pos, Color.red);
+					SetHighlightSpecial(pos, SpecialMove.Play);
+				}
 				break;
 		}
+	}
+
+	public void Highlight(int pos, SpecialMove sp)
+	{
+		SetHighlightColor(pos, Color.magenta);
+		SetHighlightSpecial(pos, sp);
 	}
 
 	/// <summary>
@@ -235,15 +256,15 @@ public class BoardController : MonoBehaviour
 	/// <param name="currPiece">The current piece chosen by player</param>
 	public void MovePiece(int x, int y, Piece piece)
 	{
-		int newPos = i.ConvertToPos(x, y);
+		int newPos = i.ConvPos(x, y);
 		if (piece == null) Debug.Log("Piece at MovePiece() is null! Tried to move a null piece.");
 		SetPiecePos(piece.CurrPos, newPos);
 	}
 
 	public void MoveEnPassantPiece(int x, int y, Piece piece)
 	{
-		int newPos = ConvertToPos(x, y);
-		int enemyPos = ConvertToPos(x, ConvertToXY(piece.CurrPos)[1]);
+		int newPos = ConvPos(x, y);
+		int enemyPos = ConvPos(x, ConvXY(piece.CurrPos)[1]);
 
 		DestroyPiece(enemyPos);
 		SetPiecePos(piece.CurrPos, newPos);
@@ -251,16 +272,16 @@ public class BoardController : MonoBehaviour
 
 	public void MoveCastling(int targetX, int targetY, Piece piece)
 	{
-		Piece rook = GetPieceFromPos(i.ConvertToPos(targetX, targetY));
+		Piece rook = GetPieceFromPos(i.ConvPos(targetX, targetY));
 
-		int oldX = ConvertToXY(piece.CurrPos)[0];
+		int oldX = ConvXY(piece.CurrPos)[0];
 		int kingNewX = oldX - 2;
-		int rookNewX = ConvertToXY(rook.CurrPos + 2)[0];
+		int rookNewX = ConvXY(rook.CurrPos + 2)[0];
 
 		if (targetX != 0)
 		{
 			kingNewX = oldX + 2;
-			rookNewX = ConvertToXY(rook.CurrPos - 3)[0];
+			rookNewX = ConvXY(rook.CurrPos - 3)[0];
 		}
 
 		MovePiece(kingNewX, targetY, piece);
@@ -281,7 +302,7 @@ public class BoardController : MonoBehaviour
 	/// <param name="x"></param>
 	/// <param name="y"></param>
 	/// <returns></returns>
-	public int ConvertToPos(int x, int y)
+	public int ConvPos(int x, int y)
 	{
 		return y * 8 + x;
 	}
@@ -291,7 +312,7 @@ public class BoardController : MonoBehaviour
 	/// </summary>
 	/// <param name="pos"></param>
 	/// <returns></returns>
-	public static int[] ConvertToXY(int pos)
+	public static int[] ConvXY(int pos)
 	{
 		return new int[] { pos % 8, pos / 8 };
 	}
@@ -330,29 +351,33 @@ public class BoardController : MonoBehaviour
 	public void HandleHighlightSquareClicked(Collider2D col)
 	{
 		var h = col.GetComponent<HighlightSquare>();
-		var temp = ConvertToXY(h.Position);
-		CurrPiece.InvokeOnBeforeMove();
+		var temp = ConvXY(h.Position);
+		CurrPiece?.InvokeOnBeforeMove();
 
 		if (h.Special == SpecialMove.Play && CurrPiece is Pawn pawn)
 		{
 			pawn.SetTwoStepMove(temp[1]);
 		}
-		if (h.Special == SpecialMove.EnPassant)
+		else if (h.Special == SpecialMove.EnPassant)
 		{
 			MoveEnPassantPiece(temp[0], temp[1], CurrPiece);
 		}
-		if (h.Special == SpecialMove.Castling)
+		else if (h.Special == SpecialMove.Castling)
 		{
 			MoveCastling(temp[0], temp[1], CurrPiece);
 		}
-		if (h.Special == SpecialMove.Play)
+		else if (h.Special == SpecialMove.Play)
 		{
 			MovePiece(temp[0], temp[1], CurrPiece);
+		}
+		else if (h.Special == SpecialMove.Bomb)
+		{
+			Bomb(h.Position);
 		}
 
 		SetHighLightSpecial(h, SpecialMove.Play);
 		UnhighlightAllSqaures();
-		CurrPiece.InvokeOnAfterMove();
+		CurrPiece?.InvokeOnAfterMove();
 	}
 
 	/// <summary>
@@ -573,4 +598,31 @@ public class BoardController : MonoBehaviour
 		return p1?.Player == p2?.Player;
 	}
 
+	public void Bomb(int pos)
+	{
+		if (pos < 0 || pos > 63) Debug.Log("Bomb: pos out of range");
+
+		for (int i = -1; i < 2; i++)
+		{
+			for (int j = -1; j < 2; j++)
+			{
+				int x = ConvXY(pos)[0] + i;
+				int y = ConvXY(pos)[1] + j;
+
+				if (!IsInBounds(x, y)) continue;
+				DestroyPiece(ConvPos(x, y));
+			}
+		}
+	}
+
+	public void HighlightPawnBombs()
+	{
+		foreach(Piece piece in pieces)
+		{
+			if (piece?.Player == GameController.GetCurrPlayer() && piece is Pawn pawn)
+			{
+				Highlight(pawn.CurrPos, SpecialMove.Bomb);
+			}
+		}
+	}
 }

@@ -75,7 +75,7 @@ public class BoardController : MonoBehaviour
 
 		testArray = pieces.Clone() as Piece[];
 
-		RandomizeAllPieces();
+		// RandomizeAllPieces();
 	}
 
 
@@ -184,8 +184,22 @@ public class BoardController : MonoBehaviour
 		switch (flag)
 		{
 			case Move.Flag.Castling:
-				SetHighlightSpecial(pos, SpecialMove.Castling);
-				SetHighlightColor(pos, Color.green);
+
+				if (pos == 1 || pos == 57)
+				{
+					SetHighlightSpecial(pos - 1, SpecialMove.Castling);
+					SetHighlightColor(pos - 1, Color.green);
+
+				} 
+				else if (pos == 5 || pos == 61)
+				{
+					SetHighlightSpecial(pos + 2, SpecialMove.Castling);
+					SetHighlightColor(pos + 2, Color.green);
+				} 
+				else
+				{
+					Debug.Log("Error");
+				}
 				break;
 			case Move.Flag.EnPassantCapture:
 				SetHighlightSpecial(pos, SpecialMove.EnPassant);
@@ -506,7 +520,7 @@ public class BoardController : MonoBehaviour
 		void MovePieceAndSetCoords(int from, int to)
 		{
 			testArray[to] = testArray[from];
-			testArray[to].SetCoords(to);
+			testArray[to]?.SetCoords(to);
 			testArray[from] = null;
 		}
 
@@ -529,15 +543,15 @@ public class BoardController : MonoBehaviour
 				break;
 
 			case Move.Flag.Castling:
-				if (newPos == 2 || newPos == 58)
+				if (newPos == 1 || newPos == 57)
 				{
 					MovePieceAndSetCoords(oldPos, newPos);
-					MovePieceAndSetCoords(newPos - 2, newPos + 1);
+					MovePieceAndSetCoords(newPos - 1, newPos + 1);
 				}
-				else if (newPos == 6 || newPos == 61)
+				else if (newPos == 5 || newPos == 61)
 				{
 					MovePieceAndSetCoords(oldPos, newPos);
-					MovePieceAndSetCoords(newPos + 1, newPos - 1);
+					MovePieceAndSetCoords(newPos + 2, newPos - 1);
 				}
 				else
 				{

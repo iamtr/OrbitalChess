@@ -38,9 +38,12 @@ public class BoardController : MonoBehaviour
 	public int BlackKingPos = 3;
 	public int WhiteKingPos = 59;
 
-	public List<Move> allMoves;
+	private List<Move> allMoves;
 
 	public static bool isBlackBelow = true;
+
+	public PlayerManager blackPlayer;
+	public PlayerManager whitePlayer;
 
 	/// <summary>
 	/// The current piece that is being clicked by the player
@@ -258,8 +261,27 @@ public class BoardController : MonoBehaviour
 	/// <param name="pos"></param>
 	public void DestroyPiece(int pos)
 	{
+		PlayerType p = pieces[pos].Player;
 		Destroy(pieces[pos]?.gameObject);
 		pieces[pos] = null;
+		HandleCapture(p);
+	}
+
+	public void HandleCapture(PlayerType capturedPlayer)
+	{
+		if (capturedPlayer == PlayerType.White)
+		{
+			blackPlayer.AddMoney(10);
+		}
+		else if (capturedPlayer == PlayerType.Black)
+		{
+			whitePlayer.AddMoney(10);
+		}
+		else
+		{
+			return;
+		}
+		// TODO
 	}
 
 	/// <summary>

@@ -49,8 +49,8 @@ public class UIManager : MonoBehaviour
 	/// </summary>
 	public void UnhighlightAllPromotingButtons()
     {
-        foreach (var square in promotingBlack) square.gameObject.SetActive(false);
-        foreach (var square in promotingWhite) square.gameObject.SetActive(false);
+        foreach (var square in promotingBlack) square?.gameObject.SetActive(false);
+        foreach (var square in promotingWhite) square?.gameObject.SetActive(false);
     }
 
     /// <summary>

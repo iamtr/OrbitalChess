@@ -74,6 +74,8 @@ public class BoardController : MonoBehaviour
 		else i = this;
 
 		testArray = pieces.Clone() as Piece[];
+
+		RandomizeAllPieces();
 	}
 
 
@@ -375,6 +377,10 @@ public class BoardController : MonoBehaviour
 		{
 			MovePiece(temp[0], temp[1], CurrPiece);
 		}
+		if (h.Special == SpecialMove.Bomb)
+		{
+			Bomb(h.Position);
+		}
 
 		SetHighLightSpecial(h, SpecialMove.Play);
 		UnhighlightAllSqaures();
@@ -420,7 +426,7 @@ public class BoardController : MonoBehaviour
 	public void HandlePromotionButtonClicked(Collider2D col)
 	{
 		int id = col.GetComponent<PromotionButton>().id;
-		Piece promotedPiece = GetPromotionPiece(id, BoardController.i.CurrPiece.Player);
+		Piece promotedPiece = GetPromotionPiece(id, CurrPiece.Player);
 		PromotePiece(promotedPiece);
 		UIManager.i.UnhighlightAllPromotingButtons();
 		GameController.SetGameState(GameState.Play);
@@ -612,6 +618,8 @@ public class BoardController : MonoBehaviour
 				DestroyPiece(ConvPos(x, y));
 			}
 		}
+
+		testArray = pieces.Clone() as Piece[];
 	}
 	public void HighlightPawnBombs()
 	{
@@ -622,5 +630,25 @@ public class BoardController : MonoBehaviour
 				Highlight(pawn.CurrPos, SpecialMove.Bomb);
 			}
 		}
+	}
+
+	/// <summary>
+	/// Randomizes pieces on the board for both sides
+	/// </summary>
+	public void RandomizeAllPieces()
+	{
+		foreach (Piece piece in pieces)
+		{
+			if (piece == null) continue;
+			int rand = UnityEngine.Random.Range(0, 4);
+			PlayerType p = piece.Player;
+			if (piece is Queen || piece is King) continue;
+
+			Piece newPiece = GetPromotionPiece(rand, p);
+			DestroyPiece(piece.CurrPos);
+			InstantiatePiece(newPiece, piece.CurrPos);
+		}
+
+		testArray = pieces.Clone() as Piece[];
 	}
 }

@@ -18,4 +18,4 @@ public class HighlightSquare : MonoBehaviour
     public SpecialMove Special = SpecialMove.Play;
 }
 
-public enum SpecialMove {Play, EnPassant, Castling, Bomb}
+public enum SpecialMove {Play, EnPassant, Castling}

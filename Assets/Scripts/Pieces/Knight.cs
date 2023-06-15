@@ -24,7 +24,7 @@ public class Knight : Piece
 			int deltaX = deltas[i, 0];
 			int deltaY = deltas[i, 1];
 			if (currX + deltaX < 0 || currY + deltaY < 0 || currX + deltaX > 7 || currY + deltaY > 7) continue;
-			int newPos = BoardController.i.ConvPos(currX + deltaX, currY + deltaY);
+			int newPos = BoardController.i.ConvertToPos(currX + deltaX, currY + deltaY);
 
 			Move m = new Move(CurrPos, newPos, this);
 
@@ -46,7 +46,7 @@ public class Knight : Piece
 			int deltaX = deltas[i, 0];
 			int deltaY = deltas[i, 1];
 			if (currX + deltaX < 0 || currY + deltaY < 0 || currX + deltaX > 7 || currY + deltaY > 7) continue;
-			int newPos = BoardController.i.ConvPos(currX + deltaX, currY + deltaY);
+			int newPos = BoardController.i.ConvertToPos(currX + deltaX, currY + deltaY);
 
 			Move m = new Move(CurrPos, newPos, this);
 

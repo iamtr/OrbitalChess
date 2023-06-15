@@ -61,15 +61,15 @@
 
 //    public void SetHighlightEnPassant(int x, int y)
 //    {
-//        int pos = BoardController.i.i.ConvPos(x, y);
+//        int pos = BoardController.i.i.ConvertToPos(x, y);
 //        BoardController.i.SetHighlightColor(pos, Color.yellow);
 //    }
 
 //    public void MoveEnPassantPiece(int x, int y, Piece piece)
 //    {
-//        int newPos = BoardController.i.i.ConvPos(x, y);
+//        int newPos = BoardController.i.i.ConvertToPos(x, y);
 //        int oldPos = piece.CurrPos;
-//        int enemyPos = BoardController.i.i.ConvPos(x, BoardController.i.ConvXY(oldPos)[1]);
+//        int enemyPos = BoardController.i.i.ConvertToPos(x, BoardController.i.ConvertToXY(oldPos)[1]);
 
 //        piece.InvokeOnBeforeMove();
 //        piece.SetCoords(x, y);

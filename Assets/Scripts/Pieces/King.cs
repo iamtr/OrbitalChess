@@ -39,14 +39,14 @@ public class King : Piece
 			int rightDirection = 1;
 			if (IsAbleToCastle(leftDirection))
 			{
-				int pos = BoardController.i.ConvPos(0, currY);
+				int pos = BoardController.i.ConvertToPos(0, currY);
 				Move m = new Move(CurrPos, pos, this, Move.Flag.Castling);
 				if (!BoardController.i.IsBeingCheckedAfterMove(m, Player)) moves.Add(m);
 			}
 
 			if (IsAbleToCastle(rightDirection))
 			{
-				int pos = BoardController.i.ConvPos(7, currY);
+				int pos = BoardController.i.ConvertToPos(7, currY);
 				Move m = new Move(CurrPos, pos, this, Move.Flag.Castling);
 				if (BoardController.i.IsBeingCheckedAfterMove(m, Player)) moves.Add(m);
 			}
@@ -98,14 +98,14 @@ public class King : Piece
 			int rightDirection = 1;
 			if (IsAbleToCastle(leftDirection))
 			{
-				int pos = BoardController.i.ConvPos(0, currY);
+				int pos = BoardController.i.ConvertToPos(0, currY);
 				Move m = new Move(CurrPos, pos, this, Move.Flag.Castling);
 				if (IsLegalMove(m)) moves.Add(m);
 			}
 
 			if (IsAbleToCastle(rightDirection))
 			{
-				int pos = BoardController.i.ConvPos(7, currY);
+				int pos = BoardController.i.ConvertToPos(7, currY);
 				Move m = new Move(CurrPos, pos, this, Move.Flag.Castling);
 				if (IsLegalMove(m)) moves.Add(m);
 			}
@@ -153,7 +153,7 @@ public class King : Piece
 		int pos;
 		while (BoardController.i.IsInBounds(x, currY))
 		{
-			pos = BoardController.i.ConvPos(x, currY);
+			pos = BoardController.i.ConvertToPos(x, currY);
 			Piece piece = BoardController.i.GetPieceFromPos(pos);
 			if (piece != null)
 			{

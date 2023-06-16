@@ -1,0 +1,5 @@
+The ultimate goal of the game is to checkmate your opponent’s king.
+Checkmate occurs when the opponent’s king is under attack (in “check”)...
+and is unable to make a legal move to escape capture.
+If the king is not in check, but there are no legal moves left,
+it results in a stalemate, ending the game in a draw.

@@ -5,7 +5,10 @@ using UnityEngine;
 
 public class Bishop : Piece
 {
-
+	private void Awake()
+	{
+		value = 30;
+	}
 	private void OnEnable()
 	{
 		OnAfterMove += GameController.InvokeOnRoundEnd;

@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class Knight : Piece
 {
+	private void Awake()
+	{
+		value = 30;
+	}
+
 	private int[,] deltas = new int[,] { { 1, 2 }, { 2, 1 }, { -1, 2 }, { -2, 1 }, { 1, -2 }, { 2, -1 }, { -1, -2 }, { -2, -1 } };
 
 	private void OnEnable()

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.AnimatedValues;
 using UnityEngine;
 
 public class Pawn : Piece, IPromotable
@@ -10,6 +11,11 @@ public class Pawn : Piece, IPromotable
     private bool hasMoved = false;
     public bool JustMoved { get; set; } = false;
     public  bool TwoStep { get; set; } = false;
+
+	private void Awake()
+	{
+		value = 10;
+	}
 
 	private void OnEnable()
 	{

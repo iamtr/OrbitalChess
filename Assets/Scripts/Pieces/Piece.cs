@@ -10,6 +10,11 @@ public abstract class Piece : MonoBehaviour, ICloneable
 	[SerializeField] protected List<Move> moves = new List<Move>();
 
 	/// <summary>
+	/// Value for a piece. Used in AI, custom game modes
+	/// </summary>
+	protected int value;
+
+	/// <summary>
 	/// Current position, from 0 - 63
 	/// </summary>
 	public int CurrPos;

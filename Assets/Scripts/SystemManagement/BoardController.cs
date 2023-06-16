@@ -78,7 +78,7 @@ public class BoardController : MonoBehaviour
 
 		testArray = pieces.Clone() as Piece[];
 
-		// RandomizeAllPieces();
+		RandomizeAllPieces();
 	}
 
 
@@ -264,7 +264,11 @@ public class BoardController : MonoBehaviour
 		PlayerType p = pieces[pos].Player;
 		Destroy(pieces[pos]?.gameObject);
 		pieces[pos] = null;
-		HandleCapture(p);
+
+		if (p != GameController.GetCurrPlayer())
+		{
+			HandleCapture(GameController.GetCurrPlayer());
+		}
 	}
 
 	public void HandleCapture(PlayerType capturedPlayer)
@@ -290,9 +294,13 @@ public class BoardController : MonoBehaviour
 	/// <param name="currPiece">The current piece chosen by player</param>
 	public void MovePiece(int x, int y, Piece piece)
 	{
-		int newPos = i.ConvPos(x, y);
+		int newPos = ConvPos(x, y);
 		if (piece == null) Debug.Log("Piece at MovePiece() is null! Tried to move a null piece.");
+
+		// bool isCapture = pieces[newPos] != null && pieces[newPos].Player != piece.Player;
+
 		SetPiecePos(piece.CurrPos, newPos);
+		// if (isCapture) HandleCapture(GameController.GetCurrPlayer());
 	}
 
 	public void MoveEnPassantPiece(int x, int y, Piece piece)
@@ -676,15 +684,32 @@ public class BoardController : MonoBehaviour
 		foreach (Piece piece in pieces)
 		{
 			if (piece == null) continue;
-			int rand = UnityEngine.Random.Range(0, 4);
+			int rand = UnityEngine.Random.Range(0, 16);
 			PlayerType p = piece.Player;
-			if (piece is Queen || piece is King) continue;
+			if (piece is King) continue;
 
-			Piece newPiece = GetPromotionPiece(rand, p);
+			Piece newPiece;
+
+			if (rand == 0) newPiece = GetPromotionPiece(0, p);
+			else if (rand == 1 || rand == 2 || rand == 7) newPiece = GetPromotionPiece(1, p);
+			else if (rand == 3 || rand == 4) newPiece = GetPromotionPiece(2, p);
+			else if (rand == 5 || rand == 6) newPiece = GetPromotionPiece(3, p);
+			else newPiece = GetPromotionPiece(4, p);
+
 			DestroyPiece(piece.CurrPos);
 			InstantiatePiece(newPiece, piece.CurrPos);
 		}
 
 		testArray = pieces.Clone() as Piece[];
+	}
+
+	/// <summary>
+	/// Special Game Mode: Instantiate a spare king
+	/// </summary>
+	/// <param name="p"></param>
+	/// <param name="pos"></param>
+	public void StealOpponentPiece(PlayerType p, int pos)
+	{
+		
 	}
 }

@@ -6,13 +6,14 @@ using UnityEngine.SceneManagement;
 public class MenuManagerScript : MonoBehaviour
 {
     public string menuScene = "main-menu";
-    public string gameStartScene = "Main";
+    public string mainGameStartScene = "Main";
+    public string blitzGameStartScene = "Blitz";
 
     [SerializeField] private SettingsScript settings;
 
     public void StartGame()
     {
-        SceneManager.LoadScene(gameStartScene);
+        SceneManager.LoadScene(mainGameStartScene);
     }
 
     public void ExitGame()
@@ -33,5 +34,18 @@ public class MenuManagerScript : MonoBehaviour
     public void FromSettingsToMenu()
     {
         settings.ChangeFromSettingsToMainMenu();
+    }
+
+    public void DropDown(int index)
+    {
+        switch (index)
+        {
+            case 0:
+                SceneManager.LoadScene(mainGameStartScene);
+                break;
+            case 1:
+                SceneManager.LoadScene(blitzGameStartScene);
+                break;
+        }
     }
 }

@@ -23,6 +23,7 @@ public class MenuManagerScript : MonoBehaviour
 
     public void BackToMenu()
 	{
+        Timer.isGameStart = false;
         SceneManager.LoadScene(menuScene);
     }
 

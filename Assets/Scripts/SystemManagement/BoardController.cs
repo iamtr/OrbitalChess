@@ -12,20 +12,22 @@ public class BoardController : MonoBehaviour
 	/// Array of the pieces available on the board where
 	/// the index of the array is the position of the piece on the board
 	/// </summary>
-	[SerializeField] private Piece[] pieces;
+	[SerializeField] protected Piece[] pieces;
 
 	/// <summary>
 	/// Array of the highlights on the board where
 	/// the index of the array is the position of the square on the board
 	/// </summary>
-	[SerializeField] private HighlightSquare[] highlights;
-	[SerializeField] private HighlightSquare highlightSquare;
+	[SerializeField] protected HighlightSquare[] highlights;
+	[SerializeField] protected HighlightSquare highlightSquare;
 
 	/// <summary>
 	/// Array of the piece used for pawn promotion
 	/// </summary>
-	[SerializeField] private Piece[] blackPieces;
-	[SerializeField] private Piece[] whitePieces;
+	[SerializeField] protected Piece[] blackPieces;
+	[SerializeField] protected Piece[] whitePieces;
+
+
 
 	private Transform highlightTransform;
 	private Transform pieceTransform;
@@ -33,10 +35,10 @@ public class BoardController : MonoBehaviour
 	/// <summary>
 	/// Array that is used to simulated if a move results in a check to own king
 	/// </summary>
-	public Piece[] testArray;
+	protected Piece[] testArray;
 
-	public int BlackKingPos = 3;
-	public int WhiteKingPos = 59;
+	[SerializeField] public int BlackKingPos = 3;
+	[SerializeField] public int WhiteKingPos = 59;
 
 	private List<Move> allMoves;
 
@@ -77,8 +79,6 @@ public class BoardController : MonoBehaviour
 		else i = this;
 
 		testArray = pieces.Clone() as Piece[];
-
-		RandomizeAllPieces();
 	}
 
 
@@ -86,7 +86,7 @@ public class BoardController : MonoBehaviour
 	/// <summary>
 	/// Instantiates all pieces and highlight squares
 	/// </summary>
-	private void InstantiatePieces()
+	protected virtual void InstantiatePieces()
 	{
 		highlights = new HighlightSquare[64];
 
@@ -228,6 +228,7 @@ public class BoardController : MonoBehaviour
 	public void Highlight(int pos, SpecialMove sp)
 	{
 		SetHighlightColor(pos, Color.magenta);
+		SetHighlightSpecial(pos, sp);
 	}
 
 	/// <summary>
@@ -292,7 +293,7 @@ public class BoardController : MonoBehaviour
 	/// Moves a piece to position x, y on the board.
 	/// </summary>
 	/// <param name="currPiece">The current piece chosen by player</param>
-	public void MovePiece(int x, int y, Piece piece)
+	public virtual void MovePiece(int x, int y, Piece piece)
 	{
 		int newPos = ConvPos(x, y);
 		if (piece == null) Debug.Log("Piece at MovePiece() is null! Tried to move a null piece.");
@@ -399,11 +400,11 @@ public class BoardController : MonoBehaviour
 	/// Handles the logic after a highlight square is clicked
 	/// </summary>
 	/// <param name="col"></param>
-	public void HandleHighlightSquareClicked(Collider2D col)
+	public virtual void HandleHighlightSquareClicked(Collider2D col)
 	{
 		var h = col.GetComponent<HighlightSquare>();
 		var temp = ConvXY(h.Position);
-		CurrPiece.InvokeOnBeforeMove();
+		CurrPiece?.InvokeOnBeforeMove();
 
 		if (h.Special == SpecialMove.Play && CurrPiece is Pawn pawn)
 		{
@@ -421,14 +422,18 @@ public class BoardController : MonoBehaviour
 		{
 			MovePiece(temp[0], temp[1], CurrPiece);
 		}
-		if (h.Special == SpecialMove.Bomb)
-		{
-			Bomb(h.Position);
-		}
+		//if (h.Special == SpecialMove.Bomb)
+		//{
+		//	Bomb(h.Position);
+		//}
+		//if (h.Special == SpecialMove.Steal)
+		//{
+		//	StealOpponentPiece(h.Position);
+		//}
 
 		SetHighLightSpecial(h, SpecialMove.Play);
 		UnhighlightAllSqaures();
-		CurrPiece.InvokeOnAfterMove();
+		CurrPiece?.InvokeOnAfterMove();
 	}
 
 	/// <summary>
@@ -649,82 +654,5 @@ public class BoardController : MonoBehaviour
 		return p1?.Player == p2?.Player;
 	}
 
-	public void Bomb(int pos)
-	{
-		if (pos < 0 || pos > 63) Debug.Log("Bomb: pos out of range");
-		for (int i = -1; i < 2; i++)
-		{
-			for (int j = -1; j < 2; j++)
-			{
-				int x = ConvXY(pos)[0] + i;
-				int y = ConvXY(pos)[1] + j;
-				if (!IsInBounds(x, y)) continue;
-				DestroyPiece(ConvPos(x, y));
-			}
-		}
 
-		testArray = pieces.Clone() as Piece[];
-	}
-	public void HighlightPawnBombs()
-	{
-		foreach (Piece piece in pieces)
-		{
-			if (piece?.Player == GameController.GetCurrPlayer() && piece is Pawn pawn)
-			{
-				Highlight(pawn.CurrPos, SpecialMove.Bomb);
-			}
-		}
-	}
-
-	/// <summary>
-	/// Special Game Mode: Randomizes pieces on the board for both sides
-	/// </summary>
-	public void RandomizeAllPieces()
-	{
-		foreach (Piece piece in pieces)
-		{
-			if (piece == null) continue;
-			int rand = UnityEngine.Random.Range(0, 16);
-			PlayerType p = piece.Player;
-			if (piece is King) continue;
-
-			Piece newPiece;
-
-			if (rand == 0) newPiece = GetPromotionPiece(0, p);
-			else if (rand == 1 || rand == 2 || rand == 7) newPiece = GetPromotionPiece(1, p);
-			else if (rand == 3 || rand == 4) newPiece = GetPromotionPiece(2, p);
-			else if (rand == 5 || rand == 6) newPiece = GetPromotionPiece(3, p);
-			else newPiece = GetPromotionPiece(4, p);
-
-			DestroyPiece(piece.CurrPos);
-			InstantiatePiece(newPiece, piece.CurrPos);
-		}
-
-		testArray = pieces.Clone() as Piece[];
-	}
-
-	/// <summary>
-	/// Special Game Mode: Instantiate a spare king
-	/// </summary>
-	/// <param name="p"></param>
-	/// <param name="pos"></param>
-	public void StealOpponentPiece(int pos)
-	{
-		Piece stealPiece = GetPieceFromPos(pos);
-
-		if (stealPiece == null) Debug.Log("Piece trying to steal is null!");
-		if (stealPiece?.Player == GameController.GetCurrPlayer()) Debug.Log("Cannot steal your own piece!");
-
-		DestroyPiece(pos);
-		Type t = stealPiece.GetType();
-		Piece[] temp = GameController.GetCurrPlayer() == PlayerType.White ? whitePieces : blackPieces;
-
-		if (t == typeof(King)) Debug.Log("Cannot steal a king!");
-		else if (t == typeof(Queen)) InstantiatePiece(temp[0], pos);
-		else if (t == typeof(Knight)) InstantiatePiece(temp[1], pos);
-		else if (t == typeof(Bishop)) InstantiatePiece(temp[2], pos);
-		else if (t == typeof(Rook)) InstantiatePiece(temp[3], pos);
-		else if (t == typeof(Pawn)) InstantiatePiece(temp[4], pos);
-		else Debug.Log("StealOpponentPiece: Piece type not found");
-	}
 }

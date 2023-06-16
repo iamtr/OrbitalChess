@@ -24,8 +24,8 @@ public class BoardController : MonoBehaviour
 	/// <summary>
 	/// Array of the piece used for pawn promotion
 	/// </summary>
-	[SerializeField] private Piece[] promotionBlackList;
-	[SerializeField] private Piece[] promotionWhiteList;
+	[SerializeField] private Piece[] blackPieces;
+	[SerializeField] private Piece[] whitePieces;
 
 	private Transform highlightTransform;
 	private Transform pieceTransform;
@@ -484,7 +484,7 @@ public class BoardController : MonoBehaviour
 	/// <returns>The promoted piece (Queen, Knight, Rook, Bishop)</returns>
 	public Piece GetPromotionPiece(int id, PlayerType player)
 	{
-		return player == PlayerType.Black ? promotionBlackList[id] : promotionWhiteList[id];
+		return player == PlayerType.Black ? blackPieces[id] : whitePieces[id];
 	}
 
 	/// <summary>
@@ -677,7 +677,7 @@ public class BoardController : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Randomizes pieces on the board for both sides
+	/// Special Game Mode: Randomizes pieces on the board for both sides
 	/// </summary>
 	public void RandomizeAllPieces()
 	{
@@ -708,8 +708,23 @@ public class BoardController : MonoBehaviour
 	/// </summary>
 	/// <param name="p"></param>
 	/// <param name="pos"></param>
-	public void StealOpponentPiece(PlayerType p, int pos)
+	public void StealOpponentPiece(int pos)
 	{
-		
+		Piece stealPiece = GetPieceFromPos(pos);
+
+		if (stealPiece == null) Debug.Log("Piece trying to steal is null!");
+		if (stealPiece?.Player == GameController.GetCurrPlayer()) Debug.Log("Cannot steal your own piece!");
+
+		DestroyPiece(pos);
+		Type t = stealPiece.GetType();
+		Piece[] temp = GameController.GetCurrPlayer() == PlayerType.White ? whitePieces : blackPieces;
+
+		if (t == typeof(King)) Debug.Log("Cannot steal a king!");
+		else if (t == typeof(Queen)) InstantiatePiece(temp[0], pos);
+		else if (t == typeof(Knight)) InstantiatePiece(temp[1], pos);
+		else if (t == typeof(Bishop)) InstantiatePiece(temp[2], pos);
+		else if (t == typeof(Rook)) InstantiatePiece(temp[3], pos);
+		else if (t == typeof(Pawn)) InstantiatePiece(temp[4], pos);
+		else Debug.Log("StealOpponentPiece: Piece type not found");
 	}
 }

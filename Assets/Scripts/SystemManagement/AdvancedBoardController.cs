@@ -6,6 +6,9 @@ public class AdvancedBoardController : BoardController
 	private Transform mineTransform;
 	// For buying pieces:
 	private Piece pieceToInstantiate;
+	[SerializeField] private GameObject whiteBuyOptions;
+	[SerializeField] private GameObject blackBuyOptions;
+
 
 	[SerializeField] private GameObject mine;
 
@@ -201,5 +204,19 @@ public class AdvancedBoardController : BoardController
 	public void PlaceBoughtPiece(int pos)
 	{
 		InstantiatePiece(pieceToInstantiate, pos);
+	}
+
+	public void ShowBuyOptions()
+	{
+		PlayerType p = GameController.GetCurrPlayer();
+
+		if (p == PlayerType.White)
+		{
+			whiteBuyOptions.SetActive(true);
+		}
+		else
+		{
+			blackBuyOptions.SetActive(true);
+		}
 	}
 }

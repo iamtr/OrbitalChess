@@ -40,5 +40,10 @@ public class InputManager : MonoBehaviour
 		{
 			BoardController.i.HandlePromotionButtonClicked(col);
 		}
+
+		else if (col.gameObject.CompareTag("White Piece") || col.gameObject.CompareTag("Black Piece"))
+		{
+			
+		}
 	}
 }

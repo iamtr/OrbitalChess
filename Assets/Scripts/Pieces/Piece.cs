@@ -13,6 +13,7 @@ public abstract class Piece : MonoBehaviour, ICloneable
 	/// Value for a piece. Used in AI, custom game modes
 	/// </summary>
 	protected int value;
+	public int Value => value;
 
 	/// <summary>
 	/// Current position, from 0 - 63

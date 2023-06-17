@@ -4,6 +4,9 @@ using UnityEngine;
 public class AdvancedBoardController : BoardController
 {
 	private Transform mineTransform;
+	// For buying pieces:
+	private Piece pieceToInstantiate;
+
 	[SerializeField] private GameObject mine;
 
 	[SerializeField] private GameObject[] mines;
@@ -20,7 +23,7 @@ public class AdvancedBoardController : BoardController
 
 			mines[i] = Instantiate(mine, new Vector3(x, y, 0), Quaternion.identity);
 			mines[i].transform.parent = mineTransform;
-			// mines[i].gameObject.SetActive(false);
+			mines[i].gameObject.SetActive(false);
 		}
 	}
 
@@ -53,6 +56,10 @@ public class AdvancedBoardController : BoardController
 		if (h.Special == SpecialMove.Steal)
 		{
 			StealOpponentPiece(h.Position);
+		}
+		if (h.Special == SpecialMove.Spawn)
+		{
+			PlaceBoughtPiece(h.Position);
 		}
 
 		SetHighLightSpecial(h, SpecialMove.Play);
@@ -166,5 +173,33 @@ public class AdvancedBoardController : BoardController
 		int newPos = ConvPos(x, y);
 		if (piece == null) Debug.Log("Piece at MovePiece() is null! Tried to move a null piece.");
 		SetPiecePos(piece.CurrPos, newPos);
+	}
+
+	public void HighlightSpawnPiece() 
+	{
+		for (int i = 0; i < 16; i++)
+		{
+			if (GameController.GetCurrPlayer() == PlayerType.Black)
+			{
+				if (pieces[i] != null) continue;
+				Highlight(i, SpecialMove.Spawn);
+			}
+			else
+			{
+				if (pieces[63 - i] != null) continue;
+				Highlight(63 - i, SpecialMove.Spawn);
+			}
+		}
+	}
+
+	public void BuyPiece(Piece boughtPiece)
+	{
+		pieceToInstantiate = boughtPiece;
+		HighlightSpawnPiece();
+	}
+
+	public void PlaceBoughtPiece(int pos)
+	{
+		InstantiatePiece(pieceToInstantiate, pos);
 	}
 }

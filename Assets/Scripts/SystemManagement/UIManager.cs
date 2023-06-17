@@ -22,8 +22,6 @@ public class UIManager : MonoBehaviour
 	private void Start()
     {
         promotionButtonTransform = GameObject.Find("Promotion Buttons").transform;
-        //promotingBlack = new PromotionButton[promotingNumber];
-        //promotingWhite = new PromotionButton[promotingNumber];
 
         InstantiatePromotionButtons(blackSprites, promotingBlack);
         InstantiatePromotionButtons(whiteSprites, promotingWhite);

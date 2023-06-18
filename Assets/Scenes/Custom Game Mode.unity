@@ -335,6 +335,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &394022860 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1228322038043136769, guid: 95e9a2c15af1c2d4cbbb8f91580847be, type: 3}
+  m_PrefabInstance: {fileID: 1488877251}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b460a7eede995374cb77b43a18540a30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &434391927 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4055057987377005704, guid: 3560c101635d12a49ad501ba1a81b4ae, type: 3}
@@ -649,6 +660,10 @@ PrefabInstance:
       propertyPath: whitePlayer
       value: 
       objectReference: {fileID: 2113604785}
+    - target: {fileID: 1228322038043136769, guid: 95e9a2c15af1c2d4cbbb8f91580847be, type: 3}
+      propertyPath: mines.Array.size
+      value: 64
+      objectReference: {fileID: 0}
     - target: {fileID: 1467217277211535942, guid: 95e9a2c15af1c2d4cbbb8f91580847be, type: 3}
       propertyPath: m_Name
       value: Advanced Board
@@ -1460,6 +1475,18 @@ PrefabInstance:
     - target: {fileID: 1263437163675446971, guid: 354852de29876104c86cc10306011c4a, type: 3}
       propertyPath: m_LocalPosition.y
       value: -433.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 2616397790565976041, guid: 354852de29876104c86cc10306011c4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2616397790565976043, guid: 354852de29876104c86cc10306011c4a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 394022860}
+    - target: {fileID: 2616397790565976043, guid: 354852de29876104c86cc10306011c4a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: HighlightPlantMinePositions
       objectReference: {fileID: 0}
     - target: {fileID: 2616397790597389115, guid: 354852de29876104c86cc10306011c4a, type: 3}
       propertyPath: m_AnchoredPosition.y

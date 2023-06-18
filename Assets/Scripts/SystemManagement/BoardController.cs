@@ -31,6 +31,7 @@ public class BoardController : MonoBehaviour
 
 	private Transform highlightTransform;
 	private Transform pieceTransform;
+	private Transform minesTransform;
 
 	/// <summary>
 	/// Array that is used to simulated if a move results in a check to own king
@@ -70,6 +71,7 @@ public class BoardController : MonoBehaviour
 	{
 		highlightTransform = GameObject.Find("Highlight Squares")?.transform;
 		pieceTransform = GameObject.Find("Pieces")?.transform;
+		minesTransform = GameObject.Find("Mines")?.transform;
 
 		allMoves = new List<Move>();
 
@@ -304,6 +306,8 @@ public class BoardController : MonoBehaviour
 		int newPos = ConvPos(x, y);
 		if (piece == null) Debug.Log("Piece at MovePiece() is null! Tried to move a null piece.");
 		SetPiecePos(piece.CurrPos, newPos);
+		// For special game mode
+		TriggerMine(newPos);
 	}
 
 	public void MoveEnPassantPiece(int x, int y, Piece piece)
@@ -313,6 +317,9 @@ public class BoardController : MonoBehaviour
 
 		DestroyPiece(enemyPos);
 		SetPiecePos(piece.CurrPos, newPos);
+
+		// For special game mode
+		TriggerMine(newPos);
 	}
 
 	public void MoveCastling(int targetX, int targetY, Piece piece)
@@ -330,7 +337,11 @@ public class BoardController : MonoBehaviour
 		}
 
 		MovePiece(kingNewX, targetY, piece);
+		// For special game mode
+		TriggerMine(targetY);
 		MovePiece(rookNewX, targetY, rook);
+		// For special game mode
+		TriggerMine(targetY);
 	}
 
 	/// <summary>
@@ -444,6 +455,10 @@ public class BoardController : MonoBehaviour
 			UIManager.i.blackBuyOptions.SetActive(false);
 			BuyPiece(GameController.i.GetCurrPlayerManager(), pieceToInstantiate);
 			PlaceBoughtPiece(h.Position);
+		}
+		if (h.Special == SpecialMove.Mine)
+		{
+			PlantMine(h.Position);
 		}
 
 		SetHighLightSpecial(h, SpecialMove.Play);
@@ -760,20 +775,6 @@ public class BoardController : MonoBehaviour
 		else if (t == typeof(Pawn)) InstantiatePiece(temp[4], pos);
 		else Debug.Log("StealOpponentPiece: Piece type not found");
 	}
-	public void PlantMine(int pos)
-	{
-		if (mines[pos] != null)
-		{
-			Debug.Log("Already has mine!");
-			return;
-		}
-
-		if (pieces[pos] != null)
-		{
-			Debug.Log("Piece exists here");
-			return;
-		}
-	}
 
 	public void HighlightSpawnPiece(Piece piece)
 	{
@@ -803,5 +804,45 @@ public class BoardController : MonoBehaviour
 	{
 		var temp = InstantiatePiece(pieceToInstantiate, pos);
 		temp.tag = "Piece";
+	}
+
+	public void HighlightPlantMinePositions()
+	{
+		for (int i = 16; i < 48; i++)
+		{
+			if (pieces[i] != null) continue;
+			Highlight(i, SpecialMove.Mine);
+		}
+	}
+
+	public void PlantMine(int pos)
+	{
+		if (mines[pos] != null)
+		{
+			Debug.Log("Already has mine!");
+			return;
+		}
+
+		if (pieces[pos] != null)
+		{
+			Debug.Log("Piece exists here");
+			return;
+		}
+
+		int x = ConvXY(pos)[0];
+		int y = ConvXY(pos)[1];
+		mines[pos] = Instantiate(mine, new Vector3(x, y, 2), Quaternion.identity);
+	}
+
+	public void TriggerMine(int pos)
+	{
+		if (mines[pos] == null)
+		{
+			Debug.Log("There is no mine here!");
+			return;
+		}
+
+		Destroy(mines[pos]);
+		DestroyPiece(pos);
 	}
 }

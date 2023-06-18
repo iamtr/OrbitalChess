@@ -453,7 +453,7 @@ public class BoardController : MonoBehaviour
 		{
 			UIManager.i.whiteBuyOptions.SetActive(false);
 			UIManager.i.blackBuyOptions.SetActive(false);
-			BuyPiece(GameController.i.GetCurrPlayerManager(), pieceToInstantiate);
+			BuyPiece(pieceToInstantiate);
 			PlaceBoughtPiece(h.Position);
 		}
 		if (h.Special == SpecialMove.Mine)
@@ -795,9 +795,9 @@ public class BoardController : MonoBehaviour
 		}
 	}
 
-	public void BuyPiece(PlayerManager p, Piece boughtPiece)
+	public void BuyPiece(Piece boughtPiece)
 	{
-		p.AddMoney(-boughtPiece.Value);
+		GameController.i.GetCurrPlayerManager().AddMoney(-boughtPiece.Value);
 	}
 
 	public void PlaceBoughtPiece(int pos)

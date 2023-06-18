@@ -563,6 +563,122 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3adaeb294de97034283bf1432bea6ae0, type: 3}
+--- !u!1 &963547177
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 963547180}
+  - component: {fileID: 963547179}
+  - component: {fileID: 963547181}
+  m_Layer: 0
+  m_Name: bombcard
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!212 &963547179
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963547177}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 677bb3479b2e8764aa3124c0e8c3bbfe, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 3.4076562, y: 4.52}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!224 &963547180
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963547177}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 1.09, y: -2.57}
+  m_SizeDelta: {x: 3.4076562, y: 4.52}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!61 &963547181
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963547177}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 3.4076562, y: 4.52}
+    newSize: {x: 3.4076562, y: 4.52}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 3.4076562, y: 4.52}
+  m_EdgeRadius: 0
 --- !u!1 &1132501283 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3560019618215297751, guid: 3560c101635d12a49ad501ba1a81b4ae, type: 3}
@@ -583,6 +699,10 @@ PrefabInstance:
     - target: {fileID: 6602433796197293362, guid: 5021083d6b63a6c4ebaa21fa92e86e2d, type: 3}
       propertyPath: m_Name
       value: Camera
+      objectReference: {fileID: 0}
+    - target: {fileID: 6602433796197293364, guid: 5021083d6b63a6c4ebaa21fa92e86e2d, type: 3}
+      propertyPath: orthographic size
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6602433796197293367, guid: 5021083d6b63a6c4ebaa21fa92e86e2d, type: 3}
       propertyPath: m_RootOrder
@@ -1446,7 +1566,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 911798566946245942, guid: 354852de29876104c86cc10306011c4a, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1035567810542652465, guid: 354852de29876104c86cc10306011c4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1478,7 +1598,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2616397790565976041, guid: 354852de29876104c86cc10306011c4a, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2616397790565976043, guid: 354852de29876104c86cc10306011c4a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -1488,6 +1608,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: HighlightPlantMinePositions
       objectReference: {fileID: 0}
+    - target: {fileID: 2616397790597389112, guid: 354852de29876104c86cc10306011c4a, type: 3}
+      propertyPath: m_Name
+      value: Black Player Coin Text
+      objectReference: {fileID: 0}
     - target: {fileID: 2616397790597389115, guid: 354852de29876104c86cc10306011c4a, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 282
@@ -1496,13 +1620,17 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -323
       objectReference: {fileID: 0}
+    - target: {fileID: 2616397791205831806, guid: 354852de29876104c86cc10306011c4a, type: 3}
+      propertyPath: m_Name
+      value: White Player Coin Text
+      objectReference: {fileID: 0}
     - target: {fileID: 3536481638654195107, guid: 354852de29876104c86cc10306011c4a, type: 3}
       propertyPath: m_TagString
       value: White Piece
       objectReference: {fileID: 0}
     - target: {fileID: 3602216851868456233, guid: 354852de29876104c86cc10306011c4a, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -548
+      value: -600
       objectReference: {fileID: 0}
     - target: {fileID: 3602216851868456233, guid: 354852de29876104c86cc10306011c4a, type: 3}
       propertyPath: m_AnchoredPosition.y

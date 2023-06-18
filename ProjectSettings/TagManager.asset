@@ -8,6 +8,7 @@ TagManager:
   - Promotion Button
   - Highlight Square
   - Buy Option
+  - Card
   layers:
   - Default
   - TransparentFX

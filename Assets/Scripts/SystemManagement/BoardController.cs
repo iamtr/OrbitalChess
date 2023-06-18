@@ -44,15 +44,15 @@ public class BoardController : MonoBehaviour
 
 	public static bool isBlackBelow = true;
 
-	public PlayerManager blackPlayer;
-	public PlayerManager whitePlayer;
-
 	/// <summary>
 	/// The current piece that is being clicked by the player
 	/// </summary>
 	public Piece CurrPiece { get; set; }
 
 	public static BoardController i { get; private set; }
+
+	[SerializeField] private GameObject mine;
+	[SerializeField] private GameObject[] mines;
 
 	private void OnEnable()
 	{
@@ -66,7 +66,7 @@ public class BoardController : MonoBehaviour
 		GameController.OnRoundStart -= SetPawnBooleansToFalse;
 	}
 
-	private void Start()
+	public virtual void Start()
 	{
 		highlightTransform = GameObject.Find("Highlight Squares")?.transform;
 		pieceTransform = GameObject.Find("Pieces")?.transform;
@@ -263,24 +263,30 @@ public class BoardController : MonoBehaviour
 	public void DestroyPiece(int pos)
 	{
 		PlayerType p = pieces[pos].Player;
-		Destroy(pieces[pos]?.gameObject);
+		Piece destroyedPiece = pieces[pos];
+		if (pieces[pos] == null)
+		{
+			Debug.Log("Piece to destroy is null!");
+			return;
+		}
+			Destroy(pieces[pos]?.gameObject);
+		
 		pieces[pos] = null;
-
 		if (p != GameController.GetCurrPlayer())
 		{
-			HandleCapture(GameController.GetCurrPlayer());
+			HandleCapture(GameController.GetCurrPlayer(), destroyedPiece);
 		}
 	}
 
-	public void HandleCapture(PlayerType capturedPlayer)
+	public void HandleCapture(PlayerType capturedPlayer, Piece capturedPiece)
 	{
 		if (capturedPlayer == PlayerType.White)
 		{
-			blackPlayer.AddMoney(10);
+			GameController.i.whitePlayer.AddMoney(capturedPiece.Value);
 		}
 		else if (capturedPlayer == PlayerType.Black)
 		{
-			whitePlayer.AddMoney(10);
+			GameController.i.blackPlayer.AddMoney(capturedPiece.Value);
 		}
 		else
 		{
@@ -297,11 +303,7 @@ public class BoardController : MonoBehaviour
 	{
 		int newPos = ConvPos(x, y);
 		if (piece == null) Debug.Log("Piece at MovePiece() is null! Tried to move a null piece.");
-
-		// bool isCapture = pieces[newPos] != null && pieces[newPos].Player != piece.Player;
-
 		SetPiecePos(piece.CurrPos, newPos);
-		// if (isCapture) HandleCapture(GameController.GetCurrPlayer());
 	}
 
 	public void MoveEnPassantPiece(int x, int y, Piece piece)
@@ -337,6 +339,12 @@ public class BoardController : MonoBehaviour
 	public void UnhighlightAllSqaures()
 	{
 		foreach (var square in highlights) square.gameObject.SetActive(false);
+	}
+
+	public void DisableBuyOption()
+	{
+		UIManager.i.whiteBuyOptions.SetActive(false);
+		UIManager.i.blackBuyOptions.SetActive(false);
 	}
 
 	/// <summary>
@@ -422,14 +430,21 @@ public class BoardController : MonoBehaviour
 		{
 			MovePiece(temp[0], temp[1], CurrPiece);
 		}
-		//if (h.Special == SpecialMove.Bomb)
-		//{
-		//	Bomb(h.Position);
-		//}
-		//if (h.Special == SpecialMove.Steal)
-		//{
-		//	StealOpponentPiece(h.Position);
-		//}
+		if (h.Special == SpecialMove.Bomb)
+		{
+			Bomb(h.Position);
+		}
+		if (h.Special == SpecialMove.Steal)
+		{
+			StealOpponentPiece(h.Position);
+		}
+		if (h.Special == SpecialMove.Spawn)
+		{
+			UIManager.i.whiteBuyOptions.SetActive(false);
+			UIManager.i.blackBuyOptions.SetActive(false);
+			BuyPiece(GameController.i.GetCurrPlayerManager(), pieceToInstantiate);
+			PlaceBoughtPiece(h.Position);
+		}
 
 		SetHighLightSpecial(h, SpecialMove.Play);
 		UnhighlightAllSqaures();
@@ -654,5 +669,139 @@ public class BoardController : MonoBehaviour
 		return p1?.Player == p2?.Player;
 	}
 
+	private Transform mineTransform;
+	// For buying pieces:
+	private Piece pieceToInstantiate;
 
+	public void Bomb(int pos)
+	{
+		if (pos < 0 || pos > 63) Debug.Log("Bomb: pos out of range");
+		for (int i = -1; i < 2; i++)
+		{
+			for (int j = -1; j < 2; j++)
+			{
+				int x = ConvXY(pos)[0] + i;
+				int y = ConvXY(pos)[1] + j;
+				if (!IsInBounds(x, y)) continue;
+				DestroyPiece(ConvPos(x, y));
+			}
+		}
+
+		testArray = pieces.Clone() as Piece[];
+	}
+	public void HighlightPawnBombs()
+	{
+		foreach (Piece piece in pieces)
+		{
+			if (piece?.Player == GameController.GetCurrPlayer() && piece is Pawn pawn)
+			{
+				Highlight(pawn.CurrPos, SpecialMove.Bomb);
+			}
+		}
+	}
+
+	/// <summary>
+	/// Special Game Mode: Randomizes pieces on the board for both sides
+	/// </summary>
+	public void RandomizeAllPieces()
+	{
+		foreach (Piece piece in pieces)
+		{
+			if (piece == null) continue;
+			int rand = UnityEngine.Random.Range(0, 16);
+			PlayerType p = piece.Player;
+			if (piece is King) continue;
+
+			Piece newPiece;
+
+			if (rand == 0) newPiece = GetPromotionPiece(0, p);
+			else if (rand == 1 || rand == 2 || rand == 7) newPiece = GetPromotionPiece(1, p);
+			else if (rand == 3 || rand == 4) newPiece = GetPromotionPiece(2, p);
+			else if (rand == 5 || rand == 6) newPiece = GetPromotionPiece(3, p);
+			else newPiece = GetPromotionPiece(4, p);
+
+			DestroyPiece(piece.CurrPos);
+			InstantiatePiece(newPiece, piece.CurrPos);
+		}
+
+		testArray = pieces.Clone() as Piece[];
+	}
+	public void HighlightSteal()
+	{
+		foreach (Piece piece in pieces)
+		{
+			if (piece == null) continue;
+			if (piece.Player == GameController.GetCurrPlayer()) continue;
+			Highlight(piece.CurrPos, SpecialMove.Steal);
+		}
+	}
+
+	/// <summary>
+	/// Special Game Mode: Steal an opponent piece, excluding king and queen
+	/// </summary>
+	/// <param name="p"></param>
+	/// <param name="pos"></param>
+	public void StealOpponentPiece(int pos)
+	{
+		Piece stealPiece = GetPieceFromPos(pos);
+
+		if (stealPiece == null) Debug.Log("Piece trying to steal is null!");
+		if (stealPiece?.Player == GameController.GetCurrPlayer()) Debug.Log("Cannot steal your own piece!");
+
+		DestroyPiece(pos);
+		Type t = stealPiece.GetType();
+		Piece[] temp = GameController.GetCurrPlayer() == PlayerType.White ? whitePieces : blackPieces;
+
+		if (t == typeof(King)) Debug.Log("Cannot steal a king!");
+		else if (t == typeof(Queen)) InstantiatePiece(temp[0], pos);
+		else if (t == typeof(Knight)) InstantiatePiece(temp[1], pos);
+		else if (t == typeof(Rook)) InstantiatePiece(temp[2], pos);
+		else if (t == typeof(Bishop)) InstantiatePiece(temp[3], pos);
+		else if (t == typeof(Pawn)) InstantiatePiece(temp[4], pos);
+		else Debug.Log("StealOpponentPiece: Piece type not found");
+	}
+	public void PlantMine(int pos)
+	{
+		if (mines[pos] != null)
+		{
+			Debug.Log("Already has mine!");
+			return;
+		}
+
+		if (pieces[pos] != null)
+		{
+			Debug.Log("Piece exists here");
+			return;
+		}
+	}
+
+	public void HighlightSpawnPiece(Piece piece)
+	{
+		pieceToInstantiate = piece;
+
+		for (int i = 0; i < 16; i++)
+		{
+			if (GameController.GetCurrPlayer() == PlayerType.Black)
+			{
+				if (pieces[i] != null) continue;
+				Highlight(i, SpecialMove.Spawn);
+			}
+			else
+			{
+				if (pieces[63 - i] != null) continue;
+				Highlight(63 - i, SpecialMove.Spawn);
+			}
+		}
+	}
+
+	public void BuyPiece(PlayerManager p, Piece boughtPiece)
+	{
+		p.AddMoney(-boughtPiece.Value);
+	}
+
+	public void PlaceBoughtPiece(int pos)
+	{
+		var temp = InstantiatePiece(pieceToInstantiate, pos);
+		temp.tag = "Piece";
+	}
 }

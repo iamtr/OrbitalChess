@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -41,9 +42,10 @@ public class InputManager : MonoBehaviour
 			BoardController.i.HandlePromotionButtonClicked(col);
 		}
 
-		else if (col.gameObject.CompareTag("White Piece") || col.gameObject.CompareTag("Black Piece"))
+		else if (col.gameObject.CompareTag("Buy Option"))
 		{
-			
+			Piece piece = col.gameObject.GetComponent<Piece>();
+			BoardController.i.HighlightSpawnPiece(piece);
 		}
 	}
 }

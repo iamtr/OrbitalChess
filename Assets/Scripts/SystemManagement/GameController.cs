@@ -7,6 +7,9 @@ public class GameController : MonoBehaviour
     [SerializeField] private static PlayerType currPlayer = PlayerType.White;
 	[SerializeField] private static GameState gameState;
 
+	public PlayerManager blackPlayer;
+	public PlayerManager whitePlayer;
+
 	public static GameController i;
 
     /// <summary>
@@ -114,6 +117,16 @@ public class GameController : MonoBehaviour
     {
         return PlayerType.Black == currPlayer ? PlayerType.White : PlayerType.Black;
     }
+
+    public PlayerManager GetCurrPlayerManager()
+    {
+        return GetCurrPlayer() == PlayerType.Black ? blackPlayer : whitePlayer;
+    }
+
+    public PlayerManager GetOpponentPlayerManager()
+    {
+		return GetCurrPlayer() == PlayerType.Black ? whitePlayer : blackPlayer;
+	}
 }
 
 public enum PlayerType { Black, White }

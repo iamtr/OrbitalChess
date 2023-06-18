@@ -9,6 +9,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private PromotionButton[] promotingBlack;
     [SerializeField] private PromotionButton[] promotingWhite;
     [SerializeField] private PromotionButton promotionButton;
+    [SerializeField] public GameObject whiteBuyOptions;
+    [SerializeField] public GameObject blackBuyOptions;
+
 
     private Transform promotionButtonTransform;
     private readonly int promotingNumber = 4;
@@ -17,7 +20,8 @@ public class UIManager : MonoBehaviour
 
 	public void Awake()
 	{
-		i = this;
+        if (i != null && i != this) Destroy(this);
+        else i = this;
 	}
 	private void Start()
     {
@@ -62,4 +66,18 @@ public class UIManager : MonoBehaviour
         else
             for (var i = 0; i < promotingNumber; i++) promotingWhite[i].gameObject.SetActive(true);
     }
+
+	public void ShowBuyOptions()
+	{
+		PlayerType p = GameController.GetCurrPlayer();
+
+		if (p == PlayerType.White)
+		{
+			whiteBuyOptions.SetActive(true);
+		}
+		else
+		{
+			blackBuyOptions.SetActive(true);
+		}
+	}
 }

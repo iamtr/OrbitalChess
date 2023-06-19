@@ -443,13 +443,19 @@ public class BoardController : MonoBehaviour
 		{
 			MovePiece(temp[0], temp[1], CurrPiece);
 		}
+
+		// Below are special moves, they return early to prevent execution of unwanted code
 		if (h.Special == SpecialMove.Bomb)
 		{
 			Bomb(h.Position);
+			GameController.InvokeOnRoundEnd();
+			return;
 		}
 		if (h.Special == SpecialMove.Steal)
 		{
 			StealOpponentPiece(h.Position);
+			GameController.InvokeOnRoundEnd();
+			return;
 		}
 		if (h.Special == SpecialMove.Spawn)
 		{
@@ -457,6 +463,8 @@ public class BoardController : MonoBehaviour
 			UIManager.i.blackBuyOptions.SetActive(false);
 			BuyPiece(pieceToInstantiate);
 			PlaceBoughtPiece(h.Position);
+			GameController.InvokeOnRoundEnd();
+			return;
 		}
 		if (h.Special == SpecialMove.Mine)
 		{

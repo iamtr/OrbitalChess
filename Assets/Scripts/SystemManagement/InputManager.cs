@@ -47,5 +47,11 @@ public class InputManager : MonoBehaviour
 			Piece piece = col.gameObject.GetComponent<Piece>();
 			BoardController.i.HighlightSpawnPiece(piece);
 		}
+
+		else if (col.gameObject.CompareTag("Card"))
+		{
+			Card c = col.gameObject.GetComponent<Card>();
+			c.Trigger();
+		}
 	}
 }

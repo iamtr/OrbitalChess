@@ -264,13 +264,15 @@ public class BoardController : MonoBehaviour
 	/// <param name="pos"></param>
 	public void DestroyPiece(int pos)
 	{
-		PlayerType p = pieces[pos].Player;
-		Piece destroyedPiece = pieces[pos];
 		if (pieces[pos] == null)
 		{
 			Debug.Log("Piece to destroy is null!");
 			return;
 		}
+
+		PlayerType p = pieces[pos].Player;
+		Piece destroyedPiece = pieces[pos];
+
 			Destroy(pieces[pos]?.gameObject);
 		
 		pieces[pos] = null;

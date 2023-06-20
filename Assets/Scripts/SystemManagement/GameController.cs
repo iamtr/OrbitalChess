@@ -4,17 +4,22 @@ using TMPro;
 
 public class GameController : MonoBehaviour
 {
-    [SerializeField] private static PlayerType currPlayer = PlayerType.White;
-	[SerializeField] private static GameState gameState;
+    [Header("Players")]
+	[SerializeField] private PlayerManager blackPlayer;
+	[SerializeField] private PlayerManager whitePlayer;
 
-	public PlayerManager blackPlayer;
-	public PlayerManager whitePlayer;
+    [Header("Text")]
+	[SerializeField] private TMP_Text checkText;
+	[SerializeField] private TMP_Text turnText;
+
+    [SerializeField] private bool isSpecialMode = false;
+
+	private static PlayerType currPlayer = PlayerType.White;
+	private static GameState gameState;
 
 	public static GameController i;
 
-    public TMP_Text turnText;
-
-    [SerializeField] public bool IsSpecialMode { get; private set; }
+    public bool IsSpecialMode => IsSpecialMode;
 
     /// <summary>
     /// Current player type (Black, White)
@@ -29,7 +34,7 @@ public class GameController : MonoBehaviour
     public static event Action OnRoundEnd;
     //public static event Action OnGameEnd;
 
-    [SerializeField] private TMP_Text checkText;
+    
 
 	private void OnEnable()
 	{

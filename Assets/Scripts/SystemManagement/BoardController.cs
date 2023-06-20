@@ -9,6 +9,7 @@ using static UnityEditor.PlayerSettings;
 /// </summary>
 public class BoardController : MonoBehaviour
 {
+	[Header("Board Setup")]
 	/// <summary>
 	/// Array of the pieces available on the board where
 	/// the index of the array is the position of the piece on the board
@@ -22,11 +23,18 @@ public class BoardController : MonoBehaviour
 	[SerializeField] protected HighlightSquare[] highlights;
 	[SerializeField] protected HighlightSquare highlightSquare;
 
+	[Header("Promotion Buttons")]
 	/// <summary>
 	/// Array of the piece used for pawn promotion
 	/// </summary>
 	[SerializeField] protected Piece[] blackPieces;
 	[SerializeField] protected Piece[] whitePieces;
+
+	[Header("Special Mode")]
+	[SerializeField] private bool isSpecialMode = true;
+	[SerializeField] private GameObject mine;
+	[SerializeField] private GameObject[] mines;
+
 
 	private Transform highlightTransform;
 	private Transform pieceTransform;
@@ -34,17 +42,12 @@ public class BoardController : MonoBehaviour
 	/// <summary>
 	/// Array that is used to simulated if a move results in a check to own king
 	/// </summary>
-	protected Piece[] testArray;
-
-	[SerializeField] public int BlackKingPos = 3;
-	[SerializeField] public int WhiteKingPos = 59;
-
+	private Piece[] testArray;
+	private int BlackKingPos = 3;
+	private int WhiteKingPos = 59;
 	private List<Move> allMoves;
 
 	public static bool isBlackBelow = true;
-
-	[SerializeField] private bool isSpecialMode = true;
-	public static event Action OnEnemyCaptured;
 
 	/// <summary>
 	/// The current piece that is being clicked by the player
@@ -53,18 +56,15 @@ public class BoardController : MonoBehaviour
 
 	public static BoardController i { get; private set; }
 
-	[SerializeField] private GameObject mine;
-	[SerializeField] private GameObject[] mines;
-
 	private void OnEnable()
 	{
-		GameController.OnRoundEnd += UnhighlightAllSqaures;
+		GameController.OnRoundEnd += DisableAllUIElements;
 		GameController.OnRoundStart += SetPawnBooleansToFalse;
 	}
 
 	private void OnDisable()
 	{
-		GameController.OnRoundEnd -= UnhighlightAllSqaures;
+		GameController.OnRoundEnd -= DisableAllUIElements;
 		GameController.OnRoundStart -= SetPawnBooleansToFalse;
 	}
 
@@ -271,13 +271,9 @@ public class BoardController : MonoBehaviour
 			return;
 		}
 
-		PlayerType p = pieces[pos].Player;
 		Piece destroyedPiece = pieces[pos];
 		DestroyPiece(pos);
-		
-		
 		if (GameController.i.IsSpecialMode)	HandleCapture(destroyedPiece);
-		
 	}
 
 	public void DestroyPiece(int pos)
@@ -347,17 +343,12 @@ public class BoardController : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Deactivates all squares on the board
+	/// Deactivates all unneccesary UI elements
 	/// </summary>
-	public void UnhighlightAllSqaures()
+	public void DisableAllUIElements()
 	{
 		foreach (var square in highlights) square.gameObject.SetActive(false);
-	}
-
-	public void DisableBuyOption()
-	{
-		UIManager.i.whiteBuyOptions.SetActive(false);
-		UIManager.i.blackBuyOptions.SetActive(false);
+		UIManager.i.DisableBuyOptions();
 	}
 
 	/// <summary>
@@ -417,6 +408,11 @@ public class BoardController : MonoBehaviour
 		return pieces[pos] != null;
 	}
 
+	public void UpdateKingPosition(PlayerType p, int newPos)
+	{
+		return p == PlayerType.White ? WhiteKingPos = newPos : BlackKingPos = newPos;
+	}
+
 	/// <summary>
 	/// Handles the logic after a highlight square is clicked
 	/// </summary>
@@ -459,11 +455,10 @@ public class BoardController : MonoBehaviour
 		}
 		if (h.Special == SpecialMove.Spawn)
 		{
-			UIManager.i.whiteBuyOptions.SetActive(false);
-			UIManager.i.blackBuyOptions.SetActive(false);
+			UIManager.i.DisableBuyOptions();
 			BuyPiece(pieceToInstantiate);
 			PlaceBoughtPiece(h.Position);
-			UnhighlightAllSqaures();
+			DisableAllUIElements();
 			return;
 		}
 		if (h.Special == SpecialMove.Mine)
@@ -472,7 +467,7 @@ public class BoardController : MonoBehaviour
 		}
 
 		SetHighLightSpecial(h, SpecialMove.Play);
-		UnhighlightAllSqaures();
+		DisableAllUIElements();
 		CurrPiece?.InvokeOnAfterMove();
 	}
 
@@ -482,7 +477,7 @@ public class BoardController : MonoBehaviour
 	/// <param name="col"></param>
 	public void HandlePieceClicked(Collider2D col)
 	{
-		UnhighlightAllSqaures();
+		DisableAllUIElements();
 		UIManager.i.UnhighlightAllPromotingButtons();
 		CurrPiece = col.GetComponent<Piece>();
 		List<Move> moves = CurrPiece.GetLegalMoves();

@@ -9,8 +9,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private PromotionButton[] promotingBlack;
     [SerializeField] private PromotionButton[] promotingWhite;
     [SerializeField] private PromotionButton promotionButton;
-    [SerializeField] public GameObject whiteBuyOptions;
-    [SerializeField] public GameObject blackBuyOptions;
+    [SerializeField] private GameObject whiteBuyOptions;
+    [SerializeField] private GameObject blackBuyOptions;
 
 
     private Transform promotionButtonTransform;
@@ -79,5 +79,11 @@ public class UIManager : MonoBehaviour
 		{
 			blackBuyOptions.SetActive(true);
 		}
+	}
+
+    public void DisableBuyOptions()
+    {
+		whiteBuyOptions.SetActive(false);
+        blackBuyOptions.SetActive(false);
 	}
 }

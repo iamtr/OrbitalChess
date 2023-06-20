@@ -76,7 +76,7 @@
 //		}
 
 //		SetHighLightSpecial(h, SpecialMove.Play);
-//		UnhighlightAllSqaures();
+//		DisableAllUIElements();
 //		CurrPiece?.InvokeOnAfterMove();
 //	}
 //	public void Bomb(int pos)

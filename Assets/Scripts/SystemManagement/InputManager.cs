@@ -22,7 +22,7 @@ public class InputManager : MonoBehaviour
 	{
 		if (col == null)
 		{
-			BoardController.i.UnhighlightAllSqaures();
+			BoardController.i.DisableAllUIElements();
 		}
 		
 		else if (col.gameObject.CompareTag("Highlight Square"))

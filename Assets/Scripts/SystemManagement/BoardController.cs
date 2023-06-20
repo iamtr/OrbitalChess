@@ -13,7 +13,7 @@ public class BoardController : MonoBehaviour
 	/// the index of the array is the position of the piece on the board
 	/// </summary>
 	[SerializeField] protected Piece[] pieces;
-
+	[SerializeField] protected Card[] cards;
 	/// <summary>
 	/// Array of the highlights on the board where
 	/// the index of the array is the position of the square on the board
@@ -31,7 +31,6 @@ public class BoardController : MonoBehaviour
 
 	private Transform highlightTransform;
 	private Transform pieceTransform;
-	private Transform minesTransform;
 
 	/// <summary>
 	/// Array that is used to simulated if a move results in a check to own king
@@ -44,6 +43,9 @@ public class BoardController : MonoBehaviour
 	private List<Move> allMoves;
 
 	public static bool isBlackBelow = true;
+
+	[SerializeField] private bool isSpecialMode = true;
+	public static event Action OnEnemyCaptured;
 
 	/// <summary>
 	/// The current piece that is being clicked by the player
@@ -71,7 +73,6 @@ public class BoardController : MonoBehaviour
 	{
 		highlightTransform = GameObject.Find("Highlight Squares")?.transform;
 		pieceTransform = GameObject.Find("Pieces")?.transform;
-		minesTransform = GameObject.Find("Mines")?.transform;
 
 		allMoves = new List<Move>();
 
@@ -278,25 +279,14 @@ public class BoardController : MonoBehaviour
 		pieces[pos] = null;
 		if (p != GameController.GetCurrPlayer())
 		{
-			HandleCapture(GameController.GetCurrPlayer(), destroyedPiece);
+			HandleCapture(destroyedPiece);
 		}
 	}
 
-	public void HandleCapture(PlayerType capturedPlayer, Piece capturedPiece)
+	public void HandleCapture(Piece capturedPiece)
 	{
-		if (capturedPlayer == PlayerType.White)
-		{
-			GameController.i.whitePlayer.AddMoney(capturedPiece.Value);
-		}
-		else if (capturedPlayer == PlayerType.Black)
-		{
-			GameController.i.blackPlayer.AddMoney(capturedPiece.Value);
-		}
-		else
-		{
-			return;
-		}
-		// TODO
+		GameController.i.GetCurrPlayerManager().AddMoney(capturedPiece.Value);
+		DistributeRandomCard(GameController.i.GetCurrPlayerManager());
 	}
 
 	/// <summary>
@@ -854,5 +844,11 @@ public class BoardController : MonoBehaviour
 
 		Destroy(mines[pos]);
 		DestroyPiece(pos);
+	}
+
+	public void DistributeRandomCard(PlayerManager player)
+	{
+		int rand = UnityEngine.Random.Range(0, cards.Length + 1);
+		player.AddCard(cards[rand]);
 	}
 }

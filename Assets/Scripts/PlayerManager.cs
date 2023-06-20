@@ -8,7 +8,7 @@ public class PlayerManager : MonoBehaviour
 	[SerializeField] private int money;
 	[SerializeField] private PlayerType player;
 	[SerializeField] private TMP_Text moneyText;
-	[SerializeField] private Card[] cards;
+	[SerializeField] private List<Card> playerCards;
 
 	public int Money { get => money; set => money = value; }
 	public PlayerType Player { get => player; set => player = value; }
@@ -22,5 +22,10 @@ public class PlayerManager : MonoBehaviour
 	{
 		money += amount;
 		moneyText.text = "Coin: " + money;
+	}
+
+	public void AddCard(Card card)
+	{
+		playerCards.Add(card);
 	}
 }

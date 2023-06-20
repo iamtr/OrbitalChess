@@ -19,7 +19,7 @@ public class GameController : MonoBehaviour
 
 	public static GameController i;
 
-    public bool IsSpecialMode => IsSpecialMode;
+    public bool IsSpecialMode => isSpecialMode;
 
     /// <summary>
     /// Current player type (Black, White)

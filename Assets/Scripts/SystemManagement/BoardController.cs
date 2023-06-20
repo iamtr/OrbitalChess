@@ -410,7 +410,9 @@ public class BoardController : MonoBehaviour
 
 	public void UpdateKingPosition(PlayerType p, int newPos)
 	{
-		return p == PlayerType.White ? WhiteKingPos = newPos : BlackKingPos = newPos;
+		if (p == PlayerType.White)
+			WhiteKingPos = newPos;
+		else BlackKingPos = newPos;
 	}
 
 	/// <summary>

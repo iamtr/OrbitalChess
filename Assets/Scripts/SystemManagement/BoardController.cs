@@ -129,6 +129,7 @@ public class BoardController : MonoBehaviour
 		int y = ConvXY(pos)[1];
 
 		Piece newPiece = Instantiate(piece, new Vector3(x, y, 2), Quaternion.identity);
+		newPiece.transform.localScale = new Vector3(4.55f, 4.55f, 1);
 		pieces[pos] = newPiece;
 		newPiece.transform.parent = pieceTransform;
 		newPiece.SetCoords(pos);
@@ -296,7 +297,7 @@ public class BoardController : MonoBehaviour
 
 	public void HandleCapture(Piece capturedPiece)
 	{
-		GameController.i.GetCurrPlayerManager().AddMoney(capturedPiece.Value);
+		GameController.i.GetCurrPlayerManager().AddMoney(capturedPiece.Value * 2);
 		DistributeRandomCard(GameController.i.GetCurrPlayerManager());
 	}
 
@@ -464,7 +465,7 @@ public class BoardController : MonoBehaviour
 			UIManager.i.blackBuyOptions.SetActive(false);
 			BuyPiece(pieceToInstantiate);
 			PlaceBoughtPiece(h.Position);
-			GameController.InvokeOnRoundEnd();
+			UnhighlightAllSqaures();
 			return;
 		}
 		if (h.Special == SpecialMove.Mine)

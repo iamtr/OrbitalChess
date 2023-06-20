@@ -27,9 +27,13 @@ public class PlayerManager : MonoBehaviour
 
 	public void AddCard(Card card)
 	{
-		if (playerCards.Count > 5) return;
+		if (playerCards.Count > 5)
+		{
+			Debug.Log("More than 5 cards!");
+			return;
+		}
 		playerCards.Add(card);
-		card.transform.parent = cardTransform;
+		card.transform.SetParent(cardTransform);
 		card.SetCardPlayer(GameController.GetCurrPlayer());
 	}
 }

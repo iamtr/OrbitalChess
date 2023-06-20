@@ -12,6 +12,8 @@ public class GameController : MonoBehaviour
 
 	public static GameController i;
 
+    public TMP_Text turnText;
+
     /// <summary>
     /// Current player type (Black, White)
     /// </summary>
@@ -63,6 +65,7 @@ public class GameController : MonoBehaviour
     public void SetPlayer()
     {
         currPlayer = currPlayer == PlayerType.Black ? PlayerType.White : PlayerType.Black;
+        turnText.text = currPlayer.ToString() + " Turn";
     }
 
     /// <summary>

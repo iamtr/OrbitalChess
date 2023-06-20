@@ -403,7 +403,7 @@ public class BoardController : MonoBehaviour
 		{
 			return pieces[pos];
 		}
-		catch (IndexOutOfRangeException e)
+		catch (IndexOutOfRangeException)
 		{
 			Debug.Log("Cannot get piece from position");
 			return null;
@@ -696,7 +696,6 @@ public class BoardController : MonoBehaviour
 		return p1?.Player == p2?.Player;
 	}
 
-	private Transform mineTransform;
 	// For buying pieces:
 	private Piece pieceToInstantiate;
 

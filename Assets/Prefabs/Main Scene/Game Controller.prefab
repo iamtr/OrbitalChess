@@ -89,3 +89,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23b23642ad111814899e8eb5ad5cf3c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  blackPlayer: {fileID: 0}
+  whitePlayer: {fileID: 0}
+  turnText: {fileID: 0}
+  checkText: {fileID: 0}

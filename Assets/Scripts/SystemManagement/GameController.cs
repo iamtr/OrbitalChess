@@ -14,6 +14,8 @@ public class GameController : MonoBehaviour
 
     public TMP_Text turnText;
 
+    [SerializeField] public bool IsSpecialMode { get; private set; }
+
     /// <summary>
     /// Current player type (Black, White)
     /// </summary>
@@ -65,7 +67,7 @@ public class GameController : MonoBehaviour
     public void SetPlayer()
     {
         currPlayer = currPlayer == PlayerType.Black ? PlayerType.White : PlayerType.Black;
-        turnText.text = currPlayer.ToString() + " Turn";
+        if(IsSpecialMode) turnText.text = currPlayer.ToString() + " Turn";
     }
 
     /// <summary>

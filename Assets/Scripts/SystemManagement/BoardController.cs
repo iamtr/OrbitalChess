@@ -28,8 +28,6 @@ public class BoardController : MonoBehaviour
 	[SerializeField] protected Piece[] blackPieces;
 	[SerializeField] protected Piece[] whitePieces;
 
-
-
 	private Transform highlightTransform;
 	private Transform pieceTransform;
 
@@ -277,10 +275,9 @@ public class BoardController : MonoBehaviour
 		Piece destroyedPiece = pieces[pos];
 		DestroyPiece(pos);
 		
-		if (p != GameController.GetCurrPlayer())
-		{
-			HandleCapture(destroyedPiece);
-		}
+		
+		if (GameController.i.IsSpecialMode)	HandleCapture(destroyedPiece);
+		
 	}
 
 	public void DestroyPiece(int pos)
@@ -297,7 +294,7 @@ public class BoardController : MonoBehaviour
 
 	public void HandleCapture(Piece capturedPiece)
 	{
-		GameController.i.GetCurrPlayerManager().AddMoney(capturedPiece.Value * 2);
+		if (GameController.i.GetCurrPlayerManager() != null) GameController.i.GetCurrPlayerManager().AddMoney(capturedPiece.Value * 2);
 		DistributeRandomCard(GameController.i.GetCurrPlayerManager());
 	}
 
@@ -310,8 +307,9 @@ public class BoardController : MonoBehaviour
 		int newPos = ConvPos(x, y);
 		if (piece == null) Debug.Log("Piece at MovePiece() is null! Tried to move a null piece.");
 		SetPiecePos(piece.CurrPos, newPos);
+		
 		// For special game mode
-		TriggerMine(newPos);
+		if (GameController.i.IsSpecialMode) TriggerMine(newPos);
 	}
 
 	public void MoveEnPassantPiece(int x, int y, Piece piece)
@@ -323,7 +321,7 @@ public class BoardController : MonoBehaviour
 		SetPiecePos(piece.CurrPos, newPos);
 
 		// For special game mode
-		TriggerMine(newPos);
+		if (GameController.i.IsSpecialMode) TriggerMine(newPos);
 	}
 
 	public void MoveCastling(int targetX, int targetY, Piece piece)
@@ -342,10 +340,10 @@ public class BoardController : MonoBehaviour
 
 		MovePiece(kingNewX, targetY, piece);
 		// For special game mode
-		TriggerMine(targetY);
+		if (GameController.i.IsSpecialMode) TriggerMine(targetY);
 		MovePiece(rookNewX, targetY, rook);
 		// For special game mode
-		TriggerMine(targetY);
+		if (GameController.i.IsSpecialMode) TriggerMine(targetY);	
 	}
 
 	/// <summary>

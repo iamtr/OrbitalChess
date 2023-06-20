@@ -185,8 +185,6 @@ MonoBehaviour:
   - {fileID: -3165024563381924141, guid: 54a7b93c4e4e2564698c8d15772d2f8c, type: 3}
   - {fileID: 6374707855436061919, guid: 5a6e7cdad2d7c9741ab3757e82c9ee25, type: 3}
   - {fileID: -5015178815786077399, guid: 689c2e25aee0e8a459cefbee8b04882a, type: 3}
-  BlackKingPos: 3
-  WhiteKingPos: 59
   isSpecialMode: 1
   mine: {fileID: 8977624941771815721, guid: a9ba25d959761f1499f0b4d92fdacc79, type: 3}
   mines:

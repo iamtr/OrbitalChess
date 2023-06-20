@@ -258,6 +258,10 @@ PrefabInstance:
       propertyPath: whitePlayer
       value: 
       objectReference: {fileID: 2113604785}
+    - target: {fileID: 7943841704991687211, guid: 3adaeb294de97034283bf1432bea6ae0, type: 3}
+      propertyPath: isSpecialMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8853872539425432978, guid: 3adaeb294de97034283bf1432bea6ae0, type: 3}
       propertyPath: m_Name
       value: Game Controller
@@ -343,38 +347,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1228322038043136769, guid: 95e9a2c15af1c2d4cbbb8f91580847be, type: 3}
-      propertyPath: mine
-      value: 
-      objectReference: {fileID: 8977624941771815721, guid: a9ba25d959761f1499f0b4d92fdacc79, type: 3}
-    - target: {fileID: 1228322038043136769, guid: 95e9a2c15af1c2d4cbbb8f91580847be, type: 3}
-      propertyPath: blackPlayer
-      value: 
-      objectReference: {fileID: 1313174332}
-    - target: {fileID: 1228322038043136769, guid: 95e9a2c15af1c2d4cbbb8f91580847be, type: 3}
-      propertyPath: whitePlayer
-      value: 
-      objectReference: {fileID: 2113604785}
-    - target: {fileID: 1228322038043136769, guid: 95e9a2c15af1c2d4cbbb8f91580847be, type: 3}
-      propertyPath: cards.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1228322038043136769, guid: 95e9a2c15af1c2d4cbbb8f91580847be, type: 3}
-      propertyPath: mines.Array.size
-      value: 64
-      objectReference: {fileID: 0}
-    - target: {fileID: 1228322038043136769, guid: 95e9a2c15af1c2d4cbbb8f91580847be, type: 3}
-      propertyPath: cards.Array.data[0]
-      value: 
-      objectReference: {fileID: 2327479387722781463, guid: d020c4071e6c91e43933d602f2a2a51a, type: 3}
-    - target: {fileID: 1228322038043136769, guid: 95e9a2c15af1c2d4cbbb8f91580847be, type: 3}
-      propertyPath: cards.Array.data[1]
-      value: 
-      objectReference: {fileID: 6672958282737003295, guid: cbb179ecf55986d49a2960b95d27f7ba, type: 3}
-    - target: {fileID: 1228322038043136769, guid: 95e9a2c15af1c2d4cbbb8f91580847be, type: 3}
-      propertyPath: cards.Array.data[2]
-      value: 
-      objectReference: {fileID: 967050645321395053, guid: d65282f5524bd9a47879157e3fed4080, type: 3}
     - target: {fileID: 1467217277211535942, guid: 95e9a2c15af1c2d4cbbb8f91580847be, type: 3}
       propertyPath: m_Name
       value: Advanced Board
@@ -454,6 +426,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 44346932, guid: 31bef6e5fe1984b4996192e1d5495e21, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 9.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1764732698513569023, guid: 31bef6e5fe1984b4996192e1d5495e21, type: 3}
       propertyPath: m_Name
       value: White Player
@@ -656,6 +632,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 44346932, guid: 31bef6e5fe1984b4996192e1d5495e21, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -2.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1764732698513569023, guid: 31bef6e5fe1984b4996192e1d5495e21, type: 3}
       propertyPath: m_Name
       value: Black Player
@@ -809,9 +789,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7727788644715027553, guid: 354852de29876104c86cc10306011c4a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8370542312694495951, guid: 354852de29876104c86cc10306011c4a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -584
+      objectReference: {fileID: 0}
+    - target: {fileID: 8370542312694495951, guid: 354852de29876104c86cc10306011c4a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -111
+      objectReference: {fileID: 0}
     - target: {fileID: 8548983757106732011, guid: 354852de29876104c86cc10306011c4a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1761949773}
+    - target: {fileID: 8935952024843779844, guid: 354852de29876104c86cc10306011c4a, type: 3}
+      propertyPath: m_text
+      value: Check!
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 354852de29876104c86cc10306011c4a, type: 3}

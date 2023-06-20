@@ -31,7 +31,6 @@ public class BoardController : MonoBehaviour
 	[SerializeField] protected Piece[] whitePieces;
 
 	[Header("Special Mode")]
-	[SerializeField] private bool isSpecialMode = true;
 	[SerializeField] private GameObject mine;
 	[SerializeField] private GameObject[] mines;
 

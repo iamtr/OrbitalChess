@@ -187,6 +187,7 @@ public class King : Piece
 
 	public void UpdateKingPosition()
 	{
-		BoardController.i.UpdateKingPosition(GameController.GetCurrPlayer(), CurrPos);
+		if (GameController.GetCurrPlayer() == PlayerType.Black) BoardController.i.BlackKingPos = CurrPos;
+		else BoardController.i.WhiteKingPos = CurrPos;
 	}
 }

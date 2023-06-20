@@ -12,10 +12,12 @@ public class ColorOptionDropdown : MonoBehaviour
             case 0:
                 Piece.isBlackBelow = true;
                 BoardController.isBlackBelow = true;
+                Timer.isBlackBelow = true;
                 break;
             case 1:
                 Piece.isBlackBelow = false;
                 BoardController.isBlackBelow = false;
+                Timer.isBlackBelow = false;
                 break;
         }
     }

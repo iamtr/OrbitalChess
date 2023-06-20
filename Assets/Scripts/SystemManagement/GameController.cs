@@ -42,6 +42,7 @@ public class GameController : MonoBehaviour
 	{
         if (i != null && i != this) Destroy(this);
         else i = this;
+        currPlayer = PlayerType.White;
     }
 	private void Update()
 	{

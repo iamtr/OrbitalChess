@@ -14,9 +14,27 @@ public class Timer : MonoBehaviour
     public TMP_Text blackText;
     public TMP_Text whiteText;
 
+    public static bool isBlackBelow = true;
+
     void Start()
     {
-        
+        if (isBlackBelow)
+        {
+            whiteText.rectTransform.anchorMin = new Vector2(1.0f, 1.0f);
+            whiteText.rectTransform.anchorMax = new Vector2(1.0f, 1.0f);
+            whiteText.rectTransform.anchoredPosition = new Vector2(-260, -125);
+            blackText.rectTransform.anchorMin = new Vector2(1.0f, 0.0f);
+            blackText.rectTransform.anchorMax = new Vector2(1.0f, 0.0f);
+            blackText.rectTransform.anchoredPosition = new Vector2(-260, 125);
+        } else
+        {
+            whiteText.rectTransform.anchorMin = new Vector2(1.0f, 0.0f);
+            whiteText.rectTransform.anchorMax = new Vector2(1.0f, 0.0f);
+            whiteText.rectTransform.anchoredPosition = new Vector2(-260, 125);
+            blackText.rectTransform.anchorMin = new Vector2(1.0f, 1.0f);
+            blackText.rectTransform.anchorMax = new Vector2(1.0f, 1.0f);
+            blackText.rectTransform.anchoredPosition = new Vector2(-260, -125);
+        }
         GameController.OnRoundEnd += AddPlayerSeconds;
     }
 
@@ -55,13 +73,15 @@ public class Timer : MonoBehaviour
 
     public void AddPlayerSeconds()
     {
-        if (GameController.GetCurrPlayer() == PlayerType.White)
-        {
-            blackTimeRemaining += secondsToAddAfterMove;
-        }
         if (GameController.GetCurrPlayer() == PlayerType.Black)
         {
+            blackTimeRemaining += secondsToAddAfterMove;
+            DisplayTimer(blackTimeRemaining, blackText);
+        }
+        if (GameController.GetCurrPlayer() == PlayerType.White)
+        {
             whiteTimeRemaining += secondsToAddAfterMove;
+            DisplayTimer(whiteTimeRemaining, whiteText);
         }
     }
 }

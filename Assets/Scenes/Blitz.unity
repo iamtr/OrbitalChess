@@ -497,6 +497,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlitzGameCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 8497541592612315362, guid: 1d26e084ba15e5140923659f652848c4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8497541592612315366, guid: 1d26e084ba15e5140923659f652848c4, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -580,6 +584,22 @@ PrefabInstance:
     - target: {fileID: 8497541592612315366, guid: 1d26e084ba15e5140923659f652848c4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8734744761869191674, guid: 1d26e084ba15e5140923659f652848c4, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8734744761869191674, guid: 1d26e084ba15e5140923659f652848c4, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8734744761869191674, guid: 1d26e084ba15e5140923659f652848c4, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8734744761869191674, guid: 1d26e084ba15e5140923659f652848c4, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d26e084ba15e5140923659f652848c4, type: 3}
@@ -665,6 +685,10 @@ PrefabInstance:
     - target: {fileID: 7741613457342701393, guid: b6c2e1b6eb983ff42b71245464087eee, type: 3}
       propertyPath: m_Name
       value: ModeSelectCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 7741613457342701393, guid: b6c2e1b6eb983ff42b71245464087eee, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7741613457342701397, guid: b6c2e1b6eb983ff42b71245464087eee, type: 3}
       propertyPath: m_Pivot.x

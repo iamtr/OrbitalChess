@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// A button that is exclusively for promoting a piece
 /// </summary>
-public class PromotionButton : MonoBehaviour
+public class PromotionButton
 {
     [SerializeField] public SpriteRenderer spriteRen;
     [SerializeField] public BoxCollider2D Collider { get; set; }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 /// <summary>
 /// Controls all the piece logic and movement logic on the board
@@ -250,7 +251,7 @@ public class BoardController : MonoBehaviour
 		if (pieces[newPos] != null)
 		{
 			Debug.Log("Destroy piece at index: " + newPos);
-			DestroyPiece(newPos);
+			CapturePiece(newPos);
 		}
 
 		pieces[oldPos].SetCoords(newPos);
@@ -263,6 +264,24 @@ public class BoardController : MonoBehaviour
 	/// Removes the piece at specified board position and destroys the gameobject
 	/// </summary>
 	/// <param name="pos"></param>
+	public void CapturePiece(int pos)
+	{
+		if (pieces[pos] == null)
+		{
+			Debug.Log("Piece to capture is null!");
+			return;
+		}
+
+		PlayerType p = pieces[pos].Player;
+		Piece destroyedPiece = pieces[pos];
+		DestroyPiece(pos);
+		
+		if (p != GameController.GetCurrPlayer())
+		{
+			HandleCapture(destroyedPiece);
+		}
+	}
+
 	public void DestroyPiece(int pos)
 	{
 		if (pieces[pos] == null)
@@ -271,16 +290,8 @@ public class BoardController : MonoBehaviour
 			return;
 		}
 
-		PlayerType p = pieces[pos].Player;
-		Piece destroyedPiece = pieces[pos];
-
-			Destroy(pieces[pos]?.gameObject);
-		
+		Destroy(pieces[pos]?.gameObject);
 		pieces[pos] = null;
-		if (p != GameController.GetCurrPlayer())
-		{
-			HandleCapture(destroyedPiece);
-		}
 	}
 
 	public void HandleCapture(Piece capturedPiece)
@@ -307,7 +318,7 @@ public class BoardController : MonoBehaviour
 		int newPos = ConvPos(x, y);
 		int enemyPos = ConvPos(x, ConvXY(piece.CurrPos)[1]);
 
-		DestroyPiece(enemyPos);
+		CapturePiece(enemyPos);
 		SetPiecePos(piece.CurrPos, newPos);
 
 		// For special game mode
@@ -848,7 +859,8 @@ public class BoardController : MonoBehaviour
 
 	public void DistributeRandomCard(PlayerManager player)
 	{
-		int rand = UnityEngine.Random.Range(0, cards.Length + 1);
-		player.AddCard(cards[rand]);
+		int rand = UnityEngine.Random.Range(0, cards.Length);
+		Card card = Instantiate(cards[rand]);
+		player.AddCard(card);
 	}
 }

@@ -9,6 +9,7 @@ public class PlayerManager : MonoBehaviour
 	[SerializeField] private PlayerType player;
 	[SerializeField] private TMP_Text moneyText;
 	[SerializeField] private List<Card> playerCards;
+	[SerializeField] private Transform cardTransform;
 
 	public int Money { get => money; set => money = value; }
 	public PlayerType Player { get => player; set => player = value; }
@@ -26,6 +27,9 @@ public class PlayerManager : MonoBehaviour
 
 	public void AddCard(Card card)
 	{
+		if (playerCards.Count > 5) return;
 		playerCards.Add(card);
+		card.transform.parent = cardTransform;
+		card.SetCardPlayer(GameController.GetCurrPlayer());
 	}
 }

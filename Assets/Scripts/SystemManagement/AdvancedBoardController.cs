@@ -89,7 +89,7 @@
 //				int x = ConvXY(pos)[0] + i;
 //				int y = ConvXY(pos)[1] + j;
 //				if (!IsInBounds(x, y)) continue;
-//				DestroyPiece(ConvPos(x, y));
+//				CapturePiece(ConvPos(x, y));
 //			}
 //		}
 
@@ -126,7 +126,7 @@
 //			else if (rand == 5 || rand == 6) newPiece = GetPromotionPiece(3, p);
 //			else newPiece = GetPromotionPiece(4, p);
 
-//			DestroyPiece(piece.CurrPos);
+//			CapturePiece(piece.CurrPos);
 //			InstantiatePiece(newPiece, piece.CurrPos);
 //		}
 
@@ -154,7 +154,7 @@
 //		if (stealPiece == null) Debug.Log("Piece trying to steal is null!");
 //		if (stealPiece?.Player == GameController.GetCurrPlayer()) Debug.Log("Cannot steal your own piece!");
 
-//		DestroyPiece(pos);
+//		CapturePiece(pos);
 //		Type t = stealPiece.GetType();
 //		Piece[] temp = GameController.GetCurrPlayer() == PlayerType.White ? whitePieces : blackPieces;
 

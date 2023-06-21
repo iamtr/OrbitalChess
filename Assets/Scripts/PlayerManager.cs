@@ -25,13 +25,15 @@ public class PlayerManager : MonoBehaviour
 		moneyText.text = "Coin: " + money;
 	}
 
-	public void AddCard(Card card)
+	public void AddCard(Card c)
 	{
-		if (playerCards.Count > 5)
+		if (playerCards.Count > 4)
 		{
 			Debug.Log("More than 5 cards!");
 			return;
 		}
+
+		Card card = Instantiate(c, cardTransform.position, Quaternion.identity);
 		playerCards.Add(card);
 		card.transform.SetParent(cardTransform);
 		card.SetCardPlayer(GameController.GetCurrPlayer());

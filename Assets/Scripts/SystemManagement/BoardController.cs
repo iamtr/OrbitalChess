@@ -29,8 +29,6 @@ public class BoardController : MonoBehaviour
 	[SerializeField] private GameObject mine;
 	[SerializeField] private GameObject[] mines;
 
-
-	private Transform highlightTransform;
 	private Transform pieceTransform;
 
 	/// <summary>
@@ -560,6 +558,7 @@ public class BoardController : MonoBehaviour
 	{
 		return p == PlayerType.White ? WhiteKingPos : BlackKingPos;
 	}
+
 	public bool IsCheckmate()
 	{
 		// List of all opponent moves
@@ -714,6 +713,12 @@ public class BoardController : MonoBehaviour
 			return;
 		}
 
+		if (pieces[pos] is King)
+		{
+			Debug.Log("King triggers pawn, mine removed!");
+			return;
+		}
+
 		Destroy(mines[pos]);
 		DestroyPiece(pos);
 	}
@@ -721,7 +726,7 @@ public class BoardController : MonoBehaviour
 	public void DistributeRandomCard(PlayerManager player)
 	{
 		int rand = UnityEngine.Random.Range(0, cards.Length);
-		Card card = Instantiate(cards[rand]);
+		Card card = cards[rand];
 		player.AddCard(card);
 	}
 }

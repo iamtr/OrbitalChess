@@ -6,7 +6,7 @@ public class MineCard : Card
 {
 	public override void Trigger()
 	{
-		BoardController.i.HighlightPlantMinePositions ();
+		HighlightManager.i.HighlightPlantMinePositions();
 		Destroy(this.gameObject);
 	}
 }

@@ -16,12 +16,7 @@ public class BoardController : MonoBehaviour
 	/// </summary>
 	[SerializeField] protected Piece[] pieces;
 	[SerializeField] protected Card[] cards;
-	/// <summary>
-	/// Array of the highlights on the board where
-	/// the index of the array is the position of the square on the board
-	/// </summary>
-	[SerializeField] protected HighlightSquare[] highlights;
-	[SerializeField] protected HighlightSquare highlightSquare;
+
 
 	[Header("Promotion Buttons")]
 	/// <summary>
@@ -48,11 +43,15 @@ public class BoardController : MonoBehaviour
 
 	public static bool isBlackBelow = true;
 
+	public Piece[] Pieces => pieces;
+
 	/// <summary>
 	/// The current piece that is being clicked by the player
 	/// </summary>
 	public Piece CurrPiece { get; set; }
-
+	
+	// For buying pieces:
+	public Piece pieceToInstantiate { get; private set; }
 	public static BoardController i { get; private set; }
 
 	private void OnEnable()
@@ -69,7 +68,6 @@ public class BoardController : MonoBehaviour
 
 	public virtual void Start()
 	{
-		highlightTransform = GameObject.Find("Highlight Squares")?.transform;
 		pieceTransform = GameObject.Find("Pieces")?.transform;
 
 		allMoves = new List<Move>();
@@ -82,15 +80,11 @@ public class BoardController : MonoBehaviour
 		testArray = pieces.Clone() as Piece[];
 	}
 
-
-
 	/// <summary>
 	/// Instantiates all pieces and highlight squares
 	/// </summary>
 	protected virtual void InstantiatePieces()
 	{
-		highlights = new HighlightSquare[64];
-
 		for (var i = 0; i < 64; i++)
 		{
 			int pos;
@@ -102,14 +96,6 @@ public class BoardController : MonoBehaviour
 			{
 				pos = 63 - i;
 			}
-			var x = pos % 8;
-			var y = pos / 8;
-
-			highlights[i] = Instantiate(highlightSquare, new Vector3(x, y, 0), Quaternion.identity);
-			highlights[i].Position = i;
-			highlights[i].transform.parent = highlightTransform;
-			highlights[i].gameObject.SetActive(false);
-
 			if (pieces[i] != null) InstantiatePiece(pieces[i], i);
 		}
 	}
@@ -157,80 +143,6 @@ public class BoardController : MonoBehaviour
 	public bool IsInBounds(int x, int y)
 	{
 		return x >= 0 && x < 8 && y >= 0 && y < 8;
-	}
-
-	/// <summary>
-	/// Set the highlight color and activate the highlight to be active
-	/// </summary>
-	/// <param name="pos"></param>
-	/// <param name="color"></param>
-	public void SetHighlightColor(int pos, Color color)
-	{
-		highlights[pos].GetComponent<SpriteRenderer>().color = color;
-		highlights[pos].gameObject.SetActive(true);
-	}
-
-	public void SetHighlightSpecial(int pos, SpecialMove sp)
-	{
-		highlights[pos].Special = sp;
-	}
-
-	/// <summary>
-	/// Highlights a certain sqaure on the board
-	/// </summary>
-	/// <param name="x"></param>
-	/// <param name="y"></param>
-	/// <param name="currPiece">The current piece chosen by player</param>
-	public void Highlight(Move move)
-	{
-		int pos = move.TargetSquare;
-		int flag = move.MoveFlag;
-
-		switch (flag)
-		{
-			case Move.Flag.Castling:
-
-				if (pos == 1 || pos == 57)
-				{
-					SetHighlightSpecial(pos - 1, SpecialMove.Castling);
-					SetHighlightColor(pos - 1, Color.green);
-
-				} 
-				else if (pos == 5 || pos == 61)
-				{
-					SetHighlightSpecial(pos + 2, SpecialMove.Castling);
-					SetHighlightColor(pos + 2, Color.green);
-				} 
-				else
-				{
-					Debug.Log("Error");
-				}
-				break;
-			case Move.Flag.EnPassantCapture:
-				SetHighlightSpecial(pos, SpecialMove.EnPassant);
-				SetHighlightColor(pos, Color.yellow);
-				break;
-			default:
-				if (pieces[pos] == null)
-				{
-					SetHighlightSpecial(pos, SpecialMove.Play);
-					SetHighlightColor(pos, Color.blue);
-				}
-					
-				else if (pieces[pos]?.Player != CurrPiece.Player)
-				{
-					SetHighlightSpecial(pos, SpecialMove.Play);
-					SetHighlightColor(pos, Color.red);
-				}
-					
-				break;
-		}
-	}
-
-	public void Highlight(int pos, SpecialMove sp)
-	{
-		SetHighlightColor(pos, Color.magenta);
-		SetHighlightSpecial(pos, sp);
 	}
 
 	/// <summary>
@@ -346,7 +258,7 @@ public class BoardController : MonoBehaviour
 	/// </summary>
 	public void DisableAllUIElements()
 	{
-		foreach (var square in highlights) square.gameObject.SetActive(false);
+		HighlightManager.i.UnhighlightAllSqaures();
 		UIManager.i.DisableBuyOptions();
 	}
 
@@ -483,7 +395,7 @@ public class BoardController : MonoBehaviour
 		CurrPiece = col.GetComponent<Piece>();
 		List<Move> moves = CurrPiece.GetLegalMoves();
 
-		foreach (Move move in moves) Highlight(move);
+		foreach (Move move in moves) HighlightManager.i.Highlight(move);
 
 	}
 
@@ -648,7 +560,6 @@ public class BoardController : MonoBehaviour
 	{
 		return p == PlayerType.White ? WhiteKingPos : BlackKingPos;
 	}
-
 	public bool IsCheckmate()
 	{
 		// List of all opponent moves
@@ -690,9 +601,12 @@ public class BoardController : MonoBehaviour
 		return p1?.Player == p2?.Player;
 	}
 
-	// For buying pieces:
-	private Piece pieceToInstantiate;
+	public void SetPieceToInstantiate(Piece piece)
+	{
+		pieceToInstantiate = piece;
+	}
 
+	// Special moves:
 	public void Bomb(int pos)
 	{
 		if (pos < 0 || pos > 63) Debug.Log("Bomb: pos out of range");
@@ -708,16 +622,6 @@ public class BoardController : MonoBehaviour
 		}
 
 		testArray = pieces.Clone() as Piece[];
-	}
-	public void HighlightPawnBombs()
-	{
-		foreach (Piece piece in pieces)
-		{
-			if (piece?.Player == GameController.GetCurrPlayer() && piece is Pawn pawn)
-			{
-				Highlight(pawn.CurrPos, SpecialMove.Bomb);
-			}
-		}
 	}
 
 	/// <summary>
@@ -746,15 +650,6 @@ public class BoardController : MonoBehaviour
 
 		testArray = pieces.Clone() as Piece[];
 	}
-	public void HighlightSteal()
-	{
-		foreach (Piece piece in pieces)
-		{
-			if (piece == null) continue;
-			if (piece.Player == GameController.GetCurrPlayer()) continue;
-			Highlight(piece.CurrPos, SpecialMove.Steal);
-		}
-	}
 
 	/// <summary>
 	/// Special Game Mode: Steal an opponent piece, excluding king and queen
@@ -781,25 +676,6 @@ public class BoardController : MonoBehaviour
 		else Debug.Log("StealOpponentPiece: Piece type not found");
 	}
 
-	public void HighlightSpawnPiece(Piece piece)
-	{
-		pieceToInstantiate = piece;
-
-		for (int i = 0; i < 16; i++)
-		{
-			if (GameController.GetCurrPlayer() == PlayerType.Black)
-			{
-				if (pieces[i] != null) continue;
-				Highlight(i, SpecialMove.Spawn);
-			}
-			else
-			{
-				if (pieces[63 - i] != null) continue;
-				Highlight(63 - i, SpecialMove.Spawn);
-			}
-		}
-	}
-
 	public void BuyPiece(Piece boughtPiece)
 	{
 		GameController.i.GetCurrPlayerManager().AddMoney(-boughtPiece.Value);
@@ -809,15 +685,6 @@ public class BoardController : MonoBehaviour
 	{
 		var temp = InstantiatePiece(pieceToInstantiate, pos);
 		temp.tag = "Piece";
-	}
-
-	public void HighlightPlantMinePositions()
-	{
-		for (int i = 16; i < 48; i++)
-		{
-			if (pieces[i] != null) continue;
-			Highlight(i, SpecialMove.Mine);
-		}
 	}
 
 	public void PlantMine(int pos)

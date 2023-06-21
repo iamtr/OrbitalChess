@@ -45,7 +45,8 @@ public class InputManager : MonoBehaviour
 		else if (col.gameObject.CompareTag("Buy Option"))
 		{
 			Piece piece = col.gameObject.GetComponent<Piece>();
-			BoardController.i.HighlightSpawnPiece(piece);
+			BoardController.i.SetPieceToInstantiate(piece);
+			HighlightManager.i.HighlightSpawnPiece(piece);
 		}
 	}
 }

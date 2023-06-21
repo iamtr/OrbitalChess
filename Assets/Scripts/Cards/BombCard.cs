@@ -7,7 +7,7 @@ public class BombCard : Card
 {
 	public override void Trigger()
 	{
-		BoardController.i.HighlightPawnBombs();
+		HighlightManager.i.HighlightPawnBombs();
 		Destroy(this.gameObject);
 	}
 }

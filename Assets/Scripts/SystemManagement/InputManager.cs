@@ -44,6 +44,9 @@ public class InputManager : MonoBehaviour
 
 		else if (col.gameObject.CompareTag("Buy Option"))
 		{
+			// Cannot buy pieces if is in check
+			if (GameController.i.IsCheck) return;
+
 			Piece piece = col.gameObject.GetComponent<Piece>();
 			BoardController.i.SetPieceToInstantiate(piece);
 			HighlightManager.i.HighlightSpawnPiece(piece);

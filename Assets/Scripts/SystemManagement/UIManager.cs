@@ -71,6 +71,9 @@ public class UIManager : MonoBehaviour
 	{
 		PlayerType p = GameController.GetCurrPlayer();
 
+        // Should not allow to buy if the player is in check
+        if (GameController.i.IsCheck) return;
+
 		if (p == PlayerType.White)
 		{
 			whiteBuyOptions.SetActive(true);

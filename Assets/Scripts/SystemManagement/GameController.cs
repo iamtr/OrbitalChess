@@ -16,6 +16,7 @@ public class GameController : MonoBehaviour
 
 	private static PlayerType currPlayer = PlayerType.White;
 	private static GameState gameState;
+    public bool IsCheck { get; private set; } 
 
 	public static GameController i;
 
@@ -114,11 +115,13 @@ public class GameController : MonoBehaviour
 		}
 		else if (BoardController.i.IsCheck())
         {
+            IsCheck = true;
 			checkText.gameObject.SetActive(true);
 			checkText.text = "Check!";
 		}
         else
         {
+            IsCheck = false;
 			checkText.gameObject.SetActive(false);
 		}
     }

@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class Rook : Piece
 {
+	private void Awake()
+	{
+		value = 50;
+	}
+
 	/// <summary>
 	/// A boolean to check whether the pawn has moved from its initial position
 	/// The boolean is set to false by default

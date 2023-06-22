@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class Queen : Piece
 {
-
+	private void Awake()
+	{
+		value = 90;
+	}
 	private void OnEnable()
 	{
 		OnAfterMove += GameController.InvokeOnRoundEnd;

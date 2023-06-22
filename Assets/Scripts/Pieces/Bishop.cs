@@ -5,7 +5,10 @@ using UnityEngine;
 
 public class Bishop : Piece
 {
-
+	private void Awake()
+	{
+		value = 30;
+	}
 	private void OnEnable()
 	{
 		OnAfterMove += GameController.InvokeOnRoundEnd;
@@ -26,7 +29,7 @@ public class Bishop : Piece
 				int x = currX + i * dx;
 				int y = currY + i * dy;
 				if (x < 0 || x > 7 || y < 0 || y > 7) break;
-				int pos = BoardController.i.ConvertToPos(x, y);
+				int pos = BoardController.i.ConvPos(x, y);
 				Move m = new Move(CurrPos, pos, this);
 				if (BoardController.i.IsBeingCheckedAfterMove(m, Player)) break;
 				moves.Add(m);
@@ -53,7 +56,7 @@ public class Bishop : Piece
 				int x = currX + i * dx;
 				int y = currY + i * dy;
 				if (x < 0 || x > 7 || y < 0 || y > 7) break;
-				int pos = BoardController.i.ConvertToPos(x, y);
+				int pos = BoardController.i.ConvPos(x, y);
 				Move m = new Move(CurrPos, pos, this);
 				moves.Add(m);
 				if (BoardController.i.TestArrayIsOccupied(pos)) break;

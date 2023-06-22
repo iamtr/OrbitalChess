@@ -7,9 +7,8 @@ using UnityEngine;
 /// </summary>
 public class HighlightSquare : MonoBehaviour
 {
-    [SerializeField] public Color Color { get; set; }
-    [SerializeField] public BoxCollider2D Collider { get; set; }
-    [SerializeField] public int Position { get; set; }
+    public Color Color { get; set; }
+    public int Position { get; set; }
 
     /// <summary>
     /// Each square have a special that indicates special moves 
@@ -18,4 +17,4 @@ public class HighlightSquare : MonoBehaviour
     public SpecialMove Special = SpecialMove.Play;
 }
 
-public enum SpecialMove {Play, EnPassant, Castling}
+public enum SpecialMove {Play, EnPassant, Castling, Bomb, Steal, Spawn, Mine}

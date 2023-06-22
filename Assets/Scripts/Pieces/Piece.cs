@@ -10,6 +10,12 @@ public abstract class Piece : MonoBehaviour, ICloneable
 	[SerializeField] protected List<Move> moves = new List<Move>();
 
 	/// <summary>
+	/// Value for a piece. Used in AI, custom game modes
+	/// </summary>
+	protected int value;
+	public int Value => value;
+
+	/// <summary>
 	/// Current position, from 0 - 63
 	/// </summary>
 	public int CurrPos;
@@ -65,8 +71,8 @@ public abstract class Piece : MonoBehaviour, ICloneable
 	/// <param name="pos"></param>
 	public void SetCoords(int pos)
 	{
-		currX = BoardController.ConvertToXY(pos)[0];
-		currY = BoardController.ConvertToXY(pos)[1];
+		currX = BoardController.ConvXY(pos)[0];
+		currY = BoardController.ConvXY(pos)[1];
 		CurrPos = pos;
 	}
 

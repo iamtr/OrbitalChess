@@ -4,10 +4,23 @@ using TMPro;
 
 public class GameController : MonoBehaviour
 {
-    [SerializeField] private static PlayerType currPlayer = PlayerType.White;
-	[SerializeField] private static GameState gameState;
+    [Header("Players")]
+	[SerializeField] private PlayerManager blackPlayer;
+	[SerializeField] private PlayerManager whitePlayer;
+
+    [Header("Text")]
+	[SerializeField] private TMP_Text checkText;
+	[SerializeField] private TMP_Text turnText;
+
+    [SerializeField] private bool isSpecialMode = false;
+
+	private static PlayerType currPlayer = PlayerType.White;
+	private static GameState gameState;
+    public bool IsCheck { get; private set; } 
 
 	public static GameController i;
+
+    public bool IsSpecialMode => isSpecialMode;
 
     /// <summary>
     /// Current player type (Black, White)
@@ -22,7 +35,7 @@ public class GameController : MonoBehaviour
     public static event Action OnRoundEnd;
     //public static event Action OnGameEnd;
 
-    [SerializeField] private TMP_Text checkText;
+    
 
 	private void OnEnable()
 	{
@@ -60,6 +73,7 @@ public class GameController : MonoBehaviour
     public void SetPlayer()
     {
         currPlayer = currPlayer == PlayerType.Black ? PlayerType.White : PlayerType.Black;
+        if(IsSpecialMode) turnText.text = currPlayer.ToString() + " Turn";
     }
 
     /// <summary>
@@ -101,11 +115,13 @@ public class GameController : MonoBehaviour
 		}
 		else if (BoardController.i.IsCheck())
         {
+            IsCheck = true;
 			checkText.gameObject.SetActive(true);
 			checkText.text = "Check!";
 		}
         else
         {
+            IsCheck = false;
 			checkText.gameObject.SetActive(false);
 		}
     }
@@ -114,6 +130,16 @@ public class GameController : MonoBehaviour
     {
         return PlayerType.Black == currPlayer ? PlayerType.White : PlayerType.Black;
     }
+
+    public PlayerManager GetCurrPlayerManager()
+    {
+        return GetCurrPlayer() == PlayerType.Black ? blackPlayer : whitePlayer;
+    }
+
+    public PlayerManager GetOpponentPlayerManager()
+    {
+		return GetCurrPlayer() == PlayerType.Black ? whitePlayer : blackPlayer;
+	}
 }
 
 public enum PlayerType { Black, White }

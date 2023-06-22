@@ -259,6 +259,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2113604785}
     - target: {fileID: 7943841704991687211, guid: 3adaeb294de97034283bf1432bea6ae0, type: 3}
+      propertyPath: replayButton
+      value: 
+      objectReference: {fileID: 2082304308}
+    - target: {fileID: 7943841704991687211, guid: 3adaeb294de97034283bf1432bea6ae0, type: 3}
       propertyPath: isSpecialMode
       value: 1
       objectReference: {fileID: 0}
@@ -614,6 +618,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ac307ee9bf5c1943a680cf6ebd48ed5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &2082304308 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 967172499600925945, guid: 7545e64db6ceabd45a3b1588c1097349, type: 3}
+  m_PrefabInstance: {fileID: 4599836332396267723}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2113604785 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2464977622240261164, guid: aee02071ed6c46148be48908eb1c5717, type: 3}
@@ -861,14 +870,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1761949773}
-    - target: {fileID: 7871938410494109369, guid: 7545e64db6ceabd45a3b1588c1097349, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ShowBuyOptions
-      objectReference: {fileID: 0}
-    - target: {fileID: 7871938410494109369, guid: 7545e64db6ceabd45a3b1588c1097349, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: UIManager, Assembly-CSharp
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7545e64db6ceabd45a3b1588c1097349, type: 3}
 --- !u!114 &6362934161216096925 stripped

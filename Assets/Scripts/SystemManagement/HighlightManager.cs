@@ -17,6 +17,8 @@ public class HighlightManager : MonoBehaviour
 	[SerializeField] protected HighlightSquare[] highlights;
 	[SerializeField] protected HighlightSquare highlightSquare;
 
+	public static bool isBlackBelow = true;
+
 	private void Awake()
 	{
 		if (i != null && i != this) Destroy(this);
@@ -38,6 +40,12 @@ public class HighlightManager : MonoBehaviour
 		{
 			var x = i % 8;
 			var y = i / 8;
+
+            if (!isBlackBelow)
+            {
+				x = 7 - x;
+				y = 7 - y;
+            }
 
 			highlights[i] = Instantiate(highlightSquare, new Vector3(x, y, 0), Quaternion.identity);
 			highlights[i].Position = i;

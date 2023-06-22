@@ -7,16 +7,34 @@ using UnityEngine;
 public class Timer : MonoBehaviour
 {
     public static bool isGameStart = false;
-    float blackTimeRemaining;
-    float whiteTimeRemaining;
+    static float blackTimeRemaining;
+    static float whiteTimeRemaining;
     public static int startMinutes;
     public static int secondsToAddAfterMove;
     public TMP_Text blackText;
     public TMP_Text whiteText;
 
+    public static bool isBlackBelow = true;
+
     void Start()
     {
-        
+        if (isBlackBelow)
+        {
+            whiteText.rectTransform.anchorMin = new Vector2(1.0f, 1.0f);
+            whiteText.rectTransform.anchorMax = new Vector2(1.0f, 1.0f);
+            whiteText.rectTransform.anchoredPosition = new Vector2(-260, -125);
+            blackText.rectTransform.anchorMin = new Vector2(1.0f, 0.0f);
+            blackText.rectTransform.anchorMax = new Vector2(1.0f, 0.0f);
+            blackText.rectTransform.anchoredPosition = new Vector2(-260, 125);
+        } else
+        {
+            whiteText.rectTransform.anchorMin = new Vector2(1.0f, 0.0f);
+            whiteText.rectTransform.anchorMax = new Vector2(1.0f, 0.0f);
+            whiteText.rectTransform.anchoredPosition = new Vector2(-260, 125);
+            blackText.rectTransform.anchorMin = new Vector2(1.0f, 1.0f);
+            blackText.rectTransform.anchorMax = new Vector2(1.0f, 1.0f);
+            blackText.rectTransform.anchoredPosition = new Vector2(-260, -125);
+        }
         GameController.OnRoundEnd += AddPlayerSeconds;
     }
 
@@ -24,8 +42,7 @@ public class Timer : MonoBehaviour
     {
         if (!isGameStart)
         {
-            blackTimeRemaining = startMinutes * 60;
-            whiteTimeRemaining = startMinutes * 60;
+            ResetTimers();
         }
         if (GameController.GetGameState() == GameState.GameOver 
             || GameController.GetGameState() == GameState.Pause
@@ -55,13 +72,21 @@ public class Timer : MonoBehaviour
 
     public void AddPlayerSeconds()
     {
-        if (GameController.GetCurrPlayer() == PlayerType.White)
-        {
-            blackTimeRemaining += secondsToAddAfterMove;
-        }
         if (GameController.GetCurrPlayer() == PlayerType.Black)
         {
-            whiteTimeRemaining += secondsToAddAfterMove;
+            blackTimeRemaining += secondsToAddAfterMove;
+            DisplayTimer(blackTimeRemaining, blackText);
         }
+        if (GameController.GetCurrPlayer() == PlayerType.White)
+        {
+            whiteTimeRemaining += secondsToAddAfterMove;
+            DisplayTimer(whiteTimeRemaining, whiteText);
+        }
+    }
+
+    public static void ResetTimers()
+    {
+        blackTimeRemaining = startMinutes * 60;
+        whiteTimeRemaining = startMinutes * 60;
     }
 }

@@ -39,8 +39,6 @@ public class BoardController : MonoBehaviour
 	private int WhiteKingPos = 59;
 	private List<Move> allMoves;
 
-	public static bool isBlackBelow = true;
-
 	public Piece[] Pieces => pieces;
 
 	/// <summary>
@@ -85,15 +83,6 @@ public class BoardController : MonoBehaviour
 	{
 		for (var i = 0; i < 64; i++)
 		{
-			int pos;
-			if (isBlackBelow)
-			{
-				pos = i;
-			}
-			else
-			{
-				pos = 63 - i;
-			}
 			if (pieces[i] != null) InstantiatePiece(pieces[i], i);
 		}
 	}

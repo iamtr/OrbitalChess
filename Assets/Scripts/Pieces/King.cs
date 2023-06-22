@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class King : Piece
 {
@@ -10,91 +11,169 @@ public class King : Piece
 	/// </summary>
 	private bool hasMoved = false;
 
+	private void OnEnable()
+	{
+		OnAfterMove += SetKingBoolean;
+		OnAfterMove += UpdateKingPosition;
+		OnAfterMove += GameController.InvokeOnRoundEnd;
+	}
+
+	private void OnDisable()
+	{
+		OnAfterMove -= SetKingBoolean;
+		OnAfterMove -= UpdateKingPosition;
+		OnAfterMove -= GameController.InvokeOnRoundEnd;
+	}
+
 	public override void InitPiece(PlayerType p)
 	{
 		base.InitPiece(p);
-		OnAfterMove += SetKingBoolean;
 	}
 
-	public override void GetAvailableMoves()
+	public override List<Move> GetLegalMoves()
 	{
-		void HighlightDirection(int dx, int dy, int maxDistance)
+		List<Move> GetLegalCastlingMoves()
+		{
+			if (hasMoved) return moves;
+			int leftDirection = -1;
+			int rightDirection = 1;
+			if (IsAbleToCastle(leftDirection))
+			{
+				int pos = BoardController.i.ConvPos(1, currY);
+				Move m = new Move(CurrPos, pos, this, Move.Flag.Castling);
+				if (!BoardController.i.IsBeingCheckedAfterMove(m, Player)) moves.Add(m);
+			}
+
+			if (IsAbleToCastle(rightDirection))
+			{
+				int pos = BoardController.i.ConvPos(5, currY);
+				Move m = new Move(CurrPos, pos, this, Move.Flag.Castling);
+				if (!BoardController.i.IsBeingCheckedAfterMove(m, Player))
+				{
+					moves.Add(m);
+				}
+			}
+
+			return moves;
+		}
+
+		moves.Clear();
+
+		void GetMovesFromDirection(int dx, int dy, int maxDistance)
 		{
 			for (int i = 1; i <= maxDistance; i++)
 			{
 				int x = currX + i * dx;
 				int y = currY + i * dy;
+				if (x < 0 || x > 7 || y < 0 || y > 7) break;
 				int pos = y * 8 + x;
-				if (!IsLegalMove(x, y, this)) break;
-				bc.Highlight(x, y, this);
-				if (bc.IsOccupied(pos) && !bc.IsSamePlayer(this.CurrPos, pos)) break;
+
+				Move m = new Move(CurrPos, pos, this);
+
+				if (BoardController.i.IsBeingCheckedAfterMove(m, Player) || BoardController.i.IsSamePlayer(CurrPos, pos)) break;
+				moves.Add(m);
+				if (BoardController.i.IsOccupied(pos))
+				{
+					break;
+				}
 			}
 		}
 
-		HighlightDirection(1, 1, 1);
-		HighlightDirection(-1, 1, 1);
-		HighlightDirection(1, -1, 1);
-		HighlightDirection(-1, -1, 1);
-		HighlightDirection(1, 0, 1); // Right
-		HighlightDirection(-1, 0, 1); // Left
-		HighlightDirection(0, 1, 1); // Up
-		HighlightDirection(0, -1, 1); // Down
+		GetMovesFromDirection(1, 1, 1);
+		GetMovesFromDirection(-1, 1, 1);
+		GetMovesFromDirection(	1, -1, 1);
+		GetMovesFromDirection(-1, -1, 1);
+		GetMovesFromDirection(1, 0, 1); // Right
+		GetMovesFromDirection(-1, 0, 1); // Left
+		GetMovesFromDirection(0, 1, 1); // Up
+		GetMovesFromDirection(0, -1, 1); // Down
+		GetLegalCastlingMoves();
 
-		HighlightCastling();
+		return moves;
 	}
 
-	/// <summary>
-	/// If available and legal, highlights the castling of king and rook
-	/// </summary>
-	public void HighlightCastling()
+	public override List<Move> GetAllMoves()
 	{
-		int leftDirection = -1;
-		int rightDirection = 1;
-		if (IsAbleToCastling(leftDirection))
-        {
-			int pos = BoardController.ConvertToPos(0, currY);
-			BoardController.i.SetHighlightColor(pos, Color.green);
-		}
-			
-		if (IsAbleToCastling(rightDirection))
+		List<Move> GetAllCastlingMoves()
 		{
-			int pos = BoardController.ConvertToPos(7, currY);
-			BoardController.i.SetHighlightColor(pos, Color.green);
+			if (hasMoved) return moves;
+			int leftDirection = -1;
+			int rightDirection = 1;
+			if (IsAbleToCastle(leftDirection))
+			{
+				int pos = BoardController.i.ConvPos(1, currY);
+				Move m = new Move(CurrPos, pos, this, Move.Flag.Castling);
+				if (IsLegalMove(m)) moves.Add(m);
+			}
+
+			if (IsAbleToCastle(rightDirection))
+			{
+				int pos = BoardController.i.ConvPos(5, currY);
+				Move m = new Move(CurrPos, pos, this, Move.Flag.Castling);
+				if (IsLegalMove(m)) moves.Add(m);
+			}
+
+			return moves;
 		}
+
+		moves.Clear();
+
+		void GetMovesFromDirection(int dx, int dy, int maxDistance)
+		{
+			for (int i = 1; i <= maxDistance; i++)
+			{
+				int x = currX + i * dx;
+				int y = currY + i * dy;
+				if (x < 0 || x > 7 || y < 0 || y > 7) break;
+				int pos = y * 8 + x;
+
+				Move m = new Move(CurrPos, pos, this);
+
+				if (!IsLegalMove(m)) break;
+				moves.Add(m);
+				if (BoardController.i.TestArrayIsOccupied(pos)) break;
+			}
+		}
+
+		GetMovesFromDirection(1, 1, 1);
+		GetMovesFromDirection(-1, 1, 1);
+		GetMovesFromDirection(1, -1, 1);
+		GetMovesFromDirection(-1, -1, 1);
+		GetMovesFromDirection(1, 0, 1); // Right
+		GetMovesFromDirection(-1, 0, 1); // Left
+		GetMovesFromDirection(0, 1, 1); // Up
+		GetMovesFromDirection(0, -1, 1); // Down
+		GetAllCastlingMoves();
+
+		return moves;
 	}
 
-	public bool IsAbleToCastling(int direction)
+	public bool IsAbleToCastle(int direction)
 	{
 		if (hasMoved) return false;
-		int x = currX;
-		Piece foundPiece;
-		while (true)
+
+		int x = currX + direction;
+		int pos;
+		while (BoardController.i.IsInBounds(x, currY))
 		{
-			x += direction;
-			int pos = BoardController.ConvertToPos(x, currY);
-			if (!BoardController.IsInBounds(x, currY)) return false;
+			pos = BoardController.i.ConvPos(x, currY);
 			Piece piece = BoardController.i.GetPieceFromPos(pos);
 			if (piece != null)
 			{
-				foundPiece = piece;
+				if (piece is Rook rook && !rook.IsMoved())
+				{
+					return true;
+				}
 				break;
 			}
-		}
-		if (foundPiece is Rook rook)
-		{
-			return !rook.IsMoved();
+			x += direction;
 		}
 		return false;
 	}
 
-	public override bool IsLegalMove(int x, int y, Piece p)
+	public override bool IsLegalMove(Move move)
 	{
-		int pos = y * 8 + x;
-		if (!BoardController.IsInBounds(x, y) || bc.IsSamePlayer(this.CurrPos, pos))
-		{
-			return false;
-		}
-
+		if (move.TargetSquare < 0 || move.TargetSquare > 63 || BoardController.i.IsSamePlayer(CurrPos, move.TargetSquare)) return false;
 		return true;
 	}
 
@@ -104,5 +183,10 @@ public class King : Piece
 	public void SetKingBoolean()
 	{
 		hasMoved = true;
+	}
+
+	public void UpdateKingPosition()
+	{
+		BoardController.i.UpdateKingPosition(GameController.GetCurrPlayer(), CurrPos);
 	}
 }

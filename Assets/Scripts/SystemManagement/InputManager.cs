@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,21 +20,36 @@ public class InputManager : MonoBehaviour
 	/// <param name="col"></param>
 	public static void HandleColliderClicked(Collider2D col)
 	{
-		if (col.gameObject.CompareTag("Highlight Square"))
+		if (col == null)
+		{
+			BoardController.i.DisableAllUIElements();
+		}
+		
+		else if (col.gameObject.CompareTag("Highlight Square"))
 		{
 			BoardController.i.HandleHighlightSquareClicked(col);
 		}
 
-		if (col.gameObject.CompareTag("Piece") 
+		else if (col.gameObject.CompareTag("Piece") 
 			&& col.GetComponent<Piece>().Player == GameController.GetCurrPlayer()
 			&& GameController.GetGameState() == GameState.Play)
 		{
 			BoardController.i.HandlePieceClicked(col);
 		}
 
-		if (col.gameObject.CompareTag("Promotion Button") && GameController.GetGameState() == GameState.Promoting)
+		else if (col.gameObject.CompareTag("Promotion Button") && GameController.GetGameState() == GameState.Promoting)
 		{
 			BoardController.i.HandlePromotionButtonClicked(col);
+		}
+
+		else if (col.gameObject.CompareTag("Buy Option"))
+		{
+			// Cannot buy pieces if is in check
+			if (GameController.i.IsCheck) return;
+
+			Piece piece = col.gameObject.GetComponent<Piece>();
+			BoardController.i.SetPieceToInstantiate(piece);
+			HighlightManager.i.HighlightSpawnPiece(piece);
 		}
 	}
 }

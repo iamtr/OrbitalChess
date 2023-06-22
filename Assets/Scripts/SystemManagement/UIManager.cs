@@ -9,15 +9,23 @@ public class UIManager : MonoBehaviour
     [SerializeField] private PromotionButton[] promotingBlack;
     [SerializeField] private PromotionButton[] promotingWhite;
     [SerializeField] private PromotionButton promotionButton;
+    [SerializeField] private GameObject whiteBuyOptions;
+    [SerializeField] private GameObject blackBuyOptions;
+
 
     private Transform promotionButtonTransform;
     private readonly int promotingNumber = 4;
 
-    private void Start()
+    public static UIManager i { get; set; }
+
+	public void Awake()
+	{
+        if (i != null && i != this) Destroy(this);
+        else i = this;
+	}
+	private void Start()
     {
         promotionButtonTransform = GameObject.Find("Promotion Buttons").transform;
-        //promotingBlack = new PromotionButton[promotingNumber];
-        //promotingWhite = new PromotionButton[promotingNumber];
 
         InstantiatePromotionButtons(blackSprites, promotingBlack);
         InstantiatePromotionButtons(whiteSprites, promotingWhite);
@@ -43,8 +51,8 @@ public class UIManager : MonoBehaviour
 	/// </summary>
 	public void UnhighlightAllPromotingButtons()
     {
-        foreach (var square in promotingBlack) square.gameObject.SetActive(false);
-        foreach (var square in promotingWhite) square.gameObject.SetActive(false);
+        foreach (var square in promotingBlack) square?.gameObject.SetActive(false);
+        foreach (var square in promotingWhite) square?.gameObject.SetActive(false);
     }
 
     /// <summary>
@@ -58,4 +66,27 @@ public class UIManager : MonoBehaviour
         else
             for (var i = 0; i < promotingNumber; i++) promotingWhite[i].gameObject.SetActive(true);
     }
+
+	public void ShowBuyOptions()
+	{
+		PlayerType p = GameController.GetCurrPlayer();
+
+        // Should not allow to buy if the player is in check
+        if (GameController.i.IsCheck) return;
+
+		if (p == PlayerType.White)
+		{
+			whiteBuyOptions.SetActive(true);
+		}
+		else
+		{
+			blackBuyOptions.SetActive(true);
+		}
+	}
+
+    public void DisableBuyOptions()
+    {
+		whiteBuyOptions.SetActive(false);
+        blackBuyOptions.SetActive(false);
+	}
 }

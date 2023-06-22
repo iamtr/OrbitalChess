@@ -1,12 +1,26 @@
 using UnityEngine;
 using System;
+using TMPro;
 
 public class GameController : MonoBehaviour
 {
-    [SerializeField] private static PlayerType currPlayer;
-	[SerializeField] private static GameState gameState;
+    [Header("Players")]
+	[SerializeField] private PlayerManager blackPlayer;
+	[SerializeField] private PlayerManager whitePlayer;
+
+    [Header("Text")]
+	[SerializeField] private TMP_Text checkText;
+	[SerializeField] private TMP_Text turnText;
+
+    [SerializeField] private bool isSpecialMode = false;
+
+	private static PlayerType currPlayer = PlayerType.White;
+	private static GameState gameState;
+    public bool IsCheck { get; private set; } 
 
 	public static GameController i;
+
+    public bool IsSpecialMode => isSpecialMode;
 
     /// <summary>
     /// Current player type (Black, White)
@@ -19,18 +33,22 @@ public class GameController : MonoBehaviour
 
     public static event Action OnRoundStart;
     public static event Action OnRoundEnd;
-    public static event Action OnGameEnd;
+    //public static event Action OnGameEnd;
+
+    
 
 	private void OnEnable()
 	{
+		OnRoundEnd += HandleCheckAndCheckmate;
 		OnRoundEnd += SetPlayer;
         OnRoundEnd += InvokeOnRoundStart;
 	}
 
 	private void OnDisable()
-	{
+    {
+		OnRoundEnd -= HandleCheckAndCheckmate;
 		OnRoundEnd -= SetPlayer;
-		OnRoundEnd += InvokeOnRoundStart;
+		OnRoundEnd -= InvokeOnRoundStart;   
 	}
 
 	private void Start()
@@ -45,7 +63,6 @@ public class GameController : MonoBehaviour
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Collider2D collider = Physics2D.OverlapPoint(mousePosition);
 
-            if (collider == null) return;
             InputManager.HandleColliderClicked(collider);
         }
     }
@@ -56,6 +73,7 @@ public class GameController : MonoBehaviour
     public void SetPlayer()
     {
         currPlayer = currPlayer == PlayerType.Black ? PlayerType.White : PlayerType.Black;
+        if(IsSpecialMode) turnText.text = currPlayer.ToString() + " Turn";
     }
 
     /// <summary>
@@ -86,6 +104,42 @@ public class GameController : MonoBehaviour
     {
         return currPlayer;
     }
+
+    public void HandleCheckAndCheckmate()
+    {
+        if (BoardController.i.IsCheckmate())
+        {
+			SetGameState(GameState.GameOver);
+            checkText.gameObject.SetActive(true);
+            checkText.text = "Checkmate!";
+		}
+		else if (BoardController.i.IsCheck())
+        {
+            IsCheck = true;
+			checkText.gameObject.SetActive(true);
+			checkText.text = "Check!";
+		}
+        else
+        {
+            IsCheck = false;
+			checkText.gameObject.SetActive(false);
+		}
+    }
+
+    public static PlayerType GetOpponent()
+    {
+        return PlayerType.Black == currPlayer ? PlayerType.White : PlayerType.Black;
+    }
+
+    public PlayerManager GetCurrPlayerManager()
+    {
+        return GetCurrPlayer() == PlayerType.Black ? blackPlayer : whitePlayer;
+    }
+
+    public PlayerManager GetOpponentPlayerManager()
+    {
+		return GetCurrPlayer() == PlayerType.Black ? whitePlayer : blackPlayer;
+	}
 }
 
 public enum PlayerType { Black, White }

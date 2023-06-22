@@ -1,17 +1,24 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Piece : MonoBehaviour 
+public abstract class Piece : MonoBehaviour, ICloneable
 {
-	[SerializeField] public BoardController bc;
-	[SerializeField] protected UIManager UIManager;
 	[SerializeField] protected int currX;
 	[SerializeField] protected int currY;
+
+	[SerializeField] protected List<Move> moves = new List<Move>();
+
+	/// <summary>
+	/// Value for a piece. Used in AI, custom game modes
+	/// </summary>
+	protected int value;
+	public int Value => value;
 
 	/// <summary>
 	/// Current position, from 0 - 63
 	/// </summary>
-	public int CurrPos { get; private set; }
+	public int CurrPos;
 
 	/// <summary>
 	/// Events that is called before and after a movement is made respectively
@@ -26,20 +33,10 @@ public abstract class Piece : MonoBehaviour
 
 	[SerializeField] protected PlayerType player;
 
-	private void OnEnable()
-	{
-		OnAfterMove += GameController.InvokeOnRoundEnd;
-	}
-
-	private void OnDisable()
-	{
-		OnAfterMove -= GameController.InvokeOnRoundEnd;
-	}
+	public static bool isBlackBelow = true;
 
 	private void Awake()
 	{
-		bc = GameObject.Find("Board").GetComponent<BoardController>();
-		UIManager = GameObject.Find("UIManager").GetComponent<UIManager>();
 		InitPiece(Player);
 	}
 
@@ -54,24 +51,45 @@ public abstract class Piece : MonoBehaviour
 	/// <summary>
 	/// Calculates all available moves for this piece and highlights them
 	/// </summary>
-	public abstract void GetAvailableMoves();
+	public abstract List<Move> GetLegalMoves();
+
+	/// <summary>
+	/// Calculates all available moves for this piece, regardless if it results on a check to own king.
+	/// </summary>
+	/// <returns></returns>
+	public abstract List<Move> GetAllMoves();
 
 	/// <summary>
 	/// Checks if the move is legal
 	/// </summary>
-	public abstract bool IsLegalMove(int x, int y, Piece p);
+	public abstract bool IsLegalMove(Move m);
+
 
 	/// <summary>
 	/// Set the currX and currY values of this piece
 	/// </summary>
-	/// <param name="x"> currX </param>
-	/// <param name="y"> currY </param>
-	public void SetCoords(int x, int y) { 
-		currX = x; 
-		currY = y;
-		CurrPos = y * 8 + x;
-		transform.position = new Vector3(currX, currY, 2);
+	/// <param name="pos"></param>
+	public void SetCoords(int pos)
+	{
+		currX = BoardController.ConvXY(pos)[0];
+		currY = BoardController.ConvXY(pos)[1];
+		CurrPos = pos;
+	}
 
+	public void SetTransform()
+	{
+		int xPosition;
+		int yPosition;
+        if (isBlackBelow)
+        {
+			xPosition = currX;
+			yPosition = currY;
+        } else
+        {
+			xPosition = 7 - currX;
+			yPosition = 7 - currY;
+		}
+		transform.position = new Vector3(xPosition, yPosition, 2);
 	}
 	/// <summary>
 	/// Set the player type for this piece
@@ -93,5 +111,10 @@ public abstract class Piece : MonoBehaviour
 	public void InvokeOnAfterMove()
 	{
 		OnAfterMove?.Invoke();
+	}
+
+	public object Clone()
+	{
+		return this.MemberwiseClone();
 	}
 }

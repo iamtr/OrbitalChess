@@ -14,7 +14,9 @@ public class GameController : MonoBehaviour
 
     [SerializeField] private bool isSpecialMode = false;
 
-	private static PlayerType currPlayer = PlayerType.White;
+    [SerializeField] private GameObject replayButton;
+
+    private static PlayerType currPlayer = PlayerType.White;
 	private static GameState gameState;
     public bool IsCheck { get; private set; } 
 
@@ -59,6 +61,15 @@ public class GameController : MonoBehaviour
     }
 	private void Update()
 	{
+        if (GameController.GetGameState() == GameState.GameOver)
+        {
+            replayButton.gameObject.SetActive(true);
+            return;
+        } else
+        {
+            replayButton.gameObject.SetActive(false);
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -85,6 +96,11 @@ public class GameController : MonoBehaviour
 	{
 		gameState = newState;
 	}
+
+    public static void SetPlayer(PlayerType player)
+    {
+        currPlayer = player;
+    }
 
 	public static void InvokeOnRoundStart()
 	{

@@ -12,14 +12,12 @@ public class ColorOptionDropdown : MonoBehaviour
         {
             case 0:
                 Piece.isBlackBelow = true;
-                BoardController.isBlackBelow = true;
                 HighlightManager.isBlackBelow = true;
                 Timer.isBlackBelow = true;
                 selectedOptionText.text = "Black";
                 break;
             case 1:
                 Piece.isBlackBelow = false;
-                BoardController.isBlackBelow = false;
                 HighlightManager.isBlackBelow = false;
                 Timer.isBlackBelow = false;
                 selectedOptionText.text = "White";

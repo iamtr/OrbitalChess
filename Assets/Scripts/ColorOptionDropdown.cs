@@ -14,12 +14,14 @@ public class ColorOptionDropdown : MonoBehaviour
                 Piece.isBlackBelow = true;
                 HighlightManager.isBlackBelow = true;
                 Timer.isBlackBelow = true;
+                BoardController.isBlackBelow = true;
                 selectedOptionText.text = "Black";
                 break;
             case 1:
                 Piece.isBlackBelow = false;
                 HighlightManager.isBlackBelow = false;
                 Timer.isBlackBelow = false;
+                BoardController.isBlackBelow = false;
                 selectedOptionText.text = "White";
                 break;
         }

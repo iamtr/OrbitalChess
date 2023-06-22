@@ -407,10 +407,12 @@ public class BoardController : MonoBehaviour
 		{
 			IPromotable pawnToPromote = CurrPiece as IPromotable;
 			pawnToPromote.Promote(promotedPiece);
+
 		}
 		catch (NullReferenceException)
 		{
 			Debug.Log("Tried to promote a non-promotable piece!");
+			return;
 		}
 	}
 
@@ -470,7 +472,7 @@ public class BoardController : MonoBehaviour
 	/// <returns></returns>
 	public bool IsBeingCheckedAfterMove(Move move, PlayerType p)
 	{
-		UpdateTestArray(move, GameController.GetCurrPlayer());
+		UpdateTestArrayForMove(move, GameController.GetCurrPlayer());
 
 		allMoves.Clear();
 
@@ -492,11 +494,22 @@ public class BoardController : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Updates testArray, which is an array that is used to simulate if a move will result in a check for testing purposes
+	/// Updates test array
+	/// </summary>
+	public void UpdateTestArray()
+	{
+		for (int i = 0; i < pieces.Length; i++)
+		{
+			if (pieces[i] != null) testArray[i] = pieces[i].Clone() as Piece;
+		}
+	}
+
+	/// <summary>
+	/// Updates testArray, and simulate if a move will result in a check for testing purposes
 	/// </summary>
 	/// <param name="move"></param>
 	/// <param name="p"></param>
-	public void UpdateTestArray(Move move, PlayerType p)
+	public void UpdateTestArrayForMove(Move move, PlayerType p)
 	{
 		void MovePieceAndSetCoords(int from, int to)
 		{
@@ -506,10 +519,7 @@ public class BoardController : MonoBehaviour
 		}
 
 		Array.Clear(testArray, 0, testArray.Length);
-		for (int i = 0; i < pieces.Length; i++)
-		{
-			if (pieces[i] != null) testArray[i] = pieces[i].Clone() as Piece;
-		}
+		UpdateTestArray();
 
 		int oldPos = move.StartSquare;
 		int newPos = move.TargetSquare;

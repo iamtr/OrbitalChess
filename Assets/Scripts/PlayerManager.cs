@@ -38,4 +38,25 @@ public class PlayerManager : MonoBehaviour
 		card.transform.SetParent(cardTransform);
 		card.SetCardPlayer(GameController.GetCurrPlayer());
 	}
+
+	public void ResetPlayerManager()
+    {
+		ResetMoney();
+		ResetCards();
+    }
+
+	public void ResetMoney()
+    {
+		money = 500;
+		moneyText.text = "Coin: " + money;
+	}
+
+	public void ResetCards()
+    {
+        foreach (Card card in playerCards)
+        {
+			Destroy(card?.gameObject);
+        }
+		playerCards.Clear();
+    }
 }

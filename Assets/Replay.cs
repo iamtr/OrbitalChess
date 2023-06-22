@@ -12,7 +12,8 @@ public class Replay : MonoBehaviour
     {
 		GameController.SetGameState(GameState.Play);
 		GameController.SetPlayer(PlayerType.White);
-		checkText.gameObject.SetActive(false);
+		checkText.SetActive(false);
+		GameController.i.ResetPlayer();
 		ResetPieces();
 		Timer.ResetTimers();
     }

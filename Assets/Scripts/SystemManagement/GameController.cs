@@ -157,6 +157,12 @@ public class GameController : MonoBehaviour
     {
 		return GetCurrPlayer() == PlayerType.Black ? whitePlayer : blackPlayer;
 	}
+
+    public void ResetPlayer()
+    {
+        blackPlayer.ResetPlayerManager();
+        whitePlayer.ResetPlayerManager();
+    }
 }
 
 public enum PlayerType { Black, White }

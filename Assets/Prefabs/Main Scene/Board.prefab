@@ -165,13 +165,8 @@ MonoBehaviour:
   - {fileID: 643328333909121127, guid: 7fedfafde506e3c499fc2b0bfd6ce816, type: 3}
   - {fileID: 3612869549090268381, guid: baa9d6b7f35fd1b4c8d69985411573bf, type: 3}
   cards: []
-  highlights: []
-  highlightSquare: {fileID: 5428884020771124365, guid: cc5e019f9b7428f4a9bf457da0bcb6ed, type: 3}
   blackPieces: []
   whitePieces: []
-  BlackKingPos: 3
-  WhiteKingPos: 59
-  isSpecialMode: 1
   mine: {fileID: 0}
   mines:
   - {fileID: 0}
@@ -247,6 +242,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2567642776521878765}
+  - component: {fileID: 4473332514792903120}
   m_Layer: 0
   m_Name: Highlight Squares
   m_TagString: Untagged
@@ -269,6 +265,84 @@ Transform:
   m_Father: {fileID: 8909583480078518293}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4473332514792903120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7926353709060286352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69256ddcbd730b747966969db068315d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlights:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  highlightSquare: {fileID: 5428884020771124365, guid: cc5e019f9b7428f4a9bf457da0bcb6ed, type: 3}
 --- !u!1 &8291216023298608238
 GameObject:
   m_ObjectHideFlags: 0

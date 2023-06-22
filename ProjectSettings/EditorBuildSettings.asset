@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Blitz.unity
     guid: c6a80ac3aa098524592335133daedb03
+  - enabled: 1
+    path: Assets/Scenes/Custom Game Mode.unity
+    guid: 82ff2046bac698245860ad59ea4cb672
   m_configObjects: {}

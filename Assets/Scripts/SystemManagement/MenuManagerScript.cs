@@ -8,6 +8,7 @@ public class MenuManagerScript : MonoBehaviour
     public string menuScene = "main-menu";
     public string mainGameStartScene = "Main";
     public string blitzGameStartScene = "Blitz";
+    public string customGameModeStartScene = "Custom Game Mode";
 
     [SerializeField] private SettingsScript settings;
 
@@ -46,6 +47,9 @@ public class MenuManagerScript : MonoBehaviour
                 break;
             case 1:
                 SceneManager.LoadScene(blitzGameStartScene);
+                break;
+            case 2:
+                SceneManager.LoadScene(customGameModeStartScene);
                 break;
         }
     }

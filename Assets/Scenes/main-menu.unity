@@ -139,6 +139,17 @@ AudioSource:
   m_CorrespondingSourceObject: {fileID: 2632145103289249209, guid: acd95503d485f8241b7ced67e1e7c039, type: 3}
   m_PrefabInstance: {fileID: 6308735870831490604}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1385987629 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3204376938015905340, guid: 651173cf6b459fa4789f8d6d17179dac, type: 3}
+  m_PrefabInstance: {fileID: 5273888132018911262}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1151168739002486647
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -203,6 +214,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 808261081, guid: 651173cf6b459fa4789f8d6d17179dac, type: 3}
+      propertyPath: m_Options.m_Options.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 808261081, guid: 651173cf6b459fa4789f8d6d17179dac, type: 3}
+      propertyPath: m_Options.m_Options.Array.data[2].m_Text
+      value: Card
+      objectReference: {fileID: 0}
     - target: {fileID: 808261081, guid: 651173cf6b459fa4789f8d6d17179dac, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -299,6 +318,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 7298266301723571273, guid: 651173cf6b459fa4789f8d6d17179dac, type: 3}
+      propertyPath: selectedOptionText
+      value: 
+      objectReference: {fileID: 1385987629}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 651173cf6b459fa4789f8d6d17179dac, type: 3}
 --- !u!1001 &6308735870831490604

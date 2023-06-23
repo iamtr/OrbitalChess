@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Assertions;
+
 
 public class SettingsScript : MonoBehaviour
 {
@@ -9,6 +11,19 @@ public class SettingsScript : MonoBehaviour
 
 	public TMP_Text volumeNumber;
 	public Slider slider;
+
+    private void Start()
+    {
+		AssertAllReferenceIsNotNull();
+    }
+
+    private void AssertAllReferenceIsNotNull()
+	{
+		Assert.IsNotNull(mainMenuPanel);
+		Assert.IsNotNull(settingsPanel);
+		Assert.IsNotNull(volumeNumber);
+		Assert.IsNotNull(slider);
+	}
 
 	public void SetVolumeNumber()
 	{

@@ -1,9 +1,20 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class ColorOptionDropdown : MonoBehaviour
 {
 	[SerializeField] private TMP_Text selectedOptionText;
+
+	private void Start()
+	{
+		AssertAllReferenceIsNotNull();
+	}
+
+	private void AssertAllReferenceIsNotNull()
+	{
+		Assert.IsNotNull(selectedOptionText);
+	}
 
 	public void Dropdown(int index)
 	{

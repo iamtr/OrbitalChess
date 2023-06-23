@@ -180,6 +180,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fad118725d2bb424892bbedb9e3ac995, type: 3}
+--- !u!1 &233260779 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5429897805186331127, guid: 89eec4662094b884a8e49515458ca70e, type: 3}
+  m_PrefabInstance: {fileID: 5429897804050892326}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &364711426 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1375693147377192123, guid: 89eec4662094b884a8e49515458ca70e, type: 3}
@@ -306,7 +311,7 @@ PrefabInstance:
     - target: {fileID: 7943841704991687211, guid: 3adaeb294de97034283bf1432bea6ae0, type: 3}
       propertyPath: replayButton
       value: 
-      objectReference: {fileID: 1173190609}
+      objectReference: {fileID: 233260779}
     - target: {fileID: 8853872539425432978, guid: 3adaeb294de97034283bf1432bea6ae0, type: 3}
       propertyPath: m_Name
       value: Game Controller
@@ -317,11 +322,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3adaeb294de97034283bf1432bea6ae0, type: 3}
---- !u!1 &1173190609 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5429897805186331127, guid: 89eec4662094b884a8e49515458ca70e, type: 3}
-  m_PrefabInstance: {fileID: 5429897804050892326}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1298772687
 PrefabInstance:
   m_ObjectHideFlags: 0

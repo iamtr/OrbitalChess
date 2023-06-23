@@ -1,4 +1,4 @@
-/* 
+/*
 To preserve memory during search, moves are stored as 16 bit numbers.
 The format is as follows:
 
@@ -10,7 +10,6 @@ bit 12-15: flag
 [System.Serializable]
 public readonly struct Move
 {
-
 	public readonly struct Flag
 	{
 		public const int None = 0;
@@ -23,13 +22,13 @@ public readonly struct Move
 		public const int PawnTwoForward = 7;
 	}
 
-	readonly ushort moveValue;
+	private readonly ushort moveValue;
 
-	const ushort startSquareMask = 0b000000000001111111;
-	const ushort targetSquareMask = 0b000011111110000000;
-	const ushort flagMask = 0b1111000000000000;
+	private const ushort startSquareMask = 0b000000000001111111;
+	private const ushort targetSquareMask = 0b000011111110000000;
+	private const ushort flagMask = 0b1111000000000000;
 
-	readonly Piece piece;
+	private readonly Piece piece;
 
 	public Move(int startSquare, int targetSquare, Piece piece)
 	{
@@ -107,4 +106,3 @@ public readonly struct Move
 
 	public Piece Piece => piece;
 }
-

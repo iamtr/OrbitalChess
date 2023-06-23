@@ -1,25 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 public class Replay : MonoBehaviour
 {
-    [SerializeField] private Piece[] defaultPieceSetup;
+	[SerializeField] private Piece[] defaultPieceSetup;
 	public GameObject checkText;
 
 	public void ResetGame()
-    {
+	{
 		GameController.SetGameState(GameState.Play);
 		GameController.SetPlayer(PlayerType.White);
 		checkText.SetActive(false);
 		GameController.i.ResetPlayer();
 		ResetPieces();
 		Timer.ResetTimers();
-    }
+	}
 
-    public void ResetPieces()
-    {
+	public void ResetPieces()
+	{
 		for (var i = 0; i < 64; i++)
 		{
 			BoardController.i.DestroyPiece(i);

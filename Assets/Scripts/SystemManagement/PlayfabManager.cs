@@ -1,15 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
-using PlayFab.ClientModels;
 using PlayFab;
+using PlayFab.ClientModels;
+using TMPro;
+using UnityEngine;
 
 public class PlayfabManager : MonoBehaviour
 {
 	[Header("UI")]
 	public TMP_Text messageText;
+
 	public TMP_InputField emailInputField;
 	public TMP_InputField passwordInputField;
 	public GameObject loginPanel;

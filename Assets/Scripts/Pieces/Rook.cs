@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class Rook : Piece
 {
@@ -42,7 +40,7 @@ public class Rook : Piece
 			{
 				int x = currX + i * dx;
 				int y = currY + i * dy;
-				if (x < 0 || x > 7 || y < 0 || y > 7) break; 
+				if (x < 0 || x > 7 || y < 0 || y > 7) break;
 				int pos = y * 8 + x;
 
 				Move m = new Move(CurrPos, pos, this);
@@ -97,15 +95,15 @@ public class Rook : Piece
 	}
 
 	public bool IsMoved()
-    {
+	{
 		return hasMoved;
-    }
+	}
 
 	/// <summary>
 	/// Sets the hasMoved boolean in its inital move
 	/// </summary>
 	public void SetRookBoolean()
-    {
+	{
 		hasMoved = true;
 	}
 }

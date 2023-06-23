@@ -13,6 +13,7 @@ public abstract class Piece : MonoBehaviour, ICloneable
 	/// Value for a piece. Used in AI, custom game modes
 	/// </summary>
 	protected int value;
+
 	public int Value => value;
 
 	/// <summary>
@@ -24,6 +25,7 @@ public abstract class Piece : MonoBehaviour, ICloneable
 	/// Events that is called before and after a movement is made respectively
 	/// </summary>
 	public event Action OnBeforeMove;
+
 	public event Action OnAfterMove;
 
 	/// <summary>
@@ -64,7 +66,6 @@ public abstract class Piece : MonoBehaviour, ICloneable
 	/// </summary>
 	public abstract bool IsLegalMove(Move m);
 
-
 	/// <summary>
 	/// Set the currX and currY values of this piece
 	/// </summary>
@@ -80,17 +81,19 @@ public abstract class Piece : MonoBehaviour, ICloneable
 	{
 		int xPosition;
 		int yPosition;
-        if (isBlackBelow)
-        {
+		if (isBlackBelow)
+		{
 			xPosition = currX;
 			yPosition = currY;
-        } else
-        {
+		}
+		else
+		{
 			xPosition = 7 - currX;
 			yPosition = 7 - currY;
 		}
 		transform.position = new Vector3(xPosition, yPosition, 2);
 	}
+
 	/// <summary>
 	/// Set the player type for this piece
 	/// </summary>

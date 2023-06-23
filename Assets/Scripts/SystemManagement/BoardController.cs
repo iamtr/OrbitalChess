@@ -14,18 +14,20 @@ public class BoardController : MonoBehaviour
 	/// the index of the array is the position of the piece on the board
 	/// </summary>
 	[SerializeField] protected Piece[] pieces;
-	[SerializeField] protected Card[] cards;
 
+	[SerializeField] protected Card[] cards;
 
 	[Header("Promotion Buttons")]
 	/// <summary>
 	/// Array of the piece used for pawn promotion
 	/// </summary>
 	[SerializeField] protected Piece[] blackPieces;
+
 	[SerializeField] protected Piece[] whitePieces;
 
 	[Header("Special Mode")]
 	[SerializeField] private GameObject mine;
+
 	[SerializeField] private GameObject[] mines;
 
 	private Transform pieceTransform;
@@ -34,6 +36,7 @@ public class BoardController : MonoBehaviour
 	/// Array that is used to simulated if a move results in a check to own king
 	/// </summary>
 	private Piece[] testArray;
+
 	private int BlackKingPos = 3;
 	private int WhiteKingPos = 59;
 	private List<Move> allMoves;
@@ -44,9 +47,10 @@ public class BoardController : MonoBehaviour
 	/// The current piece that is being clicked by the player
 	/// </summary>
 	public Piece CurrPiece { get; set; }
-	
+
 	// For buying pieces:
 	public Piece pieceToInstantiate { get; private set; }
+
 	public static BoardController i { get; private set; }
 
 	private void OnEnable()
@@ -170,7 +174,7 @@ public class BoardController : MonoBehaviour
 
 		Piece destroyedPiece = pieces[pos];
 		DestroyPiece(pos);
-		if (GameController.i.IsSpecialMode)	HandleCapture(destroyedPiece);
+		if (GameController.i.IsSpecialMode) HandleCapture(destroyedPiece);
 	}
 
 	public void DestroyPiece(int pos)
@@ -200,7 +204,7 @@ public class BoardController : MonoBehaviour
 		int newPos = ConvPos(x, y);
 		if (piece == null) Debug.Log("Piece at MovePiece() is null! Tried to move a null piece.");
 		SetPiecePos(piece.CurrPos, newPos);
-		
+
 		// For special game mode
 		if (GameController.i.IsSpecialMode) TriggerMine(newPos);
 	}
@@ -236,7 +240,7 @@ public class BoardController : MonoBehaviour
 		if (GameController.i.IsSpecialMode) TriggerMine(targetY);
 		MovePiece(rookNewX, targetY, rook);
 		// For special game mode
-		if (GameController.i.IsSpecialMode) TriggerMine(targetY);	
+		if (GameController.i.IsSpecialMode) TriggerMine(targetY);
 	}
 
 	/// <summary>
@@ -260,7 +264,7 @@ public class BoardController : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Converts 0 - 63 position numbers to x, y coordinates 
+	/// Converts 0 - 63 position numbers to x, y coordinates
 	/// </summary>
 	/// <param name="pos"></param>
 	/// <returns></returns>
@@ -282,7 +286,7 @@ public class BoardController : MonoBehaviour
 
 	/// <summary>
 	/// Returns the piece from a certain position on the board
-	/// </summary>	
+	/// </summary>
 	public Piece GetPieceFromPos(int pos)
 	{
 		try
@@ -294,7 +298,6 @@ public class BoardController : MonoBehaviour
 			Debug.Log("Cannot get piece from position");
 			return null;
 		}
-		
 	}
 
 	/// <summary>
@@ -382,7 +385,6 @@ public class BoardController : MonoBehaviour
 		List<Move> moves = CurrPiece.GetLegalMoves();
 
 		foreach (Move move in moves) HighlightManager.i.Highlight(move);
-
 	}
 
 	/// <summary>
@@ -395,7 +397,6 @@ public class BoardController : MonoBehaviour
 		{
 			IPromotable pawnToPromote = CurrPiece as IPromotable;
 			pawnToPromote.Promote(promotedPiece);
-
 		}
 		catch (NullReferenceException)
 		{
@@ -467,14 +468,13 @@ public class BoardController : MonoBehaviour
 		int tempKingPos = -1;
 
 		tempKingPos = move.Piece is King && move.Piece.Player == p
-			? move.TargetSquare 
+			? move.TargetSquare
 			: GetKingPosition(p);
 
 		foreach (Piece piece in testArray)
 		{
 			if (piece == null || piece.Player == p) continue;
 			allMoves.AddRange(piece.GetAllMoves());
-
 		}
 
 		bool temp = allMoves.Any(move => move.TargetSquare == tempKingPos);
@@ -572,7 +572,7 @@ public class BoardController : MonoBehaviour
 		{
 			Debug.Log("Checkmate");
 			return true;
-		} 
+		}
 
 		return false;
 	}

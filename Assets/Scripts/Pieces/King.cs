@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class King : Piece
 {
@@ -80,7 +78,7 @@ public class King : Piece
 
 		GetMovesFromDirection(1, 1, 1);
 		GetMovesFromDirection(-1, 1, 1);
-		GetMovesFromDirection(	1, -1, 1);
+		GetMovesFromDirection(1, -1, 1);
 		GetMovesFromDirection(-1, -1, 1);
 		GetMovesFromDirection(1, 0, 1); // Right
 		GetMovesFromDirection(-1, 0, 1); // Left

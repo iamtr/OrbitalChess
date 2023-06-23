@@ -3,6 +3,7 @@ using UnityEngine;
 public abstract class Card : MonoBehaviour
 {
 	public PlayerType player;
+
 	public abstract void Trigger();
 
 	public void OnMouseOver()

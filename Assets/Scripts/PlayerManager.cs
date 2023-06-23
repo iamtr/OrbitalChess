@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -40,23 +39,23 @@ public class PlayerManager : MonoBehaviour
 	}
 
 	public void ResetPlayerManager()
-    {
+	{
 		ResetMoney();
 		ResetCards();
-    }
+	}
 
 	public void ResetMoney()
-    {
+	{
 		money = 500;
 		moneyText.text = "Coin: " + money;
 	}
 
 	public void ResetCards()
-    {
-        foreach (Card card in playerCards)
-        {
+	{
+		foreach (Card card in playerCards)
+		{
 			Destroy(card?.gameObject);
-        }
+		}
 		playerCards.Clear();
-    }
+	}
 }

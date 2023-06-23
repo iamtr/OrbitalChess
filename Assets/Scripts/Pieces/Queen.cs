@@ -6,6 +6,7 @@ public class Queen : Piece
 	{
 		value = 90;
 	}
+
 	private void OnEnable()
 	{
 		OnAfterMove += GameController.InvokeOnRoundEnd;
@@ -15,6 +16,7 @@ public class Queen : Piece
 	{
 		OnAfterMove -= GameController.InvokeOnRoundEnd;
 	}
+
 	public override List<Move> GetLegalMoves()
 	{
 		moves.Clear();
@@ -81,6 +83,5 @@ public class Queen : Piece
 	{
 		if (BoardController.i.IsSamePlayer(CurrPos, move.TargetSquare)) return false;
 		return true;
-	}	
+	}
 }
-

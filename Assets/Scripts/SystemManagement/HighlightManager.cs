@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -7,7 +5,6 @@ using UnityEngine;
 /// </summary>
 public class HighlightManager : MonoBehaviour
 {
-
 	public static HighlightManager i;
 
 	/// <summary>
@@ -15,6 +12,7 @@ public class HighlightManager : MonoBehaviour
 	/// the index of the array is the position of the square on the board
 	/// </summary>
 	[SerializeField] protected HighlightSquare[] highlights;
+
 	[SerializeField] protected HighlightSquare highlightSquare;
 
 	public static bool isBlackBelow = true;
@@ -41,11 +39,11 @@ public class HighlightManager : MonoBehaviour
 			var x = i % 8;
 			var y = i / 8;
 
-            if (!isBlackBelow)
-            {
+			if (!isBlackBelow)
+			{
 				x = 7 - x;
 				y = 7 - y;
-            }
+			}
 
 			highlights[i] = Instantiate(highlightSquare, new Vector3(x, y, 0), Quaternion.identity);
 			highlights[i].Position = i;
@@ -104,7 +102,7 @@ public class HighlightManager : MonoBehaviour
 		}
 
 		BoardController.i.SetHighLightSpecial(h, SpecialMove.Play);
-		BoardController.i.DisableAllUIElements();	
+		BoardController.i.DisableAllUIElements();
 		BoardController.i.CurrPiece?.InvokeOnAfterMove();
 	}
 
@@ -149,7 +147,6 @@ public class HighlightManager : MonoBehaviour
 				{
 					SetHighlightSpecial(pos - 1, SpecialMove.Castling);
 					SetHighlightColor(pos - 1, Color.green);
-
 				}
 				else if (pos == 5 || pos == 61)
 				{
@@ -161,17 +158,18 @@ public class HighlightManager : MonoBehaviour
 					Debug.Log("Error");
 				}
 				break;
+
 			case Move.Flag.EnPassantCapture:
 				SetHighlightSpecial(pos, SpecialMove.EnPassant);
 				SetHighlightColor(pos, Color.yellow);
 				break;
+
 			default:
 				if (BoardController.i.Pieces[pos] == null)
 				{
 					SetHighlightSpecial(pos, SpecialMove.Play);
 					SetHighlightColor(pos, Color.blue);
 				}
-
 				else if (BoardController.i.Pieces[pos]?.Player != BoardController.i.CurrPiece.Player)
 				{
 					SetHighlightSpecial(pos, SpecialMove.Play);

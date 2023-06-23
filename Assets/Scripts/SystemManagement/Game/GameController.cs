@@ -83,12 +83,10 @@ public class GameController : MonoBehaviour
 			replayButton.gameObject.SetActive(true);
 			return;
 		}
-		else
-		{
-			replayButton.gameObject.SetActive(false);
-		}
 
-		if (Input.GetMouseButtonDown(0))
+        replayButton.gameObject.SetActive(false);
+
+        if (Input.GetMouseButtonDown(0))
 		{
 			Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			Collider2D collider = Physics2D.OverlapPoint(mousePosition);

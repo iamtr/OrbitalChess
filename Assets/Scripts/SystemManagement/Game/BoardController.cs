@@ -137,7 +137,7 @@ public class BoardController : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Checks if a certain move is in bouds of the board
+	/// Checks if a certain move is in bounds of the board
 	/// </summary>
 	/// <param name="x"></param>
 	/// <param name="y"></param>
@@ -256,11 +256,11 @@ public class BoardController : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Deactivates all unneccesary UI elements
+	/// Deactivates all unnecessary UI elements
 	/// </summary>
 	public void DisableAllUIElements()
 	{
-		HighlightManager.i.UnhighlightAllSqaures();
+		HighlightManager.i.UnhighlightAllSquares();
 		UIManager.i.DisableBuyOptions();
 	}
 

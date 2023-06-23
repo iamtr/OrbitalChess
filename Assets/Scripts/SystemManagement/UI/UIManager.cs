@@ -132,7 +132,7 @@ public class UIManager : MonoBehaviour
 		}
 	}
 
-	public void startBlitzGame()
+	public void StartBlitzGame()
 	{
 		modeSelectCanvas.SetActive(false);
 		board.SetActive(true);

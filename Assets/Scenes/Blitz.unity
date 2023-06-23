@@ -665,6 +665,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 2083384228446231699}
+    - target: {fileID: 7741613456658443403, guid: b6c2e1b6eb983ff42b71245464087eee, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: StartBlitzGame
+      objectReference: {fileID: 0}
     - target: {fileID: 7741613456720988039, guid: b6c2e1b6eb983ff42b71245464087eee, type: 3}
       propertyPath: m_Name
       value: Blitz 1

@@ -100,7 +100,7 @@ public class Rook : Piece
 	}
 
 	/// <summary>
-	/// Sets the hasMoved boolean in its inital move
+	/// Sets the hasMoved boolean in its initial move
 	/// </summary>
 	public void SetRookBoolean()
 	{

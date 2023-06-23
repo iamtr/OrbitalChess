@@ -1,7 +1,7 @@
 using UnityEngine;
 
 /// <summary>
-/// Handles all highlighting behaviours
+/// Handles all highlighting behaviour
 /// </summary>
 public class HighlightManager : MonoBehaviour
 {
@@ -129,7 +129,7 @@ public class HighlightManager : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Highlights a certain sqaure on the board
+	/// Highlights a certain square on the board
 	/// </summary>
 	/// <param name="x"></param>
 	/// <param name="y"></param>
@@ -180,7 +180,7 @@ public class HighlightManager : MonoBehaviour
 		}
 	}
 
-	public void UnhighlightAllSqaures()
+	public void UnhighlightAllSquares()
 	{
 		foreach (var square in highlights) square.gameObject.SetActive(false);
 	}

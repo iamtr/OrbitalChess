@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class UIManager : MonoBehaviour
 {
@@ -36,6 +37,22 @@ public class UIManager : MonoBehaviour
 
 		InstantiatePromotionButtons(blackSprites, promotingBlack);
 		InstantiatePromotionButtons(whiteSprites, promotingWhite);
+
+		AssertAllReferenceIsNotNull();
+	}
+
+	private void AssertAllReferenceIsNotNull()
+	{
+		Assert.AreNotEqual(new Sprite[0], blackSprites);
+		Assert.AreNotEqual(new Sprite[0], whiteSprites);
+		Assert.AreNotEqual(new PromotionButton[0], promotingBlack);
+		Assert.AreNotEqual(new PromotionButton[0], promotingWhite);
+		Assert.IsNotNull(promotionButton);
+		Assert.IsNotNull(promotionButtonTransform);
+		Assert.IsNotNull(whiteBuyOptions);
+		Assert.IsNotNull(blackBuyOptions);
+		Assert.AreNotEqual(new Piece[0], defaultPieceSetup);
+		Assert.IsNotNull(checkText);
 	}
 
 	private void InstantiatePromotionButtons(Sprite[] sprites, PromotionButton[] buttons)
@@ -115,7 +132,7 @@ public class UIManager : MonoBehaviour
 		}
 	}
 
-	public void startGame()
+	public void startBlitzGame()
 	{
 		modeSelectCanvas.SetActive(false);
 		board.SetActive(true);

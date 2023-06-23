@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 /// <summary>
 /// Controls all the piece logic and movement logic on the board
@@ -77,6 +78,17 @@ public class BoardController : MonoBehaviour
 		else i = this;
 
 		testArray = pieces.Clone() as Piece[];
+
+		AssertAllReferenceIsNotNull();
+	}
+
+	private void AssertAllReferenceIsNotNull()
+	{
+		Assert.AreNotEqual(new Piece[0], pieces);
+		Assert.AreNotEqual(new Piece[0], blackPieces);
+		Assert.AreNotEqual(new Piece[0], whitePieces);
+
+		Assert.IsNotNull(pieceTransform);
 	}
 
 	/// <summary>

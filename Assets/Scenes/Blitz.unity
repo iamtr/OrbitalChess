@@ -625,14 +625,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 7741613456658443402, guid: b6c2e1b6eb983ff42b71245464087eee, type: 3}
-      propertyPath: board
+    - target: {fileID: 7741613456658443403, guid: b6c2e1b6eb983ff42b71245464087eee, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 5663871187531093271}
-    - target: {fileID: 7741613456658443402, guid: b6c2e1b6eb983ff42b71245464087eee, type: 3}
-      propertyPath: gameCanvas
-      value: 
-      objectReference: {fileID: 200938930989447231}
+      objectReference: {fileID: 2083384228446231699}
     - target: {fileID: 7741613456720988040, guid: b6c2e1b6eb983ff42b71245464087eee, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -845,10 +841,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1335294278519479463}
-    - target: {fileID: 7741613457915015084, guid: b6c2e1b6eb983ff42b71245464087eee, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: BackToMenu
-      objectReference: {fileID: 0}
     - target: {fileID: 7741613457915843440, guid: b6c2e1b6eb983ff42b71245464087eee, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1013,6 +1005,14 @@ PrefabInstance:
       objectReference: {fileID: 1016892124517742166}
     - target: {fileID: 5612332725813949723, guid: 204df59ce1fd93947afb4457e113caff, type: 3}
       propertyPath: whiteText
+      value: 
+      objectReference: {fileID: 1016892124337361190}
+    - target: {fileID: 5612332725813949723, guid: 204df59ce1fd93947afb4457e113caff, type: 3}
+      propertyPath: blackTimerText
+      value: 
+      objectReference: {fileID: 1016892124517742166}
+    - target: {fileID: 5612332725813949723, guid: 204df59ce1fd93947afb4457e113caff, type: 3}
+      propertyPath: whiteTimerText
       value: 
       objectReference: {fileID: 1016892124337361190}
     m_RemovedComponents: []

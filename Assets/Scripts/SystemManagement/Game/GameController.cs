@@ -1,6 +1,7 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class GameController : MonoBehaviour
 {
@@ -61,6 +62,14 @@ public class GameController : MonoBehaviour
 		if (i != null && i != this) Destroy(this);
 		else i = this;
 		currPlayer = PlayerType.White;
+
+		AssertAllReferenceIsNotNull();
+	}
+
+	private void AssertAllReferenceIsNotNull()
+    {
+		Assert.IsNotNull(checkText);
+		Assert.IsNotNull(replayButton);
 	}
 
 	private void Update()

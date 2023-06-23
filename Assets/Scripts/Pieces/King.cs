@@ -157,7 +157,7 @@ public class King : Piece
 			Piece piece = BoardController.i.GetPieceFromPos(pos);
 			if (piece != null)
 			{
-				if (piece is Rook rook && !rook.IsMoved())
+				if (piece is Rook rook && !rook.IsMoved() && rook.Player == this.Player)
 				{
 					return true;
 				}

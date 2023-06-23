@@ -42,6 +42,8 @@ public class BoardController : MonoBehaviour
 	private int WhiteKingPos = 59;
 	private List<Move> allMoves;
 
+	public static bool isBlackBelow = true;
+
 	public Piece[] Pieces => pieces;
 
 	/// <summary>
@@ -720,6 +722,13 @@ public class BoardController : MonoBehaviour
 
 		int x = ConvXY(pos)[0];
 		int y = ConvXY(pos)[1];
+
+		if (!isBlackBelow)
+		{
+			x = 7 - x;
+			y = 7 - y;
+		}
+
 		mines[pos] = Instantiate(mine, new Vector3(x, y, 2), Quaternion.identity);
 	}
 

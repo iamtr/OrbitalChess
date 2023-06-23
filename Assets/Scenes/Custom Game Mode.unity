@@ -231,7 +231,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8248566378943264606, guid: afbac6e32efa13848a03ecef6a7b4d58, type: 3}
       propertyPath: m_Name
-      value: UIManager
+      value: UI Manager
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: afbac6e32efa13848a03ecef6a7b4d58, type: 3}
@@ -419,6 +419,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 800336029684160581, guid: 1d6943c6952ec58439ea4a3883f57b22, type: 3}
+      propertyPath: m_Name
+      value: Replay Button
+      objectReference: {fileID: 0}
     - target: {fileID: 800336029684160583, guid: 1d6943c6952ec58439ea4a3883f57b22, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -527,9 +531,17 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: BackToMenu
       objectReference: {fileID: 0}
+    - target: {fileID: 2847688854684264145, guid: 1d6943c6952ec58439ea4a3883f57b22, type: 3}
+      propertyPath: m_Name
+      value: Event System
+      objectReference: {fileID: 0}
     - target: {fileID: 7730980052153211397, guid: 1d6943c6952ec58439ea4a3883f57b22, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8562324615750098319, guid: 1d6943c6952ec58439ea4a3883f57b22, type: 3}
+      propertyPath: m_Name
+      value: Check Text
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d6943c6952ec58439ea4a3883f57b22, type: 3}
@@ -801,7 +813,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8815980607763328886, guid: f4d7e63f539ce1840be1716add874f0f, type: 3}
       propertyPath: m_Name
-      value: MenuManager
+      value: Menu Manager
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f4d7e63f539ce1840be1716add874f0f, type: 3}

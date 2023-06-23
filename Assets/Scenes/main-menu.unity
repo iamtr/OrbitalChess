@@ -256,7 +256,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3805253708878343776, guid: acd95503d485f8241b7ced67e1e7c039, type: 3}
       propertyPath: m_Name
-      value: AudioManager
+      value: Audio Manager
       objectReference: {fileID: 0}
     - target: {fileID: 5043179330069267280, guid: acd95503d485f8241b7ced67e1e7c039, type: 3}
       propertyPath: slider
@@ -361,7 +361,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5289374126367541114, guid: 3aef835865b8d934c9c9b61bfc2d4dfe, type: 3}
       propertyPath: m_Name
-      value: EventSystem
+      value: Event System
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3aef835865b8d934c9c9b61bfc2d4dfe, type: 3}
@@ -374,7 +374,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1020093545270526334, guid: fad118725d2bb424892bbedb9e3ac995, type: 3}
       propertyPath: m_Name
-      value: MenuManager
+      value: Menu Manager
       objectReference: {fileID: 0}
     - target: {fileID: 4026079569200184635, guid: fad118725d2bb424892bbedb9e3ac995, type: 3}
       propertyPath: m_RootOrder

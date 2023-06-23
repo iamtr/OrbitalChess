@@ -137,7 +137,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 685049296324681575, guid: 0bd21d58b3c2dd44d8610c9c28d68eda, type: 3}
       propertyPath: m_Name
-      value: EventSystem
+      value: Event System
       objectReference: {fileID: 0}
     - target: {fileID: 685049296324681578, guid: 0bd21d58b3c2dd44d8610c9c28d68eda, type: 3}
       propertyPath: m_RootOrder
@@ -216,7 +216,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2067137654330369683, guid: 7fd579676ea9f0f48a7de06f72b0ba8b, type: 3}
       propertyPath: m_Name
-      value: MenuManager
+      value: Menu Manager
       objectReference: {fileID: 0}
     - target: {fileID: 2691016343382432470, guid: 7fd579676ea9f0f48a7de06f72b0ba8b, type: 3}
       propertyPath: m_RootOrder
@@ -384,7 +384,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8248566378943264606, guid: afbac6e32efa13848a03ecef6a7b4d58, type: 3}
       propertyPath: m_Name
-      value: UIManager
+      value: UI Manager
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: afbac6e32efa13848a03ecef6a7b4d58, type: 3}
@@ -520,17 +520,33 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 600033060023603240, guid: 1d26e084ba15e5140923659f652848c4, type: 3}
+      propertyPath: m_Name
+      value: Replay Button
+      objectReference: {fileID: 0}
     - target: {fileID: 600033060023603242, guid: 1d26e084ba15e5140923659f652848c4, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 2083384228446231699}
+    - target: {fileID: 2646757848979245059, guid: 1d26e084ba15e5140923659f652848c4, type: 3}
+      propertyPath: m_Name
+      value: Check Text
+      objectReference: {fileID: 0}
+    - target: {fileID: 7767298702096136851, guid: 1d26e084ba15e5140923659f652848c4, type: 3}
+      propertyPath: m_Name
+      value: Turn Countdowns
+      objectReference: {fileID: 0}
+    - target: {fileID: 8497541590768939683, guid: 1d26e084ba15e5140923659f652848c4, type: 3}
+      propertyPath: m_Name
+      value: Back Button
+      objectReference: {fileID: 0}
     - target: {fileID: 8497541590768939686, guid: 1d26e084ba15e5140923659f652848c4, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1335294278519479463}
     - target: {fileID: 8497541592612315362, guid: 1d26e084ba15e5140923659f652848c4, type: 3}
       propertyPath: m_Name
-      value: BlitzGameCanvas
+      value: Blitz Game Canvas
       objectReference: {fileID: 0}
     - target: {fileID: 8497541592612315366, guid: 1d26e084ba15e5140923659f652848c4, type: 3}
       propertyPath: m_Pivot.x
@@ -616,6 +632,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8734744761869191673, guid: 1d26e084ba15e5140923659f652848c4, type: 3}
+      propertyPath: m_Name
+      value: White Timer
+      objectReference: {fileID: 0}
+    - target: {fileID: 8734744762561212041, guid: 1d26e084ba15e5140923659f652848c4, type: 3}
+      propertyPath: m_Name
+      value: Black Timer
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d26e084ba15e5140923659f652848c4, type: 3}
 --- !u!1001 &5267840821382815820
@@ -625,10 +649,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 334909394714931482, guid: b6c2e1b6eb983ff42b71245464087eee, type: 3}
+      propertyPath: m_Name
+      value: Selected Mode Text
+      objectReference: {fileID: 0}
+    - target: {fileID: 7741613456643573280, guid: b6c2e1b6eb983ff42b71245464087eee, type: 3}
+      propertyPath: m_Name
+      value: Button Grid
+      objectReference: {fileID: 0}
+    - target: {fileID: 7741613456658443400, guid: b6c2e1b6eb983ff42b71245464087eee, type: 3}
+      propertyPath: m_Name
+      value: Start Button
+      objectReference: {fileID: 0}
     - target: {fileID: 7741613456658443403, guid: b6c2e1b6eb983ff42b71245464087eee, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 2083384228446231699}
+    - target: {fileID: 7741613456720988039, guid: b6c2e1b6eb983ff42b71245464087eee, type: 3}
+      propertyPath: m_Name
+      value: Blitz 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7741613456720988040, guid: b6c2e1b6eb983ff42b71245464087eee, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -652,6 +692,10 @@ PrefabInstance:
     - target: {fileID: 7741613456720988040, guid: b6c2e1b6eb983ff42b71245464087eee, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7741613457048133615, guid: b6c2e1b6eb983ff42b71245464087eee, type: 3}
+      propertyPath: m_Name
+      value: Rapid 2
       objectReference: {fileID: 0}
     - target: {fileID: 7741613457048133616, guid: b6c2e1b6eb983ff42b71245464087eee, type: 3}
       propertyPath: m_AnchorMax.y
@@ -679,7 +723,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7741613457342701393, guid: b6c2e1b6eb983ff42b71245464087eee, type: 3}
       propertyPath: m_Name
-      value: ModeSelectCanvas
+      value: Mode Select Canvas
       objectReference: {fileID: 0}
     - target: {fileID: 7741613457342701397, guid: b6c2e1b6eb983ff42b71245464087eee, type: 3}
       propertyPath: m_Pivot.x
@@ -765,6 +809,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7741613457782507221, guid: b6c2e1b6eb983ff42b71245464087eee, type: 3}
+      propertyPath: m_Name
+      value: Rapid 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7741613457782507222, guid: b6c2e1b6eb983ff42b71245464087eee, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -789,6 +837,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7741613457803879922, guid: b6c2e1b6eb983ff42b71245464087eee, type: 3}
+      propertyPath: m_Name
+      value: Bullet 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7741613457803879923, guid: b6c2e1b6eb983ff42b71245464087eee, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -813,6 +865,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7741613457903652636, guid: b6c2e1b6eb983ff42b71245464087eee, type: 3}
+      propertyPath: m_Name
+      value: Blitz 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7741613457903652637, guid: b6c2e1b6eb983ff42b71245464087eee, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -836,11 +892,19 @@ PrefabInstance:
     - target: {fileID: 7741613457903652637, guid: b6c2e1b6eb983ff42b71245464087eee, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7741613457915015082, guid: b6c2e1b6eb983ff42b71245464087eee, type: 3}
+      propertyPath: m_Name
+      value: Back Button
       objectReference: {fileID: 0}
     - target: {fileID: 7741613457915015084, guid: b6c2e1b6eb983ff42b71245464087eee, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1335294278519479463}
+    - target: {fileID: 7741613457915843439, guid: b6c2e1b6eb983ff42b71245464087eee, type: 3}
+      propertyPath: m_Name
+      value: Bullet 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7741613457915843440, guid: b6c2e1b6eb983ff42b71245464087eee, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -865,6 +929,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7741613458187991426, guid: b6c2e1b6eb983ff42b71245464087eee, type: 3}
+      propertyPath: m_Name
+      value: Rapid 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7741613458187991427, guid: b6c2e1b6eb983ff42b71245464087eee, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -889,6 +957,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7741613458299786914, guid: b6c2e1b6eb983ff42b71245464087eee, type: 3}
+      propertyPath: m_Name
+      value: Bullet 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7741613458299786915, guid: b6c2e1b6eb983ff42b71245464087eee, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -912,6 +984,10 @@ PrefabInstance:
     - target: {fileID: 7741613458299786915, guid: b6c2e1b6eb983ff42b71245464087eee, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7741613458645737361, guid: b6c2e1b6eb983ff42b71245464087eee, type: 3}
+      propertyPath: m_Name
+      value: Blitz 2
       objectReference: {fileID: 0}
     - target: {fileID: 7741613458645737362, guid: b6c2e1b6eb983ff42b71245464087eee, type: 3}
       propertyPath: m_AnchorMax.y

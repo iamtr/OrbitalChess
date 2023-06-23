@@ -13,6 +13,15 @@ public class UIManager : MonoBehaviour
 	private Transform promotionButtonTransform;
 	private readonly int promotingNumber = 4;
 
+	[SerializeField] private Piece[] defaultPieceSetup;
+	public GameObject checkText;
+
+	[Header("Blitz")]
+	public GameObject board;
+	public GameObject gameCanvas;
+	public GameObject modeSelectCanvas;
+
+
 	public static UIManager i { get; set; }
 
 	public void Awake()
@@ -85,5 +94,32 @@ public class UIManager : MonoBehaviour
 	{
 		whiteBuyOptions.SetActive(false);
 		blackBuyOptions.SetActive(false);
+	}
+
+	public void ResetGame()
+	{
+		GameController.SetGameState(GameState.Play);
+		GameController.SetPlayer(PlayerType.White);
+		checkText.SetActive(false);
+		GameController.i.ResetPlayer();
+		ResetPieces();
+		Timer.ResetTimers();
+	}
+
+	public void ResetPieces()
+	{
+		for (var i = 0; i < 64; i++)
+		{
+			BoardController.i.DestroyPiece(i);
+			if (defaultPieceSetup[i] != null) BoardController.i.InstantiatePiece(defaultPieceSetup[i], i);
+		}
+	}
+
+	public void startGame()
+	{
+		modeSelectCanvas.SetActive(false);
+		board.SetActive(true);
+		gameCanvas.SetActive(true);
+		Timer.isGameStart = true;
 	}
 }

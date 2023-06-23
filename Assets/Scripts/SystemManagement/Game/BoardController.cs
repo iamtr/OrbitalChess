@@ -667,22 +667,30 @@ public class BoardController : MonoBehaviour
 	/// <param name="pos"></param>
 	public void StealOpponentPiece(int pos)
 	{
-		Piece stealPiece = GetPieceFromPos(pos);
+        try
+        {
+            Piece stealPiece = GetPieceFromPos(pos);
 
-		if (stealPiece == null) Debug.Log("Piece trying to steal is null!");
-		if (stealPiece?.Player == GameController.GetCurrPlayer()) Debug.Log("Cannot steal your own piece!");
+            if (stealPiece == null) Debug.Log("Piece trying to steal is null!");
+            if (stealPiece?.Player == GameController.GetCurrPlayer()) Debug.Log("Cannot steal your own piece!");
 
-		DestroyPiece(pos);
-		Type t = stealPiece.GetType();
-		Piece[] temp = GameController.GetCurrPlayer() == PlayerType.White ? whitePieces : blackPieces;
+            DestroyPiece(pos);
+            Type t = stealPiece?.GetType();
+            Piece[] temp = GameController.GetCurrPlayer() == PlayerType.White ? whitePieces : blackPieces;
 
-		if (t == typeof(King)) Debug.Log("Cannot steal a king!");
-		else if (t == typeof(Queen)) InstantiatePiece(temp[0], pos);
-		else if (t == typeof(Knight)) InstantiatePiece(temp[1], pos);
-		else if (t == typeof(Rook)) InstantiatePiece(temp[2], pos);
-		else if (t == typeof(Bishop)) InstantiatePiece(temp[3], pos);
-		else if (t == typeof(Pawn)) InstantiatePiece(temp[4], pos);
-		else Debug.Log("StealOpponentPiece: Piece type not found");
+            if (t == typeof(King)) Debug.Log("Cannot steal a king!");
+            else if (t == typeof(Queen)) InstantiatePiece(temp[0], pos);
+            else if (t == typeof(Knight)) InstantiatePiece(temp[1], pos);
+            else if (t == typeof(Rook)) InstantiatePiece(temp[2], pos);
+            else if (t == typeof(Bishop)) InstantiatePiece(temp[3], pos);
+            else if (t == typeof(Pawn)) InstantiatePiece(temp[4], pos);
+            else Debug.Log("StealOpponentPiece: Piece type not found");
+		}
+        catch (NullReferenceException)
+        {
+            Debug.Log("Piece Type Not Found!");
+        }
+		
 	}
 
 	public void BuyPiece(Piece boughtPiece)

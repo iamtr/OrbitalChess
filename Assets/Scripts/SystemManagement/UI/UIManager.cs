@@ -43,15 +43,15 @@ public class UIManager : MonoBehaviour
 
 	private void AssertAllReferenceIsNotNull()
 	{
-		Assert.AreNotEqual(new Sprite[0], blackSprites);
-		Assert.AreNotEqual(new Sprite[0], whiteSprites);
-		Assert.AreNotEqual(new PromotionButton[0], promotingBlack);
-		Assert.AreNotEqual(new PromotionButton[0], promotingWhite);
+		Assert.IsNotNull(blackSprites);
+		Assert.IsNotNull(whiteSprites);
+		Assert.IsNotNull(promotingBlack);
+		Assert.IsNotNull(promotingWhite);
 		Assert.IsNotNull(promotionButton);
 		Assert.IsNotNull(promotionButtonTransform);
 		Assert.IsNotNull(whiteBuyOptions);
 		Assert.IsNotNull(blackBuyOptions);
-		Assert.AreNotEqual(new Piece[0], defaultPieceSetup);
+		Assert.IsNotNull(defaultPieceSetup);
 		Assert.IsNotNull(checkText);
 	}
 

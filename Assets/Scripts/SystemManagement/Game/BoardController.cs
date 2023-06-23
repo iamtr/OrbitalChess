@@ -86,9 +86,9 @@ public class BoardController : MonoBehaviour
 
 	private void AssertAllReferenceIsNotNull()
 	{
-		Assert.AreNotEqual(new Piece[0], pieces);
-		Assert.AreNotEqual(new Piece[0], blackPieces);
-		Assert.AreNotEqual(new Piece[0], whitePieces);
+		Assert.IsNotNull(pieces);
+		Assert.IsNotNull(blackPieces);
+		Assert.IsNotNull(whitePieces);
 
 		Assert.IsNotNull(pieceTransform);
 	}

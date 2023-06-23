@@ -16,7 +16,7 @@ public class UIManager : MonoBehaviour
 	[SerializeField] private Piece[] defaultPieceSetup;
 	public GameObject checkText;
 
-	[Header("Blitz")]
+	[Header("Blitz UI")]
 	public GameObject board;
 	public GameObject gameCanvas;
 	public GameObject modeSelectCanvas;

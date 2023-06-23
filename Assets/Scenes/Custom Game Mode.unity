@@ -351,6 +351,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1228322038043136769, guid: 95e9a2c15af1c2d4cbbb8f91580847be, type: 3}
+      propertyPath: blackPieces.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1228322038043136769, guid: 95e9a2c15af1c2d4cbbb8f91580847be, type: 3}
+      propertyPath: whitePieces.Array.size
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 1467217277211535942, guid: 95e9a2c15af1c2d4cbbb8f91580847be, type: 3}
       propertyPath: m_Name
       value: Advanced Board

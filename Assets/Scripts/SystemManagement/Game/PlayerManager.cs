@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -16,6 +17,14 @@ public class PlayerManager : MonoBehaviour
 	private void Start()
 	{
 		moneyText.text = "Coin: " + money;
+
+		AssertAllReferenceIsNotNull();
+	}
+
+	private void AssertAllReferenceIsNotNull()
+	{
+		Assert.IsNotNull(moneyText);
+		Assert.IsNotNull(cardTransform);
 	}
 
 	public void AddMoney(int amount)

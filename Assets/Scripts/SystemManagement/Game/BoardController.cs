@@ -176,6 +176,7 @@ public class BoardController : MonoBehaviour
 
 	/// <summary>
 	/// Removes the piece at specified board position and destroys the gameobject
+	/// Handles capture if in special mode
 	/// </summary>
 	/// <param name="pos"></param>
 	public void CapturePiece(int pos)
@@ -191,6 +192,10 @@ public class BoardController : MonoBehaviour
 		if (GameController.i.IsSpecialMode) HandleCapture(destroyedPiece);
 	}
 
+	/// <summary>
+	/// Destroys the pieces and removes it from pieces[] array
+	/// </summary>
+	/// <param name="pos"></param>
 	public void DestroyPiece(int pos)
 	{
 		if (pieces[pos] == null)
@@ -203,6 +208,10 @@ public class BoardController : MonoBehaviour
 		pieces[pos] = null;
 	}
 
+	/// <summary>
+	/// For special game mode, handle capture of piece
+	/// </summary>
+	/// <param name="capturedPiece"></param>
 	public void HandleCapture(Piece capturedPiece)
 	{
 		if (GameController.i.GetCurrPlayerManager() != null) GameController.i.GetCurrPlayerManager().AddMoney(capturedPiece.Value * 2);
@@ -322,6 +331,11 @@ public class BoardController : MonoBehaviour
 		return pieces[pos] != null;
 	}
 
+	/// <summary>
+	/// Updates the position of the king after move to the position specified
+	/// </summary>
+	/// <param name="p"></param>
+	/// <param name="newPos"></param>
 	public void UpdateKingPosition(PlayerType p, int newPos)
 	{
 		if (p == PlayerType.White)
@@ -618,6 +632,11 @@ public class BoardController : MonoBehaviour
 	}
 
 	// Special moves:
+
+	/// <summary>
+	/// Bombs a 3x3 area around a position
+	/// </summary>
+	/// <param name="pos"></param>
 	public void Bomb(int pos)
 	{
 		if (pos < 0 || pos > 63) Debug.Log("Bomb: pos out of range");
@@ -695,6 +714,10 @@ public class BoardController : MonoBehaviour
 		
 	}
 
+	/// <summary>
+	/// Special Game Mode: Buy a piece
+	/// </summary>
+	/// <param name="boughtPiece"></param>
 	public void BuyPiece(Piece boughtPiece)
 	{
 		GameController.i.GetCurrPlayerManager().AddMoney(-boughtPiece.Value);
@@ -706,6 +729,10 @@ public class BoardController : MonoBehaviour
 		temp.tag = "Piece";
 	}
 
+	/// <summary>
+	/// Special Game Mod: Plant a mine on the board
+	/// </summary>
+	/// <param name="pos"></param>
 	public void PlantMine(int pos)
 	{
 		if (mines[pos] != null)
@@ -732,6 +759,10 @@ public class BoardController : MonoBehaviour
 		mines[pos] = Instantiate(mine, new Vector3(x, y, 2), Quaternion.identity);
 	}
 
+	/// <summary>
+	/// Triggers a mine which will destroy the piece on it
+	/// </summary>
+	/// <param name="pos"></param>
 	public void TriggerMine(int pos)
 	{
 		if (mines[pos] == null)
@@ -750,6 +781,10 @@ public class BoardController : MonoBehaviour
 		DestroyPiece(pos);
 	}
 
+	/// <summary>
+	/// Distribute a random card to a player (who has captured a piece)
+	/// </summary>
+	/// <param name="player"></param>
 	public void DistributeRandomCard(PlayerManager player)
 	{
 		int rand = UnityEngine.Random.Range(0, cards.Length);

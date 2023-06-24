@@ -1,7 +1,4 @@
-using JetBrains.Annotations;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class Bishop : Piece
 {
@@ -9,6 +6,7 @@ public class Bishop : Piece
 	{
 		value = 30;
 	}
+
 	private void OnEnable()
 	{
 		OnAfterMove += GameController.InvokeOnRoundEnd;
@@ -18,6 +16,7 @@ public class Bishop : Piece
 	{
 		OnAfterMove -= GameController.InvokeOnRoundEnd;
 	}
+
 	public override List<Move> GetLegalMoves()
 	{
 		moves.Clear();

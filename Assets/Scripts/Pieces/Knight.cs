@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class Knight : Piece
 {
@@ -15,6 +13,7 @@ public class Knight : Piece
 	{
 		OnAfterMove += GameController.InvokeOnRoundEnd;
 	}
+
 	private void OnDisable()
 	{
 		OnAfterMove -= GameController.InvokeOnRoundEnd;
@@ -60,7 +59,6 @@ public class Knight : Piece
 
 		return moves;
 	}
-
 
 	public override bool IsLegalMove(Move move)
 	{

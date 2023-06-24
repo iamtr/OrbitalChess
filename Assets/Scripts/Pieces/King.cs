@@ -1,7 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using static UnityEditor.PlayerSettings;
 
 public class King : Piece
 {
@@ -35,8 +32,8 @@ public class King : Piece
 		List<Move> GetLegalCastlingMoves()
 		{
 			if (hasMoved) return moves;
-			int leftDirection = -1;
-			int rightDirection = 1;
+			const int leftDirection = -1;
+			const int rightDirection = 1;
 			if (IsAbleToCastle(leftDirection))
 			{
 				int pos = BoardController.i.ConvPos(1, currY);
@@ -81,7 +78,7 @@ public class King : Piece
 
 		GetMovesFromDirection(1, 1, 1);
 		GetMovesFromDirection(-1, 1, 1);
-		GetMovesFromDirection(	1, -1, 1);
+		GetMovesFromDirection(1, -1, 1);
 		GetMovesFromDirection(-1, -1, 1);
 		GetMovesFromDirection(1, 0, 1); // Right
 		GetMovesFromDirection(-1, 0, 1); // Left
@@ -97,8 +94,8 @@ public class King : Piece
 		List<Move> GetAllCastlingMoves()
 		{
 			if (hasMoved) return moves;
-			int leftDirection = -1;
-			int rightDirection = 1;
+			const int leftDirection = -1;
+			const int rightDirection = 1;
 			if (IsAbleToCastle(leftDirection))
 			{
 				int pos = BoardController.i.ConvPos(1, currY);
@@ -153,14 +150,14 @@ public class King : Piece
 		if (hasMoved) return false;
 
 		int x = currX + direction;
-		int pos;
-		while (BoardController.i.IsInBounds(x, currY))
+        while (BoardController.i.IsInBounds(x, currY))
 		{
+            int pos;
 			pos = BoardController.i.ConvPos(x, currY);
 			Piece piece = BoardController.i.GetPieceFromPos(pos);
 			if (piece != null)
 			{
-				if (piece is Rook rook && !rook.IsMoved())
+				if (piece is Rook rook && !rook.IsMoved() && rook.Player == this.Player)
 				{
 					return true;
 				}
@@ -178,7 +175,7 @@ public class King : Piece
 	}
 
 	/// <summary>
-	/// Sets the hasMoved boolean in its inital move
+	/// Sets the hasMoved boolean in its initial move
 	/// </summary>
 	public void SetKingBoolean()
 	{

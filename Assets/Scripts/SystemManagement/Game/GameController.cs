@@ -176,8 +176,8 @@ public class GameController : MonoBehaviour
 
 	public void ResetPlayer()
 	{
-		blackPlayer.ResetPlayerManager();
-		whitePlayer.ResetPlayerManager();
+		blackPlayer?.ResetPlayerManager();
+		whitePlayer?.ResetPlayerManager();
 	}
 }
 

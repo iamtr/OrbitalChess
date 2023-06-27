@@ -22,11 +22,14 @@ public class UIManager : MonoBehaviour
 	public GameObject gameCanvas;
 	public GameObject modeSelectCanvas;
 
-	[SerializeField] protected BoardController bc;
+	protected BoardController bc;
+	protected GameController gc;
 
 	private void Start()
 	{
 		bc = FindObjectOfType<BoardController>();
+		gc = FindObjectOfType<GameController>();
+
 		promotionButtonTransform = GameObject.Find("Promotion Buttons").transform;
 
 		InstantiatePromotionButtons(blackSprites, promotingBlack);
@@ -89,7 +92,7 @@ public class UIManager : MonoBehaviour
 		PlayerType p = GameController.GetCurrPlayer();
 
 		// Should not allow to buy if the player is in check
-		if (GameController.i.IsCheck) return;
+		if (gc.IsCheck) return;
 
 		if (p == PlayerType.White)
 		{
@@ -112,7 +115,7 @@ public class UIManager : MonoBehaviour
 		GameController.SetGameState(GameState.Play);
 		GameController.SetPlayer(PlayerType.White);
 		checkText.SetActive(false);
-		GameController.i.ResetPlayer();
+		gc.ResetPlayer();
 		ResetPieces();
 		Timer.ResetTimers();
 	}

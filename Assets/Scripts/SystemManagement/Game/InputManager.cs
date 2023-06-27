@@ -3,12 +3,14 @@ using UnityEngine;
 public class InputManager : MonoBehaviour
 {
 	protected BoardController bc;
-	protected HighlightManager hm; 
+	protected HighlightManager hm;
+	protected GameController gc;
 
 	private void Start()
 	{
 		bc = FindObjectOfType<BoardController>();
 		hm = FindObjectOfType<HighlightManager>();
+		gc = FindObjectOfType<GameController>();
 	}
 
 	/// <summary>
@@ -38,7 +40,7 @@ public class InputManager : MonoBehaviour
 		else if (col.gameObject.CompareTag("Buy Option"))
 		{
 			// Cannot buy pieces if is in check
-			if (GameController.i.IsCheck) return;
+			if (gc.IsCheck) return;
 
 			Piece piece = col.gameObject.GetComponent<Piece>();
 			bc.SetPieceToInstantiate(piece);

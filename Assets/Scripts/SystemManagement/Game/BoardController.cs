@@ -43,6 +43,7 @@ public class BoardController : MonoBehaviour
 	private List<Move> allMoves;
 	protected UIManager um;
 	protected HighlightManager hm;
+	protected GameController gc;
 
 	public static bool isBlackBelow = true;
 
@@ -72,6 +73,8 @@ public class BoardController : MonoBehaviour
 	{
 		hm = FindObjectOfType<HighlightManager>();
 		um = FindObjectOfType<UIManager>();
+		gc = FindObjectOfType<GameController>();
+		
 		pieceTransform = GameObject.Find("Pieces")?.transform;
 
 		allMoves = new List<Move>();
@@ -188,7 +191,7 @@ public class BoardController : MonoBehaviour
 
 		Piece destroyedPiece = pieces[pos];
 		DestroyPiece(pos);
-		if (GameController.i.IsSpecialMode) HandleCapture(destroyedPiece);
+		if (gc.IsSpecialMode) HandleCapture(destroyedPiece);
 	}
 
 	/// <summary>
@@ -213,8 +216,8 @@ public class BoardController : MonoBehaviour
 	/// <param name="capturedPiece"></param>
 	public void HandleCapture(Piece capturedPiece)
 	{
-		if (GameController.i.GetCurrPlayerManager() != null) GameController.i.GetCurrPlayerManager().AddMoney(capturedPiece.Value * 2);
-		DistributeRandomCard(GameController.i.GetCurrPlayerManager());
+		if (gc.GetCurrPlayerManager() != null) gc.GetCurrPlayerManager().AddMoney(capturedPiece.Value * 2);
+		DistributeRandomCard(gc.GetCurrPlayerManager());
 	}
 
 	/// <summary>
@@ -228,7 +231,7 @@ public class BoardController : MonoBehaviour
 		SetPiecePos(piece.CurrPos, newPos);
 
 		// For special game mode
-		if (GameController.i.IsSpecialMode) TriggerMine(newPos);
+		if (gc.IsSpecialMode) TriggerMine(newPos);
 	}
 
 	public void MoveEnPassantPiece(int x, int y, Piece piece)
@@ -240,7 +243,7 @@ public class BoardController : MonoBehaviour
 		SetPiecePos(piece.CurrPos, newPos);
 
 		// For special game mode
-		if (GameController.i.IsSpecialMode) TriggerMine(newPos);
+		if (gc.IsSpecialMode) TriggerMine(newPos);
 	}
 
 	public void MoveCastling(int targetX, int targetY, Piece piece)
@@ -259,10 +262,10 @@ public class BoardController : MonoBehaviour
 
 		MovePiece(kingNewX, targetY, piece);
 		// For special game mode
-		if (GameController.i.IsSpecialMode) TriggerMine(targetY);
+		if (gc.IsSpecialMode) TriggerMine(targetY);
 		MovePiece(rookNewX, targetY, rook);
 		// For special game mode
-		if (GameController.i.IsSpecialMode) TriggerMine(targetY);
+		if (gc.IsSpecialMode) TriggerMine(targetY);
 	}
 
 	/// <summary>
@@ -719,7 +722,7 @@ public class BoardController : MonoBehaviour
 	/// <param name="boughtPiece"></param>
 	public void BuyPiece(Piece boughtPiece)
 	{
-		GameController.i.GetCurrPlayerManager().AddMoney(-boughtPiece.Value);
+		gc.GetCurrPlayerManager().AddMoney(-boughtPiece.Value);
 	}
 
 	public void PlaceBoughtPiece(int pos)

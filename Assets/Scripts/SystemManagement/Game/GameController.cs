@@ -23,8 +23,6 @@ public class GameController : MonoBehaviour
 	private static GameState gameState;
 	public bool IsCheck { get; private set; }
 
-	public static GameController i;
-
 	[SerializeField] protected BoardController bc;
 	[SerializeField] protected InputManager im;
 
@@ -63,8 +61,6 @@ public class GameController : MonoBehaviour
 		bc = FindObjectOfType<BoardController>();
 		im = FindObjectOfType<InputManager>();
 
-		if (i != null && i != this) Destroy(this);
-		else i = this;
 		currPlayer = PlayerType.White;
 
 		AssertAllReferenceIsNotNull();

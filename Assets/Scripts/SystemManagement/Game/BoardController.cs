@@ -29,7 +29,7 @@ public class BoardController : MonoBehaviour
 	[Header("Special Mode")]
 	[SerializeField] private GameObject mine;
 
-	[SerializeField] private GameObject[] mines;
+	private GameObject[] mines;
 
 	private Transform pieceTransform;
 

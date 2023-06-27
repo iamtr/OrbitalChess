@@ -41,6 +41,9 @@ public class BoardController : MonoBehaviour
 	private int BlackKingPos = 3;
 	private int WhiteKingPos = 59;
 	private List<Move> allMoves;
+	protected UIManager um;
+	protected HighlightManager hm;
+	protected GameController gc;
 
 	public static bool isBlackBelow = true;
 
@@ -53,8 +56,6 @@ public class BoardController : MonoBehaviour
 
 	// For buying pieces:
 	public Piece pieceToInstantiate { get; private set; }
-
-	public static BoardController i { get; private set; }
 
 	private void OnEnable()
 	{
@@ -70,14 +71,15 @@ public class BoardController : MonoBehaviour
 
 	public virtual void Start()
 	{
+		hm = FindObjectOfType<HighlightManager>();
+		um = FindObjectOfType<UIManager>();
+		gc = FindObjectOfType<GameController>();
+		
 		pieceTransform = GameObject.Find("Pieces")?.transform;
 
 		allMoves = new List<Move>();
 
 		InstantiatePieces();
-
-		if (i != null && i != this) Destroy(this);
-		else i = this;
 
 		testArray = pieces.Clone() as Piece[];
 
@@ -189,7 +191,7 @@ public class BoardController : MonoBehaviour
 
 		Piece destroyedPiece = pieces[pos];
 		DestroyPiece(pos);
-		if (GameController.i.IsSpecialMode) HandleCapture(destroyedPiece);
+		if (gc.IsSpecialMode) HandleCapture(destroyedPiece);
 	}
 
 	/// <summary>
@@ -214,8 +216,8 @@ public class BoardController : MonoBehaviour
 	/// <param name="capturedPiece"></param>
 	public void HandleCapture(Piece capturedPiece)
 	{
-		if (GameController.i.GetCurrPlayerManager() != null) GameController.i.GetCurrPlayerManager().AddMoney(capturedPiece.Value * 2);
-		DistributeRandomCard(GameController.i.GetCurrPlayerManager());
+		if (gc.GetCurrPlayerManager() != null) gc.GetCurrPlayerManager().AddMoney(capturedPiece.Value * 2);
+		DistributeRandomCard(gc.GetCurrPlayerManager());
 	}
 
 	/// <summary>
@@ -229,7 +231,7 @@ public class BoardController : MonoBehaviour
 		SetPiecePos(piece.CurrPos, newPos);
 
 		// For special game mode
-		if (GameController.i.IsSpecialMode) TriggerMine(newPos);
+		if (gc.IsSpecialMode) TriggerMine(newPos);
 	}
 
 	public void MoveEnPassantPiece(int x, int y, Piece piece)
@@ -241,12 +243,12 @@ public class BoardController : MonoBehaviour
 		SetPiecePos(piece.CurrPos, newPos);
 
 		// For special game mode
-		if (GameController.i.IsSpecialMode) TriggerMine(newPos);
+		if (gc.IsSpecialMode) TriggerMine(newPos);
 	}
 
 	public void MoveCastling(int targetX, int targetY, Piece piece)
 	{
-		Piece rook = GetPieceFromPos(i.ConvPos(targetX, targetY));
+		Piece rook = GetPieceFromPos(ConvPos(targetX, targetY));
 
 		int oldX = ConvXY(piece.CurrPos)[0];
 		int kingNewX = oldX - 2;
@@ -260,10 +262,10 @@ public class BoardController : MonoBehaviour
 
 		MovePiece(kingNewX, targetY, piece);
 		// For special game mode
-		if (GameController.i.IsSpecialMode) TriggerMine(targetY);
+		if (gc.IsSpecialMode) TriggerMine(targetY);
 		MovePiece(rookNewX, targetY, rook);
 		// For special game mode
-		if (GameController.i.IsSpecialMode) TriggerMine(targetY);
+		if (gc.IsSpecialMode) TriggerMine(targetY);
 	}
 
 	/// <summary>
@@ -271,8 +273,8 @@ public class BoardController : MonoBehaviour
 	/// </summary>
 	public void DisableAllUIElements()
 	{
-		HighlightManager.i.UnhighlightAllSquares();
-		UIManager.i.DisableBuyOptions();
+		hm.UnhighlightAllSquares();
+		um.DisableBuyOptions();
 	}
 
 	/// <summary>
@@ -385,7 +387,7 @@ public class BoardController : MonoBehaviour
 		}
 		if (h.Special == SpecialMove.Spawn)
 		{
-			UIManager.i.DisableBuyOptions();
+			um.DisableBuyOptions();
 			BuyPiece(pieceToInstantiate);
 			PlaceBoughtPiece(h.Position);
 			DisableAllUIElements();
@@ -408,11 +410,11 @@ public class BoardController : MonoBehaviour
 	public void HandlePieceClicked(Collider2D col)
 	{
 		DisableAllUIElements();
-		UIManager.i.UnhighlightAllPromotingButtons();
+		um.UnhighlightAllPromotingButtons();
 		CurrPiece = col.GetComponent<Piece>();
 		List<Move> moves = CurrPiece.GetLegalMoves();
 
-		foreach (Move move in moves) HighlightManager.i.Highlight(move);
+		foreach (Move move in moves) hm.Highlight(move);
 	}
 
 	/// <summary>
@@ -442,7 +444,7 @@ public class BoardController : MonoBehaviour
 		int id = col.GetComponent<PromotionButton>().id;
 		Piece promotedPiece = GetPromotionPiece(id, CurrPiece.Player);
 		PromotePiece(promotedPiece);
-		UIManager.i.UnhighlightAllPromotingButtons();
+		um.UnhighlightAllPromotingButtons();
 		GameController.SetGameState(GameState.Play);
 	}
 
@@ -720,7 +722,7 @@ public class BoardController : MonoBehaviour
 	/// <param name="boughtPiece"></param>
 	public void BuyPiece(Piece boughtPiece)
 	{
-		GameController.i.GetCurrPlayerManager().AddMoney(-boughtPiece.Value);
+		gc.GetCurrPlayerManager().AddMoney(-boughtPiece.Value);
 	}
 
 	public void PlaceBoughtPiece(int pos)

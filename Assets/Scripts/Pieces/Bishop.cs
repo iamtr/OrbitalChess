@@ -2,8 +2,9 @@ using System.Collections.Generic;
 
 public class Bishop : Piece
 {
-	private void Awake()
+	protected override void Awake()
 	{
+		base.Awake();
 		value = 30;
 	}
 
@@ -28,11 +29,11 @@ public class Bishop : Piece
 				int x = currX + i * dx;
 				int y = currY + i * dy;
 				if (x < 0 || x > 7 || y < 0 || y > 7) break;
-				int pos = BoardController.i.ConvPos(x, y);
+				int pos = bc.ConvPos(x, y);
 				Move m = new Move(CurrPos, pos, this);
-				if (BoardController.i.IsBeingCheckedAfterMove(m, Player)) break;
+				if (bc.IsBeingCheckedAfterMove(m, Player)) break;
 				moves.Add(m);
-				if (BoardController.i.IsOccupied(pos)) break;
+				if (bc.IsOccupied(pos)) break;
 			}
 		}
 
@@ -55,10 +56,10 @@ public class Bishop : Piece
 				int x = currX + i * dx;
 				int y = currY + i * dy;
 				if (x < 0 || x > 7 || y < 0 || y > 7) break;
-				int pos = BoardController.i.ConvPos(x, y);
+				int pos = bc.ConvPos(x, y);
 				Move m = new Move(CurrPos, pos, this);
 				moves.Add(m);
-				if (BoardController.i.TestArrayIsOccupied(pos)) break;
+				if (bc.TestArrayIsOccupied(pos)) break;
 			}
 		}
 
@@ -72,7 +73,7 @@ public class Bishop : Piece
 
 	public override bool IsLegalMove(Move move)
 	{
-		if (BoardController.i.IsSamePlayer(CurrPos, move.TargetSquare)) return false;
+		if (bc.IsSamePlayer(CurrPos, move.TargetSquare)) return false;
 		return true;
 	}
 }

@@ -2,8 +2,9 @@ using System.Collections.Generic;
 
 public class Queen : Piece
 {
-	private void Awake()
+	protected override void Awake()
 	{
+		base.Awake();
 		value = 90;
 	}
 
@@ -30,9 +31,9 @@ public class Queen : Piece
 				if (x < 0 || x > 7 || y < 0 || y > 7) break;
 				int pos = y * 8 + x;
 				Move m = new Move(CurrPos, pos, this);
-				if (!IsLegalMove(m) || BoardController.i.IsBeingCheckedAfterMove(m, Player)) break;
+				if (!IsLegalMove(m) || bc.IsBeingCheckedAfterMove(m, Player)) break;
 				moves.Add(m);
-				if (BoardController.i.IsOccupied(pos)) break;
+				if (bc.IsOccupied(pos)) break;
 			}
 		}
 
@@ -63,7 +64,7 @@ public class Queen : Piece
 				Move m = new Move(CurrPos, pos, this);
 				if (!IsLegalMove(m)) break;
 				moves.Add(m);
-				if (BoardController.i.TestArrayIsOccupied(pos)) break;
+				if (bc.TestArrayIsOccupied(pos)) break;
 			}
 		}
 
@@ -81,7 +82,7 @@ public class Queen : Piece
 
 	public override bool IsLegalMove(Move move)
 	{
-		if (BoardController.i.IsSamePlayer(CurrPos, move.TargetSquare)) return false;
+		if (bc.IsSamePlayer(CurrPos, move.TargetSquare)) return false;
 		return true;
 	}
 }

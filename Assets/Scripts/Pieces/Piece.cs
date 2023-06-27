@@ -9,6 +9,8 @@ public abstract class Piece : MonoBehaviour, ICloneable
 
 	[SerializeField] protected List<Move> moves = new List<Move>();
 
+	protected BoardController bc;
+	protected UIManager um;
 	/// <summary>
 	/// Value for a piece. Used in AI, custom game modes
 	/// </summary>
@@ -36,10 +38,11 @@ public abstract class Piece : MonoBehaviour, ICloneable
 	[SerializeField] protected PlayerType player;
 
 	public static bool isBlackBelow = true;
-
-	private void Awake()
+	protected virtual void Awake()
 	{
 		InitPiece(Player);
+		bc = FindObjectOfType<BoardController>();
+		um = FindObjectOfType<UIManager>();
 	}
 
 	/// <summary>
@@ -48,6 +51,7 @@ public abstract class Piece : MonoBehaviour, ICloneable
 	public virtual void InitPiece(PlayerType p)
 	{
 		SetPlayer(p);
+		bc = FindObjectOfType<BoardController>();
 	}
 
 	/// <summary>

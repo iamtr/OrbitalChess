@@ -36,16 +36,16 @@ public class King : Piece
 			const int rightDirection = 1;
 			if (IsAbleToCastle(leftDirection))
 			{
-				int pos = BoardController.i.ConvPos(1, currY);
+				int pos = bc.ConvPos(1, currY);
 				Move m = new Move(CurrPos, pos, this, Move.Flag.Castling);
-				if (!BoardController.i.IsBeingCheckedAfterMove(m, Player)) moves.Add(m);
+				if (!bc.IsBeingCheckedAfterMove(m, Player)) moves.Add(m);
 			}
 
 			if (IsAbleToCastle(rightDirection))
 			{
-				int pos = BoardController.i.ConvPos(5, currY);
+				int pos = bc.ConvPos(5, currY);
 				Move m = new Move(CurrPos, pos, this, Move.Flag.Castling);
-				if (!BoardController.i.IsBeingCheckedAfterMove(m, Player))
+				if (!bc.IsBeingCheckedAfterMove(m, Player))
 				{
 					moves.Add(m);
 				}
@@ -67,9 +67,9 @@ public class King : Piece
 
 				Move m = new Move(CurrPos, pos, this);
 
-				if (BoardController.i.IsBeingCheckedAfterMove(m, Player) || BoardController.i.IsSamePlayer(CurrPos, pos)) break;
+				if (bc.IsBeingCheckedAfterMove(m, Player) || bc.IsSamePlayer(CurrPos, pos)) break;
 				moves.Add(m);
-				if (BoardController.i.IsOccupied(pos))
+				if (bc.IsOccupied(pos))
 				{
 					break;
 				}
@@ -98,14 +98,14 @@ public class King : Piece
 			const int rightDirection = 1;
 			if (IsAbleToCastle(leftDirection))
 			{
-				int pos = BoardController.i.ConvPos(1, currY);
+				int pos = bc.ConvPos(1, currY);
 				Move m = new Move(CurrPos, pos, this, Move.Flag.Castling);
 				if (IsLegalMove(m)) moves.Add(m);
 			}
 
 			if (IsAbleToCastle(rightDirection))
 			{
-				int pos = BoardController.i.ConvPos(5, currY);
+				int pos = bc.ConvPos(5, currY);
 				Move m = new Move(CurrPos, pos, this, Move.Flag.Castling);
 				if (IsLegalMove(m)) moves.Add(m);
 			}
@@ -128,7 +128,7 @@ public class King : Piece
 
 				if (!IsLegalMove(m)) break;
 				moves.Add(m);
-				if (BoardController.i.TestArrayIsOccupied(pos)) break;
+				if (bc.TestArrayIsOccupied(pos)) break;
 			}
 		}
 
@@ -150,11 +150,11 @@ public class King : Piece
 		if (hasMoved) return false;
 
 		int x = currX + direction;
-        while (BoardController.i.IsInBounds(x, currY))
+        while (bc.IsInBounds(x, currY))
 		{
             int pos;
-			pos = BoardController.i.ConvPos(x, currY);
-			Piece piece = BoardController.i.GetPieceFromPos(pos);
+			pos = bc.ConvPos(x, currY);
+			Piece piece = bc.GetPieceFromPos(pos);
 			if (piece != null)
 			{
 				if (piece is Rook rook && !rook.IsMoved() && rook.Player == this.Player)
@@ -170,7 +170,7 @@ public class King : Piece
 
 	public override bool IsLegalMove(Move move)
 	{
-		if (move.TargetSquare < 0 || move.TargetSquare > 63 || BoardController.i.IsSamePlayer(CurrPos, move.TargetSquare)) return false;
+		if (move.TargetSquare < 0 || move.TargetSquare > 63 || bc.IsSamePlayer(CurrPos, move.TargetSquare)) return false;
 		return true;
 	}
 
@@ -184,6 +184,6 @@ public class King : Piece
 
 	public void UpdateKingPosition()
 	{
-		BoardController.i.UpdateKingPosition(GameController.GetCurrPlayer(), CurrPos);
+		bc.UpdateKingPosition(GameController.GetCurrPlayer(), CurrPos);
 	}
 }

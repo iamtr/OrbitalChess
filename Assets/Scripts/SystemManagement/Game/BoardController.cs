@@ -54,8 +54,6 @@ public class BoardController : MonoBehaviour
 	// For buying pieces:
 	public Piece pieceToInstantiate { get; private set; }
 
-	public static BoardController i { get; private set; }
-
 	private void OnEnable()
 	{
 		GameController.OnRoundEnd += DisableAllUIElements;
@@ -75,9 +73,6 @@ public class BoardController : MonoBehaviour
 		allMoves = new List<Move>();
 
 		InstantiatePieces();
-
-		if (i != null && i != this) Destroy(this);
-		else i = this;
 
 		testArray = pieces.Clone() as Piece[];
 
@@ -246,7 +241,7 @@ public class BoardController : MonoBehaviour
 
 	public void MoveCastling(int targetX, int targetY, Piece piece)
 	{
-		Piece rook = GetPieceFromPos(i.ConvPos(targetX, targetY));
+		Piece rook = GetPieceFromPos(ConvPos(targetX, targetY));
 
 		int oldX = ConvXY(piece.CurrPos)[0];
 		int kingNewX = oldX - 2;

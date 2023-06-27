@@ -3,8 +3,13 @@ using UnityEngine;
 public abstract class Card : MonoBehaviour, ITrigger
 {
 	public PlayerType player;
-
+	[SerializeField] protected BoardController bc;
 	public abstract void Trigger();
+
+	private void Start()
+	{
+		bc = FindObjectOfType<BoardController>();
+	}
 
 	public void OnMouseOver()
 	{

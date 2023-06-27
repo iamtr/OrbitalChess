@@ -22,6 +22,7 @@ public class UIManager : MonoBehaviour
 	public GameObject gameCanvas;
 	public GameObject modeSelectCanvas;
 
+	[SerializeField] protected BoardController bc;
 
 	public static UIManager i { get; set; }
 
@@ -33,6 +34,7 @@ public class UIManager : MonoBehaviour
 
 	private void Start()
 	{
+		bc = FindObjectOfType<BoardController>();
 		promotionButtonTransform = GameObject.Find("Promotion Buttons").transform;
 
 		InstantiatePromotionButtons(blackSprites, promotingBlack);
@@ -127,8 +129,8 @@ public class UIManager : MonoBehaviour
 	{
 		for (var i = 0; i < 64; i++)
 		{
-			BoardController.i.DestroyPiece(i);
-			if (defaultPieceSetup[i] != null) BoardController.i.InstantiatePiece(defaultPieceSetup[i], i);
+			bc.DestroyPiece(i);
+			if (defaultPieceSetup[i] != null) bc.InstantiatePiece(defaultPieceSetup[i], i);
 		}
 	}
 

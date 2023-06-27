@@ -2,7 +2,7 @@ public class RandomizeCard : Card
 {
 	public override void Trigger()
 	{
-		BoardController.i.RandomizeAllPieces();
+		bc.RandomizeAllPieces();
 		Destroy(this.gameObject);
 	}
 }

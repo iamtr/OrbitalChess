@@ -1,4 +1,4 @@
-Let's start of with some piece movements.
+Let's start off with some piece movements.
 Firstly, let’s talk about pawns.
 Pawns can move one square forward,
 or two squares forward on their first move.

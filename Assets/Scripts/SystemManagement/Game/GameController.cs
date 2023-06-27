@@ -63,7 +63,7 @@ public class GameController : MonoBehaviour
 		else i = this;
 		currPlayer = PlayerType.White;
 
-		AssertAllReferenceIsNotNull();
+		// AssertAllReferenceIsNotNull();
 	}
 
 	private void AssertAllReferenceIsNotNull()
@@ -78,13 +78,13 @@ public class GameController : MonoBehaviour
 
 	private void Update()
 	{
-		if (GameController.GetGameState() == GameState.GameOver)
-		{
-			replayButton.gameObject.SetActive(true);
-			return;
-		}
+		//if (GameController.GetGameState() == GameState.GameOver)
+		//{
+		//	replayButton.gameObject.SetActive(true);
+		//	return;
+		//}
 
-        replayButton.gameObject.SetActive(false);
+  //      replayButton.gameObject.SetActive(false);
 
         if (Input.GetMouseButtonDown(0))
 		{

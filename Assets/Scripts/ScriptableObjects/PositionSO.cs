@@ -9,13 +9,13 @@ public class PositionSO : ScriptableObject
 	{
 		None, Pawn, Knight, Bishop, Rook, Queen, King
 	}
-
-	public PieceType[] rank1;
-	public PieceType[] rank2;
-	public PieceType[] rank3;
-	public PieceType[] rank4;
-	public PieceType[] rank5;
-	public PieceType[] rank6;
-	public PieceType[] rank7;
-	public PieceType[] rank8;
+	 
+	public PieceType[] rank1 = new PieceType[8];
+	public PieceType[] rank2 = new PieceType[8];
+	public PieceType[] rank3 = new PieceType[8];
+	public PieceType[] rank4 = new PieceType[8];
+	public PieceType[] rank5 = new PieceType[8];
+	public PieceType[] rank6 = new PieceType[8];
+	public PieceType[] rank7 = new PieceType[8];
+	public PieceType[] rank8 = new PieceType[8];
 }

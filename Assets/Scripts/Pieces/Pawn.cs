@@ -236,7 +236,7 @@ public class Pawn : Piece, IPromotable
 		if (IsAvailableForPromotion())
 		{
 			GameController.SetGameState(GameState.Promoting);
-			UIManager.i.ShowPromotionButtons(this.Player);
+			um.ShowPromotionButtons(this.Player);
 		}
 	}
 

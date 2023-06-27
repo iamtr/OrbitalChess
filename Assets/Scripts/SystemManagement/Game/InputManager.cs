@@ -2,11 +2,13 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
-	[SerializeField] protected BoardController bc;
+	protected BoardController bc;
+	protected HighlightManager hm; 
 
 	private void Start()
 	{
 		bc = FindObjectOfType<BoardController>();
+		hm = FindObjectOfType<HighlightManager>();
 	}
 
 	/// <summary>
@@ -40,7 +42,7 @@ public class InputManager : MonoBehaviour
 
 			Piece piece = col.gameObject.GetComponent<Piece>();
 			bc.SetPieceToInstantiate(piece);
-			HighlightManager.i.HighlightSpawnPiece(piece);
+			hm.HighlightSpawnPiece(piece);
 		}
 	}
 }

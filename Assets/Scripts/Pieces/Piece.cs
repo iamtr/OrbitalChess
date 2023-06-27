@@ -9,8 +9,8 @@ public abstract class Piece : MonoBehaviour, ICloneable
 
 	[SerializeField] protected List<Move> moves = new List<Move>();
 
-	[SerializeField] protected BoardController bc;
-
+	protected BoardController bc;
+	protected UIManager um;
 	/// <summary>
 	/// Value for a piece. Used in AI, custom game modes
 	/// </summary>
@@ -42,6 +42,7 @@ public abstract class Piece : MonoBehaviour, ICloneable
 	{
 		InitPiece(Player);
 		bc = FindObjectOfType<BoardController>();
+		um = FindObjectOfType<UIManager>();
 	}
 
 	/// <summary>

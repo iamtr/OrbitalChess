@@ -4,7 +4,7 @@ public class BombCard : Card
 	{
 		if (GameController.i.IsCheck) return;
 
-		HighlightManager.i.HighlightPawnBombs();
+		hm.HighlightPawnBombs();
 		Destroy(this.gameObject);
 	}
 }

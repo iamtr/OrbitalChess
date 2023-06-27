@@ -5,9 +5,8 @@ using UnityEngine;
 /// </summary>
 public class HighlightManager : MonoBehaviour
 {
-	[SerializeField] protected BoardController bc;
-
-	public static HighlightManager i;
+	protected BoardController bc;
+	protected UIManager um;
 
 	/// <summary>
 	/// Array of the highlights on the board where
@@ -19,15 +18,10 @@ public class HighlightManager : MonoBehaviour
 
 	public static bool isBlackBelow = true;
 
-	private void Awake()
-	{
-		if (i != null && i != this) Destroy(this);
-		else i = this;
-	}
-
 	private void Start()
 	{
 		bc = FindObjectOfType<BoardController>();	
+		um = FindObjectOfType<UIManager>();
 		InstantiateHighlights();
 	}
 
@@ -93,7 +87,7 @@ public class HighlightManager : MonoBehaviour
 		}
 		if (h.Special == SpecialMove.Spawn)
 		{
-			UIManager.i.DisableBuyOptions();
+			um.DisableBuyOptions();
 			bc.BuyPiece(bc.pieceToInstantiate);
 			bc.PlaceBoughtPiece(h.Position);
 			bc.DisableAllUIElements();

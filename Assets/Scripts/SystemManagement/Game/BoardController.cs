@@ -41,6 +41,8 @@ public class BoardController : MonoBehaviour
 	private int BlackKingPos = 3;
 	private int WhiteKingPos = 59;
 	private List<Move> allMoves;
+	protected UIManager um;
+	protected HighlightManager hm;
 
 	public static bool isBlackBelow = true;
 
@@ -68,6 +70,8 @@ public class BoardController : MonoBehaviour
 
 	public virtual void Start()
 	{
+		hm = FindObjectOfType<HighlightManager>();
+		um = FindObjectOfType<UIManager>();
 		pieceTransform = GameObject.Find("Pieces")?.transform;
 
 		allMoves = new List<Move>();
@@ -266,8 +270,8 @@ public class BoardController : MonoBehaviour
 	/// </summary>
 	public void DisableAllUIElements()
 	{
-		HighlightManager.i.UnhighlightAllSquares();
-		UIManager.i.DisableBuyOptions();
+		hm.UnhighlightAllSquares();
+		um.DisableBuyOptions();
 	}
 
 	/// <summary>
@@ -380,7 +384,7 @@ public class BoardController : MonoBehaviour
 		}
 		if (h.Special == SpecialMove.Spawn)
 		{
-			UIManager.i.DisableBuyOptions();
+			um.DisableBuyOptions();
 			BuyPiece(pieceToInstantiate);
 			PlaceBoughtPiece(h.Position);
 			DisableAllUIElements();
@@ -403,11 +407,11 @@ public class BoardController : MonoBehaviour
 	public void HandlePieceClicked(Collider2D col)
 	{
 		DisableAllUIElements();
-		UIManager.i.UnhighlightAllPromotingButtons();
+		um.UnhighlightAllPromotingButtons();
 		CurrPiece = col.GetComponent<Piece>();
 		List<Move> moves = CurrPiece.GetLegalMoves();
 
-		foreach (Move move in moves) HighlightManager.i.Highlight(move);
+		foreach (Move move in moves) hm.Highlight(move);
 	}
 
 	/// <summary>
@@ -437,7 +441,7 @@ public class BoardController : MonoBehaviour
 		int id = col.GetComponent<PromotionButton>().id;
 		Piece promotedPiece = GetPromotionPiece(id, CurrPiece.Player);
 		PromotePiece(promotedPiece);
-		UIManager.i.UnhighlightAllPromotingButtons();
+		um.UnhighlightAllPromotingButtons();
 		GameController.SetGameState(GameState.Play);
 	}
 

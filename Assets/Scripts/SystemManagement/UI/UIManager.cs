@@ -24,14 +24,6 @@ public class UIManager : MonoBehaviour
 
 	[SerializeField] protected BoardController bc;
 
-	public static UIManager i { get; set; }
-
-	public void Awake()
-	{
-		if (i != null && i != this) Destroy(this);
-		else i = this;
-	}
-
 	private void Start()
 	{
 		bc = FindObjectOfType<BoardController>();

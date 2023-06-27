@@ -3,7 +3,8 @@ using UnityEngine;
 public abstract class Card : MonoBehaviour, ITrigger
 {
 	public PlayerType player;
-	[SerializeField] protected BoardController bc;
+	protected BoardController bc;
+	protected HighlightManager hm;
 	public abstract void Trigger();
 
 	private void Start()

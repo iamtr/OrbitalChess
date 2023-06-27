@@ -5,7 +5,8 @@ using UnityEngine;
 /// </summary>
 public class HighlightManager : MonoBehaviour
 {
-	public static HighlightManager i;
+	protected BoardController bc;
+	protected UIManager um;
 
 	/// <summary>
 	/// Array of the highlights on the board where
@@ -17,14 +18,10 @@ public class HighlightManager : MonoBehaviour
 
 	public static bool isBlackBelow = true;
 
-	private void Awake()
-	{
-		if (i != null && i != this) Destroy(this);
-		else i = this;
-	}
-
 	private void Start()
 	{
+		bc = FindObjectOfType<BoardController>();	
+		um = FindObjectOfType<UIManager>();
 		InstantiateHighlights();
 	}
 
@@ -56,54 +53,54 @@ public class HighlightManager : MonoBehaviour
 	{
 		var h = col.GetComponent<HighlightSquare>();
 		var temp = BoardController.ConvXY(h.Position);
-		BoardController.i.CurrPiece?.InvokeOnBeforeMove();
+		bc.CurrPiece?.InvokeOnBeforeMove();
 
-		if (h.Special == SpecialMove.Play && BoardController.i.CurrPiece is Pawn pawn)
+		if (h.Special == SpecialMove.Play && bc.CurrPiece is Pawn pawn)
 		{
 			pawn.SetTwoStepMove(temp[1]);
 		}
 		if (h.Special == SpecialMove.EnPassant)
 		{
-			BoardController.i.MoveEnPassantPiece(temp[0], temp[1], BoardController.i.CurrPiece);
+			bc.MoveEnPassantPiece(temp[0], temp[1], bc.CurrPiece);
 		}
 		if (h.Special == SpecialMove.Castling)
 		{
-			BoardController.i.MoveCastling(temp[0], temp[1], BoardController.i.CurrPiece);
+			bc.MoveCastling(temp[0], temp[1], bc.CurrPiece);
 		}
 		if (h.Special == SpecialMove.Play)
 		{
-			BoardController.i.MovePiece(temp[0], temp[1], BoardController.i.CurrPiece);
+			bc.MovePiece(temp[0], temp[1], bc.CurrPiece);
 		}
 
 		// Below are special moves, they return early to prevent execution of unwanted code
 		if (h.Special == SpecialMove.Bomb)
 		{
-			BoardController.i.Bomb(h.Position);
+			bc.Bomb(h.Position);
 			GameController.InvokeOnRoundEnd();
 			return;
 		}
 		if (h.Special == SpecialMove.Steal)
 		{
-			BoardController.i.StealOpponentPiece(h.Position);
+			bc.StealOpponentPiece(h.Position);
 			GameController.InvokeOnRoundEnd();
 			return;
 		}
 		if (h.Special == SpecialMove.Spawn)
 		{
-			UIManager.i.DisableBuyOptions();
-			BoardController.i.BuyPiece(BoardController.i.pieceToInstantiate);
-			BoardController.i.PlaceBoughtPiece(h.Position);
-			BoardController.i.DisableAllUIElements();
+			um.DisableBuyOptions();
+			bc.BuyPiece(bc.pieceToInstantiate);
+			bc.PlaceBoughtPiece(h.Position);
+			bc.DisableAllUIElements();
 			return;
 		}
 		if (h.Special == SpecialMove.Mine)
 		{
-			BoardController.i.PlantMine(h.Position);
+			bc.PlantMine(h.Position);
 		}
 
-		BoardController.i.SetHighLightSpecial(h, SpecialMove.Play);
-		BoardController.i.DisableAllUIElements();
-		BoardController.i.CurrPiece?.InvokeOnAfterMove();
+		bc.SetHighLightSpecial(h, SpecialMove.Play);
+		bc.DisableAllUIElements();
+		bc.CurrPiece?.InvokeOnAfterMove();
 	}
 
 	/// <summary>
@@ -165,12 +162,12 @@ public class HighlightManager : MonoBehaviour
 				break;
 
 			default:
-				if (BoardController.i.Pieces[pos] == null)
+				if (bc.Pieces[pos] == null)
 				{
 					SetHighlightSpecial(pos, SpecialMove.Play);
 					SetHighlightColor(pos, Color.blue);
 				}
-				else if (BoardController.i.Pieces[pos]?.Player != BoardController.i.CurrPiece.Player)
+				else if (bc.Pieces[pos]?.Player != bc.CurrPiece.Player)
 				{
 					SetHighlightSpecial(pos, SpecialMove.Play);
 					SetHighlightColor(pos, Color.red);
@@ -191,12 +188,12 @@ public class HighlightManager : MonoBehaviour
 		{
 			if (GameController.GetCurrPlayer() == PlayerType.Black)
 			{
-				if (BoardController.i.Pieces[i] != null) continue;
+				if (bc.Pieces[i] != null) continue;
 				Highlight(i, SpecialMove.Spawn);
 			}
 			else
 			{
-				if (BoardController.i.Pieces[63 - i] != null) continue;
+				if (bc.Pieces[63 - i] != null) continue;
 				Highlight(63 - i, SpecialMove.Spawn);
 			}
 		}
@@ -204,7 +201,7 @@ public class HighlightManager : MonoBehaviour
 
 	public void HighlightPawnBombs()
 	{
-		foreach (Piece piece in BoardController.i.Pieces)
+		foreach (Piece piece in bc.Pieces)
 		{
 			if (piece?.Player == GameController.GetCurrPlayer() && piece is Pawn pawn)
 			{
@@ -215,7 +212,7 @@ public class HighlightManager : MonoBehaviour
 
 	public void HighlightSteal()
 	{
-		foreach (Piece piece in BoardController.i.Pieces)
+		foreach (Piece piece in bc.Pieces)
 		{
 			if (piece == null) continue;
 			if (piece.Player == GameController.GetCurrPlayer()) continue;
@@ -227,7 +224,7 @@ public class HighlightManager : MonoBehaviour
 	{
 		for (int i = 16; i < 48; i++)
 		{
-			if (BoardController.i.Pieces[i] != null) continue;
+			if (bc.Pieces[i] != null) continue;
 			Highlight(i, SpecialMove.Mine);
 		}
 	}

@@ -22,17 +22,14 @@ public class UIManager : MonoBehaviour
 	public GameObject gameCanvas;
 	public GameObject modeSelectCanvas;
 
-
-	public static UIManager i { get; set; }
-
-	public void Awake()
-	{
-		if (i != null && i != this) Destroy(this);
-		else i = this;
-	}
+	protected BoardController bc;
+	protected GameController gc;
 
 	private void Start()
 	{
+		bc = FindObjectOfType<BoardController>();
+		gc = FindObjectOfType<GameController>();
+
 		promotionButtonTransform = GameObject.Find("Promotion Buttons").transform;
 
 		InstantiatePromotionButtons(blackSprites, promotingBlack);
@@ -95,7 +92,7 @@ public class UIManager : MonoBehaviour
 		PlayerType p = GameController.GetCurrPlayer();
 
 		// Should not allow to buy if the player is in check
-		if (GameController.i.IsCheck) return;
+		if (gc.IsCheck) return;
 
 		if (p == PlayerType.White)
 		{
@@ -118,7 +115,7 @@ public class UIManager : MonoBehaviour
 		GameController.SetGameState(GameState.Play);
 		GameController.SetPlayer(PlayerType.White);
 		checkText.SetActive(false);
-		GameController.i.ResetPlayer();
+		gc.ResetPlayer();
 		ResetPieces();
 		Timer.ResetTimers();
 	}
@@ -127,8 +124,8 @@ public class UIManager : MonoBehaviour
 	{
 		for (var i = 0; i < 64; i++)
 		{
-			BoardController.i.DestroyPiece(i);
-			if (defaultPieceSetup[i] != null) BoardController.i.InstantiatePiece(defaultPieceSetup[i], i);
+			bc.DestroyPiece(i);
+			if (defaultPieceSetup[i] != null) bc.InstantiatePiece(defaultPieceSetup[i], i);
 		}
 	}
 

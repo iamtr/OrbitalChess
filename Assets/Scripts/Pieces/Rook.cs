@@ -2,8 +2,9 @@ using System.Collections.Generic;
 
 public class Rook : Piece
 {
-	private void Awake()
+	protected override void Awake()
 	{
+		base.Awake();
 		value = 50;
 	}
 
@@ -45,9 +46,9 @@ public class Rook : Piece
 
 				Move m = new Move(CurrPos, pos, this);
 
-				if (!IsLegalMove(m) || BoardController.i.IsBeingCheckedAfterMove(m, Player)) break;
+				if (!IsLegalMove(m) || bc.IsBeingCheckedAfterMove(m, Player)) break;
 				moves.Add(m);
-				if (BoardController.i.IsOccupied(pos)) break;
+				if (bc.IsOccupied(pos)) break;
 			}
 		}
 
@@ -76,7 +77,7 @@ public class Rook : Piece
 
 				if (!IsLegalMove(m)) break;
 				moves.Add(m);
-				if (BoardController.i.TestArrayIsOccupied(pos)) break;
+				if (bc.TestArrayIsOccupied(pos)) break;
 			}
 		}
 
@@ -90,7 +91,7 @@ public class Rook : Piece
 
 	public override bool IsLegalMove(Move move)
 	{
-		if (BoardController.i.IsSamePlayer(CurrPos, move.TargetSquare)) return false;
+		if (bc.IsSamePlayer(CurrPos, move.TargetSquare)) return false;
 		return true;
 	}
 

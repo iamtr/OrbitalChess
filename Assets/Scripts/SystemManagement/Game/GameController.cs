@@ -23,7 +23,8 @@ public class GameController : MonoBehaviour
 	private static GameState gameState;
 	public bool IsCheck { get; private set; }
 
-	public static GameController i;
+	[SerializeField] protected BoardController bc;
+	[SerializeField] protected InputManager im;
 
 	public bool IsSpecialMode => isSpecialMode;
 
@@ -41,8 +42,6 @@ public class GameController : MonoBehaviour
 
 	public static event Action OnRoundEnd;
 
-	//public static event Action OnGameEnd;
-
 	private void OnEnable()
 	{
 		OnRoundEnd += HandleCheckAndCheckmate;
@@ -59,8 +58,9 @@ public class GameController : MonoBehaviour
 
 	private void Start()
 	{
-		if (i != null && i != this) Destroy(this);
-		else i = this;
+		bc = FindObjectOfType<BoardController>();
+		im = FindObjectOfType<InputManager>();
+
 		currPlayer = PlayerType.White;
 
 		// AssertAllReferenceIsNotNull();
@@ -91,7 +91,7 @@ public class GameController : MonoBehaviour
 			Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			Collider2D collider = Physics2D.OverlapPoint(mousePosition);
 
-			InputManager.HandleColliderClicked(collider);
+			im.HandleColliderClicked(collider);
 		}
 	}
 
@@ -140,13 +140,13 @@ public class GameController : MonoBehaviour
 
 	public void HandleCheckAndCheckmate()
 	{
-		if (BoardController.i.IsCheckmate())
+		if (bc.IsCheckmate())
 		{
 			SetGameState(GameState.GameOver);
 			checkText.gameObject.SetActive(true);
 			checkText.text = "Checkmate!";
 		}
-		else if (BoardController.i.IsCheck())
+		else if (bc.IsCheck())
 		{
 			IsCheck = true;
 			checkText.gameObject.SetActive(true);

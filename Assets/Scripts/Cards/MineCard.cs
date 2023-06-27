@@ -2,7 +2,7 @@ public class MineCard : Card
 {
 	public override void Trigger()
 	{
-		HighlightManager.i.HighlightPlantMinePositions();
+		hm.HighlightPlantMinePositions();
 		Destroy(this.gameObject);
 	}
 }

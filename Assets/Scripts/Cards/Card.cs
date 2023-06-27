@@ -4,7 +4,18 @@ public abstract class Card : MonoBehaviour, ITrigger
 {
 	public PlayerType player;
 
+	protected BoardController bc;
+	protected HighlightManager hm;
+	protected GameController gc;
+
 	public abstract void Trigger();
+
+	private void Start()
+	{
+		bc = FindObjectOfType<BoardController>();
+		hm = FindObjectOfType<HighlightManager>();
+		gc = FindObjectOfType<GameController>();
+	}
 
 	public void OnMouseOver()
 	{

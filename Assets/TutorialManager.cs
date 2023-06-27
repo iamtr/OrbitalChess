@@ -23,7 +23,7 @@ public class TutorialManager : MonoBehaviour
     {
         ReadAndStoreFiles(introFile, pieceMovementFile);
         tutorialText.text = Lines[FileIndex][LineIndex];
-        BoardController.i.UnloadCurrentPieces();
+        // BoardController.i.UnloadCurrentPieces();
     }
 
     public void ReadAndStoreFiles(params TextAsset[] files)
@@ -40,7 +40,7 @@ public class TutorialManager : MonoBehaviour
     
     public void TriggerPrevLine()
     {
-        BoardController.i.UnloadCurrentPieces();
+        // BoardController.i.UnloadCurrentPieces();
         if (FileIndex == 0 && LineIndex == 0) return;
         if (LineIndex == 0)
         {

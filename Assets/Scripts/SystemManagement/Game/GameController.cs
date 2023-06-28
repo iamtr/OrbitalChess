@@ -19,7 +19,7 @@ public class GameController : MonoBehaviour
 
 	[SerializeField] private GameObject replayButton;
 
-	private static PlayerType currPlayer = PlayerType.White;
+	protected static PlayerType currPlayer = PlayerType.White;
 	private static GameState gameState;
 	public bool IsCheck { get; private set; }
 
@@ -42,21 +42,21 @@ public class GameController : MonoBehaviour
 
 	public static event Action OnRoundEnd;
 
-	private void OnEnable()
+	protected virtual void OnEnable()
 	{
 		OnRoundEnd += HandleCheckAndCheckmate;
 		OnRoundEnd += SetPlayer;
 		OnRoundEnd += InvokeOnRoundStart;
 	}
 
-	private void OnDisable()
+	protected virtual void OnDisable()
 	{
 		OnRoundEnd -= HandleCheckAndCheckmate;
 		OnRoundEnd -= SetPlayer;
 		OnRoundEnd -= InvokeOnRoundStart;
 	}
 
-	private void Start()
+	protected virtual void Start()
 	{
 		bc = FindObjectOfType<BoardController>();
 		im = FindObjectOfType<InputManager>();
@@ -85,20 +85,12 @@ public class GameController : MonoBehaviour
 		//}
 
   //      replayButton.gameObject.SetActive(false);
-
-        if (Input.GetMouseButtonDown(0))
-		{
-			Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-			Collider2D collider = Physics2D.OverlapPoint(mousePosition);
-
-			im.HandleColliderClicked(collider);
-		}
 	}
 
 	/// <summary>
 	/// Sets the current player to the opposite player
 	/// </summary>
-	public void SetPlayer()
+	public virtual void SetPlayer()
 	{
 		currPlayer = currPlayer == PlayerType.Black ? PlayerType.White : PlayerType.Black;
 		if (IsSpecialMode) turnText.text = currPlayer.ToString() + " Turn";
@@ -138,7 +130,7 @@ public class GameController : MonoBehaviour
 		return currPlayer;
 	}
 
-	public void HandleCheckAndCheckmate()
+	public virtual void HandleCheckAndCheckmate()
 	{
 		if (bc.IsCheckmate())
 		{

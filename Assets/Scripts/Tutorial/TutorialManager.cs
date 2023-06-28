@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TutorialManager : MonoBehaviour
 {
@@ -14,16 +16,26 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private TextAsset introFile;
     [SerializeField] private TextAsset pieceMovementFile;
 
+    [SerializeField] private Button nextButton;
+    [SerializeField] private Button prevButton;
+
     private string[][] Lines;
 
     private int FileIndex = 0;
     private int LineIndex = 0;
-    
-    private void Start()
+
+    protected BoardController bc;
+
+    // Index of interactive tutorial that we are on
+    public int tutorialIndex = 0;
+
+	public List<Condition> conditions;
+
+	private void Start()
     {
         ReadAndStoreFiles(introFile, pieceMovementFile);
         tutorialText.text = Lines[FileIndex][LineIndex];
-        // BoardController.i.UnloadCurrentPieces();
+        bc = FindObjectOfType<BoardController>();
     }
 
     public void ReadAndStoreFiles(params TextAsset[] files)
@@ -38,6 +50,9 @@ public class TutorialManager : MonoBehaviour
         }
     }
     
+    /// <summary>
+    /// Triggers the previous line
+    /// </summary>
     public void TriggerPrevLine()
     {
         // BoardController.i.UnloadCurrentPieces();
@@ -51,9 +66,19 @@ public class TutorialManager : MonoBehaviour
         {
             LineIndex--;
         }
+
+        if (Lines[FileIndex][LineIndex].Contains("Let's try it out!"))
+        {
+            tutorialIndex--;
+            TriggerTutorial();
+        }
+
         tutorialText.text = Lines[FileIndex][LineIndex];
     }
 
+    /// <summary>
+    /// Triggers the next line
+    /// </summary>
     public void TriggerNextLine()
     {
         var CurrFile = Lines[FileIndex];
@@ -67,5 +92,36 @@ public class TutorialManager : MonoBehaviour
             LineIndex++;
         }
         tutorialText.text = Lines[FileIndex][LineIndex];
+        if (Lines[FileIndex][LineIndex].Contains("Let's try it out!")) TriggerTutorial();
     }
+
+    public void TriggerTutorial()
+    {
+        GameController.SetGameState(GameState.Play);
+        bc.LoadPositionPresets(conditions[tutorialIndex].config);
+        HideButtons();
+    }
+
+	public void CheckCondition()
+	{
+		Piece p = bc.GetPieceFromPos(conditions.First().position);
+		if (p?.GetType() == conditions[tutorialIndex].piece.GetType() && p?.Player == conditions[tutorialIndex].piece.Player)
+		{
+			tutorialIndex++;
+			ShowButtons();
+			TriggerNextLine();
+		}
+	}
+
+	public void ShowButtons()
+    {
+        prevButton.gameObject.SetActive(true);
+        nextButton.gameObject.SetActive(true);
+    }
+
+	public void HideButtons()
+	{
+		prevButton.gameObject.SetActive(false);
+		nextButton.gameObject.SetActive(false);
+	}
 }

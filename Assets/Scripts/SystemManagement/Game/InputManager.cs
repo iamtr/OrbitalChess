@@ -13,6 +13,19 @@ public class InputManager : MonoBehaviour
 		gc = FindObjectOfType<GameController>();
 	}
 
+
+	private void Update()
+	{
+		if (Input.GetMouseButtonDown(0))
+		{
+			Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			Collider2D collider = Physics2D.OverlapPoint(mousePosition);
+
+			HandleColliderClicked(collider);
+		}
+	}
+
+
 	/// <summary>
 	/// Handles the mouse events (click)
 	/// </summary>

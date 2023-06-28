@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -116,6 +117,8 @@ public class BoardController : MonoBehaviour
 	{
 		int x = ConvXY(pos)[0];
 		int y = ConvXY(pos)[1];
+
+		if (piece == null) return null;
 
 		Piece newPiece = Instantiate(piece, new Vector3(x, y, 2), Quaternion.identity);
 		newPiece.transform.localScale = new Vector3(4.55f, 4.55f, 1);
@@ -792,5 +795,59 @@ public class BoardController : MonoBehaviour
 		int rand = UnityEngine.Random.Range(0, cards.Length);
 		Card card = cards[rand];
 		player.AddCard(card);
+	}
+
+	public virtual void LoadPositionPresets(PositionSO preset)
+	{
+		UnloadAllPieces();
+
+		for (int i = 0; i < 8; i++)
+		{
+			if (preset.rank1[i] == null) continue;
+			pieces[i] = InstantiatePiece(preset.rank1[i], i);
+		}
+
+		for (int i = 8; i < 16; i++)
+		{
+			if (preset.rank2[i % 8] == null) continue;
+			pieces[i] = InstantiatePiece(preset.rank2[i % 8], i);
+		}
+
+		for (int i = 16; i < 24; i++)
+		{
+			if (preset.rank3[i % 8] == null) continue;
+			pieces[i] = InstantiatePiece(preset.rank3[i % 8], i);
+		}
+		for (int i = 24; i < 32; i++)
+		{
+			if (preset.rank4[i % 8] == null) continue;
+			pieces[i] = InstantiatePiece(preset.rank4[i % 8], i);
+		}
+		for (int i = 32; i < 40; i++)
+		{
+			if (preset.rank5[i % 8] == null) continue;
+			pieces[i] = InstantiatePiece(preset.rank5[i % 8], i);
+		}
+		for (int i = 40; i < 48; i++)
+		{
+			if (preset.rank6[i % 8] == null) continue;
+			pieces[i] = InstantiatePiece(preset.rank6[i % 8], i);
+		}
+		for (int i = 48; i < 56; i++)
+		{
+			if (preset.rank7[i % 8] == null) continue;
+			pieces[i] = InstantiatePiece(preset.rank7[i % 8], i);
+		}
+		for (int i = 56; i < 64; i++)
+		{
+			if (preset.rank8[i % 8] == null) continue;
+			pieces[i] = InstantiatePiece(preset.rank8[i % 8], i);
+		}
+	}
+
+	public void UnloadAllPieces()
+	{
+		foreach(Piece piece in pieces) 
+			if (piece != null) Destroy(piece.gameObject);
 	}
 }

@@ -28,6 +28,7 @@ public class MovementCoordination : MonoBehaviour
 		int x = BoardController.ConvXY(m.end)[0];
 		int y = BoardController.ConvXY(m.end)[1];
 		bc.MovePiece(x, y, bc.GetPieceFromPos(m.start));
+		moveIndex++;
     }
 }
 

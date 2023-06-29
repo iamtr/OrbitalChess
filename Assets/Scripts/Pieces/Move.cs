@@ -111,7 +111,8 @@ public enum MoveFlag
 {
 	None,
 	EnPassantCapture,
-	Castling,
+	KingsideCastling,
+	QueensideCastling,
 	PromoteToQueen,
 	PromoteToKnight,
 	PromoteToRook,

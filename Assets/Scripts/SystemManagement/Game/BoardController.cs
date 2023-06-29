@@ -276,8 +276,8 @@ public class BoardController : MonoBehaviour
 	/// </summary>
 	public void DisableAllUIElements()
 	{
-		hm.UnhighlightAllSquares();
-		um.DisableBuyOptions();
+		hm?.UnhighlightAllSquares();
+		um?.DisableBuyOptions();
 	}
 
 	/// <summary>

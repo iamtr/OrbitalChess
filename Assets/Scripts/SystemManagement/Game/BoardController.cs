@@ -249,6 +249,12 @@ public class BoardController : MonoBehaviour
 		if (gc.IsSpecialMode) TriggerMine(newPos);
 	}
 
+	/// <summary>
+	/// Move for castling
+	/// </summary>
+	/// <param name="targetX"> The x coordinate of rook to move</param>
+	/// <param name="targetY">The y coordinate of rook to move</param>
+	/// <param name="piece"></param>
 	public void MoveCastling(int targetX, int targetY, Piece piece)
 	{
 		Piece rook = GetPieceFromPos(ConvPos(targetX, targetY));

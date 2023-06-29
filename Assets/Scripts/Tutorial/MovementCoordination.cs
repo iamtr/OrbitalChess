@@ -28,7 +28,7 @@ public class MovementCoordination : MonoBehaviour
 
 		if (m.flag == MoveFlag.KingsideCastling || m.flag == MoveFlag.QueensideCastling)
 		{
-			bc.MoveCastling(m.start, m.end, bc.GetPieceFromPos(moveIndex));
+			// Handle castling
 		}
 		
 		bc.CurrPiece = bc.GetPieceFromPos(m.start);

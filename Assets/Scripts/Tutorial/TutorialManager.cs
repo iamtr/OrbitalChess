@@ -100,8 +100,8 @@ public class TutorialManager : MonoBehaviour
 
 	public void CheckCondition()
 	{
-		Piece p = bc.GetPieceFromPos(conditions.First().position);
-		if (p?.GetType() == conditions[tutorialIndex].piece.GetType() && p?.Player == conditions[tutorialIndex].piece.Player)
+		Piece p = bc.GetPieceFromPos(conditions[tutorialIndex].position);
+		if (IsConditionFulfill(p, conditions[tutorialIndex].pieces))
 		{
             GameController.SetGameState(GameState.GameOver);
             tutorialIndex++;
@@ -109,6 +109,17 @@ public class TutorialManager : MonoBehaviour
 			TriggerNextLine();
 		}
 	}
+
+    public bool IsConditionFulfill(Piece p, List<Piece> pieces)
+    {
+        foreach(Piece piece in pieces){
+            if (p?.GetType() == piece.GetType() && p?.Player == piece.Player)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 
 	public void ShowButtons()
     {

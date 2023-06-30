@@ -35,6 +35,6 @@ public class TutorialGameController : GameController
 public class Condition
 {
 	public PositionSO config;
-	public Piece piece;
+	public List<Piece> pieces;
 	public int position;
 }

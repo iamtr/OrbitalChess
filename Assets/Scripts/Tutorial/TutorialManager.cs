@@ -103,7 +103,8 @@ public class TutorialManager : MonoBehaviour
 		Piece p = bc.GetPieceFromPos(conditions.First().position);
 		if (p?.GetType() == conditions[tutorialIndex].piece.GetType() && p?.Player == conditions[tutorialIndex].piece.Player)
 		{
-			tutorialIndex++;
+            GameController.SetGameState(GameState.GameOver);
+            tutorialIndex++;
 			ShowButtons();
 			TriggerNextLine();
 		}

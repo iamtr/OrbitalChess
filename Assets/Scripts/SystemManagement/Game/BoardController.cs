@@ -853,7 +853,13 @@ public class BoardController : MonoBehaviour
 
 	public void UnloadAllPieces()
 	{
-		foreach(Piece piece in pieces) 
-			if (piece != null) Destroy(piece.gameObject);
+		for (var i = 0; i < 64; i++)
+		{
+			if (pieces[i] != null)
+			{
+				Destroy(pieces[i].gameObject);
+				pieces[i] = null;
+			}
+		}
 	}
 }

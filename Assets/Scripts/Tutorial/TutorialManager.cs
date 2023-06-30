@@ -7,10 +7,6 @@ using UnityEngine.UI;
 
 public class TutorialManager : MonoBehaviour
 {
-    [SerializeField] private Piece[] PawnAndKnightPiece;
-    [SerializeField] private Piece[] BishopAndRookPiece;
-    [SerializeField] private Piece[] QueenAndKingPiece;
-
     [SerializeField] private TMP_Text tutorialText;
 
     [SerializeField] private TextAsset introFile;

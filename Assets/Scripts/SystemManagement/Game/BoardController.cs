@@ -86,7 +86,7 @@ public class BoardController : MonoBehaviour
 		AssertAllReferenceIsNotNull();
 	}
 
-	private void AssertAllReferenceIsNotNull()
+	public void AssertAllReferenceIsNotNull()
 	{
 		Assert.IsNotNull(pieces);
 		Assert.IsNotNull(blackPieces);
@@ -98,12 +98,14 @@ public class BoardController : MonoBehaviour
 	/// <summary>
 	/// Instantiates all pieces and highlight squares
 	/// </summary>
-	protected virtual void InstantiatePieces()
+	public virtual void InstantiatePieces()
 	{
 		for (var i = 0; i < 64; i++)
 		{
 			if (pieces[i] != null) InstantiatePiece(pieces[i], i);
 		}
+
+		RotateAllPieces();
 	}
 
 	/// <summary>
@@ -112,7 +114,7 @@ public class BoardController : MonoBehaviour
 	/// <param name="piece">Type of piece to be instantiated</param>
 	/// <param name="pos">Position on board to be instantiated</param>
 	/// <returns></returns>
-	public Piece InstantiatePiece(Piece piece, int pos)
+	public virtual Piece InstantiatePiece(Piece piece, int pos)
 	{
 		int x = ConvXY(pos)[0];
 		int y = ConvXY(pos)[1];
@@ -633,6 +635,22 @@ public class BoardController : MonoBehaviour
 		pieceToInstantiate = piece;
 	}
 
+	public void RotateAllPieces()
+	{
+		foreach(Piece piece in pieces)
+		{
+			if (piece == null) continue;
+			piece.transform.eulerAngles = new Vector3(180f, 180f, 0f);
+		}
+	}
+
+	public void RotatePiece(Piece piece)
+	{
+		piece.gameObject.transform.eulerAngles = new Vector3(180f, 180f, 0f);
+	}
+
+
+	#region Special Moves
 	// Special moves:
 
 	/// <summary>
@@ -793,4 +811,6 @@ public class BoardController : MonoBehaviour
 		Card card = cards[rand];
 		player.AddCard(card);
 	}
+
+	#endregion
 }

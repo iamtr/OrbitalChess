@@ -236,7 +236,7 @@ public class BoardController : MonoBehaviour
 		if (gc.IsSpecialMode) TriggerMine(newPos);
 	}
 
-	public void MoveEnPassantPiece(int x, int y, Piece piece)
+	public virtual void MoveEnPassantPiece(int x, int y, Piece piece)
 	{
 		int newPos = ConvPos(x, y);
 		int enemyPos = ConvPos(x, ConvXY(piece.CurrPos)[1]);
@@ -248,7 +248,7 @@ public class BoardController : MonoBehaviour
 		if (gc.IsSpecialMode) TriggerMine(newPos);
 	}
 
-	public void MoveCastling(int targetX, int targetY, Piece piece)
+	public virtual void MoveCastling(int targetX, int targetY, Piece piece)
 	{
 		Piece rook = GetPieceFromPos(ConvPos(targetX, targetY));
 
@@ -423,7 +423,7 @@ public class BoardController : MonoBehaviour
 	/// Calls Promote() on the current piece
 	/// </summary>
 	/// <param name="promotedPiece">The piece type to be instantiated</param>
-	public void PromotePiece(Piece promotedPiece)
+	public virtual void PromotePiece(Piece promotedPiece)
 	{
 		try
 		{

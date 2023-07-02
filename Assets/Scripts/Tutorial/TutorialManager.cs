@@ -121,7 +121,29 @@ public class TutorialManager : MonoBehaviour
         return false;
     }
 
-	public void ShowButtons()
+    public static void SetPawnHasMoved(Piece piece)
+    {
+        if(piece?.GetType() != typeof(Pawn))
+        {
+            Debug.Log("Piece set is not a pawn!");
+            return;
+        }
+        Pawn pawn = (Pawn)piece;
+        pawn.SetPawnBoolean();
+    }
+
+    public static void SetPawnTwoStep(Piece piece)
+    {
+        if (piece?.GetType() != typeof(Pawn))
+        {
+            Debug.Log("Piece set is not a pawn!");
+            return;
+        }
+        Pawn pawn = (Pawn)piece;
+        pawn.TwoStep = true;
+    }
+
+    public void ShowButtons()
     {
         prevButton.gameObject.SetActive(true);
         nextButton.gameObject.SetActive(true);

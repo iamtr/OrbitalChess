@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4577faa6289e21340950e424466887e2, type: 3}
-  m_Name: PawnMovementTutorial
+  m_Name: EnPassantTutorial
   m_EditorClassIdentifier: 
   rank1:
   - {fileID: 0}
@@ -25,7 +25,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 2105344910545598611, guid: d2a10b49d2231ee46a160238e6dc7176, type: 3}
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -52,8 +52,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 2105344910545598611, guid: d2a10b49d2231ee46a160238e6dc7176, type: 3}
+  - {fileID: 6374707855436061919, guid: 5a6e7cdad2d7c9741ab3757e82c9ee25, type: 3}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -61,7 +61,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 6374707855436061919, guid: 5a6e7cdad2d7c9741ab3757e82c9ee25, type: 3}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -70,8 +70,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 6374707855436061919, guid: 5a6e7cdad2d7c9741ab3757e82c9ee25, type: 3}
-  - {fileID: 6374707855436061919, guid: 5a6e7cdad2d7c9741ab3757e82c9ee25, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}

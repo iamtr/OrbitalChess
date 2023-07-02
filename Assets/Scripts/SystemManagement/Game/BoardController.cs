@@ -823,21 +823,27 @@ public class BoardController : MonoBehaviour
 		{
 			if (preset.rank3[i % 8] == null) continue;
 			pieces[i] = InstantiatePiece(preset.rank3[i % 8], i);
+			TutorialManager.SetPawnHasMoved(pieces[i]);
 		}
 		for (int i = 24; i < 32; i++)
 		{
 			if (preset.rank4[i % 8] == null) continue;
 			pieces[i] = InstantiatePiece(preset.rank4[i % 8], i);
+			TutorialManager.SetPawnHasMoved(pieces[i]);
+			TutorialManager.SetPawnTwoStep(pieces[i]);
 		}
 		for (int i = 32; i < 40; i++)
 		{
 			if (preset.rank5[i % 8] == null) continue;
 			pieces[i] = InstantiatePiece(preset.rank5[i % 8], i);
+			TutorialManager.SetPawnHasMoved(pieces[i]);
+			TutorialManager.SetPawnTwoStep(pieces[i]);
 		}
 		for (int i = 40; i < 48; i++)
 		{
 			if (preset.rank6[i % 8] == null) continue;
 			pieces[i] = InstantiatePiece(preset.rank6[i % 8], i);
+			TutorialManager.SetPawnHasMoved(pieces[i]);
 		}
 		for (int i = 48; i < 56; i++)
 		{

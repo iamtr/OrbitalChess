@@ -40,6 +40,7 @@ MonoBehaviour:
   - HandleCheckAndCheckmate
   - SetPlayer
   - RPC_MovePiece
+  - SetPiecePos
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

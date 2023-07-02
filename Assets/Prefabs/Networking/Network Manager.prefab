@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1020093545270526334
+--- !u!1 &1009040433182966377
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,44 +8,40 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4026079569200184635}
-  - component: {fileID: 7138140993942143660}
+  - component: {fileID: 1009040433182966379}
+  - component: {fileID: 1009040433182966378}
   m_Layer: 0
-  m_Name: MenuManager
+  m_Name: Network Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4026079569200184635
+--- !u!4 &1009040433182966379
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1020093545270526334}
+  m_GameObject: {fileID: 1009040433182966377}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 397.17465, y: 166.05042, z: -11.0774}
+  m_LocalPosition: {x: 480.80203, y: 274.8722, z: -1.3476204}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7138140993942143660
+--- !u!114 &1009040433182966378
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1020093545270526334}
+  m_GameObject: {fileID: 1009040433182966377}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ac307ee9bf5c1943a680cf6ebd48ed5, type: 3}
+  m_Script: {fileID: 11500000, guid: fbe3d448cf9ffe947b37258ed24c9e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menuScene: Main Menu
-  mainGameStartScene: Main
-  blitzGameStartScene: Blitz
-  customGameModeStartScene: Custom Game Mode
-  settings: {fileID: 0}
+  bc: {fileID: 0}

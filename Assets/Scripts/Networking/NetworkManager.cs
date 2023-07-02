@@ -10,11 +10,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
 	public void Connect()
 	{
-		if (PhotonNetwork.IsConnected)
-		{
-			PhotonNetwork.JoinRandomRoom();
-		}
-		else
+		if (!PhotonNetwork.IsConnected)
 		{
 			PhotonNetwork.ConnectUsingSettings();
 		}
@@ -22,39 +18,43 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
 	public override void OnConnectedToMaster()
 	{
-		Debug.Log($"Connected to server. Looking for random room with level");
-		PhotonNetwork.JoinRandomRoom();
+		Debug.Log($"Connected to server.");
+		PhotonNetwork.JoinLobby();
 	}
 
-	public override void OnJoinRandomFailed(short returnCode, string message)
+	public void CreateRoom(string roomName)
 	{
-		Debug.Log($"Joining random room failed becuse of {message}. Creating new one");
-		PhotonNetwork.CreateRoom(null, new RoomOptions
-		{
-			MaxPlayers = 2
-		});
+		PhotonNetwork.CreateRoom(roomName, new RoomOptions { MaxPlayers = 2 });
 	}
+
+	public override void OnCreatedRoom()
+	{
+		Debug.Log("Created room");
+	}
+
+	//public override void OnJoinRandomFailed(short returnCode, string message)
+	//{
+	//	Debug.Log($"Joining random room failed becuse of {message}. Creating new one");
+	//	PhotonNetwork.CreateRoom(null, new RoomOptions
+	//	{
+	//		MaxPlayers = 2
+	//	});
+	//}
 
 	public override void OnJoinedRoom()
 	{
-		Debug.Log($"Player joined room");
-		PhotonNetwork.LoadLevel("Multiplayer Main");
+		Debug.Log("Player joined room");
+		//PhotonNetwork.LoadLevel("Multiplayer Main");
 		bc = FindObjectOfType<MultiplayerBoardController>();
 		if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
 		{
 			Debug.Log($"Player is host");
 		}
-		else
-		{
-		}
-		// TODO: Load level
 	}
-	
 
-
-	internal bool IsRoomFull()
-	{
-		return PhotonNetwork.CurrentRoom.PlayerCount == PhotonNetwork.CurrentRoom.MaxPlayers;
-	}
+	//internal bool IsRoomFull()
+	//{
+	//	return PhotonNetwork.CurrentRoom.PlayerCount == PhotonNetwork.CurrentRoom.MaxPlayers;
+	//}
 
 }

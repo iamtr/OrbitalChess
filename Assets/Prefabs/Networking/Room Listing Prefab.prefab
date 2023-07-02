@@ -257,7 +257,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 597470373555902695}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2320336912077322370}
+        m_TargetAssemblyTypeName: RoomListingButton, Assembly-CSharp
+        m_MethodName: JoinRoom
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2320336912077322370
 MonoBehaviour:
   m_ObjectHideFlags: 0

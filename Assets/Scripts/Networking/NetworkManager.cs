@@ -8,6 +8,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 {
 	[SerializeField] private MultiplayerBoardController bc;
 
+	private void Awake()
+	{
+		PhotonNetwork.AutomaticallySyncScene = true;
+	}
+
 	public void Connect()
 	{
 		if (!PhotonNetwork.IsConnected)
@@ -44,7 +49,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 	public override void OnJoinedRoom()
 	{
 		Debug.Log("Player joined room");
-		//PhotonNetwork.LoadLevel("Multiplayer Main");
+		PhotonNetwork.LoadLevel("Multiplayer Main");
 		bc = FindObjectOfType<MultiplayerBoardController>();
 		if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
 		{

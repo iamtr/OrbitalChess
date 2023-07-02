@@ -3,28 +3,29 @@ Firstly, let’s talk about pawns.
 Pawns can move one square forward,
 or two squares forward on their first move.
 They capture pieces diagonally forward.
-Let's try it out! Capture the black piece.
+Let's try it out! Capture the white pawn.
 
 If a pawn reaches to the end of the board,
 you can promote it into either of the 4 different pieces:
 queen, knight, rook or bishop.
-Let's try it out! Capture the black piece.
+Let's try it out! Capture the white pawn.
 
 One last bonus rule of pawns is en passant which might like look bizarre,
 where you capture the opponent pawn as if it’s moved only one square.
 There is only one requirement for en passant to be a valid move:
 The captured pawn must have moved two squares in one move in the previous move.
-Let's try it out! 
+Let's try it out! Use en passant to capture the white pawn.
 
 Knights move in an "L" shape,
 two squares in one direction and one square in another,
 where it jumps over other pieces,
 so the knight can still move over to this square even when its path is occupied by other pieces.
-Let's try it out! Capture the black piece.
+Let's try it out! Capture the white knight.
 
 Bishops are simple, they can move any number of squares diagonally,
 where rooks can move any number of squares horizontally or vertically.
-Let's try it out! Capture the black piece.
+Let's try it out! Use the bishop to capture the white pawn.
+Let's try it out! Now use the rook to capture the white bishop.
 
 The queen is a combined version of the rook and bishop,
 and can move any number of squares horizontally, vertically, or diagonally.

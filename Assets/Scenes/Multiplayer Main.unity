@@ -358,7 +358,30 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  localPlayer: {fileID: 0}
+  localPlayer: {fileID: 1730679378}
+  pv: {fileID: 0}
+--- !u!114 &487718226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 487718221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 1
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1001 &603328633
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -368,7 +391,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5663871188787302443, guid: ba06f8ca82224c94db19297f56d0e8e7, type: 3}
       propertyPath: m_Name
-      value: Board
+      value: Multiplayer Board
       objectReference: {fileID: 0}
     - target: {fileID: 8792180943682764505, guid: ba06f8ca82224c94db19297f56d0e8e7, type: 3}
       propertyPath: blackPieces.Array.size
@@ -647,6 +670,51 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1147008017790059376, guid: 89eec4662094b884a8e49515458ca70e, type: 3}
   m_PrefabInstance: {fileID: 6055933260519372661}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1730679377
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1730679379}
+  - component: {fileID: 1730679378}
+  m_Layer: 0
+  m_Name: Player Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1730679378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1730679377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 304fb85ba130dad4184b0779a310f9bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: 1
+--- !u!4 &1730679379
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1730679377}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 480.80203, y: 274.8722, z: -1.3476204}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1721550494188277475
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -708,10 +776,28 @@ PrefabInstance:
       objectReference: {fileID: 1301441745}
     - target: {fileID: 2383405084521559645, guid: 3adaeb294de97034283bf1432bea6ae0, type: 3}
       propertyPath: m_Name
-      value: Game Controller
+      value: Multiplayer Game Controller
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1442129701361252084, guid: 3adaeb294de97034283bf1432bea6ae0, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 3adaeb294de97034283bf1432bea6ae0, type: 3}
+--- !u!1 &1721550494188277476 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5942743016976907928, guid: 3adaeb294de97034283bf1432bea6ae0, type: 3}
+  m_PrefabInstance: {fileID: 1721550494188277475}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1721550494188277477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1721550494188277476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0ea519549b8bff4499fa5af214d98f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6055933260519372661
 PrefabInstance:
   m_ObjectHideFlags: 0

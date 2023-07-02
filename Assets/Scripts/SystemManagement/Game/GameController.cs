@@ -6,9 +6,9 @@ using UnityEngine.Assertions;
 public class GameController : MonoBehaviour
 {
 	[Header("Players")]
-	[SerializeField] private PlayerManager blackPlayer;
+	[SerializeField] private SpecialPlayerManager blackPlayer;
 
-	[SerializeField] private PlayerManager whitePlayer;
+	[SerializeField] private SpecialPlayerManager whitePlayer;
 
 	[Header("Text")]
 	[SerializeField] private TMP_Text checkText;
@@ -98,7 +98,7 @@ public class GameController : MonoBehaviour
 	/// <summary>
 	/// Sets the current player to the opposite player
 	/// </summary>
-	public void SetPlayer()
+	public virtual void SetPlayer()
 	{
 		currPlayer = currPlayer == PlayerType.Black ? PlayerType.White : PlayerType.Black;
 		if (IsSpecialMode) turnText.text = currPlayer.ToString() + " Turn";
@@ -138,7 +138,7 @@ public class GameController : MonoBehaviour
 		return currPlayer;
 	}
 
-	public void HandleCheckAndCheckmate()
+	public virtual void HandleCheckAndCheckmate()
 	{
 		if (bc.IsCheckmate())
 		{
@@ -164,12 +164,12 @@ public class GameController : MonoBehaviour
 		return PlayerType.Black == currPlayer ? PlayerType.White : PlayerType.Black;
 	}
 
-	public PlayerManager GetCurrPlayerManager()
+	public SpecialPlayerManager GetCurrPlayerManager()
 	{
 		return GetCurrPlayer() == PlayerType.Black ? blackPlayer : whitePlayer;
 	}
 
-	public PlayerManager GetOpponentPlayerManager()
+	public SpecialPlayerManager GetOpponentPlayerManager()
 	{
 		return GetCurrPlayer() == PlayerType.Black ? whitePlayer : blackPlayer;
 	}

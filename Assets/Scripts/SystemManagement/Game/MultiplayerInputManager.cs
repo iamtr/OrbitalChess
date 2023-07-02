@@ -1,23 +1,21 @@
+using Photon.Pun;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class InputManager : MonoBehaviour
+public class MultiplayerInputManager : InputManager
 {
-	protected BoardController bc;
-	protected HighlightManager hm;
-	protected GameController gc;
+	protected PlayerManager player;
+	private PhotonView pv;
 
-	protected virtual void Start()
+	protected override void Start()
 	{
-		bc = FindObjectOfType<BoardController>();
+		bc = FindObjectOfType<MultiplayerBoardController>(); 
 		hm = FindObjectOfType<HighlightManager>();
-		gc = FindObjectOfType<GameController>();
+		player = FindObjectOfType<PlayerManager>();
 	}
 
-	/// <summary>
-	/// Handles the mouse events (click)
-	/// </summary>
-	/// <param name="col"></param>
-	public virtual void HandleColliderClicked(Collider2D col)
+	public override void HandleColliderClicked(Collider2D col)
 	{
 		if (col == null)
 		{
@@ -29,11 +27,14 @@ public class InputManager : MonoBehaviour
 		}
 		else if (col.gameObject.CompareTag("Piece")
 			&& col.GetComponent<Piece>().Player == GameController.GetCurrPlayer()
-			&& GameController.GetGameState() == GameState.Play)
+			&& GameController.GetGameState() == GameState.Play
+			&& player.Player == GameController.GetCurrPlayer())
 		{
 			bc.HandlePieceClicked(col);
 		}
-		else if (col.gameObject.CompareTag("Promotion Button") && GameController.GetGameState() == GameState.Promoting)
+		else if (col.gameObject.CompareTag("Promotion Button") 
+			&& GameController.GetGameState() == GameState.Promoting 
+			&& player.Player == GameController.GetCurrPlayer())
 		{
 			bc.HandlePromotionButtonClicked(col);
 		}

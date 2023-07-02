@@ -158,7 +158,7 @@ public class BoardController : MonoBehaviour
 	/// </summary>
 	/// <param name="piece">Piece to be moved</param>
 	/// <param name="pos">New position on board</param>
-	public void SetPiecePos(int oldPos, int newPos)
+	public virtual void SetPiecePos(int oldPos, int newPos)
 	{
 		if (pieces[oldPos] == null)
 		{
@@ -805,7 +805,7 @@ public class BoardController : MonoBehaviour
 	/// Distribute a random card to a player (who has captured a piece)
 	/// </summary>
 	/// <param name="player"></param>
-	public void DistributeRandomCard(PlayerManager player)
+	public void DistributeRandomCard(SpecialPlayerManager player)
 	{
 		int rand = UnityEngine.Random.Range(0, cards.Length);
 		Card card = cards[rand];

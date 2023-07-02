@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Custom Game Mode.unity
     guid: 82ff2046bac698245860ad59ea4cb672
+  - enabled: 1
+    path: Assets/Scenes/Multiplayer Main.unity
+    guid: 55a748de192400947a7530a5f3cecce4
   m_configObjects: {}

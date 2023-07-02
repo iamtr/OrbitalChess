@@ -864,8 +864,8 @@ public class BoardController : MonoBehaviour
 			if (pieces[i] != null)
 			{
 				Destroy(pieces[i].gameObject);
-				pieces[i] = null;
 			}
+			pieces[i] = null;
 		}
 	}
 }

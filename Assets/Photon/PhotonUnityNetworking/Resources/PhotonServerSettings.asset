@@ -41,6 +41,9 @@ MonoBehaviour:
   - SetPlayer
   - RPC_MovePiece
   - SetPiecePos
+  - RPC_SetPlayer
+  - RPC_SetPiecePos
+  - RPC_HandleCheckAndCheckmate
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

@@ -56,7 +56,7 @@ public class GameController : MonoBehaviour
 		OnRoundEnd -= InvokeOnRoundStart;
 	}
 
-	private void Start()
+	public virtual void Start()
 	{
 		bc = FindObjectOfType<BoardController>();
 		im = FindObjectOfType<InputManager>();

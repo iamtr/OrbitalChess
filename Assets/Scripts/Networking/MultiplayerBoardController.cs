@@ -41,7 +41,7 @@ public class MultiplayerBoardController : BoardController
 		}
 		if (h.Special == SpecialMove.Play)
 		{
-			RPC_MovePiece(temp[0], temp[1], CurrPiece);
+			MovePiece(temp[0], temp[1], CurrPiece);
 		}
 
 		// Below are special moves, they return early to prevent execution of unwanted code
@@ -75,17 +75,17 @@ public class MultiplayerBoardController : BoardController
 		CurrPiece?.InvokeOnAfterMove();
 	}
 
-	public void RPC_MovePiece(int x, int y, Piece piece)
+	public override void MovePiece(int x, int y, Piece piece)
 	{
 		int oldPos = CurrPiece.CurrPos;
 		int newPos = ConvPos(x, y);
 		if (piece == null) Debug.Log("RPC_MovePiece: Piece is null!");
-		pv.RPC(nameof(SetPiecePos), RpcTarget.All, new object[] { oldPos, newPos });
+		pv.RPC(nameof(RPC_SetPiecePos), RpcTarget.All, new object[] { oldPos, newPos });
 	}
 
 	[PunRPC]
-	public override void SetPiecePos(int oldPos, int newPos)
+	public void RPC_SetPiecePos(int oldPos, int newPos)
 	{
-		base.SetPiecePos(oldPos, newPos);
+		SetPiecePos(oldPos, newPos);
 	}
 }

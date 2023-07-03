@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 847134743661679212}
-  - component: {fileID: 2090851011667942025}
+  - component: {fileID: 1861682860821422623}
   m_Layer: 0
   m_Name: Game Controller
   m_TagString: Untagged
@@ -33,7 +33,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2090851011667942025
+--- !u!114 &1861682860821422623
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,7 +42,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2383405084521559645}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23b23642ad111814899e8eb5ad5cf3c2, type: 3}
+  m_Script: {fileID: 11500000, guid: ef9e5cdef7acaf74280d72232c527f36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   blackPlayer: {fileID: 0}
@@ -51,6 +51,9 @@ MonoBehaviour:
   turnText: {fileID: 0}
   isSpecialMode: 0
   replayButton: {fileID: 0}
+  bc: {fileID: 0}
+  im: {fileID: 0}
+  pv: {fileID: 0}
 --- !u!1 &5942743016976907928
 GameObject:
   m_ObjectHideFlags: 0

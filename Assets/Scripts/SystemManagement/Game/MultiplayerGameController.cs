@@ -5,15 +5,33 @@ using Photon.Pun;
 
 public class MultiplayerGameController : GameController
 {
-	[PunRPC]
+	[SerializeField] private PhotonView pv;
+
+	public override void Start()
+	{
+		base.Start();
+		pv = GetComponent<PhotonView>();
+	}
+
+	public override void SetPlayer()
+	{
+		pv.RPC(nameof(RPC_SetPlayer), RpcTarget.All);
+	}
+
 	public override void HandleCheckAndCheckmate()
 	{
-		base.HandleCheckAndCheckmate();
+		pv.RPC(nameof(RPC_HandleCheckAndCheckmate), RpcTarget.All);
 	}
 
 	[PunRPC]
-	public override void SetPlayer()
+	public void RPC_SetPlayer()
 	{
 		base.SetPlayer();
+	}
+
+	[PunRPC]
+	public void RPC_HandleCheckAndCheckmate()
+	{
+		base.HandleCheckAndCheckmate();
 	}
 }

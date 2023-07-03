@@ -3,14 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using Unity.VisualScripting;
 
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
 	[SerializeField] private MultiplayerBoardController bc;
 
+	public static NetworkManager i;
+
 	private void Awake()
 	{
 		PhotonNetwork.AutomaticallySyncScene = true;
+		DontDestroyOnLoad(this);
+
+		if (i != null && i != this) Destroy(this);
+		else i = this;
 	}
 
 	public void Connect()
@@ -55,6 +62,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 		{
 			Debug.Log($"Player is host");
 		}
+	}
+
+	public override void OnLeftRoom()
+	{
+		Debug.Log("Player left room");
 	}
 
 	//internal bool IsRoomFull()

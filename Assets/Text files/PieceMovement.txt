@@ -30,16 +30,18 @@ Let's try it out! Now use the rook to capture the white bishop.
 The queen is a combined version of the rook and bishop,
 and can move any number of squares horizontally, vertically, or diagonally.
 It’s the most powerful piece in the game, so use it wisely and carefully.
-Let's try it out! Capture the black piece.
+Let's try it out! Use the queen to capture the opponent's queen!
 
 Lastly, the king. The king can only one square in any direction.
+Let's try it out! Capture the white pawn to prevent it from promoting!
+
 A special move that a king can do is castling,
 where you move both the king and rook at the same time;
 the king will move two squares towards the rook...
 and that rook is placed on the square over which the king crossed.
 You can only do castling when there are no pieces occupying between the two pieces...
 and neither the king nor the rook have previously moved.
-Let's try it out! Capture the black piece.
+Let's try it out! Perform castling with the rook on the right.
 
 The king is the most important piece in the game,
 where the strategy revolves protecting your king and threatening your opponent's.

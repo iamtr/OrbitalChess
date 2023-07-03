@@ -5,8 +5,9 @@ using Photon.Pun;
 
 public class MultiplayerBoardController : BoardController
 {
-	[SerializeField] public PlayerManager localPlayer;
+
 	[SerializeField] private PhotonView pv;
+	private PlayerManager playerManager;
 
 	public override void Start()
 	{
@@ -17,6 +18,7 @@ public class MultiplayerBoardController : BoardController
 
 		pieceTransform = GameObject.Find("Pieces")?.transform;
 		allMoves = new List<Move>();
+		playerManager = FindObjectOfType<PlayerManager>();
 
 		// InstantiatePieces();
 		// testArray = pieces.Clone() as Piece[];
@@ -26,7 +28,7 @@ public class MultiplayerBoardController : BoardController
 	public override Piece InstantiatePiece(Piece piece, int pos)
 	{
 		Piece p = base.InstantiatePiece(piece, pos);
-		if (localPlayer.Player == PlayerType.White) RotatePiece(p);
+		if (playerManager.Player == PlayerType.White) RotatePiece(p);
 		return p;
 	}
 

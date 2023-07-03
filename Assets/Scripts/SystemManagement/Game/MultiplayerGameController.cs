@@ -19,6 +19,7 @@ public class MultiplayerGameController : GameController
 	[SerializeField] private GameObject playerSelectionPanel;
 	[SerializeField] private Button blackButton;
 	[SerializeField] private Button whiteButton;
+	private PlayerManager playerManager;
 
 	public PlayerType LocalPlayer { get => localPlayer; set => value = localPlayer; }
 
@@ -26,6 +27,7 @@ public class MultiplayerGameController : GameController
 	{
 		base.Start();
 		pv = GetComponent<PhotonView>();
+		playerManager = FindObjectOfType<PlayerManager>();
 	}
 
 	public override void SetPlayer()
@@ -48,15 +50,18 @@ public class MultiplayerGameController : GameController
 
 	public void StartGame()
 	{
-		bc.InstantiatePieces();
 		if (PhotonNetwork.LocalPlayer.CustomProperties["PlayerType"].Equals(0))
 		{
-			bc.localPlayer = PlayerType.Black;
+			playerManager.Player = PlayerType.Black;
 		}
 		else if (PhotonNetwork.LocalPlayer.CustomProperties["PlayerType"].Equals(1))
 		{
-			currPlayer = PlayerType.White;
+			playerManager.Player = PlayerType.White;
+			Camera c = FindObjectOfType<Camera>();	
+			c.transform.eulerAngles = new Vector3(0, 0, 180);
 		}
+
+		bc.InstantiatePieces();
 	}
 
 	[PunRPC]
@@ -74,7 +79,7 @@ public class MultiplayerGameController : GameController
 		} 
 		else if (selectedTeam == 1)
 		{
-			Debug.Log("Black selected");
+			Debug.Log("White selected");
 			isWhiteSelected = true;
 			whiteButton.interactable = false;
 		}

@@ -8,10 +8,19 @@ public class MultiplayerBoardController : BoardController
 	[SerializeField] public PlayerManager localPlayer;
 	[SerializeField] private PhotonView pv;
 
-	private void Start()
+	public override void Start()
 	{
-		base.Start();
+		hm = FindObjectOfType<HighlightManager>();
+		um = FindObjectOfType<UIManager>();
+		gc = FindObjectOfType<GameController>();
 		pv = GetComponent<PhotonView>();
+
+		pieceTransform = GameObject.Find("Pieces")?.transform;
+		allMoves = new List<Move>();
+
+		// InstantiatePieces();
+		// testArray = pieces.Clone() as Piece[];
+		AssertAllReferenceIsNotNull();	
 	}
 
 	public override Piece InstantiatePiece(Piece piece, int pos)

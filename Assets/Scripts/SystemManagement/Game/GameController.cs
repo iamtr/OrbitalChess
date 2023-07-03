@@ -61,7 +61,7 @@ public class GameController : MonoBehaviour
 		bc = FindObjectOfType<BoardController>();
 		im = FindObjectOfType<InputManager>();
 
-		currPlayer = PlayerType.White;
+		// currPlayer = PlayerType.White;
 
 		AssertAllReferenceIsNotNull();
 	}
@@ -78,7 +78,7 @@ public class GameController : MonoBehaviour
 
 	private void Update()
 	{
-		if (GameController.GetGameState() == GameState.GameOver)
+		if (GetGameState() == GameState.GameOver)
 		{
 			replayButton.gameObject.SetActive(true);
 			return;

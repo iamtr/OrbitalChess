@@ -31,16 +31,16 @@ public class BoardController : MonoBehaviour
 
 	[SerializeField] private GameObject[] mines;
 
-	private Transform pieceTransform;
+	protected Transform pieceTransform;
 
 	/// <summary>
 	/// Array that is used to simulated if a move results in a check to own king
 	/// </summary>
-	private Piece[] testArray;
+	protected Piece[] testArray;
 
 	private int BlackKingPos = 3;
 	private int WhiteKingPos = 59;
-	private List<Move> allMoves;
+	protected List<Move> allMoves;
 	protected UIManager um;
 	protected HighlightManager hm;
 	protected GameController gc;
@@ -105,7 +105,8 @@ public class BoardController : MonoBehaviour
 			if (pieces[i] != null) InstantiatePiece(pieces[i], i);
 		}
 
-		RotateAllPieces();
+		// RotateAllPieces();
+		testArray = pieces.Clone() as Piece[];
 	}
 
 	/// <summary>

@@ -9,8 +9,7 @@ public class TutorialManager : MonoBehaviour
 {
     [SerializeField] private TMP_Text tutorialText;
 
-    [SerializeField] private TextAsset introFile;
-    [SerializeField] private TextAsset pieceMovementFile;
+    [SerializeField] private TextAsset[] tutorialFiles;
 
     [SerializeField] private Button nextButton;
     [SerializeField] private Button prevButton;
@@ -29,7 +28,7 @@ public class TutorialManager : MonoBehaviour
 
 	private void Start()
     {
-        ReadAndStoreFiles(introFile, pieceMovementFile);
+        ReadAndStoreFiles(tutorialFiles);
         tutorialText.text = Lines[FileIndex][LineIndex];
         bc = FindObjectOfType<BoardController>();
     }

@@ -1,6 +1,6 @@
-Each piece has a value, 
-pawn is worth one point, 
-a knight or a bishop is worth three points, 
-a rook is worth five points, 
-and a queen is worth nine points. 
+Each piece has a value,
+Pawns are worth one point,
+Knights or Bishops are worth three points,
+Rooks are worth five points,
+and the queen is worth nine points.
 The only piece that doesn’t have a point value is the king.

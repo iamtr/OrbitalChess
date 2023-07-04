@@ -16,6 +16,7 @@ public class MovementCoordination : MonoBehaviour
 	private void Awake()
 	{
 		bc = FindObjectOfType<BoardController>();
+		//ColorOptionDropdown.Dropdown(1);
 	}
 
 	public void ExecuteMove()

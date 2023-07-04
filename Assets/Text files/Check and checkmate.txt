@@ -9,7 +9,7 @@ Let's try it out! Move the king away from the attacking queen!
 2- Move a piece to block the line of threat,
 which is not possible when the attacking piece is a knight or a pawn,
 or when there are two pieces attacking simultaneously;
-Let's try it out! Block the attacking queen!
+Let's try it out! Block the attacking bishop!
 
 3- Capture the attacking piece
 Let's try it out! Capture the attacking queen.

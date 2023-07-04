@@ -102,14 +102,16 @@ public class Pawn : Piece, IPromotable
 		if (IsLegalMove(m) && !bc.IsOccupied(m.TargetSquare) && !bc.IsBeingCheckedAfterMove(m, Player))
 		{
 			moves.Add(m);
+
+			m = new Move(CurrPos, bc.ConvPos(currX, newY + direction), this);
+
+			if (!hasMoved && IsLegalMove(m) && !bc.IsOccupied(m.TargetSquare) && !bc.IsBeingCheckedAfterMove(m, Player))
+			{
+				moves.Add(m);
+			}
 		}
 
-		m = new Move(CurrPos, bc.ConvPos(currX, newY + direction), this);
 
-		if (!hasMoved && IsLegalMove(m) && !bc.IsOccupied(m.TargetSquare) && !bc.IsBeingCheckedAfterMove(m, Player))
-		{
-			moves.Add(m);
-		}
 
 		GetEnPassantMoves(direction);
 		GetPawnDiagonalMoves(direction);
@@ -184,13 +186,13 @@ public class Pawn : Piece, IPromotable
 		if (IsLegalMove(m) && !bc.TestArrayIsOccupied(m.TargetSquare))
 		{
 			moves.Add(m);
-		}
 
-		m = new Move(CurrPos, bc.ConvPos(currX, newY + direction), this);
+			m = new Move(CurrPos, bc.ConvPos(currX, newY + direction), this);
 
-		if (!hasMoved && IsLegalMove(m) && !bc.TestArrayIsOccupied(m.TargetSquare))
-		{
-			moves.Add(m);
+			if (!hasMoved && IsLegalMove(m) && !bc.TestArrayIsOccupied(m.TargetSquare))
+			{
+				moves.Add(m);
+			}
 		}
 
 		GetAllEnPassantMoves(direction);

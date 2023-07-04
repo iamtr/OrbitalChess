@@ -9,19 +9,16 @@ using UnityEngine.UI;
 
 public class MultiplayerGameController : GameController
 {
-	[SerializeField] private PhotonView pv;
+	protected PhotonView pv;
 
 	private bool isGameStarted = false;
 	private bool isBlackSelected = false;
 	private bool isWhiteSelected = false;
 
-	[SerializeField] private PlayerType localPlayer;
 	[SerializeField] private GameObject playerSelectionPanel;
 	[SerializeField] private Button blackButton;
 	[SerializeField] private Button whiteButton;
 	private PlayerManager playerManager;
-
-	public PlayerType LocalPlayer { get => localPlayer; set => value = localPlayer; }
 
 	public override void Start()
 	{

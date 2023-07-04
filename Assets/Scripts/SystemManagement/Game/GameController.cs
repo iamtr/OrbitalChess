@@ -19,12 +19,14 @@ public class GameController : MonoBehaviour
 
 	[SerializeField] private GameObject replayButton;
 
+	[SerializeField] private PlayerType currPlayerRef;
+
 	private static PlayerType currPlayer = PlayerType.White;
 	private static GameState gameState;
 	public bool IsCheck { get; private set; }
 
-	[SerializeField] protected BoardController bc;
-	[SerializeField] protected InputManager im;
+	protected BoardController bc;
+	protected InputManager im;
 
 	public bool IsSpecialMode => isSpecialMode;
 

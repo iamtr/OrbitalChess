@@ -6,8 +6,8 @@ using Photon.Pun;
 public class MultiplayerBoardController : BoardController
 {
 
-	[SerializeField] private PhotonView pv;
-	private PlayerManager playerManager;
+	protected PhotonView pv;
+	protected PlayerManager playerManager;
 
 	public override void Start()
 	{
@@ -20,8 +20,6 @@ public class MultiplayerBoardController : BoardController
 		allMoves = new List<Move>();
 		playerManager = FindObjectOfType<PlayerManager>();
 
-		// InstantiatePieces();
-		// testArray = pieces.Clone() as Piece[];
 		AssertAllReferenceIsNotNull();	
 	}
 

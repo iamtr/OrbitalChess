@@ -537,6 +537,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1513277912328044685, guid: 3adaeb294de97034283bf1432bea6ae0, type: 3}
+      propertyPath: checkText
+      value: 
+      objectReference: {fileID: 1024590935}
+    - target: {fileID: 1513277912328044685, guid: 3adaeb294de97034283bf1432bea6ae0, type: 3}
+      propertyPath: replayButton
+      value: 
+      objectReference: {fileID: 1301441745}
     - target: {fileID: 2090851011667942025, guid: 3adaeb294de97034283bf1432bea6ae0, type: 3}
       propertyPath: checkText
       value: 

@@ -15,18 +15,18 @@ MonoBehaviour:
   rank1:
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 3765497438328110049, guid: 217ed62adfeda2947b5ea42d07282425, type: 3}
   - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 3765497438328110049, guid: 217ed62adfeda2947b5ea42d07282425, type: 3}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   rank2:
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 2105344910545598611, guid: d2a10b49d2231ee46a160238e6dc7176, type: 3}
+  - {fileID: 4895009030346123515, guid: 74835ec57bdd1394e95256050f557eb4, type: 3}
+  - {fileID: 2105344910545598611, guid: d2a10b49d2231ee46a160238e6dc7176, type: 3}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -43,7 +43,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 640778114731814110, guid: a9b4ce7a85692b04a986287573237b11, type: 3}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -74,11 +74,11 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1284856927727899535, guid: 69f4a22cb28de9c4b9ac66b4f12d7f4f, type: 3}
   rank8:
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: -5015178815786077399, guid: 689c2e25aee0e8a459cefbee8b04882a, type: 3}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}

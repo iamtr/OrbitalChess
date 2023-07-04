@@ -25,6 +25,8 @@ public class MultiplayerGameController : GameController
 		base.Start();
 		pv = GetComponent<PhotonView>();
 		playerManager = FindObjectOfType<PlayerManager>();
+
+		// StartGame();
 	}
 
 	public override void SetPlayer()
@@ -54,7 +56,7 @@ public class MultiplayerGameController : GameController
 		else if (PhotonNetwork.LocalPlayer.CustomProperties["PlayerType"].Equals(1))
 		{
 			playerManager.Player = PlayerType.White;
-			Camera c = FindObjectOfType<Camera>();	
+			Camera c = FindObjectOfType<Camera>();
 			c.transform.eulerAngles = new Vector3(0, 0, 180);
 		}
 

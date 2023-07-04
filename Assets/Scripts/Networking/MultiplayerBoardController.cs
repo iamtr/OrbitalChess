@@ -38,7 +38,7 @@ public class MultiplayerBoardController : BoardController
 
 		if (h.Special == SpecialMove.Play && CurrPiece is Pawn pawn)
 		{
-			pawn.SetTwoStepMove(temp[1]);
+			SetPawnBooleanToTwoStep(pawn.CurrPos);
 		}
 		if (h.Special == SpecialMove.EnPassant)
 		{
@@ -86,15 +86,82 @@ public class MultiplayerBoardController : BoardController
 
 	public override void MovePiece(int x, int y, Piece piece)
 	{
-		int oldPos = CurrPiece.CurrPos;
+		int oldPos = piece.CurrPos;
 		int newPos = ConvPos(x, y);
 		if (piece == null) Debug.Log("RPC_MovePiece: Piece is null!");
 		pv.RPC(nameof(RPC_SetPiecePos), RpcTarget.All, new object[] { oldPos, newPos });
+
+		if (piece is Pawn pawn)
+		{
+			SetPawnBooleanToMoved(piece.CurrPos);
+		}
+	}
+
+	public override void HandlePieceClicked(Collider2D col)
+	{
+		base.HandlePieceClicked(col);
+		Piece p = col.GetComponent<Piece>();
+		SyncCurrPiece(p.CurrPos);
+	}
+
+	public override void SetPawnBooleansToFalse()
+	{
+		pv.RPC(nameof(RPC_SetPawnBooleansToFalse), RpcTarget.All);
+	}
+
+	public override void SetPawnBooleanToMoved(int pos)
+	{
+		pv.RPC(nameof(RPC_SetPawnBooleanToMoved), RpcTarget.All, pos);
+	}
+
+	public override void SetPawnBooleanToTwoStep(int pos)
+	{
+		pv.RPC(nameof(RPC_SetPawnBooleanToTwoStep), RpcTarget.All, pos);
+	}
+
+	public override void MoveEnPassantPiece(int x, int y, Piece piece)
+	{
+		pv.RPC(nameof(RPC_MoveEnPassantPiece), RpcTarget.All, new object[] { x, y, piece.CurrPos });
+	}
+
+	public override void SyncCurrPiece(int piecePos)
+	{
+		pv.RPC(nameof(RPC_SyncCurrPiece), RpcTarget.All, piecePos);	
 	}
 
 	[PunRPC]
 	public void RPC_SetPiecePos(int oldPos, int newPos)
 	{
 		SetPiecePos(oldPos, newPos);
+	}
+
+	[PunRPC]
+	public void RPC_SetPawnBooleansToFalse()
+	{
+		base.SetPawnBooleansToFalse();
+	}
+
+	[PunRPC]
+	public void RPC_SetPawnBooleanToMoved(int pos)
+	{
+		base.SetPawnBooleanToMoved(pos);
+	}
+
+	[PunRPC]
+	public void RPC_SetPawnBooleanToTwoStep(int pos)
+	{
+		base.SetPawnBooleanToTwoStep(pos);
+	}
+
+	[PunRPC]
+	public void RPC_MoveEnPassantPiece(int x, int y, int piecePos)
+	{
+		base.MoveEnPassantPiece(x, y, GetPieceFromPos(piecePos));
+	}
+
+	[PunRPC]
+	public void RPC_SyncCurrPiece(int piecePos)
+	{
+		base.SyncCurrPiece(piecePos);
 	}
 }

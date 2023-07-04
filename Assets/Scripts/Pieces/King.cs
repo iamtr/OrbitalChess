@@ -175,7 +175,7 @@ public class King : Piece
 	}
 
 	/// <summary>
-	/// Sets the hasMoved boolean in its initial move
+	/// Sets the HasMoved boolean in its initial move
 	/// </summary>
 	public void SetKingBoolean()
 	{

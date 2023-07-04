@@ -5,7 +5,7 @@ public class Pawn : Piece, IPromotable
 	/// <summary>
 	/// A boolean of whether the pawn has moved from its initial position
 	/// </summary>
-	private bool hasMoved = false;
+	public bool HasMoved { get; set; } = false;
 
 	public bool JustMoved { get; set; } = false;
 	public bool TwoStep { get; set; } = false;
@@ -105,7 +105,7 @@ public class Pawn : Piece, IPromotable
 
 			m = new Move(CurrPos, bc.ConvPos(currX, newY + direction), this);
 
-			if (!hasMoved && IsLegalMove(m) && !bc.IsOccupied(m.TargetSquare) && !bc.IsBeingCheckedAfterMove(m, Player))
+			if (!HasMoved && IsLegalMove(m) && !bc.IsOccupied(m.TargetSquare) && !bc.IsBeingCheckedAfterMove(m, Player))
 			{
 				moves.Add(m);
 			}
@@ -189,7 +189,7 @@ public class Pawn : Piece, IPromotable
 
 			m = new Move(CurrPos, bc.ConvPos(currX, newY + direction), this);
 
-			if (!hasMoved && IsLegalMove(m) && !bc.TestArrayIsOccupied(m.TargetSquare))
+			if (!HasMoved && IsLegalMove(m) && !bc.TestArrayIsOccupied(m.TargetSquare))
 			{
 				moves.Add(m);
 			}
@@ -202,13 +202,13 @@ public class Pawn : Piece, IPromotable
 	}
 
 	/// <summary>
-	/// Sets the hasMoved boolean and triggers the Turn Countdown
+	/// Sets the HasMoved boolean and triggers the Turn Countdown
 	/// if movement is the initial move
 	/// </summary>
 	public void SetPawnBoolean()
 	{
 		JustMoved = true;
-		hasMoved = true;
+		HasMoved = true;
 	}
 
 	/// <summary>

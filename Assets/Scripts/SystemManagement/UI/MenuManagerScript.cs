@@ -1,3 +1,4 @@
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -52,5 +53,10 @@ public class MenuManagerScript : MonoBehaviour
 				SceneManager.LoadScene(customGameModeStartScene);
 				break;
 		}
+	}
+
+	public void LeaveRoom()
+	{
+		PhotonNetwork.LeaveRoom();
 	}
 }

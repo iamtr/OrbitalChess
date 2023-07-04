@@ -31,16 +31,16 @@ public class BoardController : MonoBehaviour
 
 	[SerializeField] private GameObject[] mines;
 
-	private Transform pieceTransform;
+	protected Transform pieceTransform;
 
 	/// <summary>
 	/// Array that is used to simulated if a move results in a check to own king
 	/// </summary>
-	private Piece[] testArray;
+	protected Piece[] testArray;
 
 	private int BlackKingPos = 3;
 	private int WhiteKingPos = 59;
-	private List<Move> allMoves;
+	protected List<Move> allMoves;
 	protected UIManager um;
 	protected HighlightManager hm;
 	protected GameController gc;
@@ -86,7 +86,7 @@ public class BoardController : MonoBehaviour
 		AssertAllReferenceIsNotNull();
 	}
 
-	private void AssertAllReferenceIsNotNull()
+	public void AssertAllReferenceIsNotNull()
 	{
 		Assert.IsNotNull(pieces);
 		Assert.IsNotNull(blackPieces);
@@ -98,12 +98,15 @@ public class BoardController : MonoBehaviour
 	/// <summary>
 	/// Instantiates all pieces and highlight squares
 	/// </summary>
-	protected virtual void InstantiatePieces()
+	public virtual void InstantiatePieces()
 	{
 		for (var i = 0; i < 64; i++)
 		{
 			if (pieces[i] != null) InstantiatePiece(pieces[i], i);
 		}
+
+		// RotateAllPieces();
+		testArray = pieces.Clone() as Piece[];
 	}
 
 	/// <summary>
@@ -112,7 +115,7 @@ public class BoardController : MonoBehaviour
 	/// <param name="piece">Type of piece to be instantiated</param>
 	/// <param name="pos">Position on board to be instantiated</param>
 	/// <returns></returns>
-	public Piece InstantiatePiece(Piece piece, int pos)
+	public virtual Piece InstantiatePiece(Piece piece, int pos)
 	{
 		int x = ConvXY(pos)[0];
 		int y = ConvXY(pos)[1];
@@ -156,7 +159,7 @@ public class BoardController : MonoBehaviour
 	/// </summary>
 	/// <param name="piece">Piece to be moved</param>
 	/// <param name="pos">New position on board</param>
-	public void SetPiecePos(int oldPos, int newPos)
+	public virtual void SetPiecePos(int oldPos, int newPos)
 	{
 		if (pieces[oldPos] == null)
 		{
@@ -234,7 +237,7 @@ public class BoardController : MonoBehaviour
 		if (gc.IsSpecialMode) TriggerMine(newPos);
 	}
 
-	public void MoveEnPassantPiece(int x, int y, Piece piece)
+	public virtual void MoveEnPassantPiece(int x, int y, Piece piece)
 	{
 		int newPos = ConvPos(x, y);
 		int enemyPos = ConvPos(x, ConvXY(piece.CurrPos)[1]);
@@ -246,7 +249,7 @@ public class BoardController : MonoBehaviour
 		if (gc.IsSpecialMode) TriggerMine(newPos);
 	}
 
-	public void MoveCastling(int targetX, int targetY, Piece piece)
+	public virtual void MoveCastling(int targetX, int targetY, Piece piece)
 	{
 		Piece rook = GetPieceFromPos(ConvPos(targetX, targetY));
 
@@ -421,7 +424,7 @@ public class BoardController : MonoBehaviour
 	/// Calls Promote() on the current piece
 	/// </summary>
 	/// <param name="promotedPiece">The piece type to be instantiated</param>
-	public void PromotePiece(Piece promotedPiece)
+	public virtual void PromotePiece(Piece promotedPiece)
 	{
 		try
 		{
@@ -633,6 +636,22 @@ public class BoardController : MonoBehaviour
 		pieceToInstantiate = piece;
 	}
 
+	public void RotateAllPieces()
+	{
+		foreach(Piece piece in pieces)
+		{
+			if (piece == null) continue;
+			piece.transform.eulerAngles = new Vector3(180f, 180f, 0f);
+		}
+	}
+
+	public void RotatePiece(Piece piece)
+	{
+		piece.gameObject.transform.eulerAngles = new Vector3(180f, 180f, 0f);
+	}
+
+
+	#region Special Moves
 	// Special moves:
 
 	/// <summary>
@@ -787,10 +806,12 @@ public class BoardController : MonoBehaviour
 	/// Distribute a random card to a player (who has captured a piece)
 	/// </summary>
 	/// <param name="player"></param>
-	public void DistributeRandomCard(PlayerManager player)
+	public void DistributeRandomCard(SpecialPlayerManager player)
 	{
 		int rand = UnityEngine.Random.Range(0, cards.Length);
 		Card card = cards[rand];
 		player.AddCard(card);
 	}
+
+	#endregion
 }

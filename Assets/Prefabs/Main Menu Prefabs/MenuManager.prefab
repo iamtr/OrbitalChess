@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ac307ee9bf5c1943a680cf6ebd48ed5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menuScene: main-menu
+  menuScene: Main Menu
   mainGameStartScene: Main
   blitzGameStartScene: Blitz
   customGameModeStartScene: Custom Game Mode

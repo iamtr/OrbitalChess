@@ -6,7 +6,7 @@ public class InputManager : MonoBehaviour
 	protected HighlightManager hm;
 	protected GameController gc;
 
-	private void Start()
+	protected virtual void Start()
 	{
 		bc = FindObjectOfType<BoardController>();
 		hm = FindObjectOfType<HighlightManager>();
@@ -17,7 +17,7 @@ public class InputManager : MonoBehaviour
 	/// Handles the mouse events (click)
 	/// </summary>
 	/// <param name="col"></param>
-	public void HandleColliderClicked(Collider2D col)
+	public virtual void HandleColliderClicked(Collider2D col)
 	{
 		if (col == null)
 		{

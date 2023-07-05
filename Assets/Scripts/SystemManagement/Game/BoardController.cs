@@ -50,6 +50,7 @@ public class BoardController : MonoBehaviour
 	public Piece[] Pieces => pieces;
 
 	[SerializeField] protected Piece currPiece;
+	[SerializeField] protected Card currCard;
 
 	[SerializeField] protected Piece[] defaultPieceArray;
 
@@ -353,63 +354,63 @@ public class BoardController : MonoBehaviour
 		else BlackKingPos = newPos;
 	}
 
-	/// <summary>
-	/// Handles the logic after a highlight square is clicked
-	/// </summary>
-	/// <param name="col"></param>
-	public virtual void HandleHighlightSquareClicked(Collider2D col)
-	{
-		var h = col.GetComponent<HighlightSquare>();
-		var temp = ConvXY(h.Position);
-		CurrPiece?.InvokeOnBeforeMove();
+	///// <summary>
+	///// Handles the logic after a highlight square is clicked
+	///// </summary>
+	///// <param name="col"></param>
+	//public virtual void HandleHighlightSquareClicked(Collider2D col)
+	//{
+	//	var h = col.GetComponent<HighlightSquare>();
+	//	var temp = ConvXY(h.Position);
+	//	CurrPiece?.InvokeOnBeforeMove();
 
-		if (h.Special == SpecialMove.Play && CurrPiece is Pawn pawn)
-		{
-			pawn.SetTwoStepMove(temp[1]);
-		}
-		if (h.Special == SpecialMove.EnPassant)
-		{
-			MoveEnPassantPiece(temp[0], temp[1], CurrPiece);
-		}
-		if (h.Special == SpecialMove.Castling)
-		{
-			MoveCastling(temp[0], temp[1], CurrPiece);
-		}
-		if (h.Special == SpecialMove.Play)
-		{
-			MovePiece(temp[0], temp[1], CurrPiece);
-		}
+	//	if (h.Special == SpecialMove.Play && CurrPiece is Pawn pawn)
+	//	{
+	//		pawn.SetTwoStepMove(temp[1]);
+	//	}
+	//	if (h.Special == SpecialMove.EnPassant)
+	//	{
+	//		MoveEnPassantPiece(temp[0], temp[1], CurrPiece);
+	//	}
+	//	if (h.Special == SpecialMove.Castling)
+	//	{
+	//		MoveCastling(temp[0], temp[1], CurrPiece);
+	//	}
+	//	if (h.Special == SpecialMove.Play)
+	//	{
+	//		MovePiece(temp[0], temp[1], CurrPiece);
+	//	}
 
-		// Below are special moves, they return early to prevent execution of unwanted code
-		if (h.Special == SpecialMove.Bomb)
-		{
-			Bomb(h.Position);
-			GameController.InvokeOnRoundEnd();
-			return;
-		}
-		if (h.Special == SpecialMove.Steal)
-		{
-			StealOpponentPiece(h.Position);
-			GameController.InvokeOnRoundEnd();
-			return;
-		}
-		if (h.Special == SpecialMove.Spawn)
-		{
-			um.DisableBuyOptions();
-			BuyPiece(pieceToInstantiate);
-			PlaceBoughtPiece(h.Position);
-			DisableAllUIElements();
-			return;
-		}
-		if (h.Special == SpecialMove.Mine)
-		{
-			PlantMine(h.Position);
-		}
+	//	// Below are special moves, they return early to prevent execution of unwanted code
+	//	if (h.Special == SpecialMove.Bomb)
+	//	{
+	//		Bomb(h.Position);
+	//		GameController.InvokeOnRoundEnd();
+	//		return;
+	//	}
+	//	if (h.Special == SpecialMove.Steal)
+	//	{
+	//		StealOpponentPiece(h.Position);
+	//		GameController.InvokeOnRoundEnd();
+	//		return;
+	//	}
+	//	if (h.Special == SpecialMove.Spawn)
+	//	{
+	//		um.DisableBuyOptions();
+	//		BuyPiece(pieceToInstantiate);
+	//		PlaceBoughtPiece(h.Position);
+	//		DisableAllUIElements();
+	//		return;
+	//	}
+	//	if (h.Special == SpecialMove.Mine)
+	//	{
+	//		PlantMine(h.Position);
+	//	}
 
-		SetHighLightSpecial(h, SpecialMove.Play);
-		DisableAllUIElements();
-		CurrPiece?.InvokeOnAfterMove();
-	}
+	//	SetHighLightSpecial(h, SpecialMove.Play);
+	//	DisableAllUIElements();
+	//	CurrPiece?.InvokeOnAfterMove();
+	//}
 
 	/// <summary>
 	/// Handles the logic after a king of the current player is clicked
@@ -695,6 +696,16 @@ public class BoardController : MonoBehaviour
 
 	#region Special Moves
 	// Special moves:
+	public void SetCurrentCard(Card card)
+	{
+		currCard = card;
+	}
+
+	public void DestroyCurrentCard()
+	{
+		Destroy(currCard.gameObject);
+	}
+
 
 	/// <summary>
 	/// Bombs a 3x3 area around a position

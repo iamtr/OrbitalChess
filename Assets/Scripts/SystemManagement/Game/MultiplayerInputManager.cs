@@ -23,7 +23,7 @@ public class MultiplayerInputManager : InputManager
 		}
 		else if (col.gameObject.CompareTag("Highlight Square"))
 		{
-			bc.HandleHighlightSquareClicked(col);
+			hm.HandleHighlightSquareClicked(col);
 		}
 		else if (col.gameObject.CompareTag("Piece")
 			&& col.GetComponent<Piece>().Player == GameController.GetCurrPlayer()

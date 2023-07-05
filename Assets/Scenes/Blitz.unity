@@ -556,6 +556,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Blitz Game Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 8497541592612315362, guid: 1d26e084ba15e5140923659f652848c4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8497541592612315366, guid: 1d26e084ba15e5140923659f652848c4, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -736,6 +740,10 @@ PrefabInstance:
     - target: {fileID: 7741613457342701393, guid: b6c2e1b6eb983ff42b71245464087eee, type: 3}
       propertyPath: m_Name
       value: Mode Select Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 7741613457342701393, guid: b6c2e1b6eb983ff42b71245464087eee, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7741613457342701397, guid: b6c2e1b6eb983ff42b71245464087eee, type: 3}
       propertyPath: m_Pivot.x
@@ -1048,16 +1056,28 @@ PrefabInstance:
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5612332725813949722, guid: 204df59ce1fd93947afb4457e113caff, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.0000001
+      objectReference: {fileID: 0}
+    - target: {fileID: 5612332725813949722, guid: 204df59ce1fd93947afb4457e113caff, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.0000001
+      objectReference: {fileID: 0}
+    - target: {fileID: 5612332725813949722, guid: 204df59ce1fd93947afb4457e113caff, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.0000001
+      objectReference: {fileID: 0}
+    - target: {fileID: 5612332725813949722, guid: 204df59ce1fd93947afb4457e113caff, type: 3}
       propertyPath: m_LocalPosition.x
       value: 96.583954
       objectReference: {fileID: 0}
     - target: {fileID: 5612332725813949722, guid: 204df59ce1fd93947afb4457e113caff, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 33.634544
+      value: 33.634537
       objectReference: {fileID: 0}
     - target: {fileID: 5612332725813949722, guid: 204df59ce1fd93947afb4457e113caff, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.96842283
+      value: -0.9684229
       objectReference: {fileID: 0}
     - target: {fileID: 5612332725813949722, guid: 204df59ce1fd93947afb4457e113caff, type: 3}
       propertyPath: m_LocalRotation.w

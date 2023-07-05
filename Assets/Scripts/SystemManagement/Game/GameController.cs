@@ -72,10 +72,7 @@ public class GameController : MonoBehaviour
     {
 		Assert.IsNotNull(checkText);
 		Assert.IsNotNull(replayButton);
-        if (isSpecialMode)
-        {
-			Assert.IsNotNull(turnText);
-		}
+		Assert.IsNotNull(turnText);
 	}
 
 	private void Update()
@@ -103,7 +100,7 @@ public class GameController : MonoBehaviour
 	public virtual void SetPlayer()
 	{
 		currPlayer = currPlayer == PlayerType.Black ? PlayerType.White : PlayerType.Black;
-		if (IsSpecialMode) turnText.text = currPlayer.ToString() + " Turn";
+		turnText.text = currPlayer.ToString() + " Turn";
 	}
 
 	/// <summary>

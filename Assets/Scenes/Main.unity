@@ -670,6 +670,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1513277912328044685, guid: 3adaeb294de97034283bf1432bea6ae0, type: 3}
+      propertyPath: turnText
+      value: 
+      objectReference: {fileID: 6055933260519372662}
+    - target: {fileID: 1513277912328044685, guid: 3adaeb294de97034283bf1432bea6ae0, type: 3}
       propertyPath: checkText
       value: 
       objectReference: {fileID: 1024590935}
@@ -824,3 +828,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 89eec4662094b884a8e49515458ca70e, type: 3}
+--- !u!114 &6055933260519372662 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4311558627516179688, guid: 89eec4662094b884a8e49515458ca70e, type: 3}
+  m_PrefabInstance: {fileID: 6055933260519372661}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

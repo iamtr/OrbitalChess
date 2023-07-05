@@ -1,15 +1,21 @@
 There are a few common strategies you can use in chess.
 The first is centre control.
-Controlling the centre is important in early game...
+Controlling the centre is important in early game
 as it offers greater mobility and flexibility.
+
 Second is piece development.
 During the opening, it's critical to move your pieces (knights, bishops, and rooks)
 from their initial positions to active squares,
 ideally in the board's centre.
+
 It is recommended to safeguard your king by casting
 as it gets the king out of the middle, hiding it on the side.
+
 Tactical opportunities are very useful in chess
 as it limits the opponent movement to give you the edge.
+
 Examples are forks, where you attack two pieces at the same time;
+
 Pins, restricting the movement of an opponent’s piece;
+
 And skewers, forcing the opponent to play a more valuable piece.

@@ -41,7 +41,7 @@ the king will move two squares towards the rook...
 and that rook is placed on the square over which the king crossed.
 You can only do castling when there are no pieces occupying between the two pieces...
 and neither the king nor the rook have previously moved.
-Let's try it out! Perform castling with the rook on the right.
+Let's try it out! Perform castling with the rook on the left.
 
 The king is the most important piece in the game,
 where the strategy revolves protecting your king and threatening your opponent's.

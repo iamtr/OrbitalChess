@@ -1,7 +1,12 @@
 The ultimate goal of the game is to checkmate your opponent’s king.
 Checkmate occurs when the opponent’s king is under attack (in “check”)...
 and is unable to make a legal move to escape capture.
+Let's try it out! Checkmate your opponent with only one move.
+Well done! The rook checks Black's king and there is no safe square to dodge the check.
+
+Let's try it out! Checkmate your opponent with only one move.
+As you can see, it does not matter if your opponent has more pieces on the board,
+you can still checkmate your opponent if they are careless.
+
 When the king is NOT in check, AND there are no legal moves left,
 this results in a stalemate, ending the game in a draw.
-Let's try it out! Checkmate your opponent with only one move.
-Let's try it out! Checkmate your opponent with only one move.

@@ -10,53 +10,53 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4577faa6289e21340950e424466887e2, type: 3}
-  m_Name: CheckmateTutorial3
+  m_Name: CheckTutorial2
   m_EditorClassIdentifier: 
   rank1:
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 1284856927727899535, guid: 69f4a22cb28de9c4b9ac66b4f12d7f4f, type: 3}
   - {fileID: 3765497438328110049, guid: 217ed62adfeda2947b5ea42d07282425, type: 3}
-  - {fileID: 4895009030346123515, guid: 74835ec57bdd1394e95256050f557eb4, type: 3}
+  - {fileID: 0}
+  - {fileID: 3765497438328110049, guid: 217ed62adfeda2947b5ea42d07282425, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   rank2:
   - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 2105344910545598611, guid: d2a10b49d2231ee46a160238e6dc7176, type: 3}
+  - {fileID: 4895009030346123515, guid: 74835ec57bdd1394e95256050f557eb4, type: 3}
   - {fileID: 2105344910545598611, guid: d2a10b49d2231ee46a160238e6dc7176, type: 3}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 2105344910545598611, guid: d2a10b49d2231ee46a160238e6dc7176, type: 3}
-  - {fileID: 0}
-  - {fileID: 2105344910545598611, guid: d2a10b49d2231ee46a160238e6dc7176, type: 3}
   - {fileID: 0}
   rank3:
   - {fileID: 0}
-  - {fileID: 6374707855436061919, guid: 5a6e7cdad2d7c9741ab3757e82c9ee25, type: 3}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 6374707855436061919, guid: 5a6e7cdad2d7c9741ab3757e82c9ee25, type: 3}
   - {fileID: 0}
-  - {fileID: 6374707855436061919, guid: 5a6e7cdad2d7c9741ab3757e82c9ee25, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 0}
   rank4:
   - {fileID: 0}
-  - {fileID: 643328333909121127, guid: 7fedfafde506e3c499fc2b0bfd6ce816, type: 3}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 640778114731814110, guid: a9b4ce7a85692b04a986287573237b11, type: 3}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   rank5:
-  - {fileID: 3765497438328110049, guid: 217ed62adfeda2947b5ea42d07282425, type: 3}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 640778114731814110, guid: a9b4ce7a85692b04a986287573237b11, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
   rank6:
   - {fileID: 0}
   - {fileID: 0}
@@ -67,20 +67,20 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   rank7:
-  - {fileID: 6374707855436061919, guid: 5a6e7cdad2d7c9741ab3757e82c9ee25, type: 3}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 6374707855436061919, guid: 5a6e7cdad2d7c9741ab3757e82c9ee25, type: 3}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 6374707855436061919, guid: 5a6e7cdad2d7c9741ab3757e82c9ee25, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 1284856927727899535, guid: 69f4a22cb28de9c4b9ac66b4f12d7f4f, type: 3}
   rank8:
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: -5015178815786077399, guid: 689c2e25aee0e8a459cefbee8b04882a, type: 3}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: -3165024563381924141, guid: 54a7b93c4e4e2564698c8d15772d2f8c, type: 3}
   - {fileID: 0}
   - {fileID: 0}

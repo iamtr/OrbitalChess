@@ -39,8 +39,8 @@ public class BoardController : MonoBehaviour
 	/// </summary>
 	private Piece[] testArray;
 
-	private int BlackKingPos = 3;
-	private int WhiteKingPos = 59;
+	private int BlackKingPos = -1;
+	private int WhiteKingPos = -1;
 	private List<Move> allMoves;
 	protected UIManager um;
 	protected HighlightManager hm;
@@ -126,6 +126,18 @@ public class BoardController : MonoBehaviour
 		newPiece.transform.parent = pieceTransform;
 		newPiece.SetCoords(pos);
 		newPiece.SetTransform();
+
+		if (piece is King king)
+		{
+			if (king.Player == PlayerType.White)
+			{
+				WhiteKingPos = king.CurrPos;
+			} 
+			else if (king.Player == PlayerType.Black)
+			{
+				BlackKingPos = king.CurrPos;
+			}
+		}
 
 		return newPiece;
 	}

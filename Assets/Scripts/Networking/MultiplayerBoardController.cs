@@ -5,7 +5,6 @@ using Photon.Pun;
 
 public class MultiplayerBoardController : BoardController
 {
-
 	protected PhotonView pv;
 	protected PlayerManager playerManager;
 

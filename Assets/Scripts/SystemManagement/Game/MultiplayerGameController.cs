@@ -61,6 +61,7 @@ public class MultiplayerGameController : GameController
 		}
 
 		bc.InstantiatePieces();
+		turnText.gameObject.SetActive(true);
 	}
 
 	[PunRPC]

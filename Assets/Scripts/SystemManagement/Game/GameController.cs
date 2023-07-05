@@ -13,7 +13,7 @@ public class GameController : MonoBehaviour
 	[Header("Text")]
 	[SerializeField] private TMP_Text checkText;
 
-	[SerializeField] private TMP_Text turnText;
+	[SerializeField] protected TMP_Text turnText;
 
 	[SerializeField] private bool isSpecialMode = false;
 

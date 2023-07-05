@@ -103,6 +103,16 @@ public class TutorialManager : MonoBehaviour
 	public void CheckCondition()
 	{
 		Piece p = bc.GetPieceFromPos(conditions[tutorialIndex].position);
+        
+        if (IsConditionFulfill(p, conditions[tutorialIndex].pieces) && conditions[tutorialIndex].numberOfMovesLeft >= 0)
+		{
+            TutorialGameController.DisableCondition(conditions[tutorialIndex]);
+            GameController.SetGameState(GameState.GameOver);
+            tutorialIndex++;
+			ShowButtons();
+			TriggerNextLine();
+            return;
+		}
         if (conditions[tutorialIndex].numberOfMovesLeft == 0)
         {
             TutorialGameController.DisableCondition(conditions[tutorialIndex]);
@@ -112,14 +122,6 @@ public class TutorialManager : MonoBehaviour
             conditions[tutorialIndex].ResetNumberOfMoves();
             return;
         }
-        if (IsConditionFulfill(p, conditions[tutorialIndex].pieces))
-		{
-            TutorialGameController.DisableCondition(conditions[tutorialIndex]);
-            GameController.SetGameState(GameState.GameOver);
-            tutorialIndex++;
-			ShowButtons();
-			TriggerNextLine();
-		}
     }
 
     public bool IsConditionFulfill(Piece p, List<Piece> pieces)

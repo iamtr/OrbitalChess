@@ -38,11 +38,11 @@ public class TutorialGameController : GameController
 
 	public static void EnableCondition(Condition condition)
     {
-		OnRoundStart += condition.decreaseNumberOfMoves;
+		OnRoundEnd += condition.decreaseNumberOfMoves;
     }
 	public static void DisableCondition(Condition condition)
 	{
-		OnRoundStart -= condition.decreaseNumberOfMoves;
+		OnRoundEnd -= condition.decreaseNumberOfMoves;
 	}
 }
 

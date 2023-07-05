@@ -127,15 +127,15 @@ public class BoardController : MonoBehaviour
 		newPiece.SetCoords(pos);
 		newPiece.SetTransform();
 
-		if (piece is King king)
+		if (newPiece is King king)
 		{
 			if (king.Player == PlayerType.White)
 			{
-				WhiteKingPos = king.CurrPos;
+				WhiteKingPos = newPiece.CurrPos;
 			} 
 			else if (king.Player == PlayerType.Black)
 			{
-				BlackKingPos = king.CurrPos;
+				BlackKingPos = newPiece.CurrPos;
 			}
 		}
 

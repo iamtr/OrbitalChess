@@ -13,6 +13,7 @@ public class TutorialManager : MonoBehaviour
 
     [SerializeField] private Button nextButton;
     [SerializeField] private Button prevButton;
+    [SerializeField] private Button tryAgainButton;
 
     private string[][] Lines;
 
@@ -92,22 +93,34 @@ public class TutorialManager : MonoBehaviour
 
     public void TriggerTutorial()
     {
+        conditions[tutorialIndex].ResetNumberOfMoves();
         GameController.SetGameState(GameState.Play);
         bc.LoadPositionPresets(conditions[tutorialIndex].config);
         HideButtons();
+        TutorialGameController.EnableCondition(conditions[tutorialIndex]);
     }
 
 	public void CheckCondition()
 	{
 		Piece p = bc.GetPieceFromPos(conditions[tutorialIndex].position);
-		if (IsConditionFulfill(p, conditions[tutorialIndex].pieces))
+        if (conditions[tutorialIndex].numberOfMovesLeft == 0)
+        {
+            TutorialGameController.DisableCondition(conditions[tutorialIndex]);
+            GameController.SetGameState(GameState.GameOver);
+            Debug.Log("Unable to complete the tutorial in the required amount of moves!");
+            tryAgainButton.gameObject.SetActive(true);
+            conditions[tutorialIndex].ResetNumberOfMoves();
+            return;
+        }
+        if (IsConditionFulfill(p, conditions[tutorialIndex].pieces))
 		{
+            TutorialGameController.DisableCondition(conditions[tutorialIndex]);
             GameController.SetGameState(GameState.GameOver);
             tutorialIndex++;
 			ShowButtons();
 			TriggerNextLine();
 		}
-	}
+    }
 
     public bool IsConditionFulfill(Piece p, List<Piece> pieces)
     {
@@ -140,6 +153,12 @@ public class TutorialManager : MonoBehaviour
         }
         Pawn pawn = (Pawn)piece;
         pawn.TwoStep = true;
+    }
+
+    public void TryAgainOnClick()
+    {
+        TriggerTutorial();
+        tryAgainButton.gameObject.SetActive(false);
     }
 
     public void ShowButtons()

@@ -14,7 +14,13 @@ public class TutorialGameController : GameController
 		OnRoundStart += tm.CheckCondition;
 	}
 
-	protected override void Start()
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+		OnRoundStart -= tm.CheckCondition;
+	}
+
+    protected override void Start()
 	{
 		base.Start();
 		currPlayer = PlayerType.Black;
@@ -29,7 +35,17 @@ public class TutorialGameController : GameController
 	{
 		return;
 	}
+
+	public static void EnableCondition(Condition condition)
+    {
+		OnRoundStart += condition.decreaseNumberOfMoves;
+    }
+	public static void DisableCondition(Condition condition)
+	{
+		OnRoundStart -= condition.decreaseNumberOfMoves;
+	}
 }
+
 
 [System.Serializable]
 public class Condition
@@ -37,4 +53,16 @@ public class Condition
 	public PositionSO config;
 	public List<Piece> pieces;
 	public int position;
+	public int numberOfMovesLeft;
+	[SerializeField] private int numberOfMovesRequired;
+
+	public void decreaseNumberOfMoves()
+    {
+		numberOfMovesLeft--;
+    }
+	
+	public void ResetNumberOfMoves()
+    {
+		numberOfMovesLeft = numberOfMovesRequired;
+	}
 }

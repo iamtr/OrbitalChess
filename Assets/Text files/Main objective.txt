@@ -10,3 +10,8 @@ you can still checkmate your opponent if they are careless.
 
 When the king is NOT in check, AND there are no legal moves left,
 this results in a stalemate, ending the game in a draw.
+
+Let's try it out! Black seems doomed, but can you use stalemate to your advantage?
+Well done! Check is made by Black's pawn.
+No matter what White does next, Black will stalemate the game and win.
+This is because Black's king has no valid moves.

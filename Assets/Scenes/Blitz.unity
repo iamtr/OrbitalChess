@@ -123,6 +123,22 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &471848143 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 600033060023603240, guid: 1d26e084ba15e5140923659f652848c4, type: 3}
+  m_PrefabInstance: {fileID: 4036042648522876010}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &690472100 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8904058974634747367, guid: 1d26e084ba15e5140923659f652848c4, type: 3}
+  m_PrefabInstance: {fileID: 4036042648522876010}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &200938930989447231 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8497541592612315362, guid: 1d26e084ba15e5140923659f652848c4, type: 3}
@@ -540,6 +556,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Check Text
       objectReference: {fileID: 0}
+    - target: {fileID: 7439451708443150139, guid: 1d26e084ba15e5140923659f652848c4, type: 3}
+      propertyPath: turnText
+      value: 
+      objectReference: {fileID: 690472100}
+    - target: {fileID: 7439451708443150139, guid: 1d26e084ba15e5140923659f652848c4, type: 3}
+      propertyPath: checkText
+      value: 
+      objectReference: {fileID: 6025703976384401632}
+    - target: {fileID: 7439451708443150139, guid: 1d26e084ba15e5140923659f652848c4, type: 3}
+      propertyPath: replayButton
+      value: 
+      objectReference: {fileID: 471848143}
     - target: {fileID: 7767298702096136851, guid: 1d26e084ba15e5140923659f652848c4, type: 3}
       propertyPath: m_Name
       value: Turn Countdowns
@@ -1146,6 +1174,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2646757848979245059, guid: 1d26e084ba15e5140923659f652848c4, type: 3}
   m_PrefabInstance: {fileID: 4036042648522876010}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6025703976384401632 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3713028691468823398, guid: 1d26e084ba15e5140923659f652848c4, type: 3}
+  m_PrefabInstance: {fileID: 4036042648522876010}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6025703976384401630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6183451203260935171
 PrefabInstance:
   m_ObjectHideFlags: 0

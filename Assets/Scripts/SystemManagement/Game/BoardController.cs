@@ -51,6 +51,8 @@ public class BoardController : MonoBehaviour
 
 	[SerializeField] protected Piece currPiece;
 
+	[SerializeField] protected Piece[] defaultPieceArray;
+
 	/// <summary>
 	/// The current king that is being clicked by the player
 	/// </summary>
@@ -595,6 +597,23 @@ public class BoardController : MonoBehaviour
 
 				MovePieceAndSetCoords(oldPos, newPos);
 				break;
+		}
+	}
+	public void ResetGame()
+	{
+		GameController.SetGameState(GameState.Play);
+		GameController.SetPlayer(PlayerType.White);
+		gc.ResetPlayer();
+		ResetPieces();
+		Timer.ResetTimers();
+	}
+
+	public void ResetPieces()
+	{
+		for (var i = 0; i < 64; i++)
+		{
+			DestroyPiece(i);
+			if (defaultPieceArray[i] != null) InstantiatePiece(defaultPieceArray[i], i);
 		}
 	}
 

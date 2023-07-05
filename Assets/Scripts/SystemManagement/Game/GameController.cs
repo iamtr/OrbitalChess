@@ -180,6 +180,7 @@ public class GameController : MonoBehaviour
 	{
 		blackPlayer?.ResetPlayerManager();
 		whitePlayer?.ResetPlayerManager();
+		checkText.gameObject.SetActive(false);
 	}
 }
 

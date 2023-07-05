@@ -200,7 +200,7 @@ PrefabInstance:
       objectReference: {fileID: 1053234688}
     - target: {fileID: 8531388956785988639, guid: 0d0bb4d832a95e34eb2371acd64fec3c, type: 3}
       propertyPath: conditions.Array.size
-      value: 15
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 8531388956785988639, guid: 0d0bb4d832a95e34eb2371acd64fec3c, type: 3}
       propertyPath: tutorialFiles.Array.size
@@ -303,6 +303,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 5bbaafbb75a1a524781426f8e26582f4, type: 2}
     - target: {fileID: 8531388956785988639, guid: 0d0bb4d832a95e34eb2371acd64fec3c, type: 3}
+      propertyPath: conditions.Array.data[15].config
+      value: 
+      objectReference: {fileID: 11400000, guid: dc8d7b55e5aa43846a7cd02635d585aa, type: 2}
+    - target: {fileID: 8531388956785988639, guid: 0d0bb4d832a95e34eb2371acd64fec3c, type: 3}
+      propertyPath: conditions.Array.data[16].config
+      value: 
+      objectReference: {fileID: 11400000, guid: 2459d615cc4a9ba48a6ebd5e7808804d, type: 2}
+    - target: {fileID: 8531388956785988639, guid: 0d0bb4d832a95e34eb2371acd64fec3c, type: 3}
       propertyPath: conditions.Array.data[0].position
       value: 52
       objectReference: {fileID: 0}
@@ -361,6 +369,14 @@ PrefabInstance:
     - target: {fileID: 8531388956785988639, guid: 0d0bb4d832a95e34eb2371acd64fec3c, type: 3}
       propertyPath: conditions.Array.data[14].position
       value: 38
+      objectReference: {fileID: 0}
+    - target: {fileID: 8531388956785988639, guid: 0d0bb4d832a95e34eb2371acd64fec3c, type: 3}
+      propertyPath: conditions.Array.data[15].position
+      value: 53
+      objectReference: {fileID: 0}
+    - target: {fileID: 8531388956785988639, guid: 0d0bb4d832a95e34eb2371acd64fec3c, type: 3}
+      propertyPath: conditions.Array.data[16].position
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 8531388956785988639, guid: 0d0bb4d832a95e34eb2371acd64fec3c, type: 3}
       propertyPath: conditions.Array.data[0].numberOfMoves
@@ -463,6 +479,14 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8531388956785988639, guid: 0d0bb4d832a95e34eb2371acd64fec3c, type: 3}
+      propertyPath: conditions.Array.data[15].pieces.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8531388956785988639, guid: 0d0bb4d832a95e34eb2371acd64fec3c, type: 3}
+      propertyPath: conditions.Array.data[16].pieces.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8531388956785988639, guid: 0d0bb4d832a95e34eb2371acd64fec3c, type: 3}
       propertyPath: conditions.Array.data[0].pieces.Array.data[0]
       value: 
       objectReference: {fileID: 2105344910545598611, guid: d2a10b49d2231ee46a160238e6dc7176, type: 3}
@@ -538,6 +562,18 @@ PrefabInstance:
       propertyPath: conditions.Array.data[14].pieces.Array.data[0]
       value: 
       objectReference: {fileID: 2105344910545598611, guid: d2a10b49d2231ee46a160238e6dc7176, type: 3}
+    - target: {fileID: 8531388956785988639, guid: 0d0bb4d832a95e34eb2371acd64fec3c, type: 3}
+      propertyPath: conditions.Array.data[15].pieces.Array.data[0]
+      value: 
+      objectReference: {fileID: 6931133926701968798, guid: da08d4da8aae30349aba0c9b47a54d61, type: 3}
+    - target: {fileID: 8531388956785988639, guid: 0d0bb4d832a95e34eb2371acd64fec3c, type: 3}
+      propertyPath: conditions.Array.data[16].pieces.Array.data[0]
+      value: 
+      objectReference: {fileID: 1284856927727899535, guid: 69f4a22cb28de9c4b9ac66b4f12d7f4f, type: 3}
+    - target: {fileID: 8531388956785988639, guid: 0d0bb4d832a95e34eb2371acd64fec3c, type: 3}
+      propertyPath: conditions.Array.data[16].pieces.Array.data[1]
+      value: 
+      objectReference: {fileID: 1284856927727899535, guid: 69f4a22cb28de9c4b9ac66b4f12d7f4f, type: 3}
     - target: {fileID: 8531388956785988639, guid: 0d0bb4d832a95e34eb2371acd64fec3c, type: 3}
       propertyPath: conditions.Array.data[1].numberOfMovesRequired
       value: 999

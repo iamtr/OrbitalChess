@@ -5,14 +5,14 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 /// <summary>
-/// Controls all the piece logic and movement logic on the board
+/// Controls all the king logic and movement logic on the board
 /// </summary>
 public class BoardController : MonoBehaviour
 {
 	[Header("Board Setup")]
 	/// <summary>
 	/// Array of the pieces available on the board where
-	/// the index of the array is the position of the piece on the board
+	/// the index of the array is the position of the king on the board
 	/// </summary>
 	[SerializeField] protected Piece[] pieces;
 
@@ -20,7 +20,7 @@ public class BoardController : MonoBehaviour
 
 	[Header("Promotion Buttons")]
 	/// <summary>
-	/// Array of the piece used for pawn promotion
+	/// Array of the king used for pawn promotion
 	/// </summary>
 	[SerializeField] protected Piece[] blackPieces;
 
@@ -49,10 +49,15 @@ public class BoardController : MonoBehaviour
 
 	public Piece[] Pieces => pieces;
 
+	[SerializeField] protected Piece currPiece;
+	[SerializeField] protected Card currCard;
+
+	[SerializeField] protected Piece[] defaultPieceArray;
+
 	/// <summary>
-	/// The current piece that is being clicked by the player
+	/// The current king that is being clicked by the player
 	/// </summary>
-	public Piece CurrPiece { get; set; }
+	public Piece CurrPiece { get => currPiece; set => currPiece = value; }
 
 	// For buying pieces:
 	public Piece pieceToInstantiate { get; private set; }
@@ -110,9 +115,9 @@ public class BoardController : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Instantiate a single piece on the board
+	/// Instantiate a single king on the board
 	/// </summary>
-	/// <param name="piece">Type of piece to be instantiated</param>
+	/// <param name="piece">Type of king to be instantiated</param>
 	/// <param name="pos">Position on board to be instantiated</param>
 	/// <returns></returns>
 	public virtual Piece InstantiatePiece(Piece piece, int pos)
@@ -140,7 +145,7 @@ public class BoardController : MonoBehaviour
 	public bool IsLegalMove(int x, int y, Piece p)
 	{
 		var pos = y * 8 + x;
-		return IsInBounds(x, y) && pieces[pos]?.Player != p.Player;
+		return IsInBounds(x, y) && testArray[pos]?.Player != p.Player;
 	}
 
 	/// <summary>
@@ -155,7 +160,7 @@ public class BoardController : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Sets the transform of piece at a certain position and also modifies the pieces[] array
+	/// Sets the transform of king at a certain position and also modifies the pieces[] array
 	/// </summary>
 	/// <param name="piece">Piece to be moved</param>
 	/// <param name="pos">New position on board</param>
@@ -169,7 +174,7 @@ public class BoardController : MonoBehaviour
 
 		if (pieces[newPos] != null)
 		{
-			Debug.Log("Destroy piece at index: " + newPos);
+			// Debug.Log("Destroy piece at index: " + newPos);
 			CapturePiece(newPos);
 		}
 
@@ -180,7 +185,7 @@ public class BoardController : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Removes the piece at specified board position and destroys the gameobject
+	/// Removes the king at specified board position and destroys the gameobject
 	/// Handles capture if in special mode
 	/// </summary>
 	/// <param name="pos"></param>
@@ -205,7 +210,7 @@ public class BoardController : MonoBehaviour
 	{
 		if (pieces[pos] == null)
 		{
-			Debug.Log("Piece to destroy is null!");
+			// Debug.Log("Piece to destroy is null!");
 			return;
 		}
 
@@ -214,7 +219,7 @@ public class BoardController : MonoBehaviour
 	}
 
 	/// <summary>
-	/// For special game mode, handle capture of piece
+	/// For special game mode, handle capture of king
 	/// </summary>
 	/// <param name="capturedPiece"></param>
 	public void HandleCapture(Piece capturedPiece)
@@ -224,9 +229,9 @@ public class BoardController : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Moves a piece to position x, y on the board.
+	/// Moves a king to position x, y on the board.
 	/// </summary>
-	/// <param name="currPiece">The current piece chosen by player</param>
+	/// <param name="currPiece">The current king chosen by player</param>
 	public virtual void MovePiece(int x, int y, Piece piece)
 	{
 		int newPos = ConvPos(x, y);
@@ -249,11 +254,12 @@ public class BoardController : MonoBehaviour
 		if (gc.IsSpecialMode) TriggerMine(newPos);
 	}
 
-	public virtual void MoveCastling(int targetX, int targetY, Piece piece)
+
+	public virtual void MoveCastling(int targetX, int targetY, Piece king)
 	{
 		Piece rook = GetPieceFromPos(ConvPos(targetX, targetY));
 
-		int oldX = ConvXY(piece.CurrPos)[0];
+		int oldX = ConvXY(king.CurrPos)[0];
 		int kingNewX = oldX - 2;
 		int rookNewX = ConvXY(rook.CurrPos + 2)[0];
 
@@ -263,7 +269,7 @@ public class BoardController : MonoBehaviour
 			rookNewX = ConvXY(rook.CurrPos - 3)[0];
 		}
 
-		MovePiece(kingNewX, targetY, piece);
+		MovePiece(kingNewX, targetY, king);
 		// For special game mode
 		if (gc.IsSpecialMode) TriggerMine(targetY);
 		MovePiece(rookNewX, targetY, rook);
@@ -302,7 +308,7 @@ public class BoardController : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Checks if the piece at pos1 is the same player as the piece at pos2
+	/// Checks if the king at pos1 is the same player as the king at pos2
 	/// If any one of the pieces is null, return false
 	/// </summary>
 	public bool IsSamePlayer(int pos1, int pos2)
@@ -313,7 +319,7 @@ public class BoardController : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Returns the piece from a certain position on the board
+	/// Returns the king from a certain position on the board
 	/// </summary>
 	public Piece GetPieceFromPos(int pos)
 	{
@@ -349,68 +355,10 @@ public class BoardController : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Handles the logic after a highlight square is clicked
+	/// Handles the logic after a king of the current player is clicked
 	/// </summary>
 	/// <param name="col"></param>
-	public virtual void HandleHighlightSquareClicked(Collider2D col)
-	{
-		var h = col.GetComponent<HighlightSquare>();
-		var temp = ConvXY(h.Position);
-		CurrPiece?.InvokeOnBeforeMove();
-
-		if (h.Special == SpecialMove.Play && CurrPiece is Pawn pawn)
-		{
-			pawn.SetTwoStepMove(temp[1]);
-		}
-		if (h.Special == SpecialMove.EnPassant)
-		{
-			MoveEnPassantPiece(temp[0], temp[1], CurrPiece);
-		}
-		if (h.Special == SpecialMove.Castling)
-		{
-			MoveCastling(temp[0], temp[1], CurrPiece);
-		}
-		if (h.Special == SpecialMove.Play)
-		{
-			MovePiece(temp[0], temp[1], CurrPiece);
-		}
-
-		// Below are special moves, they return early to prevent execution of unwanted code
-		if (h.Special == SpecialMove.Bomb)
-		{
-			Bomb(h.Position);
-			GameController.InvokeOnRoundEnd();
-			return;
-		}
-		if (h.Special == SpecialMove.Steal)
-		{
-			StealOpponentPiece(h.Position);
-			GameController.InvokeOnRoundEnd();
-			return;
-		}
-		if (h.Special == SpecialMove.Spawn)
-		{
-			um.DisableBuyOptions();
-			BuyPiece(pieceToInstantiate);
-			PlaceBoughtPiece(h.Position);
-			DisableAllUIElements();
-			return;
-		}
-		if (h.Special == SpecialMove.Mine)
-		{
-			PlantMine(h.Position);
-		}
-
-		SetHighLightSpecial(h, SpecialMove.Play);
-		DisableAllUIElements();
-		CurrPiece?.InvokeOnAfterMove();
-	}
-
-	/// <summary>
-	/// Handles the logic after a piece of the current player is clicked
-	/// </summary>
-	/// <param name="col"></param>
-	public void HandlePieceClicked(Collider2D col)
+	public virtual void HandlePieceClicked(Collider2D col)
 	{
 		DisableAllUIElements();
 		um.UnhighlightAllPromotingButtons();
@@ -421,9 +369,9 @@ public class BoardController : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Calls Promote() on the current piece
+	/// Calls Promote() on the current king
 	/// </summary>
-	/// <param name="promotedPiece">The piece type to be instantiated</param>
+	/// <param name="promotedPiece">The king type to be instantiated</param>
 	public virtual void PromotePiece(Piece promotedPiece)
 	{
 		try
@@ -452,11 +400,11 @@ public class BoardController : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Gets the promoted piece type based on the id given
+	/// Gets the promoted king type based on the id given
 	/// </summary>
-	/// <param name="id">The type of piece to be promoted</param>
+	/// <param name="id">The type of king to be promoted</param>
 	/// <param name="player">Player type</param>
-	/// <returns>The promoted piece (Queen, Knight, Rook, Bishop)</returns>
+	/// <returns>The promoted king (Queen, Knight, Rook, Bishop)</returns>
 	public Piece GetPromotionPiece(int id, PlayerType player)
 	{
 		return player == PlayerType.Black ? blackPieces[id] : whitePieces[id];
@@ -475,7 +423,7 @@ public class BoardController : MonoBehaviour
 	/// <summary>
 	/// Sets the pawn JustMoved and TwoStep booleans to false
 	/// </summary>
-	public void SetPawnBooleansToFalse()
+	public virtual void SetPawnBooleansToFalse()
 	{
 		foreach (Piece piece in pieces)
 		{
@@ -485,6 +433,21 @@ public class BoardController : MonoBehaviour
 				pawn.TwoStep = false;
 			}
 		}
+	}
+
+	public virtual void SetPawnBooleanToMoved(int pos)
+	{
+		Pawn p = GetPieceFromPos(pos) as Pawn;
+		p.JustMoved = true;
+		p.HasMoved = true;
+	}
+
+	public virtual void SetPawnBooleanToTwoStep(int pos)
+	{
+		Pawn p = GetPieceFromPos(pos) as Pawn;
+		p.JustMoved = true;
+		p.HasMoved = true;
+		p.TwoStep = true;
 	}
 
 	/// <summary>
@@ -579,10 +542,39 @@ public class BoardController : MonoBehaviour
 				break;
 		}
 	}
+	public void ResetGame()
+	{
+		gc.ResetCanvas();
+		gc.ResetPlayer();
+		ResetPieces();
+		Timer.ResetTimers();
+	}
+
+	public void ResetPieces()
+	{
+		for (var i = 0; i < 64; i++)
+		{
+			DestroyPiece(i);
+			if (defaultPieceArray[i] != null) InstantiatePiece(defaultPieceArray[i], i);
+		}
+	}
 
 	public bool TestArrayIsOccupied(int pos)
 	{
 		return testArray[pos] != null;
+	}
+
+	public Piece GetPieceFromTestArrayPos(int pos)
+	{
+		try
+		{
+			return testArray[pos];
+		}
+		catch (IndexOutOfRangeException)
+		{
+			// Debug.Log("Cannot get piece from testArray");
+			return null;
+		}
 	}
 
 	public int GetKingPosition(PlayerType p)
@@ -650,9 +642,24 @@ public class BoardController : MonoBehaviour
 		piece.gameObject.transform.eulerAngles = new Vector3(180f, 180f, 0f);
 	}
 
+	public virtual void SyncCurrPiece(int piecePos)
+	{
+		CurrPiece = GetPieceFromPos(piecePos);
+	}
+
 
 	#region Special Moves
 	// Special moves:
+	public void SetCurrentCard(Card card)
+	{
+		currCard = card;
+	}
+
+	public void DestroyCurrentCard()
+	{
+		Destroy(currCard.gameObject);
+	}
+
 
 	/// <summary>
 	/// Bombs a 3x3 area around a position
@@ -703,7 +710,7 @@ public class BoardController : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Special Game Mode: Steal an opponent piece, excluding king and queen
+	/// Special Game Mode: Steal an opponent king, excluding king and queen
 	/// </summary>
 	/// <param name="p"></param>
 	/// <param name="pos"></param>
@@ -736,7 +743,7 @@ public class BoardController : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Special Game Mode: Buy a piece
+	/// Special Game Mode: Buy a king
 	/// </summary>
 	/// <param name="boughtPiece"></param>
 	public void BuyPiece(Piece boughtPiece)
@@ -781,7 +788,7 @@ public class BoardController : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Triggers a mine which will destroy the piece on it
+	/// Triggers a mine which will destroy the king on it
 	/// </summary>
 	/// <param name="pos"></param>
 	public void TriggerMine(int pos)
@@ -803,7 +810,7 @@ public class BoardController : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Distribute a random card to a player (who has captured a piece)
+	/// Distribute a random card to a player (who has captured a king)
 	/// </summary>
 	/// <param name="player"></param>
 	public void DistributeRandomCard(SpecialPlayerManager player)

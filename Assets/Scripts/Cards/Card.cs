@@ -29,7 +29,11 @@ public abstract class Card : MonoBehaviour, ITrigger
 
 	public void OnMouseUp()
 	{
-		if (GameController.GetCurrPlayer() == player) Trigger();
+		if (GameController.GetCurrPlayer() == player)
+		{
+			bc.SetCurrentCard(this);
+			Trigger();
+		}
 	}
 
 	public void SetCardPlayer(PlayerType p)

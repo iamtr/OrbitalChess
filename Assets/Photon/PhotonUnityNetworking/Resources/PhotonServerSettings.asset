@@ -45,6 +45,16 @@ MonoBehaviour:
   - RPC_SetPiecePos
   - RPC_HandleCheckAndCheckmate
   - SyncPlayerColorChoice
+  - RPC_SetPawnBooleansToFalse
+  - RPC_SetPawnBooleanToMoved
+  - RPC_SetPawnBooleanToTwoStep
+  - RPC_MoveEnPassantPiece
+  - RPC_MoveCastling
+  - RPC_SyncCurrPiece
+  - TogglePlayerOptions
+  - RPC_DeactivateSelectionPanel
+  - RPC_TogglePlayerOptions
+  - RPC_StartGame
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

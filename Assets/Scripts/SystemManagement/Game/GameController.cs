@@ -13,18 +13,20 @@ public class GameController : MonoBehaviour
 	[Header("Text")]
 	[SerializeField] private TMP_Text checkText;
 
-	[SerializeField] private TMP_Text turnText;
+	[SerializeField] protected TMP_Text turnText;
 
 	[SerializeField] private bool isSpecialMode = false;
 
 	[SerializeField] private GameObject replayButton;
 
+	[SerializeField] private PlayerType currPlayerRef;
+
 	private static PlayerType currPlayer = PlayerType.White;
 	private static GameState gameState;
 	public bool IsCheck { get; private set; }
 
-	[SerializeField] protected BoardController bc;
-	[SerializeField] protected InputManager im;
+	protected BoardController bc;
+	protected InputManager im;
 
 	public bool IsSpecialMode => isSpecialMode;
 
@@ -61,7 +63,7 @@ public class GameController : MonoBehaviour
 		bc = FindObjectOfType<BoardController>();
 		im = FindObjectOfType<InputManager>();
 
-		// currPlayer = PlayerType.White;
+		currPlayer = PlayerType.White;
 
 		AssertAllReferenceIsNotNull();
 	}
@@ -70,10 +72,7 @@ public class GameController : MonoBehaviour
     {
 		Assert.IsNotNull(checkText);
 		Assert.IsNotNull(replayButton);
-        if (isSpecialMode)
-        {
-			Assert.IsNotNull(turnText);
-		}
+		Assert.IsNotNull(turnText);
 	}
 
 	private void Update()
@@ -101,7 +100,7 @@ public class GameController : MonoBehaviour
 	public virtual void SetPlayer()
 	{
 		currPlayer = currPlayer == PlayerType.Black ? PlayerType.White : PlayerType.Black;
-		if (IsSpecialMode) turnText.text = currPlayer.ToString() + " Turn";
+		turnText.text = currPlayer.ToString() + " Turn";
 	}
 
 	/// <summary>
@@ -178,6 +177,14 @@ public class GameController : MonoBehaviour
 	{
 		blackPlayer?.ResetPlayerManager();
 		whitePlayer?.ResetPlayerManager();
+		checkText.gameObject.SetActive(false);
+	}
+
+	public void ResetCanvas()
+    {
+		SetGameState(GameState.Play);
+		SetPlayer(PlayerType.White);
+		turnText.text = currPlayer.ToString() + " Turn";
 	}
 }
 

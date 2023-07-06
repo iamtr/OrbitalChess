@@ -97,21 +97,19 @@ public class Pawn : Piece, IPromotable
 		int direction = (Player == PlayerType.Black) ? 1 : -1;
 		int newY = currY + direction;
 
-		Move m = new Move(CurrPos, bc.ConvPos(currX, newY), this);
+		Move m1 = new Move(CurrPos, bc.ConvPos(currX, newY), this);
 
-		if (IsLegalMove(m) && !bc.IsOccupied(m.TargetSquare) && !bc.IsBeingCheckedAfterMove(m, Player))
+		if (IsLegalMove(m1) && !bc.IsOccupied(m1.TargetSquare) && !bc.IsBeingCheckedAfterMove(m1, Player))
 		{
-			moves.Add(m);
-
-			m = new Move(CurrPos, bc.ConvPos(currX, newY + direction), this);
-
-			if (!HasMoved && IsLegalMove(m) && !bc.IsOccupied(m.TargetSquare) && !bc.IsBeingCheckedAfterMove(m, Player))
-			{
-				moves.Add(m);
-			}
+			moves.Add(m1);
 		}
 
+		Move m2 = new Move(CurrPos, bc.ConvPos(currX, newY + direction), this);
 
+		if (!HasMoved && IsLegalMove(m2) && !bc.IsOccupied(m2.TargetSquare) && !bc.IsBeingCheckedAfterMove(m2, Player) && !bc.IsOccupied(m1.TargetSquare))
+		{
+			moves.Add(m2);
+		}
 
 		GetEnPassantMoves(direction);
 		GetPawnDiagonalMoves(direction);
@@ -182,18 +180,18 @@ public class Pawn : Piece, IPromotable
 		int direction = (Player == PlayerType.Black) ? 1 : -1;
 		int newY = currY + direction;
 
-		Move m = new Move(CurrPos, bc.ConvPos(currX, newY), this);
+		Move m1 = new Move(CurrPos, bc.ConvPos(currX, newY), this);
 
-		if (IsLegalMove(m) && !bc.TestArrayIsOccupied(m.TargetSquare))
+		if (IsLegalMove(m1) && !bc.TestArrayIsOccupied(m1.TargetSquare))
 		{
-			moves.Add(m);
+			moves.Add(m1);
+		}
 
-			m = new Move(CurrPos, bc.ConvPos(currX, newY + direction), this);
+		Move m2 = new Move(CurrPos, bc.ConvPos(currX, newY + direction), this);
 
-			if (!HasMoved && IsLegalMove(m) && !bc.TestArrayIsOccupied(m.TargetSquare))
-			{
-				moves.Add(m);
-			}
+		if (!HasMoved && IsLegalMove(m1) && !bc.TestArrayIsOccupied(m2.TargetSquare) && !bc.TestArrayIsOccupied(m1.TargetSquare))
+		{
+			moves.Add(m2);
 		}
 
 		GetAllEnPassantMoves(direction);

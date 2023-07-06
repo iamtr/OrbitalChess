@@ -75,7 +75,7 @@ public class Rook : Piece
 
 				Move m = new Move(CurrPos, pos, this);
 
-				if (!IsLegalMove(m)) break;
+				if (bc.IsSamePlayerAtTestArray(CurrPos, pos)) break;
 				moves.Add(m);
 				if (bc.TestArrayIsOccupied(pos)) break;
 			}

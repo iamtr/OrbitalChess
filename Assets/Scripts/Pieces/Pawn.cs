@@ -127,9 +127,6 @@ public class Pawn : Piece, IPromotable
 			int leftX = currX - 1;
 			int newY = currY + direction;
 
-			//Piece rightPiece = bc.GetPieceFromPos(bc.ConvPos(rightX, currY));
-			//Piece leftPiece = bc.GetPieceFromPos(bc.ConvPos(leftX, currY));
-
 			Piece rightPiece = bc.GetPieceFromTestArrayPos(bc.ConvPos(rightX, currY));
 			Piece leftPiece = bc.GetPieceFromTestArrayPos(bc.ConvPos(leftX, currY));
 
@@ -158,9 +155,6 @@ public class Pawn : Piece, IPromotable
 			int rightX = currX + 1;
 			int leftX = currX - 1;
 			int newY = currY + direction;
-
-			//Piece rightPiece = bc.GetPieceFromPos(bc.ConvPos(rightX, newY));
-			//Piece leftPiece = bc.GetPieceFromPos(bc.ConvPos(leftX, newY));
 
 			Piece rightPiece = bc.GetPieceFromTestArrayPos(bc.ConvPos(rightX, newY));
 			Piece leftPiece = bc.GetPieceFromTestArrayPos(bc.ConvPos(leftX, newY));

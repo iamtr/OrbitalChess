@@ -174,7 +174,7 @@ public class BoardController : MonoBehaviour
 
 		if (pieces[newPos] != null)
 		{
-			Debug.Log("Destroy piece at index: " + newPos);
+			// Debug.Log("Destroy piece at index: " + newPos);
 			CapturePiece(newPos);
 		}
 
@@ -210,7 +210,7 @@ public class BoardController : MonoBehaviour
 	{
 		if (pieces[pos] == null)
 		{
-			Debug.Log("Piece to destroy is null!");
+			// Debug.Log("Piece to destroy is null!");
 			return;
 		}
 

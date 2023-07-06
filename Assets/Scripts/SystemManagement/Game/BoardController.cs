@@ -544,8 +544,7 @@ public class BoardController : MonoBehaviour
 	}
 	public void ResetGame()
 	{
-		GameController.SetGameState(GameState.Play);
-		GameController.SetPlayer(PlayerType.White);
+		gc.ResetCanvas();
 		gc.ResetPlayer();
 		ResetPieces();
 		Timer.ResetTimers();

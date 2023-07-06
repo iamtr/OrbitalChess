@@ -63,7 +63,7 @@ public class GameController : MonoBehaviour
 		bc = FindObjectOfType<BoardController>();
 		im = FindObjectOfType<InputManager>();
 
-		// currPlayer = PlayerType.White;
+		currPlayer = PlayerType.White;
 
 		AssertAllReferenceIsNotNull();
 	}
@@ -178,6 +178,13 @@ public class GameController : MonoBehaviour
 		blackPlayer?.ResetPlayerManager();
 		whitePlayer?.ResetPlayerManager();
 		checkText.gameObject.SetActive(false);
+	}
+
+	public void ResetCanvas()
+    {
+		SetGameState(GameState.Play);
+		SetPlayer(PlayerType.White);
+		turnText.text = currPlayer.ToString() + " Turn";
 	}
 }
 

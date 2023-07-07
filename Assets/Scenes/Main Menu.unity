@@ -167,6 +167,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbe3d448cf9ffe947b37258ed24c9e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1281298532 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1147774918248127029, guid: 651173cf6b459fa4789f8d6d17179dac, type: 3}
+  m_PrefabInstance: {fileID: 2486599657450839989}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &2072958671 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7244586438020350824, guid: 651173cf6b459fa4789f8d6d17179dac, type: 3}
@@ -2056,6 +2067,10 @@ PrefabInstance:
       propertyPath: roomListParent
       value: 
       objectReference: {fileID: 2072958671}
+    - target: {fileID: 7883330819879249480, guid: 651173cf6b459fa4789f8d6d17179dac, type: 3}
+      propertyPath: createRoomButton
+      value: 
+      objectReference: {fileID: 1281298532}
     - target: {fileID: 7883330819879249480, guid: 651173cf6b459fa4789f8d6d17179dac, type: 3}
       propertyPath: roomListingPrefab
       value: 

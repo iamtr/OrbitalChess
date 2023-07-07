@@ -76,19 +76,25 @@ public class BoardController : MonoBehaviour
 
 	public virtual void Start()
 	{
+		InitGame();
+
+		AssertAllReferenceIsNotNull();
+	}
+
+	public virtual void InitGame()
+	{
 		hm = FindObjectOfType<HighlightManager>();
 		um = FindObjectOfType<UIManager>();
 		gc = FindObjectOfType<GameController>();
-		
+
+		gc.ResetGame();
+
 		pieceTransform = GameObject.Find("Pieces")?.transform;
 
 		allMoves = new List<Move>();
 
 		InstantiatePieces();
-
 		testArray = pieces.Clone() as Piece[];
-
-		AssertAllReferenceIsNotNull();
 	}
 
 	public void AssertAllReferenceIsNotNull()
@@ -586,12 +592,11 @@ public class BoardController : MonoBehaviour
 				break;
 		}
 	}
+
 	public void ResetGame()
 	{
-		gc.ResetCanvas();
-		gc.ResetPlayer();
+		gc.ResetGame();
 		ResetPieces();
-		Timer.ResetTimers();
 	}
 
 	public void ResetPieces()
@@ -616,7 +621,6 @@ public class BoardController : MonoBehaviour
 		}
 		catch (IndexOutOfRangeException)
 		{
-			// Debug.Log("Cannot get piece from testArray");
 			return null;
 		}
 	}

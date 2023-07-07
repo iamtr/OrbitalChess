@@ -155,17 +155,13 @@ public class GameController : MonoBehaviour
 		return GetCurrPlayer() == PlayerType.Black ? whitePlayer : blackPlayer;
 	}
 
-	public void ResetPlayer()
-	{
+	public virtual void ResetGame()
+	{	
 		blackPlayer?.ResetPlayerManager();
 		whitePlayer?.ResetPlayerManager();
-		checkText.gameObject.SetActive(false);
-	}
-
-	public void ResetCanvas()
-    {
 		SetGameState(GameState.Play);
 		SetPlayer(PlayerType.White);
+		checkText.gameObject.SetActive(false);
 		turnText.text = currPlayer.ToString() + " Turn";
 	}
 }

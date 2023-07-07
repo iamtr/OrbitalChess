@@ -46,7 +46,8 @@ public class Rook : Piece
 
 				Move m = new Move(CurrPos, pos, this);
 
-				if (!IsLegalMove(m) || bc.IsBeingCheckedAfterMove(m, Player)) break;
+				if (!IsLegalMove(m)) break; 
+				if (bc.IsBeingCheckedAfterMove(m, Player)) continue;
 				moves.Add(m);
 				if (bc.IsOccupied(pos)) break;
 			}

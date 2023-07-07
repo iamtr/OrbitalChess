@@ -39,10 +39,12 @@ public class RoomManager : MonoBehaviourPunCallbacks
 		if (selectedTeam == 0)
 		{
 			PhotonNetwork.CurrentRoom.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "Black", true } });
+			whiteButton.interactable = false;
 		}
 		else if (selectedTeam == 1)
 		{
 			PhotonNetwork.CurrentRoom.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "White", true } });
+			blackButton.interactable = false;
 		}
 	}
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -397,6 +398,7 @@ public class BoardController : MonoBehaviour
 		PromotePiece(promotedPiece);
 		um.UnhighlightAllPromotingButtons();
 		GameController.SetGameState(GameState.Play);
+		GameController.InvokeOnRoundEnd();
 	}
 
 	/// <summary>
@@ -532,6 +534,30 @@ public class BoardController : MonoBehaviour
 				{
 					Debug.Log("Error on PieceArrayAfterSimulatedMove");
 				}
+				break;
+
+			case Move.Flag.PromoteToKnight:
+				testArray[oldPos] = null;
+				testArray[newPos] = Instantiate(GetPromotionPiece(1, p));
+				testArray[newPos].GetComponent<Renderer>().enabled = false;
+				break;
+
+			case Move.Flag.PromoteToBishop:
+				testArray[oldPos] = null;
+				testArray[newPos] = Instantiate(GetPromotionPiece(3, p));
+				testArray[newPos].GetComponent<Renderer>().enabled = false;
+				break;
+
+			case Move.Flag.PromoteToRook:
+				testArray[oldPos] = null;
+				testArray[newPos] = Instantiate(GetPromotionPiece(2, p));
+				testArray[newPos].GetComponent<Renderer>().enabled = false;
+				break;
+
+			case Move.Flag.PromoteToQueen:
+				testArray[oldPos] = null;
+				testArray[newPos] = Instantiate(GetPromotionPiece(0, p));
+				testArray[newPos].GetComponent<Renderer>().enabled = false;
 				break;
 
 			default:

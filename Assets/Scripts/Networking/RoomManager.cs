@@ -16,6 +16,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
 	[SerializeField] private TMP_Text turnText;
 	[SerializeField] private Button blackButton;
 	[SerializeField] private Button whiteButton;
+	[SerializeField] private bool isGameStarted;
 
 	private void Awake()
 	{
@@ -56,17 +57,14 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
 	public override void OnPlayerLeftRoom(Player otherPlayer)
 	{
-		int team = (int)otherPlayer.CustomProperties["PlayerType"];
-		if (team == 0)
+		if (otherPlayer.CustomProperties.TryGetValue("PlayerType", out object value))
 		{
-			PhotonNetwork.CurrentRoom.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "Black", false } });
-			blackButton.interactable = true;
+			int? team = (int)value;
+			if (team == null) return;
+			StartCoroutine(DelayedPropertyModification(team.Value));
 		}
-		else if (team == 1)
-		{
-			PhotonNetwork.CurrentRoom.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "White", false } });
-			whiteButton.interactable = true;
-		}
+
+		if (!isGameStarted) PhotonNetwork.CurrentRoom.IsOpen = true;
 	}
 
 	public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
@@ -87,6 +85,22 @@ public class RoomManager : MonoBehaviourPunCallbacks
 		}
 	}
 
+	private IEnumerator DelayedPropertyModification(int team)
+	{
+		yield return new WaitForEndOfFrame(); // Wait until the end of the frame
+
+		if (team == 0)
+		{
+			PhotonNetwork.CurrentRoom.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "Black", false } });
+			blackButton.interactable = true;
+		}
+		else if (team == 1)
+		{
+			PhotonNetwork.CurrentRoom.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "White", false } });
+			whiteButton.interactable = true;
+		}
+	}
+
 	[PunRPC]
 	public void RPC_StartGame()
 	{
@@ -102,6 +116,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
 		bc.InstantiatePieces();
 		playerSelectionPanel.SetActive(false);
 		turnText.gameObject.SetActive(true);
+		isGameStarted = true;
 	}
 
 	[PunRPC]

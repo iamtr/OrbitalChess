@@ -11,6 +11,12 @@ public class RoomListingManager : MonoBehaviourPunCallbacks
 	[SerializeField] private GameObject roomListingPrefab;
 	[SerializeField] private Transform roomListParent;
 	[SerializeField] private TMP_InputField roomNameInputField;
+	[SerializeField] private Button createRoomButton;
+
+	private void Update()
+	{
+		createRoomButton.interactable = PhotonNetwork.IsConnected && roomNameInputField.text.Length >= 3;
+	}
 
 	public override void OnRoomListUpdate(List<RoomInfo> roomList)
 	{

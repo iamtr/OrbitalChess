@@ -15,7 +15,7 @@ public class RoomListingManager : MonoBehaviourPunCallbacks
 
 	private void Update()
 	{
-		createRoomButton.interactable = PhotonNetwork.IsConnected && roomNameInputField.text.Length >= 3;
+		createRoomButton.interactable = PhotonNetwork.IsConnected && roomNameInputField.text.Length >= 1;
 	}
 
 	public override void OnRoomListUpdate(List<RoomInfo> roomList)

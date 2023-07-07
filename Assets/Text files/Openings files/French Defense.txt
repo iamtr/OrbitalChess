@@ -1,5 +1,3 @@
 French Defense
 
-Another popular response to White's 1.e4, by preparing the d7-d5 push to challange White's center immediately. 
-It creates paths for Black's dark-squared bishop and queen, allowing great opportunities for counterattacks.
-However, this creates a space disadvantage for Black while also locking in Black's light-squared bishop.
+Another popular response to White's 1.e4, by preparing the d7-d5 push to challange White's center immediately. It creates paths for Black's dark-squared bishop and queen, allowing great opportunities for counterattacks. However, this creates a space disadvantage for Black while also locking in Black's light-squared bishop.

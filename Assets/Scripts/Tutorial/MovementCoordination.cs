@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -13,10 +14,30 @@ public class MovementCoordination : MonoBehaviour
 	// If no piece is captured, then piece stored is null	
 	public Stack<Piece> capturedPieceStack = new Stack<Piece>();
 
+	[SerializeField] private TextAsset[] openingsFiles;
+
+	[SerializeField] private TMP_Text openingsText;
+	[SerializeField] private TMP_Text tutorialText;
+
+	private string[][] Lines;
+
 	private void Awake()
 	{
 		bc = FindObjectOfType<BoardController>();
+		ReadAndStoreFiles(openingsFiles);
 		//ColorOptionDropdown.Dropdown(1);
+	}
+
+	public void ReadAndStoreFiles(params TextAsset[] files)
+	{
+		Lines = new string[files.Length][];
+		var splitFile = new string[] { "\r\n", "\r", "\n" };
+		int index = 0;
+		foreach (TextAsset file in files)
+		{
+			Lines[index] = file.text.Split(splitFile, System.StringSplitOptions.RemoveEmptyEntries);
+			index++;
+		}
 	}
 
 	public void ExecuteMove()
@@ -37,8 +58,10 @@ public class MovementCoordination : MonoBehaviour
 		int y = BoardController.ConvXY(m.end)[1];
 		bc.MovePiece(x, y, bc.GetPieceFromPos(m.start));
 
-		
-		
+		string[] lines = Lines[moveIndex];
+		openingsText.text = lines[0];
+		tutorialText.text = lines[1];
+
 		moveIndex++;
     }
 
@@ -65,6 +88,9 @@ public class MovementCoordination : MonoBehaviour
 			bc.MovePiece(x - 4, y, bc.GetPieceFromPos(m.end - 1));
 		}
 
+		string[] lines = Lines[moveIndex];
+		openingsText.text = lines[0];
+		tutorialText.text = lines[1];
 
 		Piece p = capturedPieceStack.Pop();
 		if (p == null) return;

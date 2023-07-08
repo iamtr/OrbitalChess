@@ -33,7 +33,16 @@ The rook in result cannot be saved.
 
 Pins, restricting the movement of an opponent’s piece;
 
-Let's try it out!
+Let's try it out! Pin the opposing knight.
+Great! This is a relative pin, where moving the pinned piece in this situation is not illegal,
+however it is undesirable.
+Moving the knight is not illegal for White, but it would lead to its queen capture.
+
+The most effective application of this strategy is an absolute pin.
+It occurs when a piece defends the king from attack.
+The pinned piece cannot move since it is forbidden to make a move that would checkmate your king.
+
+Let's try it out! Pin the opposing knight.
 
 And skewers, forcing the opponent to play a more valuable piece.
 

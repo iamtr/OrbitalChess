@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class TutorialManager : MonoBehaviour
 {
     [SerializeField] private TMP_Text tutorialText;
+    [SerializeField] private TMP_Text titleText;
 
     [SerializeField] private TextAsset[] tutorialFiles;
 
@@ -15,7 +16,8 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private Button prevButton;
     [SerializeField] private Button tryAgainButton;
 
-    private string[][] Lines;
+    private string[][] lines;
+    private string[] titles = {"Introduction", "Piece Movement", "Piece value", "Check", "Checkmate", "Stalemate", "Some strategies", "Conclusion"};
 
     private int FileIndex = 0;
     private int LineIndex = 0;
@@ -30,18 +32,19 @@ public class TutorialManager : MonoBehaviour
 	private void Start()
     {
         ReadAndStoreFiles(tutorialFiles);
-        tutorialText.text = Lines[FileIndex][LineIndex];
+        titleText.text = titles[FileIndex];
+        tutorialText.text = lines[FileIndex][LineIndex];
         bc = FindObjectOfType<BoardController>();
     }
 
     public void ReadAndStoreFiles(params TextAsset[] files)
     {
-        Lines = new string[files.Length][];
+        lines = new string[files.Length][];
         var splitFile = new string[] { "\r\n", "\r", "\n" };
         int index = 0;
         foreach (TextAsset file in files)
         {
-            Lines[index] = file.text.Split(splitFile, System.StringSplitOptions.RemoveEmptyEntries);
+            lines[index] = file.text.Split(splitFile, System.StringSplitOptions.RemoveEmptyEntries);
             index++;
         }
     }
@@ -56,20 +59,21 @@ public class TutorialManager : MonoBehaviour
         if (LineIndex == 0)
         {
             FileIndex--;
-            LineIndex = Lines[FileIndex].Length - 1;
+            LineIndex = lines[FileIndex].Length - 1;
         }
         else
         {
             LineIndex--;
         }
 
-        if (Lines[FileIndex][LineIndex].Contains("Let's try it out!"))
+        if (lines[FileIndex][LineIndex].Contains("Let's try it out!"))
         {
             tutorialIndex--;
             TriggerTutorial();
         }
 
-        tutorialText.text = Lines[FileIndex][LineIndex];
+        titleText.text = titles[FileIndex];
+        tutorialText.text = lines[FileIndex][LineIndex];
     }
 
     /// <summary>
@@ -77,18 +81,19 @@ public class TutorialManager : MonoBehaviour
     /// </summary>
     public void TriggerNextLine()
     {
-        var CurrFile = Lines[FileIndex];
+        var CurrFile = lines[FileIndex];
         if (LineIndex == CurrFile.Length - 1)
         {
-            if (FileIndex == Lines.Length - 1) return;
+            if (FileIndex == lines.Length - 1) return;
             FileIndex++;
             LineIndex = 0;
         } else
         {
             LineIndex++;
         }
-        tutorialText.text = Lines[FileIndex][LineIndex];
-        if (Lines[FileIndex][LineIndex].Contains("Let's try it out!")) TriggerTutorial();
+        titleText.text = titles[FileIndex];
+        tutorialText.text = lines[FileIndex][LineIndex];
+        if (lines[FileIndex][LineIndex].Contains("Let's try it out!")) TriggerTutorial();
     }
 
     public void TriggerTutorial()

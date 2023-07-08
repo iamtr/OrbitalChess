@@ -1,34 +1,40 @@
 There are a few common strategies you can use in chess.
+
 The first is centre control.
-Controlling the centre is important in early game
+Controlling the centre is important in early games
 as it offers greater mobility and flexibility.
 
 Second is piece development.
-During the opening, it's critical to move your pieces (knights, bishops, and rooks)
+During the opening, it's critical to move your pieces (knights, bishops, and rooks).
 from their initial positions to active squares,
-ideally in the board's centre.
+Ideally in the board's centre.
 
 It is recommended to safeguard your king by casting
 as it gets the king out of the middle, hiding it on the side.
 
-Tactical opportunities are very useful in chess
-as it limits the opponent movement to give you the edge.
+Tactical opportunities are very useful in chess.
+as it limits the opponent's movement to give you the edge.
 
 Examples are forks, where you attack multiple pieces at the same time;
+
 Let's try it out! Fork both of the opponent's rooks!
 Well done! The knight is able to attack both rooks,
-but it still out of their range.
+but it is still out of their range.
 Even if the knight is captured later by the rook, 
 it results in a net positive piece value for you!
+
 Forks that are forceful are the most lethal.
 Those forks typically include an assault on the opposing king and pose an unavoidable danger.
+
 Let's try it out! Create a fork that checks the king.
-Since the White king is in check, and there are no availble move for it to avoid check,
-it must be move to a different square.
+Since the White king is in check, and there white no available moves for it to avoid check,
+it must be moved to a different square.
 The rook in result cannot be saved.
 
 Pins, restricting the movement of an opponent’s piece;
+
 Let's try it out!
 
 And skewers, forcing the opponent to play a more valuable piece.
+
 Let's try it out!

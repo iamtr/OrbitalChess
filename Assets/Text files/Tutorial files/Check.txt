@@ -1,8 +1,8 @@
 When a piece’s next move is able to ‘capture’ the king,
 the king is under attack, or in ”check”.
 
-If the king is in check, we need to find a way to avoid check.
-There are three ways to avoid check:
+If the king is in check, we need to find ways to avoid checking.
+There are three ways to avoid checking:
 1- Moving the king to an adjacent non-threated square;
 Let's try it out! Move the king away from the attacking queen!
 

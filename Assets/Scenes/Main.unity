@@ -618,6 +618,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b460a7eede995374cb77b43a18540a30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1668945770 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1586581929502926230, guid: 89eec4662094b884a8e49515458ca70e, type: 3}
+  m_PrefabInstance: {fileID: 6055933260519372661}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1668945776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1668945770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17ac00711c026784ca92386c705ec3c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1721550494188277475
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -737,6 +754,34 @@ PrefabInstance:
     - target: {fileID: 6356897104939482574, guid: 89eec4662094b884a8e49515458ca70e, type: 3}
       propertyPath: m_Name
       value: Back Button
+      objectReference: {fileID: 0}
+    - target: {fileID: 6902666383709941198, guid: 89eec4662094b884a8e49515458ca70e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6902666383709941198, guid: 89eec4662094b884a8e49515458ca70e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6902666383709941198, guid: 89eec4662094b884a8e49515458ca70e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1668945776}
+    - target: {fileID: 6902666383709941198, guid: 89eec4662094b884a8e49515458ca70e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6902666383709941198, guid: 89eec4662094b884a8e49515458ca70e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: Try_Checkmate_GameStateEqualsGameOver
+      objectReference: {fileID: 0}
+    - target: {fileID: 6902666383709941198, guid: 89eec4662094b884a8e49515458ca70e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: GameMechanicTesting, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6902666383709941198, guid: 89eec4662094b884a8e49515458ca70e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 7068690782317654609, guid: 89eec4662094b884a8e49515458ca70e, type: 3}
       propertyPath: m_Pivot.x

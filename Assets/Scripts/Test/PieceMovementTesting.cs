@@ -48,11 +48,11 @@ public class PieceMovementTesting : MonoBehaviour
 		Debug.Log("Knight move (-1, -2): " + hm.GetHighlightArray()[25].isActiveAndEnabled);
 		Debug.Log("Knight move (-2, -1): " + hm.GetHighlightArray()[18].isActiveAndEnabled);
 		Debug.Log("Knight move (1, -2): " + hm.GetHighlightArray()[29].isActiveAndEnabled);
-		Debug.Log("Knight move: (2, -1)" + hm.GetHighlightArray()[20].isActiveAndEnabled);
-		Debug.Log("Knight move: (1, 2)" + hm.GetHighlightArray()[52].isActiveAndEnabled);
-		Debug.Log("Knight move: (2, 1)" + hm.GetHighlightArray()[45].isActiveAndEnabled);
-		Debug.Log("Knight move: (-1, 2)" + hm.GetHighlightArray()[50].isActiveAndEnabled);
-		Debug.Log("Knight move: (-2, 1)" + hm.GetHighlightArray()[41].isActiveAndEnabled);
+		Debug.Log("Knight move: (2, -1) " + hm.GetHighlightArray()[20].isActiveAndEnabled);
+		Debug.Log("Knight move: (1, 2) " + hm.GetHighlightArray()[52].isActiveAndEnabled);
+		Debug.Log("Knight move: (2, 1) " + hm.GetHighlightArray()[45].isActiveAndEnabled);
+		Debug.Log("Knight move: (-1, 2) " + hm.GetHighlightArray()[50].isActiveAndEnabled);
+		Debug.Log("Knight move: (-2, 1) " + hm.GetHighlightArray()[41].isActiveAndEnabled);
 
 		bc.DisableAllUIElements();
 	}
@@ -113,6 +113,8 @@ public class PieceMovementTesting : MonoBehaviour
 		bool test = hm.GetHighlightArray()[bc.ConvPos(2, 2)].isActiveAndEnabled;
 		Assert.IsTrue(test);
 		Debug.Log("En passant: " + test);
+
+		bc.DisableAllUIElements();
 	}
 
 	public void TestAll()

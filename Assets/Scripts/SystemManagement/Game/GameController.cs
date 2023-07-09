@@ -186,6 +186,16 @@ public class GameController : MonoBehaviour
 		SetPlayer(PlayerType.White);
 		turnText.text = currPlayer.ToString() + " Turn";
 	}
+
+	public TMP_Text GetTurnText()
+	{
+		return turnText;
+	}
+
+	public TMP_Text GetCheckText()
+	{
+		return checkText;
+	}
 }
 
 public enum PlayerType

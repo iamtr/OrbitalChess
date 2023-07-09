@@ -231,4 +231,9 @@ public class HighlightManager : MonoBehaviour
 			Highlight(i, SpecialMove.Mine);
 		}
 	}
+
+	public HighlightSquare[] GetHighlightArray()
+	{
+		return highlights;
+	}
 }

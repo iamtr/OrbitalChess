@@ -796,8 +796,8 @@ public class BoardController : MonoBehaviour
 
 	public void DestroyCurrentCard()
 	{
-		Destroy(currCard.gameObject);
-	}
+		gc.GetCurrPlayerManager().RemoveCard(currCard);
+    }
 
 
 	/// <summary>

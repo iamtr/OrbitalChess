@@ -75,7 +75,7 @@ public class GameController : MonoBehaviour
 	private void AssertAllReferenceIsNotNull()
     {
 		Assert.IsNotNull(checkText);
-		Assert.IsNotNull(replayButton);
+		// Assert.IsNotNull(replayButton);
 		Assert.IsNotNull(turnText);
 	}
 

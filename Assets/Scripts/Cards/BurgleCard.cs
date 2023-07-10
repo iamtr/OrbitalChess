@@ -9,5 +9,6 @@ public class BurgleCard : Card
 		if (gc.IsCheck) return;
 
 		bc.RandomlySteal();
+		GameController.InvokeOnRoundEnd();
 	}
 }

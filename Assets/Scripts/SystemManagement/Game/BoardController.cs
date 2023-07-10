@@ -94,6 +94,8 @@ public class BoardController : MonoBehaviour
 		allMoves = new List<Move>();
 
 		InstantiatePieces();
+		InstantiateMines();
+
 		testArray = pieces.Clone() as Piece[];
 	}
 
@@ -118,6 +120,11 @@ public class BoardController : MonoBehaviour
 
 		// RotateAllPieces();
 		testArray = pieces.Clone() as Piece[];
+	}
+
+	public virtual void InstantiateMines()
+	{
+		mines = new GameObject[64];
 	}
 
 	/// <summary>
@@ -843,7 +850,7 @@ public class BoardController : MonoBehaviour
 	{
 		if (mines[pos] == null)
 		{
-			Debug.Log("There is no mine here!");
+			// Debug.Log("There is no mine here!");
 			return;
 		}
 

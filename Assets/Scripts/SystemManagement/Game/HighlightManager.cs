@@ -105,6 +105,7 @@ public class HighlightManager : MonoBehaviour
 		{
 			bc.DestroyPiece(h.Position);
 			bc.BuildPawnWall();
+			bc.DestroyCurrentCard();
 		}
 
 		bc.SetHighLightSpecial(h, SpecialMove.Play);

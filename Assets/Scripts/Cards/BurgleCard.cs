@@ -8,7 +8,7 @@ public class BurgleCard : Card
 	{
 		if (gc.IsCheck) return;
 
-		bc.RandomlySteal();
+		bc.BurgleRandomPiece();
 		GameController.InvokeOnRoundEnd();
 	}
 }

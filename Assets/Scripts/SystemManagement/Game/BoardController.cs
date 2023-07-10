@@ -820,10 +820,12 @@ public class BoardController : MonoBehaviour
 	{
 		foreach (Piece piece in pieces)
 		{
-			if (piece == null) continue;
+			// Only 50% chance of randomizing a piece
+			bool coinflip =  UnityEngine.Random.Range(0, 2) == 0;
+			if (piece == null || piece is King || coinflip) continue;
+
 			int rand = UnityEngine.Random.Range(0, 16);
 			PlayerType p = piece.Player;
-			if (piece is King) continue;
 
 			Piece newPiece;
 
@@ -951,7 +953,7 @@ public class BoardController : MonoBehaviour
 		player.AddCard(card);
 	}
 
-	public void RandomlySteal()
+	public void BurgleRandomPiece()
 	{
 		List<Piece> opponentPieces = new List<Piece>();
 

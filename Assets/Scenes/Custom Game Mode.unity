@@ -712,6 +712,22 @@ PrefabInstance:
       value: Advanced Board
       objectReference: {fileID: 0}
     - target: {fileID: 5079737300756263793, guid: 3d7e7f21f24e47843abf50337461d5a9, type: 3}
+      propertyPath: cards.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5079737300756263793, guid: 3d7e7f21f24e47843abf50337461d5a9, type: 3}
+      propertyPath: cards.Array.data[3]
+      value: 
+      objectReference: {fileID: 4528909856361299521, guid: aa213477a6275684caa3631688c22fa2, type: 3}
+    - target: {fileID: 5079737300756263793, guid: 3d7e7f21f24e47843abf50337461d5a9, type: 3}
+      propertyPath: cards.Array.data[4]
+      value: 
+      objectReference: {fileID: 8715884331271530128, guid: bacae96e283f9fe48baa6a787887b11f, type: 3}
+    - target: {fileID: 5079737300756263793, guid: 3d7e7f21f24e47843abf50337461d5a9, type: 3}
+      propertyPath: cards.Array.data[5]
+      value: 
+      objectReference: {fileID: 2555039514801587718, guid: 736f5b0f73bec6a4992b57ca5123fbd3, type: 3}
+    - target: {fileID: 5079737300756263793, guid: 3d7e7f21f24e47843abf50337461d5a9, type: 3}
       propertyPath: defaultPieceArray.Array.size
       value: 64
       objectReference: {fileID: 0}

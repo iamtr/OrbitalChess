@@ -9,6 +9,7 @@ public class BurgleCard : Card
 		if (gc.IsCheck) return;
 
 		bc.BurgleRandomPiece();
+		Destroy(gameObject);
 		GameController.InvokeOnRoundEnd();
 	}
 }

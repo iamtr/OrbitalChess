@@ -228,6 +228,14 @@ public class BoardController : MonoBehaviour
 
 		Piece destroyedPiece = pieces[pos];
 		DestroyPiece(pos);
+
+		if (destroyedPiece is King)
+		{
+			PlayerType p = destroyedPiece.Player == PlayerType.Black ? PlayerType.White : PlayerType.Black;
+			gc.HandleGameOver(p);
+			return;
+		}
+
 		if (gc.IsSpecialMode) HandleCapture(destroyedPiece);
 	}
 

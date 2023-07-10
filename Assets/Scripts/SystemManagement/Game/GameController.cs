@@ -1,5 +1,6 @@
 using System;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -163,6 +164,17 @@ public class GameController : MonoBehaviour
 		return GetCurrPlayer() == PlayerType.Black ? whitePlayer : blackPlayer;
 	}
 
+	public void HandleGameOver(PlayerType winner)
+	{
+		SetGameState(GameState.GameOver);
+		checkText.gameObject.SetActive(true);
+		checkText.text = winner.ToString() + " Wins!";
+		replayButton.SetActive(true);
+	}
+
+	/// <summary>
+	/// Reset the game to the initial state
+	/// </summary>
 	public virtual void ResetGame()
 	{	
 		blackPlayer?.ResetPlayerManager();
@@ -182,8 +194,6 @@ public class GameController : MonoBehaviour
 	{
 		isDoubleTurn = boolean;
 	}
-
-
 }
 
 public enum PlayerType

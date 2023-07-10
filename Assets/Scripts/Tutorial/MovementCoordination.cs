@@ -6,96 +6,88 @@ using UnityEngine;
 
 public class MovementCoordination : MonoBehaviour
 {
-    // Start is called before the first frame update
-    public List<MoveSimulator> moves;
-    public int moveIndex = 0;
-	public BoardController bc;
-
-	// If no piece is captured, then piece stored is null	
-	public Stack<Piece> capturedPieceStack = new Stack<Piece>();
+	[SerializeField] private SetMoves[] moves;
 
 	[SerializeField] private TextAsset[] openingsFiles;
 
 	[SerializeField] private TMP_Text openingsText;
 	[SerializeField] private TMP_Text tutorialText;
 
-	private string[][] Lines;
+	private string[] titles = {"Italian Game", "Sicilian Defense", "" };
+
+	private int FileIndex = 0;
+	private int LineIndex = 0;
+
+	private string[][] lines;
 
 	private void Awake()
 	{
-		bc = FindObjectOfType<BoardController>();
 		ReadAndStoreFiles(openingsFiles);
+		GameController.SetGameState(GameState.GameOver);
+		openingsText.text = titles[FileIndex];
+		tutorialText.text = lines[FileIndex][LineIndex];
 		//ColorOptionDropdown.Dropdown(1);
 	}
 
 	public void ReadAndStoreFiles(params TextAsset[] files)
 	{
-		Lines = new string[files.Length][];
+		lines = new string[files.Length][];
 		var splitFile = new string[] { "\r\n", "\r", "\n" };
 		int index = 0;
 		foreach (TextAsset file in files)
 		{
-			Lines[index] = file.text.Split(splitFile, System.StringSplitOptions.RemoveEmptyEntries);
+			lines[index] = file.text.Split(splitFile, System.StringSplitOptions.RemoveEmptyEntries);
 			index++;
 		}
 	}
 
-	public void ExecuteMove()
-    {
-		MoveSimulator m = moves[moveIndex];
-
-		Piece p = bc.GetPieceFromPos(m.end);
-		if (p != null) capturedPieceStack.Push(p);
-		else capturedPieceStack.Push(null);
-
-		if (m.flag == MoveFlag.KingsideCastling || m.flag == MoveFlag.QueensideCastling)
-		{
-			// Handle castling
-		}
-		
-		bc.CurrPiece = bc.GetPieceFromPos(m.start);
-		int x = BoardController.ConvXY(m.end)[0];
-		int y = BoardController.ConvXY(m.end)[1];
-		bc.MovePiece(x, y, bc.GetPieceFromPos(m.start));
-
-		string[] lines = Lines[moveIndex];
-		openingsText.text = lines[0];
-		tutorialText.text = lines[1];
-
-		moveIndex++;
-    }
-
-	public void PreviousMove()
+	public void TriggerPrevLine()
 	{
-		if (moveIndex == 0) return;
-		moveIndex--;
-		MoveSimulator m = moves[moveIndex];
-
-		bc.CurrPiece = bc.GetPieceFromPos(m.start);
-		int x = BoardController.ConvXY(m.start)[0];
-		int y = BoardController.ConvXY(m.start)[1];
-
-		bc.MovePiece(x, y, bc.GetPieceFromPos(m.end));
-
-
-		if (m.flag == MoveFlag.KingsideCastling)
+		// BoardController.i.UnloadCurrentPieces();
+		if (FileIndex == 0 && LineIndex == 0) return;
+		if (LineIndex == 0)
 		{
-			bc.MovePiece(x + 3, y, bc.GetPieceFromPos(m.end + 1));
+			FileIndex--;
+			LineIndex = lines[FileIndex].Length - 1;
+		}
+		else
+		{
+			LineIndex--;
 		}
 
-		else if (m.flag == MoveFlag.QueensideCastling)
+		if (lines[FileIndex][LineIndex].Contains("@"))
 		{
-			bc.MovePiece(x - 4, y, bc.GetPieceFromPos(m.end - 1));
+			moves[FileIndex].PreviousMove();
+			TriggerPrevLine();
 		}
 
-		string[] lines = Lines[moveIndex];
-		openingsText.text = lines[0];
-		tutorialText.text = lines[1];
+		openingsText.text = titles[FileIndex];
+		tutorialText.text = lines[FileIndex][LineIndex];
+	}
 
-		Piece p = capturedPieceStack.Pop();
-		if (p == null) return;
-		else bc.InstantiatePiece(p, m.end);
-
+	/// <summary>
+	/// Triggers the next line
+	/// </summary>
+	public void TriggerNextLine()
+	{
+		var CurrFile = lines[FileIndex];
+		if (LineIndex == CurrFile.Length - 1)
+		{
+			if (FileIndex == lines.Length - 1) return;
+			FileIndex++;
+			LineIndex = 0;
+		}
+		else
+		{
+			LineIndex++;
+		}
+		openingsText.text = titles[FileIndex];
+		tutorialText.text = lines[FileIndex][LineIndex];
+		if (lines[FileIndex][LineIndex].Contains("@"))
+		{
+			moves[FileIndex].ExecuteMove();
+			TriggerNextLine();
+		}
 	}
 }
 

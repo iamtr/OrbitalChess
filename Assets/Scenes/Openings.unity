@@ -379,26 +379,6 @@ PrefabInstance:
       propertyPath: tutorialText
       value: 
       objectReference: {fileID: 4367978140995627191}
-    - target: {fileID: 992289086189831418, guid: b0345f9b12f7408438c1cb45c1784bc6, type: 3}
-      propertyPath: moves.Array.data[4].flag
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 992289086189831418, guid: b0345f9b12f7408438c1cb45c1784bc6, type: 3}
-      propertyPath: openingsFiles.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 992289086189831418, guid: b0345f9b12f7408438c1cb45c1784bc6, type: 3}
-      propertyPath: openingsFiles.Array.data[0]
-      value: 
-      objectReference: {fileID: 4900000, guid: 990207436a50e2c469b185a5ade10e31, type: 3}
-    - target: {fileID: 992289086189831418, guid: b0345f9b12f7408438c1cb45c1784bc6, type: 3}
-      propertyPath: openingsFiles.Array.data[1]
-      value: 
-      objectReference: {fileID: 4900000, guid: 3933db7a0970bf6469bcc68a6dc7a01e, type: 3}
-    - target: {fileID: 992289086189831418, guid: b0345f9b12f7408438c1cb45c1784bc6, type: 3}
-      propertyPath: openingsFiles.Array.data[2]
-      value: 
-      objectReference: {fileID: 4900000, guid: 561ee5b46a7bad7449f65ccb7b833d0f, type: 3}
     - target: {fileID: 992289086189831419, guid: b0345f9b12f7408438c1cb45c1784bc6, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -685,10 +665,18 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 33769398}
+    - target: {fileID: 4367978141363916602, guid: c1f2c0de88d2a964bb4bf0f38b52089f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: TriggerNextLine
+      objectReference: {fileID: 0}
     - target: {fileID: 4367978142173530337, guid: c1f2c0de88d2a964bb4bf0f38b52089f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 33769398}
+    - target: {fileID: 4367978142173530337, guid: c1f2c0de88d2a964bb4bf0f38b52089f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: TriggerPrevLine
+      objectReference: {fileID: 0}
     - target: {fileID: 5406527125612904399, guid: c1f2c0de88d2a964bb4bf0f38b52089f, type: 3}
       propertyPath: m_fontSize
       value: 30

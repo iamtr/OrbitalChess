@@ -49,6 +49,7 @@ public class MovementCoordination : MonoBehaviour
 		{
 			FileIndex--;
 			LineIndex = lines[FileIndex].Length - 1;
+			moves[FileIndex].ExecuteAllMoves();
 		}
 		else
 		{
@@ -74,6 +75,7 @@ public class MovementCoordination : MonoBehaviour
 		if (LineIndex == CurrFile.Length - 1)
 		{
 			if (FileIndex == lines.Length - 1) return;
+			moves[FileIndex].UndoAllPrevMoves();
 			FileIndex++;
 			LineIndex = 0;
 		}

@@ -65,4 +65,20 @@ public class SetMoves : MonoBehaviour
 		if (p == null) return;
 		else bc.InstantiatePiece(p, m.end);
 	}
+
+	public void UndoAllPrevMoves()
+	{
+        for (int i = 0; i < moves.Count; i++)
+		{
+            PreviousMove();
+		}
+	}
+
+	public void ExecuteAllMoves()
+    {
+		for (int i = 0; i < moves.Count; i++)
+		{
+			ExecuteMove();
+		}
+	}
 }

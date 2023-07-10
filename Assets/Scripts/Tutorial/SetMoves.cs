@@ -22,8 +22,9 @@ public class SetMoves : MonoBehaviour
 		MoveSimulator m = moves[moveIndex];
 
 		Piece p = bc.GetPieceFromPos(m.end);
-		if (p != null) capturedPieceStack.Push(p);
-		else capturedPieceStack.Push(null);
+		capturedPieceStack.Push(p);
+		//if (p != null) capturedPieceStack.Push(p);
+		//else capturedPieceStack.Push(null);
 
 		if (m.flag == MoveFlag.KingsideCastling || m.flag == MoveFlag.QueensideCastling)
 		{
@@ -36,6 +37,8 @@ public class SetMoves : MonoBehaviour
 		bc.MovePiece(x, y, bc.GetPieceFromPos(m.start));
 
 		moveIndex++;
+		Debug.Log(p);
+		Debug.Log(capturedPieceStack.Contains(p));
 	}
 
 	public void PreviousMove()
@@ -62,8 +65,11 @@ public class SetMoves : MonoBehaviour
 		}
 
 		Piece p = capturedPieceStack.Pop();
-		if (p == null) return;
-		else bc.InstantiatePiece(p, m.end);
+		bc.InstantiatePiece(p, m.end);
+		Debug.Log(p);
+		Debug.Log(capturedPieceStack.Contains(p));
+		//if (p == null) return;
+		//else bc.InstantiatePiece(p, m.end);
 	}
 
 	public void UndoAllPrevMoves()

@@ -13,7 +13,7 @@ and Black responds with 1...c5, attacking the e4 pawn.
 
 @ Nf3
 White develops the knight to its natural square,
-attacking the black pawn on c5 and preparing to control the center.
+supporting the d6 pawn and preparing to control the center.
 
 Now, there are several main variations in the Sicilian Defense,
 including the Open Sicilian, Closed Sicilian, and the Scheveningen Variation.
@@ -41,7 +41,7 @@ preparing to castle and supporting the pawn on d6.
 
 @ Nc3
 White develops the knight to c3,
-aiming to control the center and prepare for castle kingside.
+aiming to control the center and prepare for kingside castling.
 
 The Sicilian Defense can be used in a variety of ways from this point on,
 including the Najdorf, Dragon, Scheveningen, and Sveshnikov.

@@ -101,6 +101,12 @@ public class HighlightManager : MonoBehaviour
 			bc.DestroyCurrentCard();
 		}
 
+		if (h.Special == SpecialMove.Sacrifice)
+		{
+			bc.DestroyPiece(h.Position);
+			bc.BuildPawnWall();
+		}
+
 		bc.SetHighLightSpecial(h, SpecialMove.Play);
 		bc.DisableAllUIElements();
 		bc.CurrPiece?.InvokeOnAfterMove();
@@ -229,6 +235,16 @@ public class HighlightManager : MonoBehaviour
 		{
 			if (bc.Pieces[i] != null) continue;
 			Highlight(i, SpecialMove.Mine);
+		}
+	}
+
+	public void HighlightSacrificialPieces()
+	{
+		foreach (Piece piece in bc.Pieces)
+		{
+			if (piece == null) continue;
+			if (piece.Player == GameController.GetOpponent() || piece is Pawn || piece is King) continue;
+			Highlight(piece.CurrPos, SpecialMove.Sacrifice);
 		}
 	}
 }

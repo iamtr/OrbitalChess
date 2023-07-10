@@ -182,6 +182,8 @@ public class GameController : MonoBehaviour
 	{
 		isDoubleTurn = boolean;
 	}
+
+
 }
 
 public enum PlayerType

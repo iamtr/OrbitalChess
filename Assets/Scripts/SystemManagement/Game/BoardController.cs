@@ -29,7 +29,9 @@ public class BoardController : MonoBehaviour
 	[Header("Special Mode")]
 	[SerializeField] private GameObject mine;
 
-	private GameObject[] mines;
+	protected GameObject[] mines;
+
+	[SerializeField] protected int mineCount = 5;
 
 	protected Transform pieceTransform;
 
@@ -201,7 +203,7 @@ public class BoardController : MonoBehaviour
 
 		if (pieces[newPos] != null)
 		{
-			// Debug.Log("Destroy piece at index: " + newPos);
+			// Debug.Log("Sacrriiffiicce piece at index: " + newPos);
 			CapturePiece(newPos);
 		}
 
@@ -940,5 +942,42 @@ public class BoardController : MonoBehaviour
 		Card card = cards[rand];
 		player.AddCard(card);
 	}
+
+	public void RandomlySteal()
+	{
+		List<Piece> opponentPieces = new List<Piece>();
+
+		foreach (Piece piece in pieces)
+		{
+			if (piece == null || piece is King || piece.Player == GameController.GetCurrPlayer()) continue;
+			opponentPieces.Add(piece);
+		}
+
+		if (opponentPieces.Count == 0) return;
+		int rand = UnityEngine.Random.Range(0, opponentPieces.Count);
+		StealOpponentPiece(opponentPieces[rand].CurrPos);
+	}
+
+	public void BuildPawnWall()
+	{
+		if (GameController.GetCurrPlayer() == PlayerType.Black)
+		{
+			for (int i = 8; i < 16; i++)
+			{
+				if (pieces[i] != null) continue;
+				pieces[i] = InstantiatePiece(GetPromotionPiece(4, PlayerType.Black), i);
+			}
+		}
+
+		else if (GameController.GetCurrPlayer() == PlayerType.White)
+		{
+			for (int i = 56; i < 64; i++)
+			{
+				if (pieces[i] != null) continue;
+				pieces[i] = InstantiatePiece(GetPromotionPiece(4, PlayerType.White), i);
+			}
+		}
+	}
+
 	#endregion
 }

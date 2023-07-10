@@ -21,6 +21,8 @@ public class GameController : MonoBehaviour
 
 	[SerializeField] private PlayerType currPlayerRef;
 
+	[SerializeField] private bool isDoubleTurn = false;
+
 	protected static PlayerType currPlayer = PlayerType.White;
 	private static GameState gameState;
 	
@@ -66,7 +68,7 @@ public class GameController : MonoBehaviour
 
 		currPlayer = PlayerType.White;
 
-		// AssertAllReferenceIsNotNull();
+		AssertAllReferenceIsNotNull();
 	}
 
 	private void AssertAllReferenceIsNotNull()
@@ -81,6 +83,12 @@ public class GameController : MonoBehaviour
 	/// </summary>
 	public virtual void SetPlayer()
 	{
+		if (isDoubleTurn)
+		{
+			isDoubleTurn = false;
+			return;
+		}
+
 		currPlayer = currPlayer == PlayerType.Black ? PlayerType.White : PlayerType.Black;
 		turnText.text = currPlayer.ToString() + " Turn";
 	}
@@ -163,6 +171,16 @@ public class GameController : MonoBehaviour
 		SetPlayer(PlayerType.White);
 		checkText.gameObject.SetActive(false);
 		turnText.text = currPlayer.ToString() + " Turn";
+	}
+
+	/// <summary>
+	/// For card mode: Allows the player to move double turns for one round
+	/// Sets isDoubleTurn boolean to be true
+	/// </summary>
+	/// <param name="boolean"></param>
+	public void SetDoubleTurn(bool boolean)
+	{
+		isDoubleTurn = boolean;
 	}
 }
 

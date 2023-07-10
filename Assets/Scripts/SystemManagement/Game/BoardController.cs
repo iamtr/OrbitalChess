@@ -427,7 +427,7 @@ public class BoardController : MonoBehaviour
 		}
 		catch (IndexOutOfRangeException)
 		{
-			Debug.Log("Cannot get piece from position");
+			// Debug.Log("Cannot get piece from position");
 			return null;
 		}
 	}

@@ -106,3 +106,16 @@ public readonly struct Move
 
 	public Piece Piece => piece;
 }
+
+public enum MoveFlag
+{
+	None,
+	EnPassantCapture,
+	KingsideCastling,
+	QueensideCastling,
+	PromoteToQueen,
+	PromoteToKnight,
+	PromoteToRook,
+	PromoteToBishop,
+	PawnTwoForward
+}	

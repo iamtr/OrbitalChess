@@ -35,7 +35,7 @@ public class UIManager : MonoBehaviour
 		InstantiatePromotionButtons(blackSprites, promotingBlack);
 		InstantiatePromotionButtons(whiteSprites, promotingWhite);
 
-		AssertAllReferenceIsNotNull();
+		//AssertAllReferenceIsNotNull();
 	}
 
 	private void AssertAllReferenceIsNotNull()

@@ -1,0 +1,11 @@
+Checkmate occurs when the opponent’s king is under attack (in “check”)...
+and is unable to make a legal move to escape capture.
+
+Let's try it out! Checkmate your opponent with only one move.
+Well done! The rook checks Black's king and there is no safe square to dodge the check.
+
+Let's try it out! Checkmate your opponent with only one move.
+As you can see, it does not matter if your opponent has more pieces on the board,
+You can still checkmate your opponent if they are careless.
+
+The ultimate goal of the game is to checkmate your opponent’s king.

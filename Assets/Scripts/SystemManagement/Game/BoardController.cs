@@ -851,7 +851,7 @@ public class BoardController : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Special Game Mode: Steal an opponent king, excluding king and queen
+	/// Special Game Mode: Burgle an opponent king, excluding king and queen
 	/// </summary>
 	/// <param name="p"></param>
 	/// <param name="pos"></param>

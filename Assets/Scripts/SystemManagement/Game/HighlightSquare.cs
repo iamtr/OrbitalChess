@@ -16,4 +16,4 @@ public class HighlightSquare : MonoBehaviour
 }
 
 public enum SpecialMove
-{ Play, EnPassant, Castling, Bomb, Steal, Spawn, Mine, Sacrifice }
+{ Play, EnPassant, Castling, Bomb, Burgle, Spawn, Mine, Sacrifice }

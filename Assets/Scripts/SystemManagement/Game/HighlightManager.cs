@@ -80,7 +80,7 @@ public class HighlightManager : MonoBehaviour
 			GameController.InvokeOnRoundEnd();
 			return;
 		}
-		if (h.Special == SpecialMove.Steal)
+		if (h.Special == SpecialMove.Burgle)
 		{
 			bc.StealOpponentPiece(h.Position);
 			bc.DestroyCurrentCard();
@@ -226,7 +226,7 @@ public class HighlightManager : MonoBehaviour
 		{
 			if (piece == null) continue;
 			if (piece.Player == GameController.GetCurrPlayer()) continue;
-			Highlight(piece.CurrPos, SpecialMove.Steal);
+			Highlight(piece.CurrPos, SpecialMove.Burgle);
 		}
 	}
 

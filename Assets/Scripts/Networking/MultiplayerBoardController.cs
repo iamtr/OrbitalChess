@@ -59,7 +59,7 @@ public class MultiplayerBoardController : BoardController
 	//		GameController.InvokeOnRoundEnd();
 	//		return;
 	//	}
-	//	if (h.Special == SpecialMove.Steal)
+	//	if (h.Special == SpecialMove.Burgle)
 	//	{
 	//		StealOpponentPiece(h.Position);
 	//		GameController.InvokeOnRoundEnd();

@@ -685,7 +685,15 @@ public class BoardController : MonoBehaviour
 
 	public bool TestArrayIsOccupied(int pos)
 	{
-		return testArray[pos] != null;
+		try
+		{
+			return testArray[pos] != null;
+		}
+		catch (IndexOutOfRangeException)
+		{
+			Debug.Log("TestArrayIsOccupied: Index out of range!");
+			return true;
+		}
 	}
 
 	public Piece GetPieceFromTestArrayPos(int pos)
@@ -971,7 +979,7 @@ public class BoardController : MonoBehaviour
 
 		else if (GameController.GetCurrPlayer() == PlayerType.White)
 		{
-			for (int i = 56; i < 64; i++)
+			for (int i = 48; i < 56; i++)
 			{
 				if (pieces[i] != null) continue;
 				pieces[i] = InstantiatePiece(GetPromotionPiece(4, PlayerType.White), i);

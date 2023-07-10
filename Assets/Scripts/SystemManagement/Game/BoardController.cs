@@ -729,7 +729,7 @@ public class BoardController : MonoBehaviour
 			{
 				int x = ConvXY(pos)[0] + i;
 				int y = ConvXY(pos)[1] + j;
-				if (!IsInBounds(x, y)) continue;
+				if (!IsInBounds(x, y) || GetPieceFromPos(ConvPos(x, y)) is King) continue;
 				DestroyPiece(ConvPos(x, y));
 			}
 		}

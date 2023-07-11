@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class MovementCoordination : MonoBehaviour
 {
-	[SerializeField] private SetMoves[] moves;
+	[SerializeField] private SetMove[] moves;
 
 	[SerializeField] private TextAsset[] openingsFiles;
 
@@ -20,7 +20,7 @@ public class MovementCoordination : MonoBehaviour
 
 	private string[][] lines;
 
-	private SetMoves currSetMoves;
+	private SetMove currSetMoves;
 
 	private void Awake()
 	{

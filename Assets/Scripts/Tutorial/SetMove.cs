@@ -2,20 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SetMoves : MonoBehaviour
+public class SetMove : MonoBehaviour
 {
 	// Start is called before the first frame update
 	public List<MoveSimulator> moves;
 	public int moveIndex = 0;
 	public BoardController bc;
 
+	[SerializeField] private Piece[] respawnPiece;
+
 	// If no piece is captured, then piece stored is null	
-	public Stack<Piece> capturedPieceStack;
+	public Stack<int> capturedPieceStack;
 
     private void Start()
     {
 		bc = FindObjectOfType<BoardController>();
-		capturedPieceStack = new Stack<Piece>(moves.Count);
+		capturedPieceStack = new Stack<int>(moves.Count);
 	}
 
     public void ExecuteMove()
@@ -23,9 +25,7 @@ public class SetMoves : MonoBehaviour
 		MoveSimulator m = moves[moveIndex];
 
 		Piece p = bc.GetPieceFromPos(m.end);
-		//capturedPieceStack.Push(p);
-		if (p != null) capturedPieceStack.Push(p);
-		else capturedPieceStack.Push(null);
+		PushStack(p);
 
 		if (m.flag == MoveFlag.KingsideCastling || m.flag == MoveFlag.QueensideCastling)
 		{
@@ -65,9 +65,8 @@ public class SetMoves : MonoBehaviour
 		}
 
 		Debug.Log(capturedPieceStack.Peek());
-		Piece p = capturedPieceStack.Pop();
+		Piece p = respawnPiece[capturedPieceStack.Pop()];
 		bc.InstantiatePiece(p, m.end);
-		Debug.Log(capturedPieceStack.Contains(p));
 		//if (p == null) return;
 		//else bc.InstantiatePiece(p, m.end);
 	}
@@ -86,5 +85,48 @@ public class SetMoves : MonoBehaviour
 		{
 			ExecuteMove();
 		}
+	}
+
+	public void PushStack(Piece piece)
+    {
+        if (piece == null)
+        {
+			capturedPieceStack.Push(0);
+			return;
+		}
+
+		int index;
+        if (piece is Pawn)
+        {
+			if (piece.Player == PlayerType.White) index = 1;
+			else index = 2;
+        }
+		else if (piece is Knight)
+		{
+			if (piece.Player == PlayerType.White) index = 3;
+			else index = 4;
+		}
+		else if (piece is Rook)
+		{
+			if (piece.Player == PlayerType.White) index = 5;
+			else index = 6;
+		}
+		else if (piece is Bishop)
+		{
+			if (piece.Player == PlayerType.White) index = 7;
+			else index = 8;
+		}
+		else if (piece is Queen)
+		{
+			if (piece.Player == PlayerType.White) index = 9;
+			else index = 10;
+		}
+		else
+        {
+			//This line should not reached
+			index = 0;
+        }
+
+		capturedPieceStack.Push(index);
 	}
 }

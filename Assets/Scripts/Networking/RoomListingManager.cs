@@ -60,6 +60,15 @@ public class RoomListingManager : MonoBehaviourPunCallbacks
 		}
 	}
 
+	public void ClearCachedList()
+	{
+		cachedRoomList.Clear();
+		foreach (GameObject g in roomListParent)
+		{
+			Destroy(g);
+		}
+	}
+
 	public override void OnJoinedLobby()
 	{
 		cachedRoomList.Clear();

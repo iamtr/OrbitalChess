@@ -37,10 +37,20 @@ public class Timer : MonoBehaviour
 			blackTimerText.rectTransform.anchorMax = new Vector2(1.0f, 1.0f);
 			blackTimerText.rectTransform.anchoredPosition = new Vector2(-260, -125);
 		}
+		
+	}
+
+    private void OnEnable()
+    {
 		GameController.OnRoundEnd += AddPlayerSeconds;
 	}
 
-	private void AssertAllReferenceIsNotNull()
+    private void OnDisable()
+    {
+		GameController.OnRoundEnd -= AddPlayerSeconds;
+	}
+
+    private void AssertAllReferenceIsNotNull()
 	{
 		Assert.IsNotNull(blackTimerText);
 		Assert.IsNotNull(whiteTimerText);

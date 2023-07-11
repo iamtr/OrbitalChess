@@ -10,11 +10,12 @@ public class SetMoves : MonoBehaviour
 	public BoardController bc;
 
 	// If no piece is captured, then piece stored is null	
-	public Stack<Piece> capturedPieceStack = new Stack<Piece>();
+	public Stack<Piece> capturedPieceStack;
 
     private void Start()
     {
 		bc = FindObjectOfType<BoardController>();
+		capturedPieceStack = new Stack<Piece>(moves.Count);
 	}
 
     public void ExecuteMove()
@@ -22,9 +23,9 @@ public class SetMoves : MonoBehaviour
 		MoveSimulator m = moves[moveIndex];
 
 		Piece p = bc.GetPieceFromPos(m.end);
-		capturedPieceStack.Push(p);
-		//if (p != null) capturedPieceStack.Push(p);
-		//else capturedPieceStack.Push(null);
+		//capturedPieceStack.Push(p);
+		if (p != null) capturedPieceStack.Push(p);
+		else capturedPieceStack.Push(null);
 
 		if (m.flag == MoveFlag.KingsideCastling || m.flag == MoveFlag.QueensideCastling)
 		{
@@ -37,8 +38,7 @@ public class SetMoves : MonoBehaviour
 		bc.MovePiece(x, y, bc.GetPieceFromPos(m.start));
 
 		moveIndex++;
-		Debug.Log(p);
-		Debug.Log(capturedPieceStack.Contains(p));
+		Debug.Log(capturedPieceStack.Peek());
 	}
 
 	public void PreviousMove()
@@ -64,9 +64,9 @@ public class SetMoves : MonoBehaviour
 			bc.MovePiece(x - 4, y, bc.GetPieceFromPos(m.end - 1));
 		}
 
+		Debug.Log(capturedPieceStack.Peek());
 		Piece p = capturedPieceStack.Pop();
 		bc.InstantiatePiece(p, m.end);
-		Debug.Log(p);
 		Debug.Log(capturedPieceStack.Contains(p));
 		//if (p == null) return;
 		//else bc.InstantiatePiece(p, m.end);

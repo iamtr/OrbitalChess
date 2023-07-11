@@ -126,7 +126,7 @@ public class King : Piece
 
 				Move m = new Move(CurrPos, pos, this);
 
-				if (!IsLegalMove(m)) break;
+				if (bc.IsSamePlayerAtTestArray(CurrPos, pos)) break;
 				moves.Add(m);
 				if (bc.TestArrayIsOccupied(pos)) break;
 			}
@@ -175,7 +175,7 @@ public class King : Piece
 	}
 
 	/// <summary>
-	/// Sets the hasMoved boolean in its initial move
+	/// Sets the HasMoved boolean in its initial move
 	/// </summary>
 	public void SetKingBoolean()
 	{

@@ -5,6 +5,5 @@ public class BombCard : Card
 		if (gc.IsCheck) return;
 
 		hm.HighlightPawnBombs();
-		Destroy(this.gameObject);
 	}
 }

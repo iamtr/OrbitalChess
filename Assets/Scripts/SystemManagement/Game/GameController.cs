@@ -6,25 +6,28 @@ using UnityEngine.Assertions;
 public class GameController : MonoBehaviour
 {
 	[Header("Players")]
-	[SerializeField] private PlayerManager blackPlayer;
+	[SerializeField] private SpecialPlayerManager blackPlayer;
 
-	[SerializeField] private PlayerManager whitePlayer;
+	[SerializeField] private SpecialPlayerManager whitePlayer;
 
 	[Header("Text")]
 	[SerializeField] private TMP_Text checkText;
 
-	[SerializeField] private TMP_Text turnText;
+	[SerializeField] protected TMP_Text turnText;
 
 	[SerializeField] private bool isSpecialMode = false;
 
 	[SerializeField] private GameObject replayButton;
 
+	[SerializeField] private PlayerType currPlayerRef;
+
 	protected static PlayerType currPlayer = PlayerType.White;
 	private static GameState gameState;
+	
 	public bool IsCheck { get; private set; }
 
-	[SerializeField] protected BoardController bc;
-	[SerializeField] protected InputManager im;
+	protected BoardController bc;
+	protected InputManager im;
 
 	public bool IsSpecialMode => isSpecialMode;
 
@@ -70,21 +73,7 @@ public class GameController : MonoBehaviour
     {
 		Assert.IsNotNull(checkText);
 		Assert.IsNotNull(replayButton);
-        if (isSpecialMode)
-        {
-			Assert.IsNotNull(turnText);
-		}
-	}
-
-	private void Update()
-	{
-		//if (GameController.GetGameState() == GameState.GameOver)
-		//{
-		//	replayButton.gameObject.SetActive(true);
-		//	return;
-		//}
-
-  //      replayButton.gameObject.SetActive(false);
+		Assert.IsNotNull(turnText);
 	}
 
 	/// <summary>
@@ -93,7 +82,7 @@ public class GameController : MonoBehaviour
 	public virtual void SetPlayer()
 	{
 		currPlayer = currPlayer == PlayerType.Black ? PlayerType.White : PlayerType.Black;
-		if (IsSpecialMode) turnText.text = currPlayer.ToString() + " Turn";
+		turnText.text = currPlayer.ToString() + " Turn";
 	}
 
 	/// <summary>
@@ -156,12 +145,12 @@ public class GameController : MonoBehaviour
 		return PlayerType.Black == currPlayer ? PlayerType.White : PlayerType.Black;
 	}
 
-	public PlayerManager GetCurrPlayerManager()
+	public SpecialPlayerManager GetCurrPlayerManager()
 	{
 		return GetCurrPlayer() == PlayerType.Black ? blackPlayer : whitePlayer;
 	}
 
-	public PlayerManager GetOpponentPlayerManager()
+	public SpecialPlayerManager GetOpponentPlayerManager()
 	{
 		return GetCurrPlayer() == PlayerType.Black ? whitePlayer : blackPlayer;
 	}
@@ -170,6 +159,14 @@ public class GameController : MonoBehaviour
 	{
 		blackPlayer?.ResetPlayerManager();
 		whitePlayer?.ResetPlayerManager();
+		checkText.gameObject.SetActive(false);
+	}
+
+	public void ResetCanvas()
+    {
+		SetGameState(GameState.Play);
+		SetPlayer(PlayerType.White);
+		turnText.text = currPlayer.ToString() + " Turn";
 	}
 }
 

@@ -76,12 +76,14 @@ public class HighlightManager : MonoBehaviour
 		if (h.Special == SpecialMove.Bomb)
 		{
 			bc.Bomb(h.Position);
+			bc.DestroyCurrentCard();
 			GameController.InvokeOnRoundEnd();
 			return;
 		}
 		if (h.Special == SpecialMove.Steal)
 		{
 			bc.StealOpponentPiece(h.Position);
+			bc.DestroyCurrentCard();
 			GameController.InvokeOnRoundEnd();
 			return;
 		}
@@ -96,6 +98,7 @@ public class HighlightManager : MonoBehaviour
 		if (h.Special == SpecialMove.Mine)
 		{
 			bc.PlantMine(h.Position);
+			bc.DestroyCurrentCard();
 		}
 
 		bc.SetHighLightSpecial(h, SpecialMove.Play);

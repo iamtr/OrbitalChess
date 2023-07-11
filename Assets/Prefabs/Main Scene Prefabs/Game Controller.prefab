@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 847134743661679212}
-  - component: {fileID: 2090851011667942025}
+  - component: {fileID: 1513277912328044685}
   m_Layer: 0
   m_Name: Game Controller
   m_TagString: Untagged
@@ -33,7 +33,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2090851011667942025
+--- !u!114 &1513277912328044685
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -51,6 +51,7 @@ MonoBehaviour:
   turnText: {fileID: 0}
   isSpecialMode: 0
   replayButton: {fileID: 0}
+  currPlayerRef: 0
 --- !u!1 &5942743016976907928
 GameObject:
   m_ObjectHideFlags: 0

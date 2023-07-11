@@ -110,24 +110,7 @@ public class UIManager : MonoBehaviour
 		blackBuyOptions.SetActive(false);
 	}
 
-	public void ResetGame()
-	{
-		GameController.SetGameState(GameState.Play);
-		GameController.SetPlayer(PlayerType.White);
-		checkText.SetActive(false);
-		gc.ResetPlayer();
-		ResetPieces();
-		Timer.ResetTimers();
-	}
 
-	public void ResetPieces()
-	{
-		for (var i = 0; i < 64; i++)
-		{
-			bc.DestroyPiece(i);
-			if (defaultPieceSetup[i] != null) bc.InstantiatePiece(defaultPieceSetup[i], i);
-		}
-	}
 
 	public void StartBlitzGame()
 	{

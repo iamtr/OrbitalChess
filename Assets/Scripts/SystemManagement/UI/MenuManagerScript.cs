@@ -1,12 +1,13 @@
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MenuManagerScript : MonoBehaviour
 {
-	public string menuScene = "main-menu";
-	public string mainGameStartScene = "Main";
-	public string blitzGameStartScene = "Blitz";
-	public string customGameModeStartScene = "Custom Game Mode";
+	public static string menuScene = "Main Menu";
+	public static string mainGameStartScene = "Main";
+	public static string blitzGameStartScene = "Blitz";
+	public static string customGameModeStartScene = "Custom Game Mode";
 
 	[SerializeField] private SettingsScript settings;
 
@@ -52,5 +53,10 @@ public class MenuManagerScript : MonoBehaviour
 				SceneManager.LoadScene(customGameModeStartScene);
 				break;
 		}
+	}
+
+	public void LeaveRoom()
+	{
+		PhotonNetwork.LeaveRoom();
 	}
 }

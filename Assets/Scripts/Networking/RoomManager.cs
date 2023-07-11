@@ -61,12 +61,16 @@ public class RoomManager : MonoBehaviourPunCallbacks
 		{
 			int? team = (int)value;
 			if (team == null) return;
-			StartCoroutine(DelayedPropertyModification(team.Value));
-		}
-
-		if (!isGameStarted)
-		{
-			PhotonNetwork.CurrentRoom.IsOpen = true;
+			if (team == 0)
+			{
+				PhotonNetwork.CurrentRoom.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "Black", false } });
+				blackButton.interactable = true;
+			}
+			else if (team == 1)
+			{
+				PhotonNetwork.CurrentRoom.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "White", false } });
+				whiteButton.interactable = true;
+			}
 		}
 	}
 
@@ -85,22 +89,6 @@ public class RoomManager : MonoBehaviourPunCallbacks
 			&& (bool)PhotonNetwork.CurrentRoom.CustomProperties["Black"] && (bool)PhotonNetwork.CurrentRoom.CustomProperties["White"])
 		{
 			pv.RPC(nameof(RPC_StartGame), RpcTarget.All);
-		}
-	}
-
-	private IEnumerator DelayedPropertyModification(int team)
-	{
-		yield return new WaitForEndOfFrame(); // Wait until the end of the frame
-
-		if (team == 0)
-		{
-			PhotonNetwork.CurrentRoom.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "Black", false } });
-			blackButton.interactable = true;
-		}
-		else if (team == 1)
-		{
-			PhotonNetwork.CurrentRoom.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "White", false } });
-			whiteButton.interactable = true;
 		}
 	}
 

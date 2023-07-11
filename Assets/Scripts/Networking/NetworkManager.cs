@@ -53,8 +53,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 		PhotonNetwork.LoadLevel("Multiplayer Main");
 		if (PhotonNetwork.CurrentRoom.PlayerCount >= 2)
 		{
-			Debug.Log("Close room");
-			PhotonNetwork.CurrentRoom.IsOpen = false;
+			Debug.Log("2 players are inside");
+			//PhotonNetwork.CurrentRoom.IsOpen = false;
 		}
 	}
 
@@ -62,5 +62,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 	{
 		base.OnLeftRoom();
 		Debug.Log("Player left room");
+		PhotonNetwork.JoinLobby();
+	}
+
+	public override void OnLeftLobby()
+	{
+		Debug.Log("Leave Lobby");
 	}
 }

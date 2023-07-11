@@ -26,8 +26,7 @@ public class MovementCoordination : MonoBehaviour
 	{
 		ReadAndStoreFiles(openingsFiles);
 		GameController.SetGameState(GameState.GameOver);
-		openingsText.text = titles[FileIndex];
-		tutorialText.text = lines[FileIndex][LineIndex];
+		LoadText();
 		currSetMoves = moves[0];
 		//ColorOptionDropdown.Dropdown(1);
 	}
@@ -60,16 +59,13 @@ public class MovementCoordination : MonoBehaviour
 			LineIndex--;
 		}
 
-		openingsText.text = titles[FileIndex];
-		tutorialText.text = lines[FileIndex][LineIndex];
+		LoadText();
 
 		if (lines[FileIndex][LineIndex].Contains("@"))
 		{
 			currSetMoves.PreviousMove();
 			TriggerPrevLine();
 		}
-
-		
 	}
 
 	/// <summary>
@@ -90,14 +86,28 @@ public class MovementCoordination : MonoBehaviour
 		{
 			LineIndex++;
 		}
-		openingsText.text = titles[FileIndex];
-		tutorialText.text = lines[FileIndex][LineIndex];
+		LoadText();
 		if (lines[FileIndex][LineIndex].Contains("@"))
 		{
 			currSetMoves.ExecuteMove();
 			TriggerNextLine();
 		}
 	}
+
+	public void LoadText()
+    {
+		openingsText.text = titles[FileIndex];
+		tutorialText.text = lines[FileIndex][LineIndex];
+	}
+
+	public void LoadOpening(int index)
+    {
+		currSetMoves.UndoAllPrevMoves();
+		FileIndex = index;
+		LineIndex = 0;
+		currSetMoves = moves[FileIndex];
+		LoadText();
+    }
 }
 
 [System.Serializable]

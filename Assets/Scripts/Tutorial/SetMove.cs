@@ -38,7 +38,6 @@ public class SetMove : MonoBehaviour
 		bc.MovePiece(x, y, bc.GetPieceFromPos(m.start));
 
 		moveIndex++;
-		Debug.Log(capturedPieceStack.Peek());
 	}
 
 	public void PreviousMove()
@@ -64,11 +63,9 @@ public class SetMove : MonoBehaviour
 			bc.MovePiece(x - 4, y, bc.GetPieceFromPos(m.end - 1));
 		}
 
-		Debug.Log(capturedPieceStack.Peek());
 		Piece p = respawnPiece[capturedPieceStack.Pop()];
-		bc.InstantiatePiece(p, m.end);
-		//if (p == null) return;
-		//else bc.InstantiatePiece(p, m.end);
+		if (p == null) return;
+		else bc.InstantiatePiece(p, m.end);
 	}
 
 	public void UndoAllPrevMoves()

@@ -19,8 +19,10 @@ public class UIManager : MonoBehaviour
 
 	[Header("Blitz UI")]
 	public GameObject board;
-	public GameObject gameCanvas;
+	public GameObject gameController;
 	public GameObject modeSelectCanvas;
+	public GameObject whiteTimerText;
+	public GameObject blackTimerText;
 
 	protected BoardController bc;
 	protected GameController gc;
@@ -35,7 +37,7 @@ public class UIManager : MonoBehaviour
 		InstantiatePromotionButtons(blackSprites, promotingBlack);
 		InstantiatePromotionButtons(whiteSprites, promotingWhite);
 
-		//AssertAllReferenceIsNotNull();
+		AssertAllReferenceIsNotNull();
 	}
 
 	private void AssertAllReferenceIsNotNull()
@@ -116,7 +118,9 @@ public class UIManager : MonoBehaviour
 	{
 		modeSelectCanvas.SetActive(false);
 		board.SetActive(true);
-		gameCanvas.SetActive(true);
+		gameController.SetActive(true);
+		whiteTimerText.gameObject.SetActive(true);
+		blackTimerText.gameObject.SetActive(true);
 		Timer.isGameStart = true;
 	}
 }

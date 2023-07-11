@@ -64,7 +64,10 @@ public class RoomManager : MonoBehaviourPunCallbacks
 			StartCoroutine(DelayedPropertyModification(team.Value));
 		}
 
-		if (!isGameStarted) PhotonNetwork.CurrentRoom.IsOpen = true;
+		if (!isGameStarted)
+		{
+			PhotonNetwork.CurrentRoom.IsOpen = true;
+		}
 	}
 
 	public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)

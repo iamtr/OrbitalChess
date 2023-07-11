@@ -51,9 +51,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 	{
 		Debug.Log("Player joined room");
 		PhotonNetwork.LoadLevel("Multiplayer Main");
-		if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
+		if (PhotonNetwork.CurrentRoom.PlayerCount >= 2)
 		{
-			Debug.Log($"Player is host");
+			Debug.Log("Close room");
+			PhotonNetwork.CurrentRoom.IsOpen = false;
 		}
 	}
 

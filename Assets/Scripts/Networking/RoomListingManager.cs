@@ -13,6 +13,13 @@ public class RoomListingManager : MonoBehaviourPunCallbacks
 	[SerializeField] private TMP_InputField roomNameInputField;
 	[SerializeField] private Button createRoomButton;
 
+	private Dictionary<string, RoomInfo> cachedRoomList = new Dictionary<string, RoomInfo>();
+
+	private void Start()
+	{
+		DisplayLobbyRooms();
+	}
+
 	private void Update()
 	{
 		createRoomButton.interactable = PhotonNetwork.IsConnected && roomNameInputField.text.Length >= 1;
@@ -20,25 +27,52 @@ public class RoomListingManager : MonoBehaviourPunCallbacks
 
 	public override void OnRoomListUpdate(List<RoomInfo> roomList)
 	{
-		ClearRoomList();
+		UpdateCachedRoomList(roomList);
+		DisplayLobbyRooms();
+	}
 
-		foreach (RoomInfo room in roomList)
+	public void DisplayLobbyRooms()
+	{
+		foreach (RoomInfo room in cachedRoomList.Values)
 		{
-			if (room.IsOpen && room.PlayerCount < room.MaxPlayers)
+			Debug.Log("Room: " + room.Name);
+			GameObject roomListing = Instantiate(roomListingPrefab, roomListParent);
+			RoomListingButton listingButton = roomListing.GetComponent<RoomListingButton>();
+			listingButton.SetRoomInfo(room);
+		}
+	}
+
+	private void UpdateCachedRoomList(List<RoomInfo> roomList)
+	{
+		for (int i = 0; i < roomList.Count; i++)
+		{
+			RoomInfo info = roomList[i];
+			if (info.RemovedFromList || info.PlayerCount == 0)
 			{
-				GameObject roomListing = Instantiate(roomListingPrefab, roomListParent);
-				RoomListingButton listingButton = roomListing.GetComponent<RoomListingButton>();
-				listingButton.SetRoomInfo(room);
+				Debug.Log("Removed: " + info.Name);
+				cachedRoomList.Remove(info.Name);
+			}
+			else
+			{
+				Debug.Log("Added: " + info.Name);
+				cachedRoomList[info.Name] = info;
 			}
 		}
 	}
 
-	public void ClearRoomList()
+	public override void OnJoinedLobby()
 	{
-		foreach (Transform child in roomListParent)
-		{
-			Destroy(child.gameObject);
-		}
+		cachedRoomList.Clear();
+	}
+
+	public override void OnLeftLobby()
+	{
+		cachedRoomList.Clear();
+	}
+
+	public override void OnDisconnected(DisconnectCause cause)
+	{
+		cachedRoomList.Clear();
 	}
 
 	public void CreateRoom()

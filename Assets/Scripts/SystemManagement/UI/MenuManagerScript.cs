@@ -10,6 +10,7 @@ public class MenuManagerScript : MonoBehaviour
 	public static string customGameModeStartScene = "Custom Game Mode";
 	public static string tutorialStartScene = "Tutorial";
 	public static string openingsStartScene = "Openings";
+	public static string multiplayerLobbyScene = "Multiplayer Lobby";
 
 	[SerializeField] private SettingsScript settings;
 
@@ -74,5 +75,10 @@ public class MenuManagerScript : MonoBehaviour
 	public void LeaveRoom()
 	{
 		PhotonNetwork.LeaveRoom();
+	}
+
+	public void GoToMultiplayerLobby()
+	{
+		SceneManager.LoadScene(multiplayerLobbyScene);
 	}
 }

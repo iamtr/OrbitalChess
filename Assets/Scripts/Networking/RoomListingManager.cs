@@ -63,11 +63,13 @@ public class RoomListingManager : MonoBehaviourPunCallbacks
 	public override void OnJoinedLobby()
 	{
 		cachedRoomList.Clear();
+		Debug.Log("Joined lobby");
 	}
 
 	public override void OnLeftLobby()
 	{
 		cachedRoomList.Clear();
+		Debug.Log("Left lobby");
 	}
 
 	public override void OnDisconnected(DisconnectCause cause)

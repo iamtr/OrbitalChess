@@ -1,0 +1,49 @@
+Let's start off with some piece movements.
+
+Firstly, let’s talk about pawns.
+Pawns can move one square forward,
+or two squares forward on their first move.
+They capture pieces diagonally forward.
+Let's try it out! Capture the white pawn.
+
+If a pawn reaches the end of the board,
+You can promote it into either of the 4 different pieces:
+queen, knight, rook or bishop.
+Let's try it out! Capture the white pawn.
+
+One last bonus rule for pawns is en passant, which might look bizarre,
+where you capture the opponent's pawn as if it’s moved only one square.
+There is only one requirement for en passant to be a valid move:
+The captured pawn must have moved two squares in one move in the previous move.
+Let's try it out! Use en passant to capture the white pawn.
+
+Knights move in an "L" shape,
+two squares in one direction and one square in another,
+where it jumps over other pieces,
+so the knight can still move over to this square even when its path is occupied by other pieces.
+Let's try it out! Capture the white knight.
+
+Bishops are simple; they can move any number of squares diagonally,
+where rooks can move any number of squares horizontally or vertically.
+Let's try it out! Use the bishop to capture the white pawn.
+
+Let's try it out! Now use the rook to capture the white bishop.
+
+The queen is a combined version of the rook and bishop,
+and can move any number of squares horizontally, vertically, or diagonally.
+It’s the most powerful piece in the game, so use it wisely and carefully.
+Let's try it out! Use the queen to capture the opponent's queen!
+
+Lastly, the king. The king can only use one square in any direction.
+Let's try it out! Capture the white pawn to prevent it from promoting!
+
+A special move that a king can do is castling,
+where you move both the king and rook at the same time;
+the king will move two squares towards the rook...
+and that rook is placed on the square over which the king crosses.
+You can only do castling when there are no pieces occupying between the two pieces...
+and neither the king nor the rook had previously moved.
+Let's try it out! Perform castling with the rook on the left.
+
+The king is the most important piece in the game.
+where the strategy revolves around protecting your king and threatening your opponent.

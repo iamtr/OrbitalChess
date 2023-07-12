@@ -51,7 +51,6 @@ public abstract class Piece : MonoBehaviour, ICloneable
 	public virtual void InitPiece(PlayerType p)
 	{
 		SetPlayer(p);
-		bc = FindObjectOfType<BoardController>();
 	}
 
 	/// <summary>

@@ -61,10 +61,17 @@ public class RoomManager : MonoBehaviourPunCallbacks
 		{
 			int? team = (int)value;
 			if (team == null) return;
-			StartCoroutine(DelayedPropertyModification(team.Value));
+			if (team == 0)
+			{
+				PhotonNetwork.CurrentRoom.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "Black", false } });
+				blackButton.interactable = true;
+			}
+			else if (team == 1)
+			{
+				PhotonNetwork.CurrentRoom.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "White", false } });
+				whiteButton.interactable = true;
+			}
 		}
-
-		if (!isGameStarted) PhotonNetwork.CurrentRoom.IsOpen = true;
 	}
 
 	public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)

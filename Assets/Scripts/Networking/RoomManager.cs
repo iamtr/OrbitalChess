@@ -20,6 +20,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
 	private void Awake()
 	{
+		bc = FindObjectOfType<MultiplayerBoardController>();
 		pv = GetComponent<PhotonView>();
 		playerManager = FindObjectOfType<PlayerManager>();
 	}
@@ -86,15 +87,16 @@ public class RoomManager : MonoBehaviourPunCallbacks
 		}
 
 		if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("White") && PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("Black")
-			&& (bool)PhotonNetwork.CurrentRoom.CustomProperties["Black"] && (bool)PhotonNetwork.CurrentRoom.CustomProperties["White"])
+			&& (bool)PhotonNetwork.CurrentRoom.CustomProperties["Black"] && (bool)PhotonNetwork.CurrentRoom.CustomProperties["White"] 
+			&& !isGameStarted)
 		{
-			pv.RPC(nameof(RPC_StartGame), RpcTarget.All);
+			StartMultiplayerGame();
 		}
 	}
 
-	[PunRPC]
-	public void RPC_StartGame()
+	public void StartMultiplayerGame()
 	{
+		Debug.Log("Start game");
 		PhotonNetwork.CurrentRoom.IsOpen = false;
 		int playerType = (int)PhotonNetwork.LocalPlayer.CustomProperties["PlayerType"];
 		playerManager.Player = playerType == 0 ? PlayerType.Black : PlayerType.White;

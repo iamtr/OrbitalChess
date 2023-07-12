@@ -80,7 +80,7 @@ public class HighlightManager : MonoBehaviour
 			GameController.InvokeOnRoundEnd();
 			return;
 		}
-		if (h.Special == SpecialMove.Steal)
+		if (h.Special == SpecialMove.Burgle)
 		{
 			bc.StealOpponentPiece(h.Position);
 			bc.DestroyCurrentCard();
@@ -98,6 +98,13 @@ public class HighlightManager : MonoBehaviour
 		if (h.Special == SpecialMove.Mine)
 		{
 			bc.PlantMine(h.Position);
+			bc.DestroyCurrentCard();
+		}
+
+		if (h.Special == SpecialMove.Sacrifice)
+		{
+			bc.DestroyPiece(h.Position);
+			bc.BuildPawnWall();
 			bc.DestroyCurrentCard();
 		}
 
@@ -219,7 +226,7 @@ public class HighlightManager : MonoBehaviour
 		{
 			if (piece == null) continue;
 			if (piece.Player == GameController.GetCurrPlayer()) continue;
-			Highlight(piece.CurrPos, SpecialMove.Steal);
+			Highlight(piece.CurrPos, SpecialMove.Burgle);
 		}
 	}
 
@@ -229,6 +236,16 @@ public class HighlightManager : MonoBehaviour
 		{
 			if (bc.Pieces[i] != null) continue;
 			Highlight(i, SpecialMove.Mine);
+		}
+	}
+
+	public void HighlightSacrificialPieces()
+	{
+		foreach (Piece piece in bc.Pieces)
+		{
+			if (piece == null) continue;
+			if (piece.Player == GameController.GetOpponent() || piece is Pawn || piece is King) continue;
+			Highlight(piece.CurrPos, SpecialMove.Sacrifice);
 		}
 	}
 }

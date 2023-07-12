@@ -27,6 +27,7 @@ public class RoomListingManager : MonoBehaviourPunCallbacks
 
 	public override void OnRoomListUpdate(List<RoomInfo> roomList)
 	{
+		Debug.Log("RoomListUpdtae");
 		UpdateCachedRoomList(roomList);
 		DisplayLobbyRooms();
 	}
@@ -44,6 +45,7 @@ public class RoomListingManager : MonoBehaviourPunCallbacks
 
 	private void UpdateCachedRoomList(List<RoomInfo> roomList)
 	{
+		ClearCachedList();
 		for (int i = 0; i < roomList.Count; i++)
 		{
 			RoomInfo info = roomList[i];
@@ -63,9 +65,9 @@ public class RoomListingManager : MonoBehaviourPunCallbacks
 	public void ClearCachedList()
 	{
 		cachedRoomList.Clear();
-		foreach (GameObject g in roomListParent)
+		foreach (Transform t in roomListParent)
 		{
-			Destroy(g);
+			Destroy(t.gameObject);
 		}
 	}
 

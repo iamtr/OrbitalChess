@@ -16,7 +16,7 @@ public class MenuManagerScript : MonoBehaviour
 
 	public void StartGame()
 	{
-		SceneManager.LoadScene(mainGameStartScene);
+		SceneManager.LoadSceneAsync(mainGameStartScene);
 	}
 
 	public void ExitGame()
@@ -27,7 +27,7 @@ public class MenuManagerScript : MonoBehaviour
 	public void BackToMenu()
 	{
 		Timer.isGameStart = false;
-		SceneManager.LoadScene(menuScene);
+		SceneManager.LoadSceneAsync(menuScene);
 	}
 
 	public void OpenSettings()

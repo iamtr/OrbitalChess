@@ -49,7 +49,7 @@ public class RoomListingManager : MonoBehaviourPunCallbacks
 		for (int i = 0; i < roomList.Count; i++)
 		{
 			RoomInfo info = roomList[i];
-			if (info.RemovedFromList || info.PlayerCount == 0)
+			if (info.RemovedFromList || info.PlayerCount == 0 || !info.IsOpen)
 			{
 				Debug.Log("Removed: " + info.Name);
 				cachedRoomList.Remove(info.Name);

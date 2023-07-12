@@ -95,6 +95,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
 	[PunRPC]
 	public void RPC_StartGame()
 	{
+		PhotonNetwork.CurrentRoom.IsOpen = false;
 		int playerType = (int)PhotonNetwork.LocalPlayer.CustomProperties["PlayerType"];
 		playerManager.Player = playerType == 0 ? PlayerType.Black : PlayerType.White;
 

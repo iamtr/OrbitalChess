@@ -45,6 +45,8 @@ public class GameController : MonoBehaviour
 
 	public static event Action OnRoundEnd;
 
+	public static event Action OnGameOver;
+
 	protected virtual void OnEnable()
 	{
 		OnRoundEnd += HandleCheckAndCheckmate;
@@ -163,6 +165,11 @@ public class GameController : MonoBehaviour
 		SetPlayer(PlayerType.White);
 		checkText.gameObject.SetActive(false);
 		turnText.text = currPlayer.ToString() + " Turn";
+	}
+
+	public void SetCheckText(string text)
+	{
+		checkText.text = text;
 	}
 }
 

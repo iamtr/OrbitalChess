@@ -154,6 +154,14 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 512506211}
+    - target: {fileID: 4774122481680882145, guid: 1b108c133b18ee548a2e05d01d5f2343, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: BackToMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 4774122481680882145, guid: 1b108c133b18ee548a2e05d01d5f2343, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: LeaveRoom
+      objectReference: {fileID: 0}
     - target: {fileID: 5763238842042796967, guid: 1b108c133b18ee548a2e05d01d5f2343, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -165,6 +173,18 @@ PrefabInstance:
     - target: {fileID: 5763238842042796967, guid: 1b108c133b18ee548a2e05d01d5f2343, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: RoomManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6569133996368068815, guid: 1b108c133b18ee548a2e05d01d5f2343, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6569133996368068815, guid: 1b108c133b18ee548a2e05d01d5f2343, type: 3}
+      propertyPath: m_margin.z
+      value: -226.3881
+      objectReference: {fileID: 0}
+    - target: {fileID: 6569133997948539023, guid: 1b108c133b18ee548a2e05d01d5f2343, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7531949733160941172, guid: 1b108c133b18ee548a2e05d01d5f2343, type: 3}
       propertyPath: m_Pivot.x
@@ -411,8 +431,10 @@ MonoBehaviour:
   bc: {fileID: 1981099707}
   playerSelectionPanel: {fileID: 373298965}
   turnText: {fileID: 373298966}
+  checkText: {fileID: 934970057}
   blackButton: {fileID: 373298964}
   whiteButton: {fileID: 373298963}
+  isGameStarted: 0
 --- !u!4 &1272252189
 Transform:
   m_ObjectHideFlags: 0

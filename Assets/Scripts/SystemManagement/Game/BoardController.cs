@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -77,19 +76,27 @@ public class BoardController : MonoBehaviour
 
 	public virtual void Start()
 	{
+		InitGame();
+
+		AssertAllReferenceIsNotNull();
+	}
+
+	public virtual void InitGame()
+	{
 		hm = FindObjectOfType<HighlightManager>();
 		um = FindObjectOfType<UIManager>();
 		gc = FindObjectOfType<GameController>();
-		
+
+		gc.ResetGame();
+
 		pieceTransform = GameObject.Find("Pieces")?.transform;
 
 		allMoves = new List<Move>();
 
 		InstantiatePieces();
+		InstantiateMines();
 
 		testArray = pieces.Clone() as Piece[];
-
-		AssertAllReferenceIsNotNull();
 	}
 
 	public void AssertAllReferenceIsNotNull()
@@ -113,6 +120,11 @@ public class BoardController : MonoBehaviour
 
 		// RotateAllPieces();
 		testArray = pieces.Clone() as Piece[];
+	}
+
+	public virtual void InstantiateMines()
+	{
+		mines = new GameObject[64];
 	}
 
 	/// <summary>
@@ -417,6 +429,7 @@ public class BoardController : MonoBehaviour
 		PromotePiece(promotedPiece);
 		um.UnhighlightAllPromotingButtons();
 		GameController.SetGameState(GameState.Play);
+		GameController.InvokeOnRoundEnd();
 	}
 
 	/// <summary>
@@ -554,6 +567,30 @@ public class BoardController : MonoBehaviour
 				}
 				break;
 
+			case Move.Flag.PromoteToKnight:
+				testArray[oldPos] = null;
+				testArray[newPos] = Instantiate(GetPromotionPiece(1, p));
+				testArray[newPos].GetComponent<Renderer>().enabled = false;
+				break;
+
+			case Move.Flag.PromoteToBishop:
+				testArray[oldPos] = null;
+				testArray[newPos] = Instantiate(GetPromotionPiece(3, p));
+				testArray[newPos].GetComponent<Renderer>().enabled = false;
+				break;
+
+			case Move.Flag.PromoteToRook:
+				testArray[oldPos] = null;
+				testArray[newPos] = Instantiate(GetPromotionPiece(2, p));
+				testArray[newPos].GetComponent<Renderer>().enabled = false;
+				break;
+
+			case Move.Flag.PromoteToQueen:
+				testArray[oldPos] = null;
+				testArray[newPos] = Instantiate(GetPromotionPiece(0, p));
+				testArray[newPos].GetComponent<Renderer>().enabled = false;
+				break;
+
 			default:
 				if (testArray[oldPos] == null)
 					Debug.Log($"UpdateTestArray: Piece at {oldPos} is null");
@@ -562,12 +599,11 @@ public class BoardController : MonoBehaviour
 				break;
 		}
 	}
+
 	public void ResetGame()
 	{
-		gc.ResetCanvas();
-		gc.ResetPlayer();
+		gc.ResetGame();
 		ResetPieces();
-		Timer.ResetTimers();
 	}
 
 	public void ResetPieces()
@@ -592,7 +628,6 @@ public class BoardController : MonoBehaviour
 		}
 		catch (IndexOutOfRangeException)
 		{
-			// Debug.Log("Cannot get piece from testArray");
 			return null;
 		}
 	}
@@ -694,7 +729,7 @@ public class BoardController : MonoBehaviour
 			{
 				int x = ConvXY(pos)[0] + i;
 				int y = ConvXY(pos)[1] + j;
-				if (!IsInBounds(x, y)) continue;
+				if (!IsInBounds(x, y) || GetPieceFromPos(ConvPos(x, y)) is King) continue;
 				DestroyPiece(ConvPos(x, y));
 			}
 		}
@@ -815,7 +850,7 @@ public class BoardController : MonoBehaviour
 	{
 		if (mines[pos] == null)
 		{
-			Debug.Log("There is no mine here!");
+			// Debug.Log("There is no mine here!");
 			return;
 		}
 

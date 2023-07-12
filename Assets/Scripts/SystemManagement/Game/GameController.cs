@@ -65,7 +65,6 @@ public class GameController : MonoBehaviour
 		im = FindObjectOfType<InputManager>();
 
 		currPlayer = PlayerType.White;
-		gameState = GameState.Play;
 
 		// AssertAllReferenceIsNotNull();
 	}

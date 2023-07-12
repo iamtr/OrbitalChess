@@ -45,12 +45,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moves:
-  - {fileID: 4158775800845424818, guid: 4cad5f99a6a686c48bdb9dec9b425fef, type: 3}
-  - {fileID: 0}
-  - {fileID: 0}
-  openingsFiles:
-  - {fileID: 4900000, guid: ecf5210cf905d5744b1223c4b3e2fc41, type: 3}
-  - {fileID: 4900000, guid: 3933db7a0970bf6469bcc68a6dc7a01e, type: 3}
-  - {fileID: 4900000, guid: 561ee5b46a7bad7449f65ccb7b833d0f, type: 3}
-  openingsText: {fileID: 0}
-  tutorialText: {fileID: 0}
+  - start: 12
+    end: 28
+    flag: 0
+  - start: 50
+    end: 34
+    flag: 0
+  - start: 6
+    end: 21
+    flag: 0
+  - start: 53
+    end: 43
+    flag: 0
+  - start: 13
+    end: 29
+    flag: 0
+  moveIndex: 0
+  bc: {fileID: 0}

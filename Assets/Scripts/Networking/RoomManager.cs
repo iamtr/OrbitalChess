@@ -5,6 +5,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
 using UnityEngine.UI;
+using System;
 
 public class RoomManager : MonoBehaviourPunCallbacks
 {
@@ -14,6 +15,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
 	[SerializeField] private BoardController bc;
 	[SerializeField] private GameObject playerSelectionPanel;
 	[SerializeField] private TMP_Text turnText;
+	[SerializeField] private TMP_Text checkText;
 	[SerializeField] private Button blackButton;
 	[SerializeField] private Button whiteButton;
 	[SerializeField] private bool isGameStarted;
@@ -72,6 +74,13 @@ public class RoomManager : MonoBehaviourPunCallbacks
 				PhotonNetwork.CurrentRoom.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "White", false } });
 				whiteButton.interactable = true;
 			}
+		}
+
+		if (isGameStarted)
+		{
+			GameController.SetGameState(GameState.GameOver);
+			checkText.gameObject.SetActive(true);
+			checkText.text = "Opponent has left room;";
 		}
 	}
 

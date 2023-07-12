@@ -21,8 +21,9 @@ public class GameController : MonoBehaviour
 
 	[SerializeField] private PlayerType currPlayerRef;
 
-	private static PlayerType currPlayer = PlayerType.White;
+	protected static PlayerType currPlayer = PlayerType.White;
 	private static GameState gameState;
+	
 	public bool IsCheck { get; private set; }
 
 	protected BoardController bc;
@@ -44,28 +45,29 @@ public class GameController : MonoBehaviour
 
 	public static event Action OnRoundEnd;
 
-	private void OnEnable()
+	protected virtual void OnEnable()
 	{
 		OnRoundEnd += HandleCheckAndCheckmate;
 		OnRoundEnd += SetPlayer;
 		OnRoundEnd += InvokeOnRoundStart;
 	}
 
-	private void OnDisable()
+	protected virtual void OnDisable()
 	{
 		OnRoundEnd -= HandleCheckAndCheckmate;
 		OnRoundEnd -= SetPlayer;
 		OnRoundEnd -= InvokeOnRoundStart;
 	}
 
-	public virtual void Start()
+	protected virtual void Start()
 	{
 		bc = FindObjectOfType<BoardController>();
 		im = FindObjectOfType<InputManager>();
 
 		currPlayer = PlayerType.White;
+		gameState = GameState.Play;
 
-		AssertAllReferenceIsNotNull();
+		// AssertAllReferenceIsNotNull();
 	}
 
 	private void AssertAllReferenceIsNotNull()
@@ -73,25 +75,6 @@ public class GameController : MonoBehaviour
 		Assert.IsNotNull(checkText);
 		Assert.IsNotNull(replayButton);
 		Assert.IsNotNull(turnText);
-	}
-
-	private void Update()
-	{
-		if (GetGameState() == GameState.GameOver)
-		{
-			replayButton.gameObject.SetActive(true);
-			return;
-		}
-
-        replayButton.gameObject.SetActive(false);
-
-        if (Input.GetMouseButtonDown(0))
-		{
-			Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-			Collider2D collider = Physics2D.OverlapPoint(mousePosition);
-
-			im.HandleColliderClicked(collider);
-		}
 	}
 
 	/// <summary>

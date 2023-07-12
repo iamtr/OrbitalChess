@@ -4,7 +4,7 @@ using UnityEngine.Assertions;
 
 public class ColorOptionDropdown : MonoBehaviour
 {
-	[SerializeField] private TMP_Text selectedOptionText;
+	[SerializeField] private static TMP_Text selectedOptionText;
 
 	private void Start()
 	{
@@ -16,7 +16,7 @@ public class ColorOptionDropdown : MonoBehaviour
 		Assert.IsNotNull(selectedOptionText);
 	}
 
-	public void Dropdown(int index)
+	public static void Dropdown(int index)
 	{
 		switch (index)
 		{
@@ -25,7 +25,6 @@ public class ColorOptionDropdown : MonoBehaviour
 				HighlightManager.isBlackBelow = true;
 				Timer.isBlackBelow = true;
 				BoardController.isBlackBelow = true;
-				selectedOptionText.text = "Black";
 				break;
 
 			case 1:
@@ -33,7 +32,6 @@ public class ColorOptionDropdown : MonoBehaviour
 				HighlightManager.isBlackBelow = false;
 				Timer.isBlackBelow = false;
 				BoardController.isBlackBelow = false;
-				selectedOptionText.text = "White";
 				break;
 		}
 	}

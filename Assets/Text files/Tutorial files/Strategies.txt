@@ -1,0 +1,56 @@
+There are a few common strategies you can use in chess.
+
+The first is centre control.
+Controlling the centre is important in early games
+as it offers greater mobility and flexibility.
+
+Second is piece development.
+During the opening, it's critical to move your pieces (knights, bishops, and rooks).
+from their initial positions to active squares,
+Ideally in the board's centre.
+
+It is recommended to safeguard your king by casting
+as it gets the king out of the middle, hiding it on the side.
+
+Tactical opportunities are very useful in chess.
+as it limits the opponent's movement to give you the edge.
+
+Examples are forks, a tactic where you attack multiple pieces at the same time;
+
+Let's try it out! Fork both of the opponent's rooks!
+Well done! The knight is able to attack both rooks,
+but it is still out of their range.
+Even if the knight is captured later by the rook, 
+it results in a net positive piece value for you!
+
+Forks that are forceful are the most lethal.
+Those forks typically include an assault on the opposing king and pose an unavoidable danger.
+
+Let's try it out! Create a fork that checks the king.
+Since the White king is in check, and it's only way to avoid check is to move to another square,
+the rook therefore cannot be saved.
+
+Another strategy are pins. 
+A strategy where a defensive piece cannot move away from the line of an attacking piece
+without exposing a more valuable defending piece.
+Hence, restricting the movement of an opponent’s piece.
+
+Let's try it out! Pin the opposing knight.
+Great! This is a relative pin, where moving the pinned piece in this situation is not illegal,
+however it is undesirable.
+Moving the knight is not illegal for White, but it would lead to its queen being captured.
+
+The most effective application of this strategy is an absolute pin.
+It occurs when a piece defends the king from attack.
+The pinned piece cannot move since it is forbidden to make a move that would checkmate your king.
+
+Let's try it out! Pin the opposing knight.
+Nice! The knight has no legal moves, leaving the king even more vulnerable to attacks
+
+Lastly, skewers. A strategy similar to pins.
+In a skewer, however, the more valuable piece is the one directly under attack,
+while the less valuable piece is behind it.
+
+Let's try it out! Create a skewer to gain piece advantage!
+Awesome! Now the king has no choice but move to avoid check, 
+Leaving its queen being captured.

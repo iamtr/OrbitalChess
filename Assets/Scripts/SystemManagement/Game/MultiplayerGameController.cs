@@ -20,7 +20,7 @@ public class MultiplayerGameController : GameController
 	[SerializeField] private Button whiteButton;
 	private PlayerManager playerManager;
 
-	public override void Start()
+	protected override void Start()
 	{
 		base.Start();
 		pv = GetComponent<PhotonView>();

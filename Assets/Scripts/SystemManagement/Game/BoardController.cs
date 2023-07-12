@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -29,7 +30,7 @@ public class BoardController : MonoBehaviour
 	[Header("Special Mode")]
 	[SerializeField] private GameObject mine;
 
-	[SerializeField] private GameObject[] mines;
+	private GameObject[] mines;
 
 	protected Transform pieceTransform;
 
@@ -38,8 +39,8 @@ public class BoardController : MonoBehaviour
 	/// </summary>
 	protected Piece[] testArray;
 
-	private int BlackKingPos = 3;
-	private int WhiteKingPos = 59;
+	private int BlackKingPos = -1;
+	private int WhiteKingPos = -1;
 	protected List<Move> allMoves;
 	protected UIManager um;
 	protected HighlightManager hm;
@@ -125,12 +126,26 @@ public class BoardController : MonoBehaviour
 		int x = ConvXY(pos)[0];
 		int y = ConvXY(pos)[1];
 
+		if (piece == null) return null;
+
 		Piece newPiece = Instantiate(piece, new Vector3(x, y, 2), Quaternion.identity);
 		newPiece.transform.localScale = new Vector3(4.55f, 4.55f, 1);
 		pieces[pos] = newPiece;
 		newPiece.transform.parent = pieceTransform;
 		newPiece.SetCoords(pos);
 		newPiece.SetTransform();
+
+		if (newPiece is King king)
+		{
+			if (king.Player == PlayerType.White)
+			{
+				WhiteKingPos = newPiece.CurrPos;
+			} 
+			else if (king.Player == PlayerType.Black)
+			{
+				BlackKingPos = newPiece.CurrPos;
+			}
+		}
 
 		return newPiece;
 	}
@@ -254,7 +269,12 @@ public class BoardController : MonoBehaviour
 		if (gc.IsSpecialMode) TriggerMine(newPos);
 	}
 
-
+	/// <summary>
+	/// Move for castling
+	/// </summary>
+	/// <param name="targetX"> The x coordinate of rook to move</param>
+	/// <param name="targetY">The y coordinate of rook to move</param>
+	/// <param name="piece"></param>
 	public virtual void MoveCastling(int targetX, int targetY, Piece king)
 	{
 		Piece rook = GetPieceFromPos(ConvPos(targetX, targetY));
@@ -282,8 +302,8 @@ public class BoardController : MonoBehaviour
 	/// </summary>
 	public void DisableAllUIElements()
 	{
-		hm.UnhighlightAllSquares();
-		um.DisableBuyOptions();
+		hm?.UnhighlightAllSquares();
+		um?.DisableBuyOptions();
 	}
 
 	/// <summary>
@@ -820,5 +840,70 @@ public class BoardController : MonoBehaviour
 		player.AddCard(card);
 	}
 
+	public virtual void LoadPositionPresets(PositionSO preset)
+	{
+		UnloadAllPieces();
+
+		for (int i = 0; i < 8; i++)
+		{
+			if (preset.rank1[i] == null) continue;
+			pieces[i] = InstantiatePiece(preset.rank1[i], i);
+		}
+
+		for (int i = 8; i < 16; i++)
+		{
+			if (preset.rank2[i % 8] == null) continue;
+			pieces[i] = InstantiatePiece(preset.rank2[i % 8], i);
+		}
+
+		for (int i = 16; i < 24; i++)
+		{
+			if (preset.rank3[i % 8] == null) continue;
+			pieces[i] = InstantiatePiece(preset.rank3[i % 8], i);
+			TutorialManager.SetPawnHasMoved(pieces[i]);
+		}
+		for (int i = 24; i < 32; i++)
+		{
+			if (preset.rank4[i % 8] == null) continue;
+			pieces[i] = InstantiatePiece(preset.rank4[i % 8], i);
+			TutorialManager.SetPawnHasMoved(pieces[i]);
+			TutorialManager.SetPawnTwoStep(pieces[i]);
+		}
+		for (int i = 32; i < 40; i++)
+		{
+			if (preset.rank5[i % 8] == null) continue;
+			pieces[i] = InstantiatePiece(preset.rank5[i % 8], i);
+			TutorialManager.SetPawnHasMoved(pieces[i]);
+			TutorialManager.SetPawnTwoStep(pieces[i]);
+		}
+		for (int i = 40; i < 48; i++)
+		{
+			if (preset.rank6[i % 8] == null) continue;
+			pieces[i] = InstantiatePiece(preset.rank6[i % 8], i);
+			TutorialManager.SetPawnHasMoved(pieces[i]);
+		}
+		for (int i = 48; i < 56; i++)
+		{
+			if (preset.rank7[i % 8] == null) continue;
+			pieces[i] = InstantiatePiece(preset.rank7[i % 8], i);
+		}
+		for (int i = 56; i < 64; i++)
+		{
+			if (preset.rank8[i % 8] == null) continue;
+			pieces[i] = InstantiatePiece(preset.rank8[i % 8], i);
+		}
+	}
+
+	public void UnloadAllPieces()
+	{
+		for (var i = 0; i < 64; i++)
+		{
+			if (pieces[i] != null)
+			{
+				Destroy(pieces[i].gameObject);
+			}
+			pieces[i] = null;
+		}
+	}
 	#endregion
 }

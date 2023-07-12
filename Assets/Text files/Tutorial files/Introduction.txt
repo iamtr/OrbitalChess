@@ -1,0 +1,4 @@
+Welcome to chess!
+My name is Orbit and I am your neighbourhood-family chess robot.
+It may be hard to start with chess.
+But I am here to guide you along the way.

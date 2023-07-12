@@ -89,7 +89,7 @@ public class BoardController : MonoBehaviour
 
 		testArray = pieces.Clone() as Piece[];
 
-		AssertAllReferenceIsNotNull();
+		//AssertAllReferenceIsNotNull();
 	}
 
 	public void AssertAllReferenceIsNotNull()

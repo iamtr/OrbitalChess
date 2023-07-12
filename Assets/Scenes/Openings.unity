@@ -231,6 +231,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ca25023fae446d645a33479ef032d68b, type: 3}
+--- !u!114 &344314140 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4367978141363916602, guid: c1f2c0de88d2a964bb4bf0f38b52089f, type: 3}
+  m_PrefabInstance: {fileID: 4367978140995627190}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &473571269 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 473571269, guid: c1f2c0de88d2a964bb4bf0f38b52089f, type: 3}
@@ -310,6 +321,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebf2989c6d374aa4a9f94c38573a5304, type: 3}
+--- !u!114 &1222616870 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4367978142173530337, guid: c1f2c0de88d2a964bb4bf0f38b52089f, type: 3}
+  m_PrefabInstance: {fileID: 4367978140995627190}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1586280504
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -461,6 +483,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: MovementCoordinator
       objectReference: {fileID: 0}
+    - target: {fileID: 992289086189831418, guid: b0345f9b12f7408438c1cb45c1784bc6, type: 3}
+      propertyPath: nextButton
+      value: 
+      objectReference: {fileID: 344314140}
+    - target: {fileID: 992289086189831418, guid: b0345f9b12f7408438c1cb45c1784bc6, type: 3}
+      propertyPath: prevButton
+      value: 
+      objectReference: {fileID: 1222616870}
     - target: {fileID: 992289086189831418, guid: b0345f9b12f7408438c1cb45c1784bc6, type: 3}
       propertyPath: openingsText
       value: 
@@ -754,6 +784,10 @@ PrefabInstance:
       propertyPath: whitePieces.Array.data[3]
       value: 
       objectReference: {fileID: -3165024563381924141, guid: 54a7b93c4e4e2564698c8d15772d2f8c, type: 3}
+    - target: {fileID: 1770114377798686120, guid: d9ce24ea4b535d4419dede847e99ae61, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2673722527255202285, guid: d9ce24ea4b535d4419dede847e99ae61, type: 3}
       propertyPath: m_Name
       value: Board
@@ -775,6 +809,18 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 33769398}
+    - target: {fileID: 473571268, guid: c1f2c0de88d2a964bb4bf0f38b52089f, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 550
+      objectReference: {fileID: 0}
+    - target: {fileID: 473571268, guid: c1f2c0de88d2a964bb4bf0f38b52089f, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 473571269, guid: c1f2c0de88d2a964bb4bf0f38b52089f, type: 3}
+      propertyPath: m_text
+      value: Which openings would you wish to learn?
+      objectReference: {fileID: 0}
     - target: {fileID: 631878712, guid: c1f2c0de88d2a964bb4bf0f38b52089f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -791,6 +837,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 33769398}
+    - target: {fileID: 5406527125612904399, guid: c1f2c0de88d2a964bb4bf0f38b52089f, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6610610131315229273, guid: c1f2c0de88d2a964bb4bf0f38b52089f, type: 3}
       propertyPath: m_Name
       value: Canvas

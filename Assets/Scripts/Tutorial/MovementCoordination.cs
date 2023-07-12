@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MovementCoordination : MonoBehaviour
 {
@@ -12,6 +13,11 @@ public class MovementCoordination : MonoBehaviour
 
 	[SerializeField] private TMP_Text openingsText;
 	[SerializeField] private TMP_Text tutorialText;
+
+	[SerializeField] private Button prevButton;
+	[SerializeField] private Button nextButton;
+
+	private GameObject pieces;
 
 	private string[] titles = {"Italian Game", "Sicilian Defense", "Ruy López Opening" };
 
@@ -24,14 +30,22 @@ public class MovementCoordination : MonoBehaviour
 
 	private void Awake()
 	{
+		pieces = GameObject.Find("Pieces");
+		pieces.gameObject.SetActive(true);
 		ReadAndStoreFiles(openingsFiles);
-		GameController.SetGameState(GameState.GameOver);
-		LoadText();
 		currSetMoves = moves[0];
-		//ColorOptionDropdown.Dropdown(1);
+		
+		ColorOptionDropdown.Dropdown(0);
 	}
 
-	public void ReadAndStoreFiles(params TextAsset[] files)
+    private void Start()
+    {
+		prevButton.gameObject.SetActive(false);
+		nextButton.gameObject.SetActive(false);
+		pieces.gameObject.SetActive(false);
+	}
+
+    public void ReadAndStoreFiles(params TextAsset[] files)
 	{
 		lines = new string[files.Length][];
 		var splitFile = new string[] { "\r\n", "\r", "\n" };
@@ -46,20 +60,16 @@ public class MovementCoordination : MonoBehaviour
 	public void TriggerPrevLine()
 	{
 		// BoardController.i.UnloadCurrentPieces();
-		if (FileIndex == 0 && LineIndex == 0) return;
+		LineIndex--;
+		LoadText();
+
 		if (LineIndex == 0)
-		{
-			FileIndex--;
-			LineIndex = lines[FileIndex].Length - 1;
-			currSetMoves = moves[FileIndex];
-			currSetMoves.ExecuteAllMoves();
-		}
-		else
-		{
-			LineIndex--;
+        {
+			prevButton.gameObject.SetActive(false);
+			return;
 		}
 
-		LoadText();
+		nextButton.gameObject.SetActive(true);
 
 		if (lines[FileIndex][LineIndex].Contains("@"))
 		{
@@ -73,20 +83,18 @@ public class MovementCoordination : MonoBehaviour
 	/// </summary>
 	public void TriggerNextLine()
 	{
+		LineIndex++;
+		LoadText();
+
 		var CurrFile = lines[FileIndex];
 		if (LineIndex == CurrFile.Length - 1)
 		{
-			if (FileIndex == lines.Length - 1) return;
-			currSetMoves.UndoAllPrevMoves();
-			FileIndex++;
-			LineIndex = 0;
-			currSetMoves = moves[FileIndex];
+			nextButton.gameObject.SetActive(false);
+			return;
 		}
-		else
-		{
-			LineIndex++;
-		}
-		LoadText();
+
+		prevButton.gameObject.SetActive(true);
+
 		if (lines[FileIndex][LineIndex].Contains("@"))
 		{
 			currSetMoves.ExecuteMove();
@@ -102,6 +110,10 @@ public class MovementCoordination : MonoBehaviour
 
 	public void LoadOpening(int index)
     {
+		pieces.gameObject.SetActive(true);
+		GameController.SetGameState(GameState.GameOver);
+		prevButton.gameObject.SetActive(false);
+		nextButton.gameObject.SetActive(true);
 		currSetMoves.UndoAllPrevMoves();
 		FileIndex = index;
 		LineIndex = 0;

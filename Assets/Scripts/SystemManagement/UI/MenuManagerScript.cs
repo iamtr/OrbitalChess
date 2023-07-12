@@ -8,6 +8,8 @@ public class MenuManagerScript : MonoBehaviour
 	public static string mainGameStartScene = "Main";
 	public static string blitzGameStartScene = "Blitz";
 	public static string customGameModeStartScene = "Custom Game Mode";
+	public static string tutorialStartScene = "Tutorial";
+	public static string openingsStartScene = "Openings";
 
 	[SerializeField] private SettingsScript settings;
 
@@ -37,7 +39,7 @@ public class MenuManagerScript : MonoBehaviour
 		settings.ChangeFromSettingsToMainMenu();
 	}
 
-	public void DropDown(int index)
+	public void PlayDropdown(int index)
 	{
 		switch (index)
 		{
@@ -51,6 +53,20 @@ public class MenuManagerScript : MonoBehaviour
 
 			case 2:
 				SceneManager.LoadScene(customGameModeStartScene);
+				break;
+		}
+	}
+
+	public void TutorialDropdown(int index)
+    {
+		switch (index)
+		{
+			case 0:
+				SceneManager.LoadScene(tutorialStartScene);
+				break;
+
+			case 1:
+				SceneManager.LoadScene(openingsStartScene);
 				break;
 		}
 	}

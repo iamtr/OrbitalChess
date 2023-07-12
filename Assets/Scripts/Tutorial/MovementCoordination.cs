@@ -31,7 +31,6 @@ public class MovementCoordination : MonoBehaviour
 	private void Awake()
 	{
 		pieces = GameObject.Find("Pieces");
-		pieces.gameObject.SetActive(true);
 		ReadAndStoreFiles(openingsFiles);
 		currSetMoves = moves[0];
 		
@@ -42,7 +41,6 @@ public class MovementCoordination : MonoBehaviour
     {
 		prevButton.gameObject.SetActive(false);
 		nextButton.gameObject.SetActive(false);
-		pieces.gameObject.SetActive(false);
 	}
 
     public void ReadAndStoreFiles(params TextAsset[] files)
@@ -111,7 +109,6 @@ public class MovementCoordination : MonoBehaviour
 	public void LoadOpening(int index)
     {
 		pieces.gameObject.SetActive(true);
-		GameController.SetGameState(GameState.GameOver);
 		prevButton.gameObject.SetActive(false);
 		nextButton.gameObject.SetActive(true);
 		currSetMoves.UndoAllPrevMoves();

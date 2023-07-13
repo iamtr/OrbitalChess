@@ -954,7 +954,7 @@ public class BoardController : MonoBehaviour
 	/// Distribute a random card to a player (who has captured a king)
 	/// </summary>
 	/// <param name="player"></param>
-	public void DistributeRandomCard(SpecialPlayerManager player)
+	public virtual void DistributeRandomCard(SpecialPlayerManager player)
 	{
 		int rand = UnityEngine.Random.Range(0, cards.Length);
 		Card card = cards[rand];

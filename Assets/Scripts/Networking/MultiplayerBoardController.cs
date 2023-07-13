@@ -7,6 +7,8 @@ public class MultiplayerBoardController : BoardController
 {
 	protected PhotonView pv;
 	protected PlayerManager playerManager;
+	[SerializeField] protected SpecialPlayerManager localPlayer;
+	[SerializeField] protected SpecialPlayerManager remotePlayer;
 
 	public override void Start()
 	{
@@ -74,6 +76,15 @@ public class MultiplayerBoardController : BoardController
 		pv.RPC(nameof(RPC_SyncCurrPiece), RpcTarget.All, piecePos);	
 	}
 
+	public override void DistributeRandomCard(SpecialPlayerManager player)
+	{
+		if (GameController.GetCurrPlayer() != localPlayer.Player) return;	
+
+		int rand = UnityEngine.Random.Range(0, cards.Length);
+		localPlayer.AddCard(cards[rand]);
+		pv.RPC(nameof(RPC_DistributeRandomCard), RpcTarget.Others, rand);	
+	}
+
 	[PunRPC]
 	public void RPC_SetPiecePos(int oldPos, int newPos)
 	{
@@ -108,5 +119,11 @@ public class MultiplayerBoardController : BoardController
 	public void RPC_SyncCurrPiece(int piecePos)
 	{
 		base.SyncCurrPiece(piecePos);
+	}
+
+	[PunRPC]
+	public void RPC_DistributeRandomCard(int cardIndex)
+	{
+		remotePlayer.AddCard(cards[cardIndex]);
 	}
 }

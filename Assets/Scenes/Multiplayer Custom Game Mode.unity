@@ -403,6 +403,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8977624941771815721, guid: a9ba25d959761f1499f0b4d92fdacc79, type: 3}
     - target: {fileID: 8647311104716740266, guid: 211ffa5d3f74ed44dac774e71fbf3cb3, type: 3}
+      propertyPath: localPlayer
+      value: 
+      objectReference: {fileID: 1313174332}
+    - target: {fileID: 8647311104716740266, guid: 211ffa5d3f74ed44dac774e71fbf3cb3, type: 3}
+      propertyPath: remotePlayer
+      value: 
+      objectReference: {fileID: 1505951146175729161}
+    - target: {fileID: 8647311104716740266, guid: 211ffa5d3f74ed44dac774e71fbf3cb3, type: 3}
       propertyPath: cards.Array.size
       value: 6
       objectReference: {fileID: 0}

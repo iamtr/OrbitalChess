@@ -79,7 +79,7 @@ public class GameController : MonoBehaviour
     {
 		Assert.IsNotNull(checkText);
 		// Assert.IsNotNull(replayButton);
-		Assert.IsNotNull(turnText);
+		//Assert.IsNotNull(turnText);
 	}
 
 	/// <summary>

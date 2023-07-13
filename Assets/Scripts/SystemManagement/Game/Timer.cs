@@ -8,8 +8,8 @@ public class Timer : MonoBehaviour
 	public static bool isGameStart = false;
 	private static float blackTimeRemaining;
 	private static float whiteTimeRemaining;
-	public static float startMinutes;
-	public static float secondsToAddAfterMove;
+	public static int startMinutes;
+	public static int secondsToAddAfterMove;
 	public TMP_Text blackTimerText;
 	public TMP_Text whiteTimerText;
 

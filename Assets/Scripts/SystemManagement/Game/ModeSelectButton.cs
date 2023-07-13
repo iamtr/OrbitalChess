@@ -4,8 +4,8 @@ using UnityEngine.Assertions;
 
 public class ModeSelectButton : MonoBehaviour
 {
-	[SerializeField] private float minutesPerPlayer;
-	[SerializeField] private float secondsAdded;
+	[SerializeField] private int minutesPerPlayer;
+	[SerializeField] private int secondsAdded;
 	public TMP_Text selectedModeText;
 	public TMP_Text buttonText;
 

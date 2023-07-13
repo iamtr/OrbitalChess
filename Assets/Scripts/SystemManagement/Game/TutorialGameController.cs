@@ -36,12 +36,7 @@ public class TutorialGameController : GameController
 		return;
 	}
 
-    public override void ResetGame()
-    {
-		return;
-    }
-
-    public static void EnableCondition(Condition condition)
+	public static void EnableCondition(Condition condition)
     {
 		OnRoundEnd += condition.decreaseNumberOfMoves;
     }
@@ -49,7 +44,6 @@ public class TutorialGameController : GameController
 	{
 		OnRoundEnd -= condition.decreaseNumberOfMoves;
 	}
-
 }
 
 

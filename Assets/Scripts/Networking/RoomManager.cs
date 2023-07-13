@@ -5,7 +5,6 @@ using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
 using UnityEngine.UI;
-using System;
 
 public class RoomManager : MonoBehaviourPunCallbacks
 {
@@ -15,14 +14,11 @@ public class RoomManager : MonoBehaviourPunCallbacks
 	[SerializeField] private BoardController bc;
 	[SerializeField] private GameObject playerSelectionPanel;
 	[SerializeField] private TMP_Text turnText;
-	[SerializeField] private TMP_Text checkText;
 	[SerializeField] private Button blackButton;
 	[SerializeField] private Button whiteButton;
-	[SerializeField] private bool isGameStarted;
 
 	private void Awake()
 	{
-		bc = FindObjectOfType<MultiplayerBoardController>();
 		pv = GetComponent<PhotonView>();
 		playerManager = FindObjectOfType<PlayerManager>();
 	}
@@ -43,12 +39,10 @@ public class RoomManager : MonoBehaviourPunCallbacks
 		if (selectedTeam == 0)
 		{
 			PhotonNetwork.CurrentRoom.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "Black", true } });
-			whiteButton.interactable = false;
 		}
 		else if (selectedTeam == 1)
 		{
 			PhotonNetwork.CurrentRoom.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "White", true } });
-			blackButton.interactable = false;
 		}
 	}
 
@@ -60,27 +54,16 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
 	public override void OnPlayerLeftRoom(Player otherPlayer)
 	{
-		if (otherPlayer.CustomProperties.TryGetValue("PlayerType", out object value))
+		int team = (int)otherPlayer.CustomProperties["PlayerType"];
+		if (team == 0)
 		{
-			int? team = (int)value;
-			if (team == null) return;
-			if (team == 0)
-			{
-				PhotonNetwork.CurrentRoom.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "Black", false } });
-				blackButton.interactable = true;
-			}
-			else if (team == 1)
-			{
-				PhotonNetwork.CurrentRoom.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "White", false } });
-				whiteButton.interactable = true;
-			}
+			PhotonNetwork.CurrentRoom.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "Black", false } });
+			blackButton.interactable = true;
 		}
-
-		if (isGameStarted)
+		else if (team == 1)
 		{
-			GameController.SetGameState(GameState.GameOver);
-			checkText.gameObject.SetActive(true);
-			checkText.text = "Opponent has left room;";
+			PhotonNetwork.CurrentRoom.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "White", false } });
+			whiteButton.interactable = true;
 		}
 	}
 
@@ -96,17 +79,15 @@ public class RoomManager : MonoBehaviourPunCallbacks
 		}
 
 		if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("White") && PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("Black")
-			&& (bool)PhotonNetwork.CurrentRoom.CustomProperties["Black"] && (bool)PhotonNetwork.CurrentRoom.CustomProperties["White"] 
-			&& !isGameStarted)
+			&& (bool)PhotonNetwork.CurrentRoom.CustomProperties["Black"] && (bool)PhotonNetwork.CurrentRoom.CustomProperties["White"])
 		{
-			StartMultiplayerGame();
+			pv.RPC(nameof(RPC_StartGame), RpcTarget.All);
 		}
 	}
 
-	public void StartMultiplayerGame()
+	[PunRPC]
+	public void RPC_StartGame()
 	{
-		Debug.Log("Start game");
-		PhotonNetwork.CurrentRoom.IsOpen = false;
 		int playerType = (int)PhotonNetwork.LocalPlayer.CustomProperties["PlayerType"];
 		playerManager.Player = playerType == 0 ? PlayerType.Black : PlayerType.White;
 
@@ -119,7 +100,6 @@ public class RoomManager : MonoBehaviourPunCallbacks
 		bc.InstantiatePieces();
 		playerSelectionPanel.SetActive(false);
 		turnText.gameObject.SetActive(true);
-		isGameStarted = true;
 	}
 
 	[PunRPC]

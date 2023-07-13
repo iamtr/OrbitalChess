@@ -806,8 +806,8 @@ MonoBehaviour:
   turnText: {fileID: 0}
   isSpecialMode: 0
   replayButton: {fileID: 0}
-  bc: {fileID: 0}
-  im: {fileID: 0}
+  currPlayerRef: 0
+  isDoubleTurn: 0
   tm: {fileID: 1189218260}
 --- !u!1001 &784930451
 PrefabInstance:

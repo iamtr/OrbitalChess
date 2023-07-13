@@ -1,5 +1,6 @@
 using System;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -20,6 +21,8 @@ public class GameController : MonoBehaviour
 	[SerializeField] private GameObject replayButton;
 
 	[SerializeField] private PlayerType currPlayerRef;
+
+	[SerializeField] private bool isDoubleTurn = false;
 
 	protected static PlayerType currPlayer = PlayerType.White;
 	private static GameState gameState;
@@ -45,6 +48,8 @@ public class GameController : MonoBehaviour
 
 	public static event Action OnRoundEnd;
 
+	public static event Action OnGameOver;
+
 	protected virtual void OnEnable()
 	{
 		OnRoundEnd += HandleCheckAndCheckmate;
@@ -67,14 +72,14 @@ public class GameController : MonoBehaviour
 		currPlayer = PlayerType.White;
 		gameState = GameState.Play;
 
-		// AssertAllReferenceIsNotNull();
+		AssertAllReferenceIsNotNull();
 	}
 
 	private void AssertAllReferenceIsNotNull()
     {
 		Assert.IsNotNull(checkText);
-		Assert.IsNotNull(replayButton);
-		Assert.IsNotNull(turnText);
+		// Assert.IsNotNull(replayButton);
+		//Assert.IsNotNull(turnText);
 	}
 
 	/// <summary>
@@ -82,6 +87,12 @@ public class GameController : MonoBehaviour
 	/// </summary>
 	public virtual void SetPlayer()
 	{
+		if (isDoubleTurn)
+		{
+			isDoubleTurn = false;
+			return;
+		}
+
 		currPlayer = currPlayer == PlayerType.Black ? PlayerType.White : PlayerType.Black;
 		turnText.text = currPlayer.ToString() + " Turn";
 	}
@@ -156,18 +167,39 @@ public class GameController : MonoBehaviour
 		return GetCurrPlayer() == PlayerType.Black ? whitePlayer : blackPlayer;
 	}
 
-	public void ResetPlayer()
+	public void HandleGameOver(PlayerType winner)
 	{
-		blackPlayer?.ResetPlayerManager();
-		whitePlayer?.ResetPlayerManager();
-		checkText.gameObject.SetActive(false);
+		SetGameState(GameState.GameOver);
+		checkText.gameObject.SetActive(true);
+		checkText.text = winner.ToString() + " Wins!";
+		replayButton.SetActive(true);
 	}
 
-	public void ResetCanvas()
-    {
+	/// <summary>
+	/// Reset the game to the initial state
+	/// </summary>
+	public virtual void ResetGame()
+	{	
+		blackPlayer?.ResetPlayerManager();
+		whitePlayer?.ResetPlayerManager();
 		SetGameState(GameState.Play);
 		SetPlayer(PlayerType.White);
+		checkText.gameObject.SetActive(false);
 		turnText.text = currPlayer.ToString() + " Turn";
+	}
+
+	public void SetCheckText(string text)
+	{
+		checkText.text = text;
+	}
+	/// <summary>
+	/// For card mode: Allows the player to move double turns for one round
+	/// Sets isDoubleTurn boolean to be true
+	/// </summary>
+	/// <param name="boolean"></param>
+	public void SetDoubleTurn(bool boolean)
+	{
+		isDoubleTurn = boolean;
 	}
 }
 

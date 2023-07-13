@@ -45,8 +45,6 @@ public class GameController : MonoBehaviour
 
 	public static event Action OnRoundEnd;
 
-	public static event Action OnGameOver;
-
 	protected virtual void OnEnable()
 	{
 		OnRoundEnd += HandleCheckAndCheckmate;
@@ -67,6 +65,7 @@ public class GameController : MonoBehaviour
 		im = FindObjectOfType<InputManager>();
 
 		currPlayer = PlayerType.White;
+		gameState = GameState.Play;
 
 		// AssertAllReferenceIsNotNull();
 	}
@@ -157,19 +156,18 @@ public class GameController : MonoBehaviour
 		return GetCurrPlayer() == PlayerType.Black ? whitePlayer : blackPlayer;
 	}
 
-	public virtual void ResetGame()
-	{	
+	public void ResetPlayer()
+	{
 		blackPlayer?.ResetPlayerManager();
 		whitePlayer?.ResetPlayerManager();
-		SetGameState(GameState.Play);
-		SetPlayer(PlayerType.White);
 		checkText.gameObject.SetActive(false);
-		turnText.text = currPlayer.ToString() + " Turn";
 	}
 
-	public void SetCheckText(string text)
-	{
-		checkText.text = text;
+	public void ResetCanvas()
+    {
+		SetGameState(GameState.Play);
+		SetPlayer(PlayerType.White);
+		turnText.text = currPlayer.ToString() + " Turn";
 	}
 }
 

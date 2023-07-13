@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
+using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -30,9 +30,7 @@ public class BoardController : MonoBehaviour
 	[Header("Special Mode")]
 	[SerializeField] private GameObject mine;
 
-	protected GameObject[] mines;
-
-	[SerializeField] protected int mineCount = 5;
+	private GameObject[] mines;
 
 	protected Transform pieceTransform;
 
@@ -79,27 +77,19 @@ public class BoardController : MonoBehaviour
 
 	public virtual void Start()
 	{
-		InitGame();
-
-		AssertAllReferenceIsNotNull();
-	}
-
-	public virtual void InitGame()
-	{
 		hm = FindObjectOfType<HighlightManager>();
 		um = FindObjectOfType<UIManager>();
 		gc = FindObjectOfType<GameController>();
-
-		gc.ResetGame();
-
+		
 		pieceTransform = GameObject.Find("Pieces")?.transform;
 
 		allMoves = new List<Move>();
 
 		InstantiatePieces();
-		InstantiateMines();
 
 		testArray = pieces.Clone() as Piece[];
+
+		AssertAllReferenceIsNotNull();
 	}
 
 	public void AssertAllReferenceIsNotNull()
@@ -123,11 +113,6 @@ public class BoardController : MonoBehaviour
 
 		// RotateAllPieces();
 		testArray = pieces.Clone() as Piece[];
-	}
-
-	public virtual void InstantiateMines()
-	{
-		mines = new GameObject[64];
 	}
 
 	/// <summary>
@@ -204,7 +189,7 @@ public class BoardController : MonoBehaviour
 
 		if (pieces[newPos] != null)
 		{
-			// Debug.Log("Sacrriiffiicce piece at index: " + newPos);
+			// Debug.Log("Destroy piece at index: " + newPos);
 			CapturePiece(newPos);
 		}
 
@@ -229,14 +214,6 @@ public class BoardController : MonoBehaviour
 
 		Piece destroyedPiece = pieces[pos];
 		DestroyPiece(pos);
-
-		if (destroyedPiece is King)
-		{
-			PlayerType p = destroyedPiece.Player == PlayerType.Black ? PlayerType.White : PlayerType.Black;
-			gc.HandleGameOver(p);
-			return;
-		}
-
 		if (gc.IsSpecialMode) HandleCapture(destroyedPiece);
 	}
 
@@ -329,72 +306,6 @@ public class BoardController : MonoBehaviour
 		um?.DisableBuyOptions();
 	}
 
-	public virtual void LoadPositionPresets(PositionSO preset)
-	{
-		UnloadAllPieces();
-
-		for (int i = 0; i < 8; i++)
-		{
-			if (preset.rank1[i] == null) continue;
-			pieces[i] = InstantiatePiece(preset.rank1[i], i);
-		}
-
-		for (int i = 8; i < 16; i++)
-		{
-			if (preset.rank2[i % 8] == null) continue;
-			pieces[i] = InstantiatePiece(preset.rank2[i % 8], i);
-		}
-
-		for (int i = 16; i < 24; i++)
-		{
-			if (preset.rank3[i % 8] == null) continue;
-			pieces[i] = InstantiatePiece(preset.rank3[i % 8], i);
-			TutorialManager.SetPawnHasMoved(pieces[i]);
-		}
-		for (int i = 24; i < 32; i++)
-		{
-			if (preset.rank4[i % 8] == null) continue;
-			pieces[i] = InstantiatePiece(preset.rank4[i % 8], i);
-			TutorialManager.SetPawnHasMoved(pieces[i]);
-			TutorialManager.SetPawnTwoStep(pieces[i]);
-		}
-		for (int i = 32; i < 40; i++)
-		{
-			if (preset.rank5[i % 8] == null) continue;
-			pieces[i] = InstantiatePiece(preset.rank5[i % 8], i);
-			TutorialManager.SetPawnHasMoved(pieces[i]);
-			TutorialManager.SetPawnTwoStep(pieces[i]);
-		}
-		for (int i = 40; i < 48; i++)
-		{
-			if (preset.rank6[i % 8] == null) continue;
-			pieces[i] = InstantiatePiece(preset.rank6[i % 8], i);
-			TutorialManager.SetPawnHasMoved(pieces[i]);
-		}
-		for (int i = 48; i < 56; i++)
-		{
-			if (preset.rank7[i % 8] == null) continue;
-			pieces[i] = InstantiatePiece(preset.rank7[i % 8], i);
-		}
-		for (int i = 56; i < 64; i++)
-		{
-			if (preset.rank8[i % 8] == null) continue;
-			pieces[i] = InstantiatePiece(preset.rank8[i % 8], i);
-		}
-	}
-
-	public void UnloadAllPieces()
-	{
-		for (var i = 0; i < 64; i++)
-		{
-			if (pieces[i] != null)
-			{
-				Destroy(pieces[i].gameObject);
-			}
-			pieces[i] = null;
-		}
-	}
-
 	/// <summary>
 	/// Converts x, y coordinates to 0 - 63
 	/// </summary>
@@ -438,7 +349,7 @@ public class BoardController : MonoBehaviour
 		}
 		catch (IndexOutOfRangeException)
 		{
-			// Debug.Log("Cannot get piece from position");
+			Debug.Log("Cannot get piece from position");
 			return null;
 		}
 	}
@@ -506,7 +417,6 @@ public class BoardController : MonoBehaviour
 		PromotePiece(promotedPiece);
 		um.UnhighlightAllPromotingButtons();
 		GameController.SetGameState(GameState.Play);
-		GameController.InvokeOnRoundEnd();
 	}
 
 	/// <summary>
@@ -644,30 +554,6 @@ public class BoardController : MonoBehaviour
 				}
 				break;
 
-			case Move.Flag.PromoteToKnight:
-				testArray[oldPos] = null;
-				testArray[newPos] = Instantiate(GetPromotionPiece(1, p));
-				testArray[newPos].GetComponent<Renderer>().enabled = false;
-				break;
-
-			case Move.Flag.PromoteToBishop:
-				testArray[oldPos] = null;
-				testArray[newPos] = Instantiate(GetPromotionPiece(3, p));
-				testArray[newPos].GetComponent<Renderer>().enabled = false;
-				break;
-
-			case Move.Flag.PromoteToRook:
-				testArray[oldPos] = null;
-				testArray[newPos] = Instantiate(GetPromotionPiece(2, p));
-				testArray[newPos].GetComponent<Renderer>().enabled = false;
-				break;
-
-			case Move.Flag.PromoteToQueen:
-				testArray[oldPos] = null;
-				testArray[newPos] = Instantiate(GetPromotionPiece(0, p));
-				testArray[newPos].GetComponent<Renderer>().enabled = false;
-				break;
-
 			default:
 				if (testArray[oldPos] == null)
 					Debug.Log($"UpdateTestArray: Piece at {oldPos} is null");
@@ -676,11 +562,12 @@ public class BoardController : MonoBehaviour
 				break;
 		}
 	}
-
 	public void ResetGame()
 	{
-		gc.ResetGame();
+		gc.ResetCanvas();
+		gc.ResetPlayer();
 		ResetPieces();
+		Timer.ResetTimers();
 	}
 
 	public void ResetPieces()
@@ -694,15 +581,7 @@ public class BoardController : MonoBehaviour
 
 	public bool TestArrayIsOccupied(int pos)
 	{
-		try
-		{
-			return testArray[pos] != null;
-		}
-		catch (IndexOutOfRangeException)
-		{
-			Debug.Log("TestArrayIsOccupied: Index out of range!");
-			return true;
-		}
+		return testArray[pos] != null;
 	}
 
 	public Piece GetPieceFromTestArrayPos(int pos)
@@ -713,6 +592,7 @@ public class BoardController : MonoBehaviour
 		}
 		catch (IndexOutOfRangeException)
 		{
+			// Debug.Log("Cannot get piece from testArray");
 			return null;
 		}
 	}
@@ -797,8 +677,8 @@ public class BoardController : MonoBehaviour
 
 	public void DestroyCurrentCard()
 	{
-		gc.GetCurrPlayerManager().RemoveCard(currCard);
-    }
+		Destroy(currCard.gameObject);
+	}
 
 
 	/// <summary>
@@ -814,7 +694,7 @@ public class BoardController : MonoBehaviour
 			{
 				int x = ConvXY(pos)[0] + i;
 				int y = ConvXY(pos)[1] + j;
-				if (!IsInBounds(x, y) || GetPieceFromPos(ConvPos(x, y)) is King) continue;
+				if (!IsInBounds(x, y)) continue;
 				DestroyPiece(ConvPos(x, y));
 			}
 		}
@@ -829,12 +709,10 @@ public class BoardController : MonoBehaviour
 	{
 		foreach (Piece piece in pieces)
 		{
-			// Only 50% chance of randomizing a piece
-			bool coinflip =  UnityEngine.Random.Range(0, 2) == 0;
-			if (piece == null || piece is King || coinflip) continue;
-
+			if (piece == null) continue;
 			int rand = UnityEngine.Random.Range(0, 16);
 			PlayerType p = piece.Player;
+			if (piece is King) continue;
 
 			Piece newPiece;
 
@@ -852,7 +730,7 @@ public class BoardController : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Special Game Mode: Burgle an opponent king, excluding king and queen
+	/// Special Game Mode: Steal an opponent king, excluding king and queen
 	/// </summary>
 	/// <param name="p"></param>
 	/// <param name="pos"></param>
@@ -937,7 +815,7 @@ public class BoardController : MonoBehaviour
 	{
 		if (mines[pos] == null)
 		{
-			// Debug.Log("There is no mine here!");
+			Debug.Log("There is no mine here!");
 			return;
 		}
 
@@ -962,41 +840,70 @@ public class BoardController : MonoBehaviour
 		player.AddCard(card);
 	}
 
-	public void BurgleRandomPiece()
+	public virtual void LoadPositionPresets(PositionSO preset)
 	{
-		List<Piece> opponentPieces = new List<Piece>();
+		UnloadAllPieces();
 
-		foreach (Piece piece in pieces)
+		for (int i = 0; i < 8; i++)
 		{
-			if (piece == null || piece is King || piece.Player == GameController.GetCurrPlayer()) continue;
-			opponentPieces.Add(piece);
+			if (preset.rank1[i] == null) continue;
+			pieces[i] = InstantiatePiece(preset.rank1[i], i);
 		}
 
-		if (opponentPieces.Count == 0) return;
-		int rand = UnityEngine.Random.Range(0, opponentPieces.Count);
-		StealOpponentPiece(opponentPieces[rand].CurrPos);
+		for (int i = 8; i < 16; i++)
+		{
+			if (preset.rank2[i % 8] == null) continue;
+			pieces[i] = InstantiatePiece(preset.rank2[i % 8], i);
+		}
+
+		for (int i = 16; i < 24; i++)
+		{
+			if (preset.rank3[i % 8] == null) continue;
+			pieces[i] = InstantiatePiece(preset.rank3[i % 8], i);
+			TutorialManager.SetPawnHasMoved(pieces[i]);
+		}
+		for (int i = 24; i < 32; i++)
+		{
+			if (preset.rank4[i % 8] == null) continue;
+			pieces[i] = InstantiatePiece(preset.rank4[i % 8], i);
+			TutorialManager.SetPawnHasMoved(pieces[i]);
+			TutorialManager.SetPawnTwoStep(pieces[i]);
+		}
+		for (int i = 32; i < 40; i++)
+		{
+			if (preset.rank5[i % 8] == null) continue;
+			pieces[i] = InstantiatePiece(preset.rank5[i % 8], i);
+			TutorialManager.SetPawnHasMoved(pieces[i]);
+			TutorialManager.SetPawnTwoStep(pieces[i]);
+		}
+		for (int i = 40; i < 48; i++)
+		{
+			if (preset.rank6[i % 8] == null) continue;
+			pieces[i] = InstantiatePiece(preset.rank6[i % 8], i);
+			TutorialManager.SetPawnHasMoved(pieces[i]);
+		}
+		for (int i = 48; i < 56; i++)
+		{
+			if (preset.rank7[i % 8] == null) continue;
+			pieces[i] = InstantiatePiece(preset.rank7[i % 8], i);
+		}
+		for (int i = 56; i < 64; i++)
+		{
+			if (preset.rank8[i % 8] == null) continue;
+			pieces[i] = InstantiatePiece(preset.rank8[i % 8], i);
+		}
 	}
 
-	public void BuildPawnWall()
+	public void UnloadAllPieces()
 	{
-		if (GameController.GetCurrPlayer() == PlayerType.Black)
+		for (var i = 0; i < 64; i++)
 		{
-			for (int i = 8; i < 16; i++)
+			if (pieces[i] != null)
 			{
-				if (pieces[i] != null) continue;
-				pieces[i] = InstantiatePiece(GetPromotionPiece(4, PlayerType.Black), i);
+				Destroy(pieces[i].gameObject);
 			}
-		}
-
-		else if (GameController.GetCurrPlayer() == PlayerType.White)
-		{
-			for (int i = 48; i < 56; i++)
-			{
-				if (pieces[i] != null) continue;
-				pieces[i] = InstantiatePiece(GetPromotionPiece(4, PlayerType.White), i);
-			}
+			pieces[i] = null;
 		}
 	}
-
 	#endregion
 }

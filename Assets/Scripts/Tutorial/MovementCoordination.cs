@@ -3,100 +3,120 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MovementCoordination : MonoBehaviour
 {
-    // Start is called before the first frame update
-    public List<MoveSimulator> moves;
-    public int moveIndex = 0;
-	public BoardController bc;
-
-	// If no piece is captured, then piece stored is null	
-	public Stack<Piece> capturedPieceStack = new Stack<Piece>();
+	[SerializeField] private SetMove[] moves;
 
 	[SerializeField] private TextAsset[] openingsFiles;
 
 	[SerializeField] private TMP_Text openingsText;
 	[SerializeField] private TMP_Text tutorialText;
 
-	private string[][] Lines;
+	[SerializeField] private Button prevButton;
+	[SerializeField] private Button nextButton;
+
+	private GameObject pieces;
+
+	private string[] titles = {"Italian Game", "Sicilian Defense", "Ruy López Opening" };
+
+	private int FileIndex = 0;
+	private int LineIndex = 0;
+
+	private string[][] lines;
+
+	private SetMove currSetMoves;
 
 	private void Awake()
 	{
-		bc = FindObjectOfType<BoardController>();
+		pieces = GameObject.Find("Pieces");
 		ReadAndStoreFiles(openingsFiles);
-		//ColorOptionDropdown.Dropdown(1);
+		currSetMoves = moves[0];
+		
+		ColorOptionDropdown.Dropdown(0);
 	}
 
-	public void ReadAndStoreFiles(params TextAsset[] files)
+    private void Start()
+    {
+		prevButton.gameObject.SetActive(false);
+		nextButton.gameObject.SetActive(false);
+	}
+
+    public void ReadAndStoreFiles(params TextAsset[] files)
 	{
-		Lines = new string[files.Length][];
+		lines = new string[files.Length][];
 		var splitFile = new string[] { "\r\n", "\r", "\n" };
 		int index = 0;
 		foreach (TextAsset file in files)
 		{
-			Lines[index] = file.text.Split(splitFile, System.StringSplitOptions.RemoveEmptyEntries);
+			lines[index] = file.text.Split(splitFile, System.StringSplitOptions.RemoveEmptyEntries);
 			index++;
 		}
 	}
 
-	public void ExecuteMove()
-    {
-		MoveSimulator m = moves[moveIndex];
-
-		Piece p = bc.GetPieceFromPos(m.end);
-		if (p != null) capturedPieceStack.Push(p);
-		else capturedPieceStack.Push(null);
-
-		if (m.flag == MoveFlag.KingsideCastling || m.flag == MoveFlag.QueensideCastling)
-		{
-			// Handle castling
-		}
-		
-		bc.CurrPiece = bc.GetPieceFromPos(m.start);
-		int x = BoardController.ConvXY(m.end)[0];
-		int y = BoardController.ConvXY(m.end)[1];
-		bc.MovePiece(x, y, bc.GetPieceFromPos(m.start));
-
-		string[] lines = Lines[moveIndex];
-		openingsText.text = lines[0];
-		tutorialText.text = lines[1];
-
-		moveIndex++;
-    }
-
-	public void PreviousMove()
+	public void TriggerPrevLine()
 	{
-		if (moveIndex == 0) return;
-		moveIndex--;
-		MoveSimulator m = moves[moveIndex];
+		// BoardController.i.UnloadCurrentPieces();
+		LineIndex--;
+		LoadText();
 
-		bc.CurrPiece = bc.GetPieceFromPos(m.start);
-		int x = BoardController.ConvXY(m.start)[0];
-		int y = BoardController.ConvXY(m.start)[1];
-
-		bc.MovePiece(x, y, bc.GetPieceFromPos(m.end));
-
-
-		if (m.flag == MoveFlag.KingsideCastling)
-		{
-			bc.MovePiece(x + 3, y, bc.GetPieceFromPos(m.end + 1));
+		if (LineIndex == 0)
+        {
+			prevButton.gameObject.SetActive(false);
+			return;
 		}
 
-		else if (m.flag == MoveFlag.QueensideCastling)
+		nextButton.gameObject.SetActive(true);
+
+		if (lines[FileIndex][LineIndex].Contains("@"))
 		{
-			bc.MovePiece(x - 4, y, bc.GetPieceFromPos(m.end - 1));
+			currSetMoves.PreviousMove();
+			TriggerPrevLine();
 		}
-
-		string[] lines = Lines[moveIndex];
-		openingsText.text = lines[0];
-		tutorialText.text = lines[1];
-
-		Piece p = capturedPieceStack.Pop();
-		if (p == null) return;
-		else bc.InstantiatePiece(p, m.end);
-
 	}
+
+	/// <summary>
+	/// Triggers the next line
+	/// </summary>
+	public void TriggerNextLine()
+	{
+		LineIndex++;
+		LoadText();
+
+		var CurrFile = lines[FileIndex];
+		if (LineIndex == CurrFile.Length - 1)
+		{
+			nextButton.gameObject.SetActive(false);
+			return;
+		}
+
+		prevButton.gameObject.SetActive(true);
+
+		if (lines[FileIndex][LineIndex].Contains("@"))
+		{
+			currSetMoves.ExecuteMove();
+			TriggerNextLine();
+		}
+	}
+
+	public void LoadText()
+    {
+		openingsText.text = titles[FileIndex];
+		tutorialText.text = lines[FileIndex][LineIndex];
+	}
+
+	public void LoadOpening(int index)
+    {
+		pieces.gameObject.SetActive(true);
+		prevButton.gameObject.SetActive(false);
+		nextButton.gameObject.SetActive(true);
+		currSetMoves.UndoAllPrevMoves();
+		FileIndex = index;
+		LineIndex = 0;
+		currSetMoves = moves[FileIndex];
+		LoadText();
+    }
 }
 
 [System.Serializable]

@@ -20,14 +20,14 @@ public class Pawn : Piece, IPromotable
 	{
 		OnAfterMove += CheckForPromotion;
 		OnAfterMove += SetPawnBoolean;
-		OnAfterMove += InvokeOnRoundEnd;
+		OnAfterMove += GameController.InvokeOnRoundEnd;
 	}
 
 	private void OnDisable()
 	{
 		OnAfterMove -= CheckForPromotion;
 		OnAfterMove -= SetPawnBoolean;
-		OnAfterMove -= InvokeOnRoundEnd;
+		OnAfterMove -= GameController.InvokeOnRoundEnd;
 	}
 
 	public override void InitPiece(PlayerType p)
@@ -98,22 +98,6 @@ public class Pawn : Piece, IPromotable
 		int newY = currY + direction;
 
 		Move m1 = new Move(CurrPos, bc.ConvPos(currX, newY), this);
-
-		if (IsLegalMove(m1) 
-			&& !bc.IsOccupied(m1.TargetSquare) 
-			&& !bc.IsBeingCheckedAfterMove(m1, Player)
-			&& (newY == 7 || newY == 0))
-		{
-			Move promoteKnight = new Move(currX, newY, this, Move.Flag.PromoteToKnight);
-			Move promoteBishop = new Move(currX, newY, this, Move.Flag.PromoteToBishop);
-			Move promoteRook = new Move(currX, newY, this, Move.Flag.PromoteToRook);
-			Move promoteQueen = new Move(currX, newY, this, Move.Flag.PromoteToQueen);
-
-			moves.Add(promoteKnight);
-			moves.Add(promoteBishop);
-			moves.Add(promoteRook);
-			moves.Add(promoteQueen);
-		}
 
 		if (IsLegalMove(m1) && !bc.IsOccupied(m1.TargetSquare) && !bc.IsBeingCheckedAfterMove(m1, Player))
 		{
@@ -191,7 +175,6 @@ public class Pawn : Piece, IPromotable
 				if (IsLegalMove(m)) moves.Add(m);
 			}
 		}
-
 		moves.Clear();
 
 		int direction = (Player == PlayerType.Black) ? 1 : -1;
@@ -199,20 +182,7 @@ public class Pawn : Piece, IPromotable
 
 		Move m1 = new Move(CurrPos, bc.ConvPos(currX, newY), this);
 
-		if (IsLegalMove(m1) && !bc.TestArrayIsOccupied(m1.TargetSquare) && (newY == 7 || newY  == 0))
-		{
-			Move promoteKnight = new Move(currX, newY, this, Move.Flag.PromoteToKnight);
-			Move promoteBishop = new Move(currX, newY, this, Move.Flag.PromoteToBishop);
-			Move promoteRook = new Move(currX, newY, this, Move.Flag.PromoteToRook);
-			Move promoteQueen = new Move(currX, newY, this, Move.Flag.PromoteToQueen);
-
-			moves.Add(promoteKnight);
-			moves.Add(promoteBishop);
-			moves.Add(promoteRook);
-			moves.Add(promoteQueen);
-		}
-
-		else if (IsLegalMove(m1) && !bc.TestArrayIsOccupied(m1.TargetSquare))
+		if (IsLegalMove(m1) && !bc.TestArrayIsOccupied(m1.TargetSquare))
 		{
 			moves.Add(m1);
 		}
@@ -300,10 +270,5 @@ public class Pawn : Piece, IPromotable
 	{
 		if (move.TargetSquare < 0 || move.TargetSquare > 63) return false;
 		return true;
-	}
-
-	public void InvokeOnRoundEnd()
-	{
-		if (!IsAvailableForPromotion()) GameController.InvokeOnRoundEnd();
 	}
 }

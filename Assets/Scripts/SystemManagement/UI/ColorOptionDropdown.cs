@@ -4,14 +4,11 @@ using UnityEngine.Assertions;
 
 public class ColorOptionDropdown : MonoBehaviour
 {
-	[SerializeField] private TMP_Text selectedOptionText;
-	[SerializeField] private string selectedColor = "Black";
+	[SerializeField] private static TMP_Text selectedOptionText;
 
 	private void Start()
 	{
 		AssertAllReferenceIsNotNull();
-
-		SetSelectedColorText();
 	}
 
 	private void AssertAllReferenceIsNotNull()
@@ -19,34 +16,23 @@ public class ColorOptionDropdown : MonoBehaviour
 		Assert.IsNotNull(selectedOptionText);
 	}
 
-	public void Dropdown(int index)
+	public static void Dropdown(int index)
 	{
 		switch (index)
 		{
 			case 0:
-				FlipBoard(true);
-				selectedColor = "Black";
-				SetSelectedColorText();
+				Piece.isBlackBelow = true;
+				HighlightManager.isBlackBelow = true;
+				Timer.isBlackBelow = true;
+				BoardController.isBlackBelow = true;
 				break;
 
 			case 1:
-				FlipBoard(false);
-				selectedColor = "White";
-				SetSelectedColorText();
+				Piece.isBlackBelow = false;
+				HighlightManager.isBlackBelow = false;
+				Timer.isBlackBelow = false;
+				BoardController.isBlackBelow = false;
 				break;
 		}
-	}
-
-	public void SetSelectedColorText()
-    {
-		selectedOptionText.text = selectedColor;
-    }
-
-	public static void FlipBoard(bool boolean)
-    {
-		Piece.isBlackBelow = boolean;
-		HighlightManager.isBlackBelow = boolean;
-		Timer.isBlackBelow = boolean;
-		BoardController.isBlackBelow = boolean;
 	}
 }

@@ -774,6 +774,14 @@ PrefabInstance:
       propertyPath: m_AnchorMin.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3365536200852530742, guid: 651173cf6b459fa4789f8d6d17179dac, type: 3}
+      propertyPath: createRoomButton
+      value: 
+      objectReference: {fileID: 1281298532}
+    - target: {fileID: 3365536200852530742, guid: 651173cf6b459fa4789f8d6d17179dac, type: 3}
+      propertyPath: roomNameInputField
+      value: 
+      objectReference: {fileID: 485463657}
     - target: {fileID: 3407980223700606189, guid: 651173cf6b459fa4789f8d6d17179dac, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

@@ -9,4 +9,14 @@ public class OpeningsGameController : GameController
         base.Start();
         SetGameState(GameState.GameOver);
     }
+
+    public override void SetPlayer()
+    {
+        return;
+    }
+
+    public override void ResetGame()
+    {
+        return;
+    }
 }

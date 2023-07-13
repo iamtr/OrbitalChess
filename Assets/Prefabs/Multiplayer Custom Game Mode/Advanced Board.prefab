@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4478342410324968526}
   - component: {fileID: 118612560964629003}
   - component: {fileID: 8647311104716740266}
+  - component: {fileID: 8900677680975886234}
   m_Layer: 0
   m_Name: Advanced Board
   m_TagString: Untagged
@@ -181,6 +182,28 @@ MonoBehaviour:
   currPiece: {fileID: 0}
   currCard: {fileID: 0}
   defaultPieceArray: []
+--- !u!114 &8900677680975886234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 799787643356634224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &3135462990977641419
 GameObject:
   m_ObjectHideFlags: 0

@@ -73,6 +73,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1505951146990521765}
   - component: {fileID: 1505951146574955108}
+  - component: {fileID: 810220741279954275}
   m_Layer: 0
   m_Name: Local Player
   m_TagString: Untagged
@@ -108,7 +109,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69d9cee5af232c141b9005fa6925c485, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: 0
   money: 500
   moneyText: {fileID: 0}
   playerCards: []
   cardTransform: {fileID: 1505951145568065204}
+--- !u!114 &810220741279954275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1505951146990521764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0

@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class SpecialPlayerManager : MonoBehaviour
+public class SpecialPlayerManager : PlayerManager
 {
 	[SerializeField] private int money;
 	[SerializeField] private TMP_Text moneyText;

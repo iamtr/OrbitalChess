@@ -10,7 +10,10 @@ using System;
 public class RoomManager : MonoBehaviourPunCallbacks
 {
 	private PhotonView pv;
-	private PlayerManager playerManager;
+	[SerializeField] private PlayerManager playerManager;
+	[SerializeField] private SpecialPlayerManager localPlayer;
+	[SerializeField] private SpecialPlayerManager remotePlayer;
+
 
 	[SerializeField] private BoardController bc;
 	[SerializeField] private GameObject playerSelectionPanel;
@@ -108,7 +111,8 @@ public class RoomManager : MonoBehaviourPunCallbacks
 		Debug.Log("Start game");
 		PhotonNetwork.CurrentRoom.IsOpen = false;
 		int playerType = (int)PhotonNetwork.LocalPlayer.CustomProperties["PlayerType"];
-		playerManager.Player = playerType == 0 ? PlayerType.Black : PlayerType.White;
+		
+		playerManager.Player = playerType == 0 ? PlayerType.Black : PlayerType.White; 
 
 		if (playerType == 1)
 		{

@@ -12,7 +12,9 @@ public class RoomListingManager : MonoBehaviourPunCallbacks
 	[SerializeField] private Transform roomListParent;
 	[SerializeField] private TMP_InputField roomNameInputField;
 	[SerializeField] private Button createRoomButton;
+	[SerializeField] private TMP_Dropdown modeSelectDropdown;
 
+	// Used to cache room list for lobby list updates
 	private Dictionary<string, RoomInfo> cachedRoomList = new Dictionary<string, RoomInfo>();
 
 	private void Start()
@@ -27,7 +29,7 @@ public class RoomListingManager : MonoBehaviourPunCallbacks
 
 	public override void OnRoomListUpdate(List<RoomInfo> roomList)
 	{
-		Debug.Log("RoomListUpdtae");
+		Debug.Log("RoomListUpdate");
 		UpdateCachedRoomList(roomList);
 		DisplayLobbyRooms();
 	}
@@ -92,7 +94,15 @@ public class RoomListingManager : MonoBehaviourPunCallbacks
 	{
 		if (roomNameInputField.text.Length >= 1)
 		{
-			PhotonNetwork.CreateRoom(roomNameInputField.text, new RoomOptions { MaxPlayers = 2 });
+			int mode = modeSelectDropdown.value;
+			string roomName = modeSelectDropdown.options[mode].text + " " + roomNameInputField.text;
+
+			PhotonNetwork.CreateRoom(roomName, 
+				new RoomOptions 
+				{ 
+					MaxPlayers = 2, 
+					CustomRoomProperties = new ExitGames.Client.Photon.Hashtable() { { "Mode", mode } }
+				});
 		}
 	}
 }

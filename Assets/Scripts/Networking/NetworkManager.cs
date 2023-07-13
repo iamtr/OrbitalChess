@@ -32,11 +32,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 		PhotonNetwork.JoinLobby();
 	}
 
-	public void CreateRoom(string roomName)
-	{
-		PhotonNetwork.CreateRoom(roomName, new RoomOptions { MaxPlayers = 2 });
-	}
-
 	public override void OnCreatedRoom()
 	{
 		Debug.Log("Created room");
@@ -50,7 +45,17 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 	public override void OnJoinedRoom()
 	{
 		Debug.Log("Player joined room");
-		PhotonNetwork.LoadLevel("Multiplayer Main");
+
+		switch (PhotonNetwork.CurrentRoom.CustomProperties["Mode"])
+		{
+			case 0:
+				PhotonNetwork.LoadLevel("Multiplayer Main");
+				break;
+			default:
+				Debug.Log("Invalid mode");
+				break;
+		}
+
 		if (PhotonNetwork.CurrentRoom.PlayerCount >= 2)
 		{
 			Debug.Log("2 players are inside");

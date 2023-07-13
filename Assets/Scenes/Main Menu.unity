@@ -123,6 +123,17 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &405062606 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 55410278963416356, guid: aef2a3600bd8feb469eeb7f43856f869, type: 3}
+  m_PrefabInstance: {fileID: 55410279099518698}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b743370ac3e4ec2a1668f5455a8ef8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &458149858 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6870808082246553291, guid: bfb3d48de12b78c49a37097431cacf8b, type: 3}
@@ -190,6 +201,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 55410277223799851, guid: aef2a3600bd8feb469eeb7f43856f869, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 55410277223799851, guid: aef2a3600bd8feb469eeb7f43856f869, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 55410277223799851, guid: aef2a3600bd8feb469eeb7f43856f869, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 55410277330393125, guid: aef2a3600bd8feb469eeb7f43856f869, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 55410277566439750, guid: aef2a3600bd8feb469eeb7f43856f869, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -294,6 +321,14 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 458149858}
+    - target: {fileID: 55410278634163531, guid: aef2a3600bd8feb469eeb7f43856f869, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 55410278634163531, guid: aef2a3600bd8feb469eeb7f43856f869, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 55410279059510348, guid: aef2a3600bd8feb469eeb7f43856f869, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -582,6 +617,10 @@ PrefabInstance:
       propertyPath: createRoomButton
       value: 
       objectReference: {fileID: 1281298532}
+    - target: {fileID: 6870808082246553291, guid: bfb3d48de12b78c49a37097431cacf8b, type: 3}
+      propertyPath: modeSelectDropdown
+      value: 
+      objectReference: {fileID: 405062606}
     - target: {fileID: 6870808082246553291, guid: bfb3d48de12b78c49a37097431cacf8b, type: 3}
       propertyPath: roomNameInputField
       value: 

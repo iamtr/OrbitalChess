@@ -8,14 +8,13 @@ public class MenuManagerScript : MonoBehaviour
 	public static string mainGameStartScene = "Main";
 	public static string blitzGameStartScene = "Blitz";
 	public static string customGameModeStartScene = "Custom Game Mode";
-	public static string tutorialStartScene = "Tutorial";
-	public static string openingsStartScene = "Openings";
+	public static string multiplayerLobbyScene = "Multiplayer Lobby";
 
 	[SerializeField] private SettingsScript settings;
 
 	public void StartGame()
 	{
-		SceneManager.LoadScene(mainGameStartScene);
+		SceneManager.LoadSceneAsync(mainGameStartScene);
 	}
 
 	public void ExitGame()
@@ -26,7 +25,7 @@ public class MenuManagerScript : MonoBehaviour
 	public void BackToMenu()
 	{
 		Timer.isGameStart = false;
-		SceneManager.LoadScene(menuScene);
+		SceneManager.LoadSceneAsync(menuScene);
 	}
 
 	public void OpenSettings()
@@ -39,7 +38,7 @@ public class MenuManagerScript : MonoBehaviour
 		settings.ChangeFromSettingsToMainMenu();
 	}
 
-	public void PlayDropdown(int index)
+	public void DropDown(int index)
 	{
 		switch (index)
 		{
@@ -57,22 +56,13 @@ public class MenuManagerScript : MonoBehaviour
 		}
 	}
 
-	public void TutorialDropdown(int index)
-    {
-		switch (index)
-		{
-			case 0:
-				SceneManager.LoadScene(tutorialStartScene);
-				break;
-
-			case 1:
-				SceneManager.LoadScene(openingsStartScene);
-				break;
-		}
-	}
-
 	public void LeaveRoom()
 	{
 		PhotonNetwork.LeaveRoom();
+	}
+
+	public void GoToMultiplayerLobby()
+	{
+		SceneManager.LoadScene(multiplayerLobbyScene);
 	}
 }

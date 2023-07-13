@@ -51,6 +51,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 			case 0:
 				PhotonNetwork.LoadLevel("Multiplayer Main");
 				break;
+			case 1:
+				break;
+			case 2:
+				PhotonNetwork.LoadLevel("Multiplayer Custom Game Mode");
+				break;
 			default:
 				Debug.Log("Invalid mode");
 				break;

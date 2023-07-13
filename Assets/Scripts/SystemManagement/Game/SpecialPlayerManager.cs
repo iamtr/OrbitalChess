@@ -46,12 +46,6 @@ public class SpecialPlayerManager : MonoBehaviour
 		card.SetCardPlayer(GameController.GetCurrPlayer());
 	}
 
-	public void RemoveCard(Card c)
-	{
-		playerCards.Remove(c);
-		Destroy(c.gameObject);
-	}
-
 	public void ResetPlayerManager()
 	{
 		ResetMoney();

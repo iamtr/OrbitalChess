@@ -7,6 +7,8 @@ using Unity.VisualScripting;
 
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
+	[SerializeField] private MultiplayerBoardController bc;
+
 	public static NetworkManager i;
 
 	private void Awake()
@@ -42,31 +44,34 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 		Debug.Log("Created room");
 	}
 
-	public override void OnCreateRoomFailed(short returnCode, string message)
-	{
-		Debug.Log("Unable to create room");
-	}
+	//public override void OnJoinRandomFailed(short returnCode, string message)
+	//{
+	//	Debug.Log($"Joining random room failed becuse of {message}. Creating new one");
+	//	PhotonNetwork.CreateRoom(null, new RoomOptions
+	//	{
+	//		MaxPlayers = 2
+	//	});
+	//}
 
 	public override void OnJoinedRoom()
 	{
 		Debug.Log("Player joined room");
 		PhotonNetwork.LoadLevel("Multiplayer Main");
-		if (PhotonNetwork.CurrentRoom.PlayerCount >= 2)
+		bc = FindObjectOfType<MultiplayerBoardController>();
+		if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
 		{
-			Debug.Log("2 players are inside");
-			//PhotonNetwork.CurrentRoom.IsOpen = false;
+			Debug.Log($"Player is host");
 		}
 	}
 
 	public override void OnLeftRoom()
 	{
-		base.OnLeftRoom();
 		Debug.Log("Player left room");
-		PhotonNetwork.JoinLobby();
 	}
 
-	public override void OnLeftLobby()
-	{
-		Debug.Log("Leave Lobby");
-	}
+	//internal bool IsRoomFull()
+	//{
+	//	return PhotonNetwork.CurrentRoom.PlayerCount == PhotonNetwork.CurrentRoom.MaxPlayers;
+	//}
+
 }

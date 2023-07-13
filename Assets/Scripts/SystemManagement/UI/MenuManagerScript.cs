@@ -10,13 +10,12 @@ public class MenuManagerScript : MonoBehaviour
 	public static string customGameModeStartScene = "Custom Game Mode";
 	public static string tutorialStartScene = "Tutorial";
 	public static string openingsStartScene = "Openings";
-	public static string multiplayerLobbyScene = "Multiplayer Lobby";
 
 	[SerializeField] private SettingsScript settings;
 
 	public void StartGame()
 	{
-		SceneManager.LoadSceneAsync(mainGameStartScene);
+		SceneManager.LoadScene(mainGameStartScene);
 	}
 
 	public void ExitGame()
@@ -27,7 +26,7 @@ public class MenuManagerScript : MonoBehaviour
 	public void BackToMenu()
 	{
 		Timer.isGameStart = false;
-		SceneManager.LoadSceneAsync(menuScene);
+		SceneManager.LoadScene(menuScene);
 	}
 
 	public void OpenSettings()
@@ -75,10 +74,5 @@ public class MenuManagerScript : MonoBehaviour
 	public void LeaveRoom()
 	{
 		PhotonNetwork.LeaveRoom();
-	}
-
-	public void GoToMultiplayerLobby()
-	{
-		SceneManager.LoadScene(multiplayerLobbyScene);
 	}
 }

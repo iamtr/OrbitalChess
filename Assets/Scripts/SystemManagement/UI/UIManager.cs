@@ -17,6 +17,11 @@ public class UIManager : MonoBehaviour
 	[SerializeField] private Piece[] defaultPieceSetup;
 	public GameObject checkText;
 
+	[Header("Blitz UI")]
+	public GameObject board;
+	public GameObject gameCanvas;
+	public GameObject modeSelectCanvas;
+
 	protected BoardController bc;
 	protected GameController gc;
 
@@ -33,7 +38,7 @@ public class UIManager : MonoBehaviour
 		//AssertAllReferenceIsNotNull();
 	}
 
-	protected virtual void AssertAllReferenceIsNotNull()
+	private void AssertAllReferenceIsNotNull()
 	{
 		Assert.IsNotNull(blackSprites);
 		Assert.IsNotNull(whiteSprites);
@@ -107,5 +112,11 @@ public class UIManager : MonoBehaviour
 
 
 
-	
+	public void StartBlitzGame()
+	{
+		modeSelectCanvas.SetActive(false);
+		board.SetActive(true);
+		gameCanvas.SetActive(true);
+		Timer.isGameStart = true;
+	}
 }

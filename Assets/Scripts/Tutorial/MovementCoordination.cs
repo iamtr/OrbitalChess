@@ -34,7 +34,7 @@ public class MovementCoordination : MonoBehaviour
 		ReadAndStoreFiles(openingsFiles);
 		currSetMoves = moves[0];
 		
-		ColorOptionDropdown.FlipBoard(true);
+		ColorOptionDropdown.Dropdown(0);
 	}
 
     private void Start()

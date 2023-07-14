@@ -29,7 +29,7 @@ public class BoardController : MonoBehaviour
 	[Header("Special Mode")]
 	[SerializeField] private GameObject mine;
 
-	protected GameObject[] mines;
+	[SerializeField] protected GameObject[] mines;
 
 	[SerializeField] protected int mineCount = 5;
 

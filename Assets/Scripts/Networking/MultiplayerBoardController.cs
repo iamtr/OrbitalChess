@@ -19,7 +19,7 @@ public class MultiplayerBoardController : BoardController
 	{
 		hm = FindObjectOfType<HighlightManager>();
 		um = FindObjectOfType<UIManager>();
-		gc = FindObjectOfType<GameController>();
+		gc = FindObjectOfType<MultiplayerGameController>();
 		pv = GetComponent<PhotonView>();
 
 		pieceTransform = GameObject.Find("Pieces")?.transform;
@@ -48,6 +48,8 @@ public class MultiplayerBoardController : BoardController
 			SetPawnBooleanToMoved(CurrPiece.CurrPos);
 			SetPawnBooleanToTwoStep(CurrPiece.CurrPos);
 		}
+
+		if (gc.IsSpecialMode) TriggerMine(newPos);
 	}
 
 	public override void HandlePieceClicked(Collider2D col)
@@ -104,7 +106,7 @@ public class MultiplayerBoardController : BoardController
 
 	public override void Bomb(int pos)
 	{
-		pv.RPC(nameof(Bomb), RpcTarget.All, pos);
+		pv.RPC(nameof(RPC_Bomb), RpcTarget.All, pos);
 	}
 
 	public override void PlantMine(int pos)

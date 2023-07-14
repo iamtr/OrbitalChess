@@ -15,16 +15,22 @@ public class MultiplayerGameController : GameController
 	private bool isBlackSelected = false;
 	private bool isWhiteSelected = false;
 
+	[Header("Multiplayer")]
 	[SerializeField] private GameObject playerSelectionPanel;
 	[SerializeField] private Button blackButton;
 	[SerializeField] private Button whiteButton;
-	private PlayerManager playerManager;
+	[SerializeField] private Transform blackCardTransform;
+	[SerializeField] private Transform whiteCardTransform;
+	[SerializeField] private SpecialPlayerManager localPlayer;
+	[SerializeField] private SpecialPlayerManager remotePlayer;
+
+	[SerializeField] protected PlayerManager playerManager;
 
 	protected override void Start()
 	{
 		base.Start();
 		pv = GetComponent<PhotonView>();
-		playerManager = FindObjectOfType<PlayerManager>();
+		//playerManager = FindObjectOfType<PlayerManager>();
 	}
 
 	public override void SetPlayer()

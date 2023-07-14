@@ -786,15 +786,14 @@ public class BoardController : MonoBehaviour
 		CurrPiece = GetPieceFromPos(piecePos);
 	}
 
-
 	#region Special Moves
 	// Special moves:
-	public void SetCurrentCard(Card card)
+	public virtual void SyncCurrCard(Card card)
 	{
 		currCard = card;
 	}
 
-	public void DestroyCurrentCard()
+	public virtual void DestroyCurrentCard()
 	{
 		gc.GetCurrPlayerManager().RemoveCard(currCard);
     }
@@ -804,7 +803,7 @@ public class BoardController : MonoBehaviour
 	/// Bombs a 3x3 area around a position
 	/// </summary>
 	/// <param name="pos"></param>
-	public void Bomb(int pos)
+	public virtual void Bomb(int pos)
 	{
 		if (pos < 0 || pos > 63) Debug.Log("Bomb: pos out of range");
 		for (int i = -1; i < 2; i++)
@@ -902,7 +901,7 @@ public class BoardController : MonoBehaviour
 	/// Special Game Mod: Plant a mine on the board
 	/// </summary>
 	/// <param name="pos"></param>
-	public void PlantMine(int pos)
+	public virtual void PlantMine(int pos)
 	{
 		if (mines[pos] != null)
 		{
@@ -932,11 +931,11 @@ public class BoardController : MonoBehaviour
 	/// Triggers a mine which will destroy the king on it
 	/// </summary>
 	/// <param name="pos"></param>
-	public void TriggerMine(int pos)
+	public virtual void TriggerMine(int pos)
 	{
 		if (mines[pos] == null)
 		{
-			// Debug.Log("There is no mine here!");
+			Debug.Log("There is no mine here!");
 			return;
 		}
 

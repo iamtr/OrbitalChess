@@ -123,6 +123,51 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &84338784
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 84338786}
+  - component: {fileID: 84338785}
+  m_Layer: 0
+  m_Name: Player Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &84338785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 84338784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 304fb85ba130dad4184b0779a310f9bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: 0
+--- !u!4 &84338786
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 84338784}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &355828201 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6176109183805139833, guid: a5028fd603152a44f9bd2622b4f7a03c, type: 3}
@@ -175,9 +220,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerManager: {fileID: 1313174332}
-  localPlayer: {fileID: 1313174332}
-  remotePlayer: {fileID: 1505951146175729161}
-  bc: {fileID: 0}
+  blackPlayer: {fileID: 0}
+  whitePlayer: {fileID: 0}
   playerSelectionPanel: {fileID: 6176109184154479251}
   turnText: {fileID: 4068101508237928514}
   checkText: {fileID: 6362934161216096925}
@@ -284,7 +328,7 @@ PrefabInstance:
       objectReference: {fileID: 355828201}
     - target: {fileID: 1505951146990521764, guid: 256f79a8833b0d941bdce070f203f65d, type: 3}
       propertyPath: m_Name
-      value: Local Player
+      value: Black Player
       objectReference: {fileID: 0}
     - target: {fileID: 1505951146990521765, guid: 256f79a8833b0d941bdce070f203f65d, type: 3}
       propertyPath: m_RootOrder
@@ -403,9 +447,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8977624941771815721, guid: a9ba25d959761f1499f0b4d92fdacc79, type: 3}
     - target: {fileID: 8647311104716740266, guid: 211ffa5d3f74ed44dac774e71fbf3cb3, type: 3}
+      propertyPath: blackPlayer
+      value: 
+      objectReference: {fileID: 1313174332}
+    - target: {fileID: 8647311104716740266, guid: 211ffa5d3f74ed44dac774e71fbf3cb3, type: 3}
       propertyPath: localPlayer
       value: 
       objectReference: {fileID: 1313174332}
+    - target: {fileID: 8647311104716740266, guid: 211ffa5d3f74ed44dac774e71fbf3cb3, type: 3}
+      propertyPath: whitePlayer
+      value: 
+      objectReference: {fileID: 1505951146175729161}
     - target: {fileID: 8647311104716740266, guid: 211ffa5d3f74ed44dac774e71fbf3cb3, type: 3}
       propertyPath: remotePlayer
       value: 
@@ -576,6 +628,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 211ffa5d3f74ed44dac774e71fbf3cb3, type: 3}
+--- !u!4 &2253471932940337398 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2685437624040658058, guid: 211ffa5d3f74ed44dac774e71fbf3cb3, type: 3}
+  m_PrefabInstance: {fileID: 2253471932940337397}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2253471932940337399 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7431162849878045648, guid: 211ffa5d3f74ed44dac774e71fbf3cb3, type: 3}
+  m_PrefabInstance: {fileID: 2253471932940337397}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4068101508237928514 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7908670934013084370, guid: a5028fd603152a44f9bd2622b4f7a03c, type: 3}
@@ -644,7 +706,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3268823841808393355, guid: 6cc558362d0f14545be70ce99acd072c, type: 3}
       propertyPath: m_Name
-      value: Remote Player
+      value: White Player
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6cc558362d0f14545be70ce99acd072c, type: 3}
@@ -965,6 +1027,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1313174332}
     - target: {fileID: 2383405083901366879, guid: b58f3befe8757de489d1bd526d4d1f24, type: 3}
+      propertyPath: localPlayer
+      value: 
+      objectReference: {fileID: 1313174332}
+    - target: {fileID: 2383405083901366879, guid: b58f3befe8757de489d1bd526d4d1f24, type: 3}
       propertyPath: whiteButton
       value: 
       objectReference: {fileID: 6176109184154479249}
@@ -973,9 +1039,25 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1505951146175729161}
     - target: {fileID: 2383405083901366879, guid: b58f3befe8757de489d1bd526d4d1f24, type: 3}
+      propertyPath: remotePlayer
+      value: 
+      objectReference: {fileID: 1505951146175729161}
+    - target: {fileID: 2383405083901366879, guid: b58f3befe8757de489d1bd526d4d1f24, type: 3}
       propertyPath: replayButton
       value: 
       objectReference: {fileID: 6176109184154479252}
+    - target: {fileID: 2383405083901366879, guid: b58f3befe8757de489d1bd526d4d1f24, type: 3}
+      propertyPath: playerManager
+      value: 
+      objectReference: {fileID: 84338785}
+    - target: {fileID: 2383405083901366879, guid: b58f3befe8757de489d1bd526d4d1f24, type: 3}
+      propertyPath: blackCardTransform
+      value: 
+      objectReference: {fileID: 2253471932940337399}
+    - target: {fileID: 2383405083901366879, guid: b58f3befe8757de489d1bd526d4d1f24, type: 3}
+      propertyPath: whiteCardTransform
+      value: 
+      objectReference: {fileID: 2253471932940337398}
     - target: {fileID: 2383405083901366879, guid: b58f3befe8757de489d1bd526d4d1f24, type: 3}
       propertyPath: playerSelectionPanel
       value: 

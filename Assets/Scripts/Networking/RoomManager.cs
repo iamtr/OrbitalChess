@@ -11,11 +11,13 @@ public class RoomManager : MonoBehaviourPunCallbacks
 {
 	private PhotonView pv;
 	[SerializeField] private PlayerManager playerManager;
-	[SerializeField] private SpecialPlayerManager localPlayer;
-	[SerializeField] private SpecialPlayerManager remotePlayer;
+	[SerializeField] private SpecialPlayerManager blackPlayer;
+	[SerializeField] private SpecialPlayerManager whitePlayer;
 
 
-	[SerializeField] private BoardController bc;
+	private BoardController bc;
+	private GameController gc;
+
 	[SerializeField] private GameObject playerSelectionPanel;
 	[SerializeField] private TMP_Text turnText;
 	[SerializeField] private TMP_Text checkText;
@@ -26,6 +28,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
 	private void Awake()
 	{
 		bc = FindObjectOfType<MultiplayerBoardController>();
+		gc = FindObjectOfType<MultiplayerGameController>();
 		pv = GetComponent<PhotonView>();
 		playerManager = FindObjectOfType<PlayerManager>();
 	}
@@ -102,8 +105,36 @@ public class RoomManager : MonoBehaviourPunCallbacks
 			&& (bool)PhotonNetwork.CurrentRoom.CustomProperties["Black"] && (bool)PhotonNetwork.CurrentRoom.CustomProperties["White"] 
 			&& !isGameStarted)
 		{
-			StartMultiplayerGame();
+			if ((int) PhotonNetwork.CurrentRoom.CustomProperties["Mode"] == 2)
+			{
+				StartCardMultiplayer();
+			}
+			else
+			{
+				StartMultiplayerGame();
+			}
+				
 		}
+	}
+
+	public void StartCardMultiplayer()
+	{
+		Debug.Log("Start game");
+		PhotonNetwork.CurrentRoom.IsOpen = false;
+		int playerType = (int)PhotonNetwork.LocalPlayer.CustomProperties["PlayerType"];
+
+		playerManager.Player = playerType == 0 ? PlayerType.Black : PlayerType.White;
+
+		if (playerType == 1)
+		{
+			Camera c = FindObjectOfType<Camera>();
+			c.transform.eulerAngles = new Vector3(0, 0, 180);
+		}
+
+		bc.InstantiatePieces();
+		playerSelectionPanel.SetActive(false);
+		turnText.gameObject.SetActive(true);
+		isGameStarted = true;
 	}
 
 	public void StartMultiplayerGame()

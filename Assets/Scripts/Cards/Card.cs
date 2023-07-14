@@ -7,7 +7,7 @@ public abstract class Card : MonoBehaviour, ITrigger
 	protected BoardController bc;
 	protected HighlightManager hm;
 	protected GameController gc;
-
+	public int currIndex { get; private set; }
 	public abstract void Trigger();
 
 	private void Start()
@@ -31,7 +31,7 @@ public abstract class Card : MonoBehaviour, ITrigger
 	{
 		if (GameController.GetCurrPlayer() == player)
 		{
-			bc.SetCurrentCard(this);
+			bc.SyncCurrCard(this);
 			Trigger();
 		}
 	}
@@ -39,5 +39,10 @@ public abstract class Card : MonoBehaviour, ITrigger
 	public void SetCardPlayer(PlayerType p)
 	{
 		player = p;
+	}
+
+	public void SetCurrIndex(int index)
+	{
+		currIndex = index;
 	}
 }

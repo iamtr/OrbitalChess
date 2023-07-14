@@ -56,6 +56,11 @@ MonoBehaviour:
   - RPC_TogglePlayerOptions
   - RPC_StartGame
   - RPC_DistributeRandomCard
+  - RPC_SyncCurrCard
+  - RPC_DestroyCurrentCard
+  - RPC_Bomb
+  - RPC_PlantMine
+  - RPC_TriggerMine
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

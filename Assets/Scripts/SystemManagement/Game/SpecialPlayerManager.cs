@@ -10,6 +10,7 @@ public class SpecialPlayerManager : PlayerManager
 	[SerializeField] private List<Card> playerCards;
 	[SerializeField] private Transform cardTransform;
 
+	public List<Card> PlayerCards { get => playerCards; set => playerCards = value; }	
 	public int Money { get => money; set => money = value; }
 
 
@@ -41,7 +42,12 @@ public class SpecialPlayerManager : PlayerManager
 		}
 
 		Card card = Instantiate(c, cardTransform.position, Quaternion.identity);
+
+		if (Player == PlayerType.White)
+			card.transform.eulerAngles = new Vector3(0, 180f, 0);
+
 		playerCards.Add(card);
+		card.SetCurrIndex(playerCards.IndexOf(card));
 		card.transform.SetParent(cardTransform);
 		card.SetCardPlayer(GameController.GetCurrPlayer());
 	}
@@ -50,6 +56,11 @@ public class SpecialPlayerManager : PlayerManager
 	{
 		playerCards.Remove(c);
 		Destroy(c.gameObject);
+
+		foreach (Card card in playerCards)
+		{
+			card.SetCurrIndex(playerCards.IndexOf(card));
+		}
 	}
 
 	public void ResetPlayerManager()
@@ -71,5 +82,10 @@ public class SpecialPlayerManager : PlayerManager
 			Destroy(card?.gameObject);
 		}
 		playerCards.Clear();
+	}
+
+	public void SetCardTransform(Transform transform)
+	{
+		cardTransform = transform;
 	}
 }

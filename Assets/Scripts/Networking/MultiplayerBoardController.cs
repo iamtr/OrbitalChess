@@ -2,13 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using JetBrains.Annotations;
+using Unity.VisualScripting;
 
 public class MultiplayerBoardController : BoardController
 {
 	protected PhotonView pv;
 	protected PlayerManager playerManager;
-	[SerializeField] protected SpecialPlayerManager localPlayer;
-	[SerializeField] protected SpecialPlayerManager remotePlayer;
+
+	[SerializeField] protected SpecialPlayerManager blackPlayer;
+	[SerializeField] protected SpecialPlayerManager whitePlayer;
+
+	public List<Card> allMultiplayerCards { get; private set; }
 
 	public override void Start()
 	{
@@ -20,7 +25,7 @@ public class MultiplayerBoardController : BoardController
 		pieceTransform = GameObject.Find("Pieces")?.transform;
 		allMoves = new List<Move>();
 		playerManager = FindObjectOfType<PlayerManager>();
-
+		InstantiateMines();
 		AssertAllReferenceIsNotNull();	
 	}
 
@@ -77,13 +82,39 @@ public class MultiplayerBoardController : BoardController
 		pv.RPC(nameof(RPC_SyncCurrPiece), RpcTarget.All, piecePos);	
 	}
 
+	public override void SyncCurrCard(Card card)
+	{
+		int player = card.player == PlayerType.Black ? 0 : 1;
+		int currIndex = card.currIndex;
+		pv.RPC(nameof(RPC_SyncCurrCard), RpcTarget.All, player, currIndex);
+	}
+
 	public override void DistributeRandomCard(SpecialPlayerManager player)
 	{
-		if (GameController.GetCurrPlayer() != localPlayer.Player) return;	
+		if (GameController.GetCurrPlayer() != playerManager.Player) return;
 
 		int rand = UnityEngine.Random.Range(0, cards.Length);
-		localPlayer.AddCard(cards[rand]);
-		pv.RPC(nameof(RPC_DistributeRandomCard), RpcTarget.Others, rand);	
+		pv.RPC(nameof(RPC_DistributeRandomCard), RpcTarget.All, rand);
+	}
+
+	public override void DestroyCurrentCard()
+	{
+		pv.RPC(nameof(RPC_DestroyCurrentCard), RpcTarget.All);
+	}
+
+	public override void Bomb(int pos)
+	{
+		pv.RPC(nameof(Bomb), RpcTarget.All, pos);
+	}
+
+	public override void PlantMine(int pos)
+	{
+		pv.RPC(nameof(RPC_PlantMine), RpcTarget.All, pos);
+	}
+
+	public override void TriggerMine(int pos)
+	{
+		pv.RPC(nameof(RPC_TriggerMine), RpcTarget.All, pos);
 	}
 
 	[PunRPC]
@@ -122,9 +153,57 @@ public class MultiplayerBoardController : BoardController
 		base.SyncCurrPiece(piecePos);
 	}
 
+	#region Special Moves
+
+	[PunRPC]
+	public void RPC_SyncCurrCard(int player, int index)
+	{
+		if (player == 0)
+		{
+			currCard = blackPlayer.PlayerCards[index];
+		}
+		else if (player == 1)
+		{
+			currCard = whitePlayer.PlayerCards[index];
+		}
+	}
+
+
 	[PunRPC]
 	public void RPC_DistributeRandomCard(int cardIndex)
 	{
-		remotePlayer.AddCard(cards[cardIndex]);
+		Card card  = cards[cardIndex];
+		PlayerType p = GameController.GetCurrPlayer();
+
+		if (p == PlayerType.Black)
+			blackPlayer.AddCard(card);
+		else if (p == PlayerType.White)
+			whitePlayer.AddCard(card);
 	}
+
+	[PunRPC]
+	public void RPC_DestroyCurrentCard()
+	{
+		base.DestroyCurrentCard();
+	}
+
+	[PunRPC]
+	public void RPC_Bomb(int pos)
+	{
+		base.Bomb(pos);
+	}
+
+	[PunRPC]
+	public void RPC_PlantMine(int pos)
+	{
+		base.PlantMine(pos);
+	}
+
+	[PunRPC]
+	public void RPC_TriggerMine(int pos)
+	{
+		base.TriggerMine(pos);
+	}
+
+	#endregion
 }

@@ -33,14 +33,15 @@ public class MultiplayerBoardController : BoardController
 
 	public override void MovePiece(int x, int y, Piece piece)
 	{
-		int oldPos = piece.CurrPos;
+		int oldPos = CurrPiece.CurrPos;
 		int newPos = ConvPos(x, y);
 		if (piece == null) Debug.Log("RPC_MovePiece: Piece is null!");
 		pv.RPC(nameof(RPC_SetPiecePos), RpcTarget.All, new object[] { oldPos, newPos });
 
 		if (piece is Pawn pawn)
 		{
-			SetPawnBooleanToMoved(piece.CurrPos);
+			SetPawnBooleanToMoved(CurrPiece.CurrPos);
+			SetPawnBooleanToTwoStep(CurrPiece.CurrPos);
 		}
 	}
 

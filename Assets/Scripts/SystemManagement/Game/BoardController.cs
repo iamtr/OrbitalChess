@@ -820,6 +820,7 @@ public class BoardController : MonoBehaviour
 			}
 		}
 
+		SetAndTriggerExplosionWithScale(pos, 3);
 		testArray = pieces.Clone() as Piece[];
 	}
 
@@ -948,16 +949,17 @@ public class BoardController : MonoBehaviour
 			return;
 		}
 
-		SetExplosion(pos);
+		SetAndTriggerExplosionWithScale(pos, 1);
 		Destroy(mines[pos]);
 		DestroyPiece(pos);
 	}
 
-	private void SetExplosion(int pos)
+	private void SetAndTriggerExplosionWithScale(int pos, int scale)
     {
 		int x = BoardController.ConvXY(pos)[0];
 		int y = BoardController.ConvXY(pos)[1];
 		Explosion exp = Instantiate(explosion, new Vector3(x, y, 2), Quaternion.identity);
+		exp.transform.localScale = new Vector3(scale, scale, 1);
 		exp.Explode();
 	}
 

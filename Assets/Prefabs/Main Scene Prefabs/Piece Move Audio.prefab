@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1067613663782011470}
   - component: {fileID: 2638987835232312235}
   m_Layer: 0
-  m_Name: Piece Move Audio Manager
+  m_Name: Piece Move Audio
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

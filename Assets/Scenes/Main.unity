@@ -883,7 +883,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9016505078625822426, guid: eb18e4eca7f876b4d9ea6c007eb43d87, type: 3}
       propertyPath: m_Name
-      value: Piece Move Audio Manager
+      value: Audio Manager
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eb18e4eca7f876b4d9ea6c007eb43d87, type: 3}

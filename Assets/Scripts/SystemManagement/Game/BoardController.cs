@@ -900,6 +900,7 @@ public class BoardController : MonoBehaviour
 	/// <param name="boughtPiece"></param>
 	public void BuyPiece(Piece boughtPiece)
 	{
+		am.PlayPurchaseSuccessAudio();
 		gc.GetCurrPlayerManager().AddMoney(-boughtPiece.Value);
 	}
 

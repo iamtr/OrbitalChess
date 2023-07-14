@@ -10,6 +10,7 @@ public class PieceMoveAudioManager : MonoBehaviour
     [SerializeField] private AudioClip castleAudioClip;
     [SerializeField] private AudioClip moveCheckAudioClip;
     [SerializeField] private AudioClip promoteAudioClip;
+    [SerializeField] private AudioClip purchaseSuccessAudioClip;
 
     public void PlayMoveSelfAudio()
     {
@@ -34,5 +35,10 @@ public class PieceMoveAudioManager : MonoBehaviour
     public void PlayPromoteAudio()
     {
         audioSource.PlayOneShot(promoteAudioClip);
+    }
+
+    public void PlayPurchaseSuccessAudio()
+    {
+        audioSource.PlayOneShot(purchaseSuccessAudioClip);
     }
 }

@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Assertions;
 
-public class AudioManager : MonoBehaviour
+public class MainAudioManager : MonoBehaviour
 {
 	public Slider slider;
 	public AudioSource audioSource;

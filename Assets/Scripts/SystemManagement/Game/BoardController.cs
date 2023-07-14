@@ -37,6 +37,8 @@ public class BoardController : MonoBehaviour
 
 	protected Transform pieceTransform;
 
+	private PieceMoveAudioManager am;
+
 	/// <summary>
 	/// Array that is used to simulated if a move results in a check to own king
 	/// </summary>
@@ -90,6 +92,7 @@ public class BoardController : MonoBehaviour
 		hm = FindObjectOfType<HighlightManager>();
 		um = FindObjectOfType<UIManager>();
 		gc = FindObjectOfType<GameController>();
+		am = FindObjectOfType<PieceMoveAudioManager>();
 
 		gc.ResetGame();
 
@@ -208,6 +211,7 @@ public class BoardController : MonoBehaviour
 			// Debug.Log("Sacrriiffiicce piece at index: " + newPos);
 			CapturePiece(newPos);
 		}
+		else am.PlayMoveSelfAudio();
 
 		pieces[oldPos].SetCoords(newPos);
 		pieces[oldPos].SetTransform();
@@ -228,6 +232,7 @@ public class BoardController : MonoBehaviour
 			return;
 		}
 
+		am.PlayCaptureAudio();
 		Piece destroyedPiece = pieces[pos];
 		DestroyPiece(pos);
 
@@ -313,6 +318,7 @@ public class BoardController : MonoBehaviour
 			rookNewX = ConvXY(rook.CurrPos - 3)[0];
 		}
 
+		am.PlayCastleAudio();
 		MovePiece(kingNewX, targetY, king);
 		// For special game mode
 		if (gc.IsSpecialMode) TriggerMine(targetY);
@@ -506,6 +512,7 @@ public class BoardController : MonoBehaviour
 		Piece promotedPiece = GetPromotionPiece(id, CurrPiece.Player);
 		PromotePiece(promotedPiece);
 		um.UnhighlightAllPromotingButtons();
+		am.PlayPromoteAudio();
 		GameController.SetGameState(GameState.Play);
 		GameController.InvokeOnRoundEnd();
 	}
@@ -754,6 +761,7 @@ public class BoardController : MonoBehaviour
 		}
 
 		bool temp = moves.Any(move => move.TargetSquare == GetKingPosition(GameController.GetOpponent()));
+		if (temp) am.PlayMoveCheckAudio();
 		return temp;
 	}
 

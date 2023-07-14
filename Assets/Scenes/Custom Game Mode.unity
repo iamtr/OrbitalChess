@@ -543,6 +543,14 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4747709524398872533, guid: ce90ebcc68d56124a85b7980acf7b4b3, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4747709524398872533, guid: ce90ebcc68d56124a85b7980acf7b4b3, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4747709524398872533, guid: ce90ebcc68d56124a85b7980acf7b4b3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -560,15 +568,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4747709524398872533, guid: ce90ebcc68d56124a85b7980acf7b4b3, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4747709524398872533, guid: ce90ebcc68d56124a85b7980acf7b4b3, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4747709524398872533, guid: ce90ebcc68d56124a85b7980acf7b4b3, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4747709524398872533, guid: ce90ebcc68d56124a85b7980acf7b4b3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -599,6 +607,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Advanced Board
       objectReference: {fileID: 0}
+    - target: {fileID: 5079737300756263793, guid: 3d7e7f21f24e47843abf50337461d5a9, type: 3}
+      propertyPath: explosion
+      value: 
+      objectReference: {fileID: 8531345471099266688, guid: 0d35bc3ee0dcff44c8f4658164371783, type: 3}
     - target: {fileID: 5079737300756263793, guid: 3d7e7f21f24e47843abf50337461d5a9, type: 3}
       propertyPath: cards.Array.size
       value: 6

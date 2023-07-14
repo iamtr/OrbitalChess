@@ -33,6 +33,8 @@ public class BoardController : MonoBehaviour
 
 	[SerializeField] protected int mineCount = 5;
 
+	[SerializeField] private Explosion explosion;
+
 	protected Transform pieceTransform;
 
 	/// <summary>
@@ -946,8 +948,17 @@ public class BoardController : MonoBehaviour
 			return;
 		}
 
+		SetExplosion(pos);
 		Destroy(mines[pos]);
 		DestroyPiece(pos);
+	}
+
+	private void SetExplosion(int pos)
+    {
+		int x = BoardController.ConvXY(pos)[0];
+		int y = BoardController.ConvXY(pos)[1];
+		Explosion exp = Instantiate(explosion, new Vector3(x, y, 2), Quaternion.identity);
+		exp.Explode();
 	}
 
 	/// <summary>

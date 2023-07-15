@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CustomAudioManager : MonoBehaviour
+public class CustomAudioManager : BackgroundAudioManager
 {
-    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioSource customAudioSource;
     [SerializeField] private AudioClip buyAudioClip;
 
     public void PlayBuyAudio()
     {
-        audioSource.PlayOneShot(buyAudioClip);
+        customAudioSource.PlayOneShot(buyAudioClip);
     }
 }

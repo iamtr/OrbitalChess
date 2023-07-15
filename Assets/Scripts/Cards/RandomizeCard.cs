@@ -4,5 +4,6 @@ public class RandomizeCard : Card
 	{
 		bc.RandomizeAllPieces();
 		bc.DestroyCurrentCard();
+		GameController.InvokeOnRoundEnd();
 	}
 }

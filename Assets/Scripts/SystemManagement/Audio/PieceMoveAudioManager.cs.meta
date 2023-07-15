@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 3535f7e3204bd8e428ddafda8b4b88da
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - audioSource: {instanceID: 0}
+  - moveSelfAudioClip: {fileID: 8300000, guid: 13ded3b867f2f464bba241ceeedbb810, type: 3}
+  - captureAudioClip: {fileID: 8300000, guid: f2159c8ed168d2a41a5a1b27baabe4cb, type: 3}
+  - castleAudioClip: {fileID: 8300000, guid: cfac4a1ba5ff4f049b8dab5886eefbdc, type: 3}
+  - moveCheckAudioClip: {fileID: 8300000, guid: 3500cdcc45606b941886a2ec818b8db5, type: 3}
+  - promoteAudioClip: {fileID: 8300000, guid: ab35e74e5508d9949bcee8ab9e69a615, type: 3}
+  - purchaseSuccessAudioClip: {fileID: 8300000, guid: 78ad97df4efe5884781d78d8aaf24d49, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

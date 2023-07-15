@@ -33,7 +33,11 @@ public class BoardController : MonoBehaviour
 
 	[SerializeField] protected int mineCount = 5;
 
+	[SerializeField] private Explosion explosion;
+
 	protected Transform pieceTransform;
+
+	private PieceMoveAudioManager am;
 
 	/// <summary>
 	/// Array that is used to simulated if a move results in a check to own king
@@ -88,6 +92,7 @@ public class BoardController : MonoBehaviour
 		hm = FindObjectOfType<HighlightManager>();
 		um = FindObjectOfType<UIManager>();
 		gc = FindObjectOfType<GameController>();
+		am = FindObjectOfType<PieceMoveAudioManager>();
 
 		gc.ResetGame();
 
@@ -206,6 +211,7 @@ public class BoardController : MonoBehaviour
 			// Debug.Log("Sacrriiffiicce piece at index: " + newPos);
 			CapturePiece(newPos);
 		}
+		else am.PlayMoveSelfAudio();
 
 		pieces[oldPos].SetCoords(newPos);
 		pieces[oldPos].SetTransform();
@@ -226,6 +232,7 @@ public class BoardController : MonoBehaviour
 			return;
 		}
 
+		am.PlayCaptureAudio();
 		Piece destroyedPiece = pieces[pos];
 		DestroyPiece(pos);
 
@@ -311,6 +318,7 @@ public class BoardController : MonoBehaviour
 			rookNewX = ConvXY(rook.CurrPos - 3)[0];
 		}
 
+		am.PlayCastleAudio();
 		MovePiece(kingNewX, targetY, king);
 		// For special game mode
 		if (gc.IsSpecialMode) TriggerMine(targetY);
@@ -504,6 +512,7 @@ public class BoardController : MonoBehaviour
 		Piece promotedPiece = GetPromotionPiece(id, CurrPiece.Player);
 		PromotePiece(promotedPiece);
 		um.UnhighlightAllPromotingButtons();
+		am.PlayPromoteAudio();
 		GameController.SetGameState(GameState.Play);
 		GameController.InvokeOnRoundEnd();
 	}
@@ -752,6 +761,7 @@ public class BoardController : MonoBehaviour
 		}
 
 		bool temp = moves.Any(move => move.TargetSquare == GetKingPosition(GameController.GetOpponent()));
+		if (temp) am.PlayMoveCheckAudio();
 		return temp;
 	}
 
@@ -817,6 +827,7 @@ public class BoardController : MonoBehaviour
 			}
 		}
 
+		SetAndTriggerExplosionWithScale(pos, 3);
 		testArray = pieces.Clone() as Piece[];
 	}
 
@@ -888,6 +899,7 @@ public class BoardController : MonoBehaviour
 	/// <param name="boughtPiece"></param>
 	public void BuyPiece(Piece boughtPiece)
 	{
+		am.PlayPurchaseSuccessAudio();
 		gc.GetCurrPlayerManager().AddMoney(-boughtPiece.Value);
 	}
 
@@ -945,8 +957,18 @@ public class BoardController : MonoBehaviour
 			return;
 		}
 
+		SetAndTriggerExplosionWithScale(pos, 1);
 		Destroy(mines[pos]);
 		DestroyPiece(pos);
+	}
+
+	private void SetAndTriggerExplosionWithScale(int pos, int scale)
+    {
+		int x = BoardController.ConvXY(pos)[0];
+		int y = BoardController.ConvXY(pos)[1];
+		Explosion exp = Instantiate(explosion, new Vector3(x, y, 2), Quaternion.identity);
+		exp.transform.localScale = new Vector3(scale, scale, 1);
+		exp.Explode();
 	}
 
 	/// <summary>

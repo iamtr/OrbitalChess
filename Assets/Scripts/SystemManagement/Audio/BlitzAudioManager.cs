@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlitzAudioManager : MonoBehaviour
+public class BlitzAudioManager : BackgroundAudioManager
 {
-    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioSource blitzAudioSource;
     [SerializeField] private AudioClip bulletAudioClip;
     [SerializeField] private AudioClip blitzAudioClip;
     [SerializeField] private AudioClip rapidAudioClip;
@@ -12,18 +12,18 @@ public class BlitzAudioManager : MonoBehaviour
 
     public void PlayBulletAudio()
     {
-        audioSource.PlayOneShot(bulletAudioClip);
+        blitzAudioSource.PlayOneShot(bulletAudioClip);
     }
     public void PlayBlitzAudio()
     {
-        audioSource.PlayOneShot(blitzAudioClip);
+        blitzAudioSource.PlayOneShot(blitzAudioClip);
     }
     public void PlayRapidAudio()
     {
-        audioSource.PlayOneShot(rapidAudioClip);
+        blitzAudioSource.PlayOneShot(rapidAudioClip);
     }
     public void PlayGameStartAudio()
     {
-        audioSource.PlayOneShot(gameStartAudioClip);
+        blitzAudioSource.PlayOneShot(gameStartAudioClip);
     }
 }

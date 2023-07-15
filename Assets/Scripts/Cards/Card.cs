@@ -27,15 +27,6 @@ public abstract class Card : MonoBehaviour, ITrigger
 		transform.localScale = new Vector3(0.5f, 0.5f, 0);
 	}
 
-	public void OnMouseUp()
-	{
-		if (GameController.GetCurrPlayer() == player)
-		{
-			bc.SyncCurrCard(this);
-			Trigger();
-		}
-	}
-
 	public void SetCardPlayer(PlayerType p)
 	{
 		player = p;

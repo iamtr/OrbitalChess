@@ -27,6 +27,8 @@ public class GameController : MonoBehaviour
 	protected static PlayerType currPlayer = PlayerType.White;
 	private static GameState gameState;
 	
+	public bool IsDoubleTurn { get => isDoubleTurn; set => isDoubleTurn = value; }
+
 	public bool IsCheck { get; private set; }
 
 	protected BoardController bc;

@@ -38,7 +38,9 @@ public class MultiplayerInputManager : InputManager
 		{
 			bc.HandlePromotionButtonClicked(col);
 		}
-		else if (col.gameObject.CompareTag("Buy Option"))
+		else if (col.gameObject.CompareTag("Buy Option")
+			&& player.Player == GameController.GetCurrPlayer()
+			&& col.GetComponent<Card>().player == GameController.GetCurrPlayer())
 		{
 			// Cannot buy pieces if is in check
 			if (gc.IsCheck) return;
@@ -46,6 +48,13 @@ public class MultiplayerInputManager : InputManager
 			Piece piece = col.gameObject.GetComponent<Piece>();
 			bc.SetPieceToInstantiate(piece);
 			hm.HighlightSpawnPiece(piece);
+		}
+		else if (col.gameObject.CompareTag("Card")
+			&& player.Player == GameController.GetCurrPlayer()
+			&& col.GetComponent<Card>().player == GameController.GetCurrPlayer()) 
+		{
+			bc.SyncCurrCard(col.GetComponent<Card>());	
+			col.GetComponent<Card>().Trigger();	
 		}
 	}
 }

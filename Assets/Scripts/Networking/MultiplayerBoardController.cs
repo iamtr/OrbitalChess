@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using JetBrains.Annotations;
 using Unity.VisualScripting;
+using System;
 
 public class MultiplayerBoardController : BoardController
 {
@@ -26,7 +27,7 @@ public class MultiplayerBoardController : BoardController
 		allMoves = new List<Move>();
 		playerManager = FindObjectOfType<PlayerManager>();
 		InstantiateMines();
-		AssertAllReferenceIsNotNull();	
+		AssertAllReferenceIsNotNull();
 	}
 
 	public override Piece InstantiatePiece(Piece piece, int pos)
@@ -34,6 +35,11 @@ public class MultiplayerBoardController : BoardController
 		Piece p = base.InstantiatePiece(piece, pos);
 		if (playerManager.Player == PlayerType.White) RotatePiece(p);
 		return p;
+	}
+
+	public override void InstantiatePieces()
+	{
+		pv.RPC(nameof(RPC_InstantiatePieces), RpcTarget.All);
 	}
 
 	public override void MovePiece(int x, int y, Piece piece)
@@ -49,7 +55,7 @@ public class MultiplayerBoardController : BoardController
 			SetPawnBooleanToTwoStep(CurrPiece.CurrPos);
 		}
 
-		if (gc.IsSpecialMode) TriggerMine(newPos);
+		//if (gc.IsSpecialMode) TriggerMine(newPos);
 	}
 
 	public override void HandlePieceClicked(Collider2D col)
@@ -81,7 +87,7 @@ public class MultiplayerBoardController : BoardController
 
 	public override void SyncCurrPiece(int piecePos)
 	{
-		pv.RPC(nameof(RPC_SyncCurrPiece), RpcTarget.All, piecePos);	
+		pv.RPC(nameof(RPC_SyncCurrPiece), RpcTarget.All, piecePos);
 	}
 
 	public override void SyncCurrCard(Card card)
@@ -117,6 +123,109 @@ public class MultiplayerBoardController : BoardController
 	public override void TriggerMine(int pos)
 	{
 		pv.RPC(nameof(RPC_TriggerMine), RpcTarget.All, pos);
+	}
+
+	public override void RandomizeAllPieces()
+	{
+		foreach (Piece piece in pieces)
+		{
+			// Only 50% chance of randomizing a piece
+			bool coinflip = UnityEngine.Random.Range(0, 2) == 0;
+			if (piece == null || piece is King || coinflip) continue;
+
+			int rand = UnityEngine.Random.Range(0, 16);
+			PlayerType p = piece.Player;
+
+			Piece newPiece;
+
+			if (rand == 0) newPiece = GetPromotionPiece(0, p);
+			else if (rand == 1 || rand == 2 || rand == 7) newPiece = GetPromotionPiece(1, p);
+			else if (rand == 3 || rand == 4) newPiece = GetPromotionPiece(2, p);
+			else if (rand == 5 || rand == 6) newPiece = GetPromotionPiece(3, p);
+			else newPiece = GetPromotionPiece(4, p);
+
+			pv.RPC(nameof(RPC_DestroyPiece), RpcTarget.All, piece.CurrPos);
+			InstantiatePiece(newPiece, piece.CurrPos);
+		}
+
+		pv.RPC(nameof(RPC_CloneTestArray), RpcTarget.All);
+	}
+
+	//public override void DestroyPiece(int pos)
+	//{
+	//	Debug.Log("RPC Destroy Piece");
+	//	pv.RPC(nameof(RPC_DestroyPiece), RpcTarget., pos);
+	//}
+
+	//public override Piece InstantiatePiece(Piece newPiece, int pos)
+	//{
+	//	int player = newPiece.Player == PlayerType.Black ? 0 : 1;
+	//	int pieceType = -1;
+	//	Type t = newPiece?.GetType();
+
+	//	if (t == typeof(Queen)) pieceType = 0;
+	//	else if (t == typeof(Knight)) pieceType = 1;
+	//	else if (t == typeof(Rook)) pieceType = 2;
+	//	else if (t == typeof(Bishop)) pieceType = 3;
+	//	else if (t == typeof(Pawn)) pieceType = 4;
+	//	else if (t == typeof(King)) pieceType = 5;
+
+	//	pv.RPC(nameof(RPC_InstantiatePiece), RpcTarget.All, pieceType, player, pos);
+
+	//	return newPiece;
+	//}
+
+	public override void StealOpponentPiece(int pos)
+	{
+		pv.RPC(nameof(RPC_StealOpponentPiece), RpcTarget.All, pos);
+	}
+
+	public override void SetDoubleTurn(bool boolean)
+	{
+		pv.RPC(nameof(RPC_SetDoubleTurn), RpcTarget.All, boolean);
+	}
+
+	[PunRPC]
+	public void RPC_InstantiatePieces()
+	{
+		for (var i = 0; i < 64; i++)
+		{
+			if (pieces[i] != null)
+			{
+				Piece p = base.InstantiatePiece(pieces[i], i);
+				if (playerManager.Player == PlayerType.White) RotatePiece(p);
+			}
+		}
+
+
+		// RotateAllPieces();
+		testArray = pieces.Clone() as Piece[];
+	}
+
+	[PunRPC]
+	public void RPC_DestroyPiece(int pos)
+	{
+		//Debug.Log("RPC Destroy Piece Executing");
+		base.DestroyPiece(pos);
+	}
+
+	[PunRPC]
+	public void RPC_InstantiatePiece(int pieceType, int playerType, int pos)
+	{
+		PlayerType player = playerType == 0 ? PlayerType.Black : PlayerType.White;
+		Piece piece = GetPromotionPiece(pieceType, player);
+		if (playerManager.Player == PlayerType.White)
+		{
+			Debug.Log("Player Manager White: ROtate piece");
+			RotatePiece(piece);
+		}
+		base.InstantiatePiece(piece, pos);
+	}
+
+	[PunRPC]
+	public void RPC_CloneTestArray()
+	{
+		testArray = pieces.Clone() as Piece[];
 	}
 
 	[PunRPC]
@@ -205,6 +314,18 @@ public class MultiplayerBoardController : BoardController
 	public void RPC_TriggerMine(int pos)
 	{
 		base.TriggerMine(pos);
+	}
+
+	[PunRPC]
+	public void RPC_StealOpponentPiece(int pos)
+	{
+		base.StealOpponentPiece(pos);
+	}
+
+	[PunRPC]
+	public void RPC_SetDoubleTurn(bool boolean)
+	{
+		gc.IsDoubleTurn = true;
 	}
 
 	#endregion

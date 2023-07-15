@@ -243,11 +243,11 @@ public class BoardController : MonoBehaviour
 	/// Destroys the pieces and removes it from pieces[] array
 	/// </summary>
 	/// <param name="pos"></param>
-	public void DestroyPiece(int pos)
+	public virtual void DestroyPiece(int pos)
 	{
 		if (pieces[pos] == null)
 		{
-			// Debug.Log("Piece to destroy is null!");
+			Debug.Log("Piece to destroy is null!");
 			return;
 		}
 
@@ -823,7 +823,7 @@ public class BoardController : MonoBehaviour
 	/// <summary>
 	/// Special Game Mode: Randomizes pieces on the board for both sides
 	/// </summary>
-	public void RandomizeAllPieces()
+	public virtual void RandomizeAllPieces()
 	{
 		foreach (Piece piece in pieces)
 		{
@@ -854,7 +854,7 @@ public class BoardController : MonoBehaviour
 	/// </summary>
 	/// <param name="p"></param>
 	/// <param name="pos"></param>
-	public void StealOpponentPiece(int pos)
+	public virtual void StealOpponentPiece(int pos)
 	{
         try
         {
@@ -935,7 +935,7 @@ public class BoardController : MonoBehaviour
 	{
 		if (mines[pos] == null)
 		{
-			Debug.Log("There is no mine here!");
+			//Debug.Log("There is no mine here!");
 			return;
 		}
 
@@ -960,7 +960,7 @@ public class BoardController : MonoBehaviour
 		player.AddCard(card);
 	}
 
-	public void BurgleRandomPiece()
+	public virtual void BurgleRandomPiece()
 	{
 		List<Piece> opponentPieces = new List<Piece>();
 
@@ -973,6 +973,11 @@ public class BoardController : MonoBehaviour
 		if (opponentPieces.Count == 0) return;
 		int rand = UnityEngine.Random.Range(0, opponentPieces.Count);
 		StealOpponentPiece(opponentPieces[rand].CurrPos);
+	}
+
+	public virtual void SetDoubleTurn(bool boolean)
+	{
+		gc.IsDoubleTurn = boolean;
 	}
 
 	public void BuildPawnWall()

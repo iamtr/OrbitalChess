@@ -61,6 +61,13 @@ MonoBehaviour:
   - RPC_Bomb
   - RPC_PlantMine
   - RPC_TriggerMine
+  - RandomizePiece
+  - RPC_DestroyPiece
+  - RPC_InstantiatePiece
+  - RPC_CloneTestArray
+  - RPC_InstantiatePieces
+  - RPC_SetDoubleTurn
+  - RPC_StealOpponentPiece
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

@@ -469,11 +469,11 @@ PrefabInstance:
     - target: {fileID: 8647311104716740266, guid: 211ffa5d3f74ed44dac774e71fbf3cb3, type: 3}
       propertyPath: cards.Array.data[0]
       value: 
-      objectReference: {fileID: 8715884331271530128, guid: bacae96e283f9fe48baa6a787887b11f, type: 3}
+      objectReference: {fileID: 2555039514801587718, guid: 736f5b0f73bec6a4992b57ca5123fbd3, type: 3}
     - target: {fileID: 8647311104716740266, guid: 211ffa5d3f74ed44dac774e71fbf3cb3, type: 3}
       propertyPath: cards.Array.data[1]
       value: 
-      objectReference: {fileID: 4528909856361299521, guid: aa213477a6275684caa3631688c22fa2, type: 3}
+      objectReference: {fileID: 967050645321395053, guid: d65282f5524bd9a47879157e3fed4080, type: 3}
     - target: {fileID: 8647311104716740266, guid: 211ffa5d3f74ed44dac774e71fbf3cb3, type: 3}
       propertyPath: cards.Array.data[2]
       value: 

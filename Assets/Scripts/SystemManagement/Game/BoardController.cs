@@ -980,7 +980,12 @@ public class BoardController : MonoBehaviour
 		gc.IsDoubleTurn = boolean;
 	}
 
-	public void BuildPawnWall()
+	public virtual void SacrificePiece(int pos)
+	{
+		DestroyPiece(pos);
+	}
+
+	public virtual void BuildPawnWall()
 	{
 		if (GameController.GetCurrPlayer() == PlayerType.Black)
 		{

@@ -19,6 +19,7 @@ public class MultiplayerGameController : GameController
 	[SerializeField] private GameObject playerSelectionPanel;
 	[SerializeField] private Button blackButton;
 	[SerializeField] private Button whiteButton;
+	[SerializeField] private Button buyButton;
 	[SerializeField] private Transform blackCardTransform;
 	[SerializeField] private Transform whiteCardTransform;
 	[SerializeField] private SpecialPlayerManager localPlayer;
@@ -64,6 +65,14 @@ public class MultiplayerGameController : GameController
 	public void RPC_SetPlayer()
 	{
 		base.SetPlayer();
+		if (GameController.GetCurrPlayer() != playerManager.Player)
+		{
+			buyButton.interactable = false;
+		} 
+		else
+		{
+			buyButton.interactable = true;
+		}
 	}
 
 	[PunRPC]

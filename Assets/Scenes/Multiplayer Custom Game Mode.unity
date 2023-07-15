@@ -1082,6 +1082,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4068101508237928514}
     - target: {fileID: 2383405083901366879, guid: b58f3befe8757de489d1bd526d4d1f24, type: 3}
+      propertyPath: buyButton
+      value: 
+      objectReference: {fileID: 6176109184154479253}
+    - target: {fileID: 2383405083901366879, guid: b58f3befe8757de489d1bd526d4d1f24, type: 3}
       propertyPath: checkText
       value: 
       objectReference: {fileID: 6362934161216096925}

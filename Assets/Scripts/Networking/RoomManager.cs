@@ -151,6 +151,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
 			whitePlayer.MoneyText = localPlayerCoinText;
 		}
 
+		playerSelectionPanel.SetActive(false);
 		opponentPlayerCoinText.gameObject.SetActive(true);
 		localPlayerCoinText.gameObject.SetActive(true);
 		buyButton.gameObject.SetActive(true);

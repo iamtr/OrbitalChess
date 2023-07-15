@@ -37,7 +37,7 @@ public class BoardController : MonoBehaviour
 
 	protected Transform pieceTransform;
 
-	private PieceMoveAudioManager am;
+	protected PieceMoveAudioManager am;
 
 	/// <summary>
 	/// Array that is used to simulated if a move results in a check to own king

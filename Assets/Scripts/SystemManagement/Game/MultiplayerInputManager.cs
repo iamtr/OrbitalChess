@@ -10,7 +10,8 @@ public class MultiplayerInputManager : InputManager
 
 	protected override void Start()
 	{
-		bc = FindObjectOfType<MultiplayerBoardController>(); 
+		bc = FindObjectOfType<MultiplayerBoardController>();
+		gc = FindObjectOfType<MultiplayerGameController>();
 		hm = FindObjectOfType<HighlightManager>();
 		player = FindObjectOfType<PlayerManager>();
 	}
@@ -39,8 +40,7 @@ public class MultiplayerInputManager : InputManager
 			bc.HandlePromotionButtonClicked(col);
 		}
 		else if (col.gameObject.CompareTag("Buy Option")
-			&& player.Player == GameController.GetCurrPlayer()
-			&& col.GetComponent<Card>().player == GameController.GetCurrPlayer())
+			&& player.Player == GameController.GetCurrPlayer())
 		{
 			// Cannot buy pieces if is in check
 			if (gc.IsCheck) return;

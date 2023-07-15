@@ -13,6 +13,7 @@ public class MultiplayerBoardController : BoardController
 		hm = FindObjectOfType<HighlightManager>();
 		um = FindObjectOfType<UIManager>();
 		gc = FindObjectOfType<GameController>();
+		am = FindObjectOfType<PieceMoveAudioManager>();
 		pv = GetComponent<PhotonView>();
 
 		pieceTransform = GameObject.Find("Pieces")?.transform;

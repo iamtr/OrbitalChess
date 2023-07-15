@@ -25,6 +25,10 @@ public class RoomManager : MonoBehaviourPunCallbacks
 	[SerializeField] private Button whiteButton;
 	[SerializeField] private bool isGameStarted;
 
+	[SerializeField] private TMP_Text opponentPlayerCoinText;
+	[SerializeField] private TMP_Text localPlayerCoinText;
+	[SerializeField] private Button buyButton;
+
 	private void Awake()
 	{
 		bc = FindObjectOfType<MultiplayerBoardController>();
@@ -134,6 +138,22 @@ public class RoomManager : MonoBehaviourPunCallbacks
 		if (PhotonNetwork.LocalPlayer.IsMasterClient) bc.InstantiatePieces();
 		playerSelectionPanel.SetActive(false);
 		turnText.gameObject.SetActive(true);
+
+		if (playerManager.Player == PlayerType.Black)
+		{
+			blackPlayer.MoneyText = localPlayerCoinText;
+			whitePlayer.MoneyText = opponentPlayerCoinText;	
+
+		} 
+		else if (playerManager.Player == PlayerType.White)
+		{
+			blackPlayer.MoneyText = opponentPlayerCoinText;
+			whitePlayer.MoneyText = localPlayerCoinText;
+		}
+
+		opponentPlayerCoinText.gameObject.SetActive(true);
+		localPlayerCoinText.gameObject.SetActive(true);
+		buyButton.gameObject.SetActive(true);
 		isGameStarted = true;
 	}
 

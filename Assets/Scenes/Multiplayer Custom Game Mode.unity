@@ -219,15 +219,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c064cb7e91a63544a3c37d6d3d66d1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerManager: {fileID: 1313174332}
-  blackPlayer: {fileID: 0}
-  whitePlayer: {fileID: 0}
-  playerSelectionPanel: {fileID: 6176109184154479251}
+  playerManager: {fileID: 84338785}
+  blackPlayer: {fileID: 1313174332}
+  whitePlayer: {fileID: 1505951146175729161}
+  playerSelectionPanel: {fileID: 4159926796708717891}
   turnText: {fileID: 4068101508237928514}
   checkText: {fileID: 6362934161216096925}
   blackButton: {fileID: 6176109184154479250}
   whiteButton: {fileID: 6176109184154479249}
   isGameStarted: 0
+  opponentPlayerCoinText: {fileID: 1902751395}
+  localPlayerCoinText: {fileID: 355828201}
+  buyButton: {fileID: 6176109184154479253}
 --- !u!4 &1806573458
 Transform:
   m_ObjectHideFlags: 0
@@ -323,6 +326,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1505951146574955108, guid: 256f79a8833b0d941bdce070f203f65d, type: 3}
+      propertyPath: MoneyText
+      value: 
+      objectReference: {fileID: 355828201}
+    - target: {fileID: 1505951146574955108, guid: 256f79a8833b0d941bdce070f203f65d, type: 3}
       propertyPath: moneyText
       value: 
       objectReference: {fileID: 355828201}
@@ -381,7 +388,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3268823841695476555, guid: 6cc558362d0f14545be70ce99acd072c, type: 3}
   m_PrefabInstance: {fileID: 4159926796708717890}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 4159926796708717891}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 69d9cee5af232c141b9005fa6925c485, type: 3}
@@ -681,6 +688,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3268823841695476555, guid: 6cc558362d0f14545be70ce99acd072c, type: 3}
+      propertyPath: MoneyText
+      value: 
+      objectReference: {fileID: 1902751395}
+    - target: {fileID: 3268823841695476555, guid: 6cc558362d0f14545be70ce99acd072c, type: 3}
       propertyPath: moneyText
       value: 
       objectReference: {fileID: 1902751395}
@@ -734,6 +745,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6cc558362d0f14545be70ce99acd072c, type: 3}
+--- !u!1 &4159926796708717891 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3268823841808393355, guid: 6cc558362d0f14545be70ce99acd072c, type: 3}
+  m_PrefabInstance: {fileID: 4159926796708717890}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4512084039302384540
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -870,6 +886,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SyncPlayerColorChoice
       objectReference: {fileID: 0}
+    - target: {fileID: 4642717383707502104, guid: a5028fd603152a44f9bd2622b4f7a03c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5445514536509729673, guid: a5028fd603152a44f9bd2622b4f7a03c, type: 3}
       propertyPath: m_Name
       value: Advanced Canvas
@@ -962,6 +982,14 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 7138140993812745956}
+    - target: {fileID: 6176109183805139831, guid: a5028fd603152a44f9bd2622b4f7a03c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6176109185485734961, guid: a5028fd603152a44f9bd2622b4f7a03c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7425312166218630816, guid: a5028fd603152a44f9bd2622b4f7a03c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -977,6 +1005,10 @@ PrefabInstance:
     - target: {fileID: 8548828983888999597, guid: a5028fd603152a44f9bd2622b4f7a03c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SyncPlayerColorChoice
+      objectReference: {fileID: 0}
+    - target: {fileID: 9033629927093670463, guid: a5028fd603152a44f9bd2622b4f7a03c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a5028fd603152a44f9bd2622b4f7a03c, type: 3}
@@ -1012,6 +1044,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7425312166218630818, guid: a5028fd603152a44f9bd2622b4f7a03c, type: 3}
   m_PrefabInstance: {fileID: 6176109184154479248}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6176109184154479253 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 531048824213685474, guid: a5028fd603152a44f9bd2622b4f7a03c, type: 3}
+  m_PrefabInstance: {fileID: 6176109184154479248}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &6362934161216096925 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1006656207986221069, guid: a5028fd603152a44f9bd2622b4f7a03c, type: 3}

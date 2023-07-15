@@ -6,7 +6,7 @@ using UnityEngine.Assertions;
 public class SpecialPlayerManager : PlayerManager
 {
 	[SerializeField] private int money;
-	[SerializeField] private TMP_Text moneyText;
+	[SerializeField] public TMP_Text MoneyText;
 	[SerializeField] private List<Card> playerCards;
 	[SerializeField] private Transform cardTransform;
 
@@ -16,21 +16,21 @@ public class SpecialPlayerManager : PlayerManager
 
 	private void Start()
 	{
-		moneyText.text = "Coin: " + money;
+		MoneyText.text = "Coin: " + money;
 
 		AssertAllReferenceIsNotNull();
 	}
 
 	private void AssertAllReferenceIsNotNull()
 	{
-		Assert.IsNotNull(moneyText);
+		Assert.IsNotNull(MoneyText);
 		Assert.IsNotNull(cardTransform);
 	}
 
 	public void AddMoney(int amount)
 	{
 		money += amount;
-		moneyText.text = "Coin: " + money;
+		MoneyText.text = "Coin: " + money;
 	}
 
 	public void AddCard(Card c)
@@ -69,7 +69,7 @@ public class SpecialPlayerManager : PlayerManager
 	public void ResetMoney()
 	{
 		money = 500;
-		moneyText.text = "Coin: " + money;
+		MoneyText.text = "Coin: " + money;
 	}
 
 	public void ResetCards()

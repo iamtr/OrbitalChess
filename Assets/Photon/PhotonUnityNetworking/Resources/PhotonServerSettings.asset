@@ -68,6 +68,8 @@ MonoBehaviour:
   - RPC_InstantiatePieces
   - RPC_SetDoubleTurn
   - RPC_StealOpponentPiece
+  - RPC_BuildPawnWall
+  - RPC_SacrificePiece
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

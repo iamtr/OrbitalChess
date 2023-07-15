@@ -41,14 +41,11 @@ public class SpecialPlayerManager : PlayerManager
 			return;
 		}
 
-		Card card = Instantiate(c, cardTransform.position, Quaternion.identity);
-
-		if (Player == PlayerType.White)
-			card.transform.eulerAngles = new Vector3(0, 180f, 0);
+		Card card = Instantiate(c, cardTransform);
 
 		playerCards.Add(card);
 		card.SetCurrIndex(playerCards.IndexOf(card));
-		card.transform.SetParent(cardTransform);
+		//card.transform.SetParent(cardTransform);
 		card.SetCardPlayer(GameController.GetCurrPlayer());
 	}
 
@@ -84,8 +81,8 @@ public class SpecialPlayerManager : PlayerManager
 		playerCards.Clear();
 	}
 
-	public void SetCardTransform(Transform transform)
-	{
-		cardTransform = transform;
-	}
+	//public void SetCardTransform(Transform transform)
+	//{
+	//	cardTransform = transform;
+	//}
 }

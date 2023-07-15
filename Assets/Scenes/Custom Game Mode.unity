@@ -235,6 +235,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3224410985625762658, guid: ac16a44aac5c38641a42c62c78b02d8d, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3224410986526810226, guid: ac16a44aac5c38641a42c62c78b02d8d, type: 3}
       propertyPath: m_Name
       value: Black Player

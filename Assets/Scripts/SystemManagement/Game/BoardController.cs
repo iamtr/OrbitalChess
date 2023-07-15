@@ -23,7 +23,7 @@ public class BoardController : MonoBehaviour
 	/// Array of the king used for pawn promotion
 	/// </summary>
 	[SerializeField] protected Piece[] blackPieces;
-
+	
 	[SerializeField] protected Piece[] whitePieces;
 
 	[Header("Special Mode")]

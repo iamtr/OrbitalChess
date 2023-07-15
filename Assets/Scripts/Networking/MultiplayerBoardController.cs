@@ -130,6 +130,13 @@ public class MultiplayerBoardController : BoardController
 		pv.RPC(nameof(RPC_TriggerMine), RpcTarget.All, pos);
 	}
 
+	public override void BuyPiece(Piece boughtPiece)
+	{
+		int pieceValue = -boughtPiece.Value;
+
+		pv.RPC(nameof(RPC_BuyPiece), RpcTarget.All, pieceValue);
+	}
+
 	public override void RandomizeAllPieces()
 	{
 		foreach (Piece piece in pieces)
@@ -185,6 +192,17 @@ public class MultiplayerBoardController : BoardController
 	public override void SacrificePiece(int pos)
 	{
 		pv.RPC(nameof(RPC_SacrificePiece), RpcTarget.All, pos);
+	}
+
+	public override void PlaceBoughtPiece(int pos)
+	{
+		pv.RPC(nameof(RPC_PlaceBoughtPiece), RpcTarget.All, pos);
+	}
+
+	public override void SetPieceToInstantiate(Piece piece)
+	{
+		int pieceType = GetPieceIntFromType(piece);
+		pv.RPC(nameof(RPC_SetPieceToInstantiate), RpcTarget.All, pieceType, (int) GameController.GetCurrPlayer());
 	}
 
 	[PunRPC]
@@ -267,6 +285,14 @@ public class MultiplayerBoardController : BoardController
 		base.SyncCurrPiece(piecePos);
 	}
 
+	[PunRPC]
+	public void RPC_SetPieceToInstantiate(int pieceType, int playerType)
+	{
+		PlayerType player = playerType == 0 ? PlayerType.Black : PlayerType.White;
+		Piece piece = GetPromotionPiece(pieceType, player);
+		base.SetPieceToInstantiate(piece);
+	}
+
 	#region Special Moves
 
 	[PunRPC]
@@ -341,5 +367,19 @@ public class MultiplayerBoardController : BoardController
 	{
 		base.SacrificePiece(pos);
 	}
+
+	[PunRPC]
+	public void RPC_BuyPiece(int pieceValue)
+	{
+		am.PlayPurchaseSuccessAudio();
+		gc.GetCurrPlayerManager().AddMoney(pieceValue);
+	}
+
+	[PunRPC]
+	public void RPC_PlaceBoughtPiece(int pos)
+	{
+		base.PlaceBoughtPiece(pos);
+	}	
+	
 	#endregion
 }

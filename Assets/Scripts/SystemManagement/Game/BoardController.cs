@@ -772,7 +772,7 @@ public class BoardController : MonoBehaviour
 		return p1?.Player == p2?.Player;
 	}
 
-	public void SetPieceToInstantiate(Piece piece)
+	public virtual void SetPieceToInstantiate(Piece piece)
 	{
 		pieceToInstantiate = piece;
 	}
@@ -894,16 +894,16 @@ public class BoardController : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Special Game Mode: Buy a king
+	/// Special Game Mode: Buy a piece
 	/// </summary>
 	/// <param name="boughtPiece"></param>
-	public void BuyPiece(Piece boughtPiece)
+	public virtual void BuyPiece(Piece boughtPiece)
 	{
 		am.PlayPurchaseSuccessAudio();
 		gc.GetCurrPlayerManager().AddMoney(-boughtPiece.Value);
 	}
 
-	public void PlaceBoughtPiece(int pos)
+	public virtual void PlaceBoughtPiece(int pos)
 	{
 		var temp = InstantiatePiece(pieceToInstantiate, pos);
 		temp.tag = "Piece";
@@ -1026,6 +1026,18 @@ public class BoardController : MonoBehaviour
 				pieces[i] = InstantiatePiece(GetPromotionPiece(4, PlayerType.White), i);
 			}
 		}
+	}
+
+	public int GetPieceIntFromType(Piece piece)
+	{
+		Type t = piece.GetType();
+
+		if (t == typeof(Queen)) return 0;
+		else if (t == typeof(Knight)) return 1;
+		else if (t == typeof(Rook)) return 2;
+		else if (t == typeof(Bishop)) return 3;
+		else if (t == typeof(Pawn)) return 4;
+		else return -1;
 	}
 
 	#endregion

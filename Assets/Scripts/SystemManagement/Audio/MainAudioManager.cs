@@ -5,21 +5,24 @@ using UnityEngine.Assertions;
 public class MainAudioManager : MonoBehaviour
 {
 	public Slider slider;
-	public AudioSource audioSource;
+	public AudioSource mainAudioSource;
+    public static float volume = 1;
 
     private void Start()
     {
         AssertAllReferenceIsNotNull();
+        mainAudioSource.volume = volume;
     }
 
     private void AssertAllReferenceIsNotNull()
     {
         Assert.IsNotNull(slider);
-        Assert.IsNotNull(audioSource);
+        Assert.IsNotNull(mainAudioSource);
     }
 
     private void Update()
 	{
-		audioSource.volume = slider.value / 100;
+        volume = slider.value / 100;
+        mainAudioSource.volume = volume;
 	}
 }

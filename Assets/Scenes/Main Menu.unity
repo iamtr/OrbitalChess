@@ -2428,8 +2428,8 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2924510422716359042, guid: acd95503d485f8241b7ced67e1e7c039, type: 3}
-      propertyPath: m_audioClip
-      value: 
+      propertyPath: m_Volume
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3805253708878343776, guid: acd95503d485f8241b7ced67e1e7c039, type: 3}
       propertyPath: m_Name
@@ -2485,30 +2485,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: acd95503d485f8241b7ced67e1e7c039, type: 3}
---- !u!1 &2924510423738132064 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3805253708878343776, guid: acd95503d485f8241b7ced67e1e7c039, type: 3}
-  m_PrefabInstance: {fileID: 2924510423738132063}
-  m_PrefabAsset: {fileID: 0}
---- !u!82 &2924510423738132065 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 2924510422716359042, guid: acd95503d485f8241b7ced67e1e7c039, type: 3}
-  m_PrefabInstance: {fileID: 2924510423738132063}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2924510423738132066
+--- !u!114 &2924510423738132066 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 2924510423738132066, guid: acd95503d485f8241b7ced67e1e7c039, type: 3}
+  m_PrefabInstance: {fileID: 2924510423738132063}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2924510423738132064}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 56af5d9c18f4f944391ef32b1cc7a24a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 2924510423738132065}
-  buttonAudioClip: {fileID: 8300000, guid: 4bfa72b9372dd1c45839b23b3f68f365, type: 3}
 --- !u!1001 &6085043269318946183
 PrefabInstance:
   m_ObjectHideFlags: 0

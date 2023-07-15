@@ -143,11 +143,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1067613663782011470, guid: eb18e4eca7f876b4d9ea6c007eb43d87, type: 3}
       propertyPath: Loop
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1067613663782011470, guid: eb18e4eca7f876b4d9ea6c007eb43d87, type: 3}
       propertyPath: m_PlayOnAwake
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8684209126218691008, guid: eb18e4eca7f876b4d9ea6c007eb43d87, type: 3}
       propertyPath: m_RootOrder
@@ -247,7 +247,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0

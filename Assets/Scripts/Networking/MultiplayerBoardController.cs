@@ -21,6 +21,7 @@ public class MultiplayerBoardController : BoardController
 		hm = FindObjectOfType<HighlightManager>();
 		um = FindObjectOfType<UIManager>();
 		gc = FindObjectOfType<MultiplayerGameController>();
+		am = FindObjectOfType<PieceMoveAudioManager>();
 		pv = GetComponent<PhotonView>();
 		am = FindObjectOfType<PieceMoveAudioManager>();
 

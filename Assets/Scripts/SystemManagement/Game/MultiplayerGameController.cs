@@ -65,13 +65,16 @@ public class MultiplayerGameController : GameController
 	public void RPC_SetPlayer()
 	{
 		base.SetPlayer();
-		if (GameController.GetCurrPlayer() != playerManager.Player)
+		if (IsSpecialMode)
 		{
-			buyButton.interactable = false;
-		} 
-		else
-		{
-			buyButton.interactable = true;
+			if (GameController.GetCurrPlayer() != playerManager.Player)
+			{
+				buyButton.interactable = false;
+			}
+			else
+			{
+				buyButton.interactable = true;
+			}
 		}
 	}
 

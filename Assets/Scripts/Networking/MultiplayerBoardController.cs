@@ -219,6 +219,11 @@ public class MultiplayerBoardController : BoardController
 		pv.RPC(nameof(RPC_SetPieceToInstantiate), RpcTarget.All, pieceType, (int) GameController.GetCurrPlayer());
 	}
 
+	public override void PromotePiece(Piece promotedPiece)
+	{
+		pv.RPC(nameof(RPC_PromotePiece), RpcTarget.All, promotedPiece.CurrPos);
+	}
+
 	[PunRPC]
 	public void RPC_InstantiatePieces()
 	{
@@ -395,7 +400,22 @@ public class MultiplayerBoardController : BoardController
 	public void RPC_PlaceBoughtPiece(int pos)
 	{
 		base.PlaceBoughtPiece(pos);
-	}	
-	
+	}
+
+	[PunRPC]
+	public void RPC_PromotePiece(int pieceType)
+	{
+		try
+		{	
+			int currPos = CurrPiece.CurrPos;
+			Destroy(CurrPiece);
+			InstantiatePiece(GetPromotionPiece(pieceType, GameController.GetCurrPlayer()), currPos);
+		}
+		catch (NullReferenceException)
+		{
+			Debug.Log("Tried to promote a non-promotable piece!");
+			return;
+		}
+	}
 	#endregion
 }

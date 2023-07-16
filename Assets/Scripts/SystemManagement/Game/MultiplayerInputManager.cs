@@ -51,7 +51,8 @@ public class MultiplayerInputManager : InputManager
 		}
 		else if (col.gameObject.CompareTag("Card")
 			&& player.Player == GameController.GetCurrPlayer()
-			&& col.GetComponent<Card>().player == GameController.GetCurrPlayer()) 
+			&& col.GetComponent<Card>().player == GameController.GetCurrPlayer()
+			&& GameController.GetGameState() == GameState.Play) 
 		{
 			bc.SyncCurrCard(col.GetComponent<Card>());	
 			col.GetComponent<Card>().Trigger();	

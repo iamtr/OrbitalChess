@@ -172,7 +172,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
 			c.transform.eulerAngles = new Vector3(0, 0, 180);
 		}
 
-		bc.InstantiatePieces();
+		if (PhotonNetwork.LocalPlayer.IsMasterClient) bc.InstantiatePieces();
 		playerSelectionPanel.SetActive(false);
 		turnText.gameObject.SetActive(true);
 		isGameStarted = true;

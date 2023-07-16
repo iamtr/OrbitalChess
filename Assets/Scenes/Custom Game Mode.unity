@@ -481,6 +481,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3224410986900041650, guid: ac16a44aac5c38641a42c62c78b02d8d, type: 3}
+      propertyPath: MoneyText
+      value: 
+      objectReference: {fileID: 355828201}
+    - target: {fileID: 3224410986900041650, guid: ac16a44aac5c38641a42c62c78b02d8d, type: 3}
       propertyPath: moneyText
       value: 
       objectReference: {fileID: 355828201}
@@ -875,6 +879,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4747709524398872534, guid: ce90ebcc68d56124a85b7980acf7b4b3, type: 3}
+      propertyPath: MoneyText
+      value: 
+      objectReference: {fileID: 1902751395}
     - target: {fileID: 4747709524398872534, guid: ce90ebcc68d56124a85b7980acf7b4b3, type: 3}
       propertyPath: moneyText
       value: 

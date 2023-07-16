@@ -56,8 +56,14 @@ public class MultiplayerBoardController : BoardController
 
 		if (piece is Pawn pawn)
 		{
-			SetPawnBooleanToMoved(CurrPiece.CurrPos);
-			SetPawnBooleanToTwoStep(CurrPiece.CurrPos);
+			if (newPos == oldPos + 16 || newPos == oldPos - 16)
+			{
+				SetPawnBooleanToTwoStep(CurrPiece.CurrPos);
+			}
+			else
+			{
+				SetPawnBooleanToMoved(CurrPiece.CurrPos);
+			}
 		}
 
 		if (gc.IsSpecialMode) TriggerMine(newPos);

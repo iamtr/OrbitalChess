@@ -132,9 +132,17 @@ public class MultiplayerBoardController : BoardController
 
 	public override void BuyPiece(Piece boughtPiece)
 	{
-		int pieceValue = -boughtPiece.Value;
+		Type t = boughtPiece.GetType();
+		int pieceValue = -1;
 
-		pv.RPC(nameof(RPC_BuyPiece), RpcTarget.All, pieceValue);
+		if (t == typeof(Queen)) pieceValue = 90;
+		else if (t == typeof(Knight)) pieceValue = 30;
+		else if (t == typeof(Rook)) pieceValue = 50;
+		else if (t == typeof(Bishop)) pieceValue = 30;
+		else if (t == typeof(Pawn)) pieceValue = 10;
+
+
+		pv.RPC(nameof(RPC_BuyPiece), RpcTarget.All, -pieceValue);
 	}
 
 	public override void RandomizeAllPieces()
@@ -371,7 +379,9 @@ public class MultiplayerBoardController : BoardController
 	[PunRPC]
 	public void RPC_BuyPiece(int pieceValue)
 	{
+		Debug.Log("Purchased");
 		am.PlayPurchaseSuccessAudio();
+
 		gc.GetCurrPlayerManager().AddMoney(pieceValue);
 	}
 

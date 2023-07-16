@@ -70,6 +70,9 @@ MonoBehaviour:
   - RPC_StealOpponentPiece
   - RPC_BuildPawnWall
   - RPC_SacrificePiece
+  - RPC_BuyPiece
+  - RPC_PlaceBoughtPiece
+  - RPC_SetPieceToInstantiate
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

@@ -222,7 +222,7 @@ MonoBehaviour:
   playerManager: {fileID: 84338785}
   blackPlayer: {fileID: 1313174332}
   whitePlayer: {fileID: 1505951146175729161}
-  playerSelectionPanel: {fileID: 4159926796708717891}
+  playerSelectionPanel: {fileID: 6176109184154479251}
   turnText: {fileID: 4068101508237928514}
   checkText: {fileID: 6362934161216096925}
   blackButton: {fileID: 6176109184154479250}
@@ -570,7 +570,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3268823841695476555, guid: 6cc558362d0f14545be70ce99acd072c, type: 3}
   m_PrefabInstance: {fileID: 4159926796708717890}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4159926796708717891}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 69d9cee5af232c141b9005fa6925c485, type: 3}
@@ -927,11 +927,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6cc558362d0f14545be70ce99acd072c, type: 3}
---- !u!1 &4159926796708717891 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3268823841808393355, guid: 6cc558362d0f14545be70ce99acd072c, type: 3}
-  m_PrefabInstance: {fileID: 4159926796708717890}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4512084039302384540
 PrefabInstance:
   m_ObjectHideFlags: 0

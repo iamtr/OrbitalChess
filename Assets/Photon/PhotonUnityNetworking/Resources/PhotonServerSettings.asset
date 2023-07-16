@@ -73,6 +73,7 @@ MonoBehaviour:
   - RPC_BuyPiece
   - RPC_PlaceBoughtPiece
   - RPC_SetPieceToInstantiate
+  - RPC_PromotePiece
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

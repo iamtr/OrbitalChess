@@ -8,7 +8,7 @@ public class DoubleTurnCard : Card
     {
 		if (gc.IsCheck) return;
 
-		gc.SetDoubleTurn(true);
-		Destroy(gameObject);
+		bc.SetDoubleTurn(true);
+		bc.DestroyCurrentCard();
 	}
 }

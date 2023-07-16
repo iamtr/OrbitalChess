@@ -33,19 +33,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9188283741183278909, guid: 71e2b94b741bf8e4c9b7fb362487997a, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 1.9106855e-15
       objectReference: {fileID: 0}
     - target: {fileID: 9188283741183278909, guid: 71e2b94b741bf8e4c9b7fb362487997a, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0.00000004371139
       objectReference: {fileID: 0}
     - target: {fileID: 9188283741183278909, guid: 71e2b94b741bf8e4c9b7fb362487997a, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0.00000004371139
       objectReference: {fileID: 0}
     - target: {fileID: 9188283741183278909, guid: 71e2b94b741bf8e4c9b7fb362487997a, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 9188283741183278909, guid: 71e2b94b741bf8e4c9b7fb362487997a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -78,5 +78,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e027b52f46afc040889a235554c3fe3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bc: {fileID: 0}
+  currX: 0
+  currY: 0
+  moves: []
+  CurrPos: 0
   player: 0

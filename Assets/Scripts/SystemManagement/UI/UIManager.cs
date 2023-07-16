@@ -82,6 +82,11 @@ public class UIManager : MonoBehaviour
 			for (var i = 0; i < promotingNumber; i++) promotingWhite[i].gameObject.SetActive(true);
 	}
 
+	//public void ShowPromotionButtonsForMultiplayer()
+	//{
+	//	if (GameController.GetCurrPlayer() != PlayerManager
+	//}
+
 	public void ShowBuyOptions()
 	{
 		PlayerType p = GameController.GetCurrPlayer();

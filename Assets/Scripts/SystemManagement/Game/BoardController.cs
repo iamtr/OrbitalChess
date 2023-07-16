@@ -23,13 +23,13 @@ public class BoardController : MonoBehaviour
 	/// Array of the king used for pawn promotion
 	/// </summary>
 	[SerializeField] protected Piece[] blackPieces;
-
+	
 	[SerializeField] protected Piece[] whitePieces;
 
 	[Header("Special Mode")]
 	[SerializeField] private GameObject mine;
 
-	protected GameObject[] mines;
+	[SerializeField] protected GameObject[] mines;
 
 	[SerializeField] protected int mineCount = 5;
 
@@ -250,11 +250,11 @@ public class BoardController : MonoBehaviour
 	/// Destroys the pieces and removes it from pieces[] array
 	/// </summary>
 	/// <param name="pos"></param>
-	public void DestroyPiece(int pos)
+	public virtual void DestroyPiece(int pos)
 	{
 		if (pieces[pos] == null)
 		{
-			// Debug.Log("Piece to destroy is null!");
+			Debug.Log("Piece to destroy is null!");
 			return;
 		}
 
@@ -772,7 +772,7 @@ public class BoardController : MonoBehaviour
 		return p1?.Player == p2?.Player;
 	}
 
-	public void SetPieceToInstantiate(Piece piece)
+	public virtual void SetPieceToInstantiate(Piece piece)
 	{
 		pieceToInstantiate = piece;
 	}
@@ -796,15 +796,14 @@ public class BoardController : MonoBehaviour
 		CurrPiece = GetPieceFromPos(piecePos);
 	}
 
-
 	#region Special Moves
 	// Special moves:
-	public void SetCurrentCard(Card card)
+	public virtual void SyncCurrCard(Card card)
 	{
 		currCard = card;
 	}
 
-	public void DestroyCurrentCard()
+	public virtual void DestroyCurrentCard()
 	{
 		gc.GetCurrPlayerManager().RemoveCard(currCard);
     }
@@ -814,7 +813,7 @@ public class BoardController : MonoBehaviour
 	/// Bombs a 3x3 area around a position
 	/// </summary>
 	/// <param name="pos"></param>
-	public void Bomb(int pos)
+	public virtual void Bomb(int pos)
 	{
 		if (pos < 0 || pos > 63) Debug.Log("Bomb: pos out of range");
 		for (int i = -1; i < 2; i++)
@@ -835,7 +834,7 @@ public class BoardController : MonoBehaviour
 	/// <summary>
 	/// Special Game Mode: Randomizes pieces on the board for both sides
 	/// </summary>
-	public void RandomizeAllPieces()
+	public virtual void RandomizeAllPieces()
 	{
 		foreach (Piece piece in pieces)
 		{
@@ -866,7 +865,7 @@ public class BoardController : MonoBehaviour
 	/// </summary>
 	/// <param name="p"></param>
 	/// <param name="pos"></param>
-	public void StealOpponentPiece(int pos)
+	public virtual void StealOpponentPiece(int pos)
 	{
         try
         {
@@ -895,16 +894,16 @@ public class BoardController : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Special Game Mode: Buy a king
+	/// Special Game Mode: Buy a piece
 	/// </summary>
 	/// <param name="boughtPiece"></param>
-	public void BuyPiece(Piece boughtPiece)
+	public virtual void BuyPiece(Piece boughtPiece)
 	{
 		am.PlayPurchaseSuccessAudio();
 		gc.GetCurrPlayerManager().AddMoney(-boughtPiece.Value);
 	}
 
-	public void PlaceBoughtPiece(int pos)
+	public virtual void PlaceBoughtPiece(int pos)
 	{
 		var temp = InstantiatePiece(pieceToInstantiate, pos);
 		temp.tag = "Piece";
@@ -914,7 +913,7 @@ public class BoardController : MonoBehaviour
 	/// Special Game Mod: Plant a mine on the board
 	/// </summary>
 	/// <param name="pos"></param>
-	public void PlantMine(int pos)
+	public virtual void PlantMine(int pos)
 	{
 		if (mines[pos] != null)
 		{
@@ -944,11 +943,11 @@ public class BoardController : MonoBehaviour
 	/// Triggers a mine which will destroy the king on it
 	/// </summary>
 	/// <param name="pos"></param>
-	public void TriggerMine(int pos)
+	public virtual void TriggerMine(int pos)
 	{
 		if (mines[pos] == null)
 		{
-			// Debug.Log("There is no mine here!");
+			//Debug.Log("There is no mine here!");
 			return;
 		}
 
@@ -976,14 +975,14 @@ public class BoardController : MonoBehaviour
 	/// Distribute a random card to a player (who has captured a king)
 	/// </summary>
 	/// <param name="player"></param>
-	public void DistributeRandomCard(SpecialPlayerManager player)
+	public virtual void DistributeRandomCard(SpecialPlayerManager player)
 	{
 		int rand = UnityEngine.Random.Range(0, cards.Length);
 		Card card = cards[rand];
 		player.AddCard(card);
 	}
 
-	public void BurgleRandomPiece()
+	public virtual void BurgleRandomPiece()
 	{
 		List<Piece> opponentPieces = new List<Piece>();
 
@@ -998,7 +997,17 @@ public class BoardController : MonoBehaviour
 		StealOpponentPiece(opponentPieces[rand].CurrPos);
 	}
 
-	public void BuildPawnWall()
+	public virtual void SetDoubleTurn(bool boolean)
+	{
+		gc.IsDoubleTurn = boolean;
+	}
+
+	public virtual void SacrificePiece(int pos)
+	{
+		DestroyPiece(pos);
+	}
+
+	public virtual void BuildPawnWall()
 	{
 		if (GameController.GetCurrPlayer() == PlayerType.Black)
 		{
@@ -1017,6 +1026,18 @@ public class BoardController : MonoBehaviour
 				pieces[i] = InstantiatePiece(GetPromotionPiece(4, PlayerType.White), i);
 			}
 		}
+	}
+
+	public int GetPieceIntFromType(Piece piece)
+	{
+		Type t = piece.GetType();
+
+		if (t == typeof(Queen)) return 0;
+		else if (t == typeof(Knight)) return 1;
+		else if (t == typeof(Rook)) return 2;
+		else if (t == typeof(Bishop)) return 3;
+		else if (t == typeof(Pawn)) return 4;
+		else return -1;
 	}
 
 	#endregion

@@ -103,7 +103,7 @@ public class HighlightManager : MonoBehaviour
 
 		if (h.Special == SpecialMove.Sacrifice)
 		{
-			bc.DestroyPiece(h.Position);
+			bc.SacrificePiece(h.Position);
 			bc.BuildPawnWall();
 			bc.DestroyCurrentCard();
 		}

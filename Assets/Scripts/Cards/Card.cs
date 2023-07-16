@@ -7,7 +7,7 @@ public abstract class Card : MonoBehaviour, ITrigger
 	protected BoardController bc;
 	protected HighlightManager hm;
 	protected GameController gc;
-
+	public int currIndex { get; private set; }
 	public abstract void Trigger();
 
 	private void Start()
@@ -27,17 +27,13 @@ public abstract class Card : MonoBehaviour, ITrigger
 		transform.localScale = new Vector3(0.5f, 0.5f, 0);
 	}
 
-	public void OnMouseUp()
-	{
-		if (GameController.GetCurrPlayer() == player)
-		{
-			bc.SetCurrentCard(this);
-			Trigger();
-		}
-	}
-
 	public void SetCardPlayer(PlayerType p)
 	{
 		player = p;
+	}
+
+	public void SetCurrIndex(int index)
+	{
+		currIndex = index;
 	}
 }

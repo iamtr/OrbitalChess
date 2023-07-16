@@ -10,9 +10,14 @@ using System;
 public class RoomManager : MonoBehaviourPunCallbacks
 {
 	private PhotonView pv;
-	private PlayerManager playerManager;
+	[SerializeField] private PlayerManager playerManager;
+	[SerializeField] private SpecialPlayerManager blackPlayer;
+	[SerializeField] private SpecialPlayerManager whitePlayer;
 
-	[SerializeField] private BoardController bc;
+
+	private BoardController bc;
+	private GameController gc;
+
 	[SerializeField] private GameObject playerSelectionPanel;
 	[SerializeField] private TMP_Text turnText;
 	[SerializeField] private TMP_Text checkText;
@@ -20,9 +25,14 @@ public class RoomManager : MonoBehaviourPunCallbacks
 	[SerializeField] private Button whiteButton;
 	[SerializeField] private bool isGameStarted;
 
+	[SerializeField] private TMP_Text opponentPlayerCoinText;
+	[SerializeField] private TMP_Text localPlayerCoinText;
+	[SerializeField] private Button buyButton;
+
 	private void Awake()
 	{
 		bc = FindObjectOfType<MultiplayerBoardController>();
+		gc = FindObjectOfType<MultiplayerGameController>();
 		pv = GetComponent<PhotonView>();
 		playerManager = FindObjectOfType<PlayerManager>();
 	}
@@ -99,15 +109,24 @@ public class RoomManager : MonoBehaviourPunCallbacks
 			&& (bool)PhotonNetwork.CurrentRoom.CustomProperties["Black"] && (bool)PhotonNetwork.CurrentRoom.CustomProperties["White"] 
 			&& !isGameStarted)
 		{
-			StartMultiplayerGame();
+			if ((int) PhotonNetwork.CurrentRoom.CustomProperties["Mode"] == 2)
+			{
+				StartCardMultiplayer();
+			}
+			else
+			{
+				StartMultiplayerGame();
+			}
+				
 		}
 	}
 
-	public void StartMultiplayerGame()
+	public void StartCardMultiplayer()
 	{
-		Debug.Log("Start game");
+		Debug.Log("Start card nultiplayer");
 		PhotonNetwork.CurrentRoom.IsOpen = false;
 		int playerType = (int)PhotonNetwork.LocalPlayer.CustomProperties["PlayerType"];
+
 		playerManager.Player = playerType == 0 ? PlayerType.Black : PlayerType.White;
 
 		if (playerType == 1)
@@ -116,7 +135,44 @@ public class RoomManager : MonoBehaviourPunCallbacks
 			c.transform.eulerAngles = new Vector3(0, 0, 180);
 		}
 
-		bc.InstantiatePieces();
+		if (PhotonNetwork.LocalPlayer.IsMasterClient) bc.InstantiatePieces();
+		playerSelectionPanel.SetActive(false);
+		turnText.gameObject.SetActive(true);
+
+		if (playerManager.Player == PlayerType.Black)
+		{
+			blackPlayer.MoneyText = localPlayerCoinText;
+			whitePlayer.MoneyText = opponentPlayerCoinText;	
+
+		} 
+		else if (playerManager.Player == PlayerType.White)
+		{
+			blackPlayer.MoneyText = opponentPlayerCoinText;
+			whitePlayer.MoneyText = localPlayerCoinText;
+		}
+
+		playerSelectionPanel.SetActive(false);
+		opponentPlayerCoinText.gameObject.SetActive(true);
+		localPlayerCoinText.gameObject.SetActive(true);
+		buyButton.gameObject.SetActive(true);
+		isGameStarted = true;
+	}
+
+	public void StartMultiplayerGame()
+	{
+		Debug.Log("Start game");
+		PhotonNetwork.CurrentRoom.IsOpen = false;
+		int playerType = (int)PhotonNetwork.LocalPlayer.CustomProperties["PlayerType"];
+		
+		playerManager.Player = playerType == 0 ? PlayerType.Black : PlayerType.White; 
+
+		if (playerType == 1)
+		{
+			Camera c = FindObjectOfType<Camera>();
+			c.transform.eulerAngles = new Vector3(0, 0, 180);
+		}
+
+		if (PhotonNetwork.LocalPlayer.IsMasterClient) bc.InstantiatePieces();
 		playerSelectionPanel.SetActive(false);
 		turnText.gameObject.SetActive(true);
 		isGameStarted = true;

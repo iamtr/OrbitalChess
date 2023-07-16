@@ -55,6 +55,25 @@ MonoBehaviour:
   - RPC_DeactivateSelectionPanel
   - RPC_TogglePlayerOptions
   - RPC_StartGame
+  - RPC_DistributeRandomCard
+  - RPC_SyncCurrCard
+  - RPC_DestroyCurrentCard
+  - RPC_Bomb
+  - RPC_PlantMine
+  - RPC_TriggerMine
+  - RandomizePiece
+  - RPC_DestroyPiece
+  - RPC_InstantiatePiece
+  - RPC_CloneTestArray
+  - RPC_InstantiatePieces
+  - RPC_SetDoubleTurn
+  - RPC_StealOpponentPiece
+  - RPC_BuildPawnWall
+  - RPC_SacrificePiece
+  - RPC_BuyPiece
+  - RPC_PlaceBoughtPiece
+  - RPC_SetPieceToInstantiate
+  - RPC_PromotePiece
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

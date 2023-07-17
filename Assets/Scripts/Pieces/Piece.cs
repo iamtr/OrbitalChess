@@ -7,7 +7,7 @@ public abstract class Piece : MonoBehaviour, ICloneable
 	[SerializeField] protected int currX;
 	[SerializeField] protected int currY;
 
-	[SerializeField] protected List<Move> moves = new List<Move>();
+	[SerializeField] protected List< Move> moves = new List<Move>();
 
 	protected BoardController bc;
 	protected UIManager um;

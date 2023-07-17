@@ -823,6 +823,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4747709522607110004, guid: ce90ebcc68d56124a85b7980acf7b4b3, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4747709522700687558, guid: ce90ebcc68d56124a85b7980acf7b4b3, type: 3}
       propertyPath: m_Name
       value: White Player

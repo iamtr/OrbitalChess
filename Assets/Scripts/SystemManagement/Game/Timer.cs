@@ -10,8 +10,12 @@ public class Timer : MonoBehaviour
 	private static float whiteTimeRemaining;
 	public static float startMinutes;
 	public static float secondsToAddAfterMove;
+
 	public TMP_Text blackTimerText;
 	public TMP_Text whiteTimerText;
+
+	[SerializeField] private Transform bottomTimerTransform;
+	[SerializeField] private Transform topTimerTransform;
 
 	public static bool isBlackBelow = true;
 
@@ -21,26 +25,40 @@ public class Timer : MonoBehaviour
 
 		if (isBlackBelow)
 		{
-			whiteTimerText.rectTransform.anchorMin = new Vector2(1.0f, 1.0f);
-			whiteTimerText.rectTransform.anchorMax = new Vector2(1.0f, 1.0f);
-			whiteTimerText.rectTransform.anchoredPosition = new Vector2(-260, -125);
-			blackTimerText.rectTransform.anchorMin = new Vector2(1.0f, 0.0f);
-			blackTimerText.rectTransform.anchorMax = new Vector2(1.0f, 0.0f);
-			blackTimerText.rectTransform.anchoredPosition = new Vector2(-260, 125);
+			//whiteTimerText.rectTransform.anchorMin = new Vector2(1.0f, 1.0f);
+			//whiteTimerText.rectTransform.anchorMax = new Vector2(1.0f, 1.0f);
+			//whiteTimerText.rectTransform.anchoredPosition = new Vector2(-260, -125);
+			//blackTimerText.rectTransform.anchorMin = new Vector2(1.0f, 0.0f);
+			//blackTimerText.rectTransform.anchorMax = new Vector2(1.0f, 0.0f);
+			//blackTimerText.rectTransform.anchoredPosition = new Vector2(-260, 125);
+			blackTimerText.gameObject.transform.position = bottomTimerTransform.position;
+			whiteTimerText.gameObject.transform.position = topTimerTransform.position;
 		}
 		else
 		{
-			whiteTimerText.rectTransform.anchorMin = new Vector2(1.0f, 0.0f);
-			whiteTimerText.rectTransform.anchorMax = new Vector2(1.0f, 0.0f);
-			whiteTimerText.rectTransform.anchoredPosition = new Vector2(-260, 125);
-			blackTimerText.rectTransform.anchorMin = new Vector2(1.0f, 1.0f);
-			blackTimerText.rectTransform.anchorMax = new Vector2(1.0f, 1.0f);
-			blackTimerText.rectTransform.anchoredPosition = new Vector2(-260, -125);
+			//whiteTimerText.rectTransform.anchorMin = new Vector2(1.0f, 0.0f);
+			//whiteTimerText.rectTransform.anchorMax = new Vector2(1.0f, 0.0f);
+			//whiteTimerText.rectTransform.anchoredPosition = new Vector2(-260, 125);
+			//blackTimerText.rectTransform.anchorMin = new Vector2(1.0f, 1.0f);
+			//blackTimerText.rectTransform.anchorMax = new Vector2(1.0f, 1.0f);
+			//blackTimerText.rectTransform.anchoredPosition = new Vector2(-260, -125);
+			whiteTimerText.gameObject.transform.position = bottomTimerTransform.position;
+			blackTimerText.gameObject.transform.position = topTimerTransform.position;
 		}
+		
+	}
+
+    private void OnEnable()
+    {
 		GameController.OnRoundEnd += AddPlayerSeconds;
 	}
 
-	private void AssertAllReferenceIsNotNull()
+    private void OnDisable()
+    {
+		GameController.OnRoundEnd -= AddPlayerSeconds;
+	}
+
+    private void AssertAllReferenceIsNotNull()
 	{
 		Assert.IsNotNull(blackTimerText);
 		Assert.IsNotNull(whiteTimerText);

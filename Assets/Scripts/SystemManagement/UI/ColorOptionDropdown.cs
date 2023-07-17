@@ -5,7 +5,7 @@ using UnityEngine.Assertions;
 public class ColorOptionDropdown : MonoBehaviour
 {
 	[SerializeField] private TMP_Text selectedOptionText;
-	[SerializeField] private string selectedColor = "Black";
+	[SerializeField] private static string selectedColor = "Black";
 
 	private void Start()
 	{

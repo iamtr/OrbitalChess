@@ -45,10 +45,20 @@ public class Timer : MonoBehaviour
 			whiteTimerText.gameObject.transform.position = bottomTimerTransform.position;
 			blackTimerText.gameObject.transform.position = topTimerTransform.position;
 		}
+		
+	}
+
+    private void OnEnable()
+    {
 		GameController.OnRoundEnd += AddPlayerSeconds;
 	}
 
-	private void AssertAllReferenceIsNotNull()
+    private void OnDisable()
+    {
+		GameController.OnRoundEnd -= AddPlayerSeconds;
+	}
+
+    private void AssertAllReferenceIsNotNull()
 	{
 		Assert.IsNotNull(blackTimerText);
 		Assert.IsNotNull(whiteTimerText);

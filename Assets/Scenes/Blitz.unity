@@ -429,6 +429,54 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7416446718373956087, guid: 469e0633e6a1e3a4b9fad0ecaafa1fbf, type: 3}
   m_PrefabInstance: {fileID: 1859933792}
   m_PrefabAsset: {fileID: 0}
+--- !u!20 &1910382926 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 7635431332622517431, guid: 5d95aeecd4532ce47a0b94995b982aa8, type: 3}
+  m_PrefabInstance: {fileID: 3627102877225968495}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2071627007 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2059922499265880069, guid: b5466a33267265f4e85945e4b1924667, type: 3}
+  m_PrefabInstance: {fileID: 2188661998110103610}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2071627009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2071627007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: f30d6980d612f144a8bfd330e9d629c1, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &2071627010
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2071627007}
+  m_CullTransparentMesh: 1
 --- !u!1001 &917106424353955952
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -779,6 +827,18 @@ PrefabInstance:
     - target: {fileID: 2059922499265880069, guid: b5466a33267265f4e85945e4b1924667, type: 3}
       propertyPath: m_Name
       value: Blitz Game Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 2059922499265880185, guid: b5466a33267265f4e85945e4b1924667, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1910382926}
+    - target: {fileID: 2059922499265880185, guid: b5466a33267265f4e85945e4b1924667, type: 3}
+      propertyPath: m_RenderMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2059922499265880185, guid: b5466a33267265f4e85945e4b1924667, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1556339953
       objectReference: {fileID: 0}
     - target: {fileID: 2059922499265880186, guid: b5466a33267265f4e85945e4b1924667, type: 3}
       propertyPath: m_Pivot.x

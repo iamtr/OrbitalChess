@@ -10,8 +10,8 @@ public class UIManager : MonoBehaviour
 	[SerializeField] private PromotionButton promotionButton;
 	[SerializeField] private GameObject whiteBuyOptions;
 	[SerializeField] private GameObject blackBuyOptions;
+	[SerializeField] private Transform promotionButtonTransform;
 
-	private Transform promotionButtonTransform;
 	private readonly int promotingNumber = 4;
 
 	[SerializeField] private Piece[] defaultPieceSetup;
@@ -25,7 +25,6 @@ public class UIManager : MonoBehaviour
 		bc = FindObjectOfType<BoardController>();
 		gc = FindObjectOfType<GameController>();
 
-		promotionButtonTransform = GameObject.Find("Promotion Buttons").transform;
 
 		InstantiatePromotionButtons(blackSprites, promotingBlack);
 		InstantiatePromotionButtons(whiteSprites, promotingWhite);

@@ -1207,6 +1207,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 500
       objectReference: {fileID: 0}
+    - target: {fileID: 2019170189, guid: 52d4b9913e922c641ad82d525d46485b, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -125
+      objectReference: {fileID: 0}
     - target: {fileID: 2019170190, guid: 52d4b9913e922c641ad82d525d46485b, type: 3}
       propertyPath: m_fontAsset
       value: 

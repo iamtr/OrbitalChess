@@ -1177,7 +1177,7 @@ PrefabInstance:
       objectReference: {fileID: -1567395581113563299, guid: d73ff3204fa73ce4e9eac1c7d4ca3d88, type: 2}
     - target: {fileID: 5406527125612904396, guid: c1f2c0de88d2a964bb4bf0f38b52089f, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 375
+      value: 400
       objectReference: {fileID: 0}
     - target: {fileID: 5406527125612904396, guid: c1f2c0de88d2a964bb4bf0f38b52089f, type: 3}
       propertyPath: m_SizeDelta.y
@@ -1189,12 +1189,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5406527125612904399, guid: c1f2c0de88d2a964bb4bf0f38b52089f, type: 3}
       propertyPath: m_text
-      value: 
+      value: Chess openings are initial moves made in chess to establish a strong
+        position. They follow established patterns and strategies, aiming to control
+        the center of the board and set the stage for future gameplay.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5406527125612904399, guid: c1f2c0de88d2a964bb4bf0f38b52089f, type: 3}
+      propertyPath: m_fontSize
+      value: 36
       objectReference: {fileID: 0}
     - target: {fileID: 5406527125612904399, guid: c1f2c0de88d2a964bb4bf0f38b52089f, type: 3}
       propertyPath: m_fontAsset
       value: 
       objectReference: {fileID: 11400000, guid: d73ff3204fa73ce4e9eac1c7d4ca3d88, type: 2}
+    - target: {fileID: 5406527125612904399, guid: c1f2c0de88d2a964bb4bf0f38b52089f, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 36
+      objectReference: {fileID: 0}
     - target: {fileID: 5406527125612904399, guid: c1f2c0de88d2a964bb4bf0f38b52089f, type: 3}
       propertyPath: m_sharedMaterial
       value: 

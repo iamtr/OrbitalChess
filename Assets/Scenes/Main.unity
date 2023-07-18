@@ -987,7 +987,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5887774953177273514, guid: 89eec4662094b884a8e49515458ca70e, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5887774954816980202, guid: 89eec4662094b884a8e49515458ca70e, type: 3}
       propertyPath: m_fontSize
@@ -1027,11 +1027,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6685843169647784615, guid: 89eec4662094b884a8e49515458ca70e, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 250
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 6685843169647784615, guid: 89eec4662094b884a8e49515458ca70e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -500
+      value: -475
       objectReference: {fileID: 0}
     - target: {fileID: 6793581927129197207, guid: 89eec4662094b884a8e49515458ca70e, type: 3}
       propertyPath: m_Camera

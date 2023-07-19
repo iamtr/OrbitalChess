@@ -59,5 +59,12 @@ public class InputManager : MonoBehaviour
 			bc.SetPieceToInstantiate(piece);
 			hm.HighlightSpawnPiece(piece);
 		}
+		else if (col.gameObject.CompareTag("Card")
+			&& col.GetComponent<Card>().player == GameController.GetCurrPlayer()
+			&& GameController.GetGameState() == GameState.Play)
+		{
+			bc.SyncCurrCard(col.GetComponent<Card>());
+			col.GetComponent<Card>().Trigger();
+		}
 	}
 }

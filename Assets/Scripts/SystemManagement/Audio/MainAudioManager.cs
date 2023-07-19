@@ -12,6 +12,7 @@ public class MainAudioManager : MonoBehaviour
     {
         AssertAllReferenceIsNotNull();
         mainAudioSource.volume = volume;
+        slider.value = volume * 100;
     }
 
     private void AssertAllReferenceIsNotNull()

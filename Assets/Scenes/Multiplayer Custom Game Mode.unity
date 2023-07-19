@@ -184,6 +184,11 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7677732993222968710, guid: a5028fd603152a44f9bd2622b4f7a03c, type: 3}
   m_PrefabInstance: {fileID: 6176109184154479248}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1255274312 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 942797880112750806, guid: a5028fd603152a44f9bd2622b4f7a03c, type: 3}
+  m_PrefabInstance: {fileID: 6176109184154479248}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1267878802
 GameObject:
   m_ObjectHideFlags: 0
@@ -1442,6 +1447,10 @@ PrefabInstance:
       propertyPath: checkText
       value: 
       objectReference: {fileID: 5724586648290486776}
+    - target: {fileID: 9184488732330932993, guid: 4d1026b6b571e07498739cfb37049f09, type: 3}
+      propertyPath: promotionButtonTransform
+      value: 
+      objectReference: {fileID: 1255274312}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4d1026b6b571e07498739cfb37049f09, type: 3}
 --- !u!114 &4750170952019325085 stripped

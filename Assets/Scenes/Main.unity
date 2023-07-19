@@ -242,6 +242,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ac307ee9bf5c1943a680cf6ebd48ed5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &250204796 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8148068233791599440, guid: 89eec4662094b884a8e49515458ca70e, type: 3}
+  m_PrefabInstance: {fileID: 6055933260519372661}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &603328633
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -551,6 +556,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4904182511261114013, guid: 7691e9452976f324fa21ff6c7bce80d9, type: 3}
+      propertyPath: promotionButtonTransform
+      value: 
+      objectReference: {fileID: 250204796}
     - target: {fileID: 7670054302466587520, guid: 7691e9452976f324fa21ff6c7bce80d9, type: 3}
       propertyPath: m_Name
       value: UIManager

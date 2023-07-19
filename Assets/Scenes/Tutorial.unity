@@ -781,6 +781,10 @@ PrefabInstance:
       propertyPath: checkText
       value: 
       objectReference: {fileID: 1127921679}
+    - target: {fileID: 3545475946590524798, guid: ca25023fae446d645a33479ef032d68b, type: 3}
+      propertyPath: promotionButtonTransform
+      value: 
+      objectReference: {fileID: 1127921683}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ca25023fae446d645a33479ef032d68b, type: 3}
 --- !u!1 &279342454 stripped
@@ -1769,6 +1773,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1127921680}
   m_CullTransparentMesh: 1
+--- !u!4 &1127921683 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7267284524622428780, guid: 52d4b9913e922c641ad82d525d46485b, type: 3}
+  m_PrefabInstance: {fileID: 1127921678}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1189218260 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8531388956785988639, guid: 0d0bb4d832a95e34eb2371acd64fec3c, type: 3}

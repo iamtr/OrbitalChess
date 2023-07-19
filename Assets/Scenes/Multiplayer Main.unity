@@ -1283,6 +1283,10 @@ PrefabInstance:
       propertyPath: checkText
       value: 
       objectReference: {fileID: 934970055}
+    - target: {fileID: 1753700320842608120, guid: 3ddb04636cbb5e04492eb5e09d1e40df, type: 3}
+      propertyPath: promotionButtonTransform
+      value: 
+      objectReference: {fileID: 1893289539}
     - target: {fileID: 2888620455622165480, guid: 3ddb04636cbb5e04492eb5e09d1e40df, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1458,6 +1462,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 87dd115b4b85d624f8140a49067e2b1f, type: 3}
+--- !u!4 &1893289539 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8902512912752588661, guid: 1b108c133b18ee548a2e05d01d5f2343, type: 3}
+  m_PrefabInstance: {fileID: 373298962}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1981099706
 PrefabInstance:
   m_ObjectHideFlags: 0

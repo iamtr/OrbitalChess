@@ -1,4 +1,5 @@
-The Ruy López (also known as the Spanish Opening) is one of the oldest and most classical chess openings.
+One of the oldest and most classical chess openings, 
+is the Ruy López Opening (also known as the Spanish Opening)
 Let's dive into the main ideas and variations of the Ruy López:
 
 @e4 
@@ -24,7 +25,8 @@ instead of building a solid position and playing for equality.
 The imbalanced positions that arise from this variation are difficult to navigate for both sides.
 
 @ Nc3
-White usually plays this move to counterattack in the center, developing the knight and putting pressure on the d5 pawn.
+White usually plays this move to counterattack in the center,
+developing the knight and putting pressure on the d5 pawn.
 
 @ 4...fxe4
 Black captures the e4 pawn, accepting the gambit and opening lines for piece activity.

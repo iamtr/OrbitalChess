@@ -46,5 +46,3 @@ aiming to control the center and prepare for kingside castling.
 The Sicilian Defense can be used in a variety of ways from this point on,
 including the Najdorf, Dragon, Scheveningen, and Sveshnikov.
 Each has its own distinct plans and ideas.
-To grasp the Sicilian Defense better and to play better,
-it's crucial to learn specific variants of it.

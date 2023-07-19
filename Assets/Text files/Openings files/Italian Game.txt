@@ -8,27 +8,32 @@ White moves their pawn to the centre of the board with their opening move of 1.e
 Black responds symmetrically with 1...e5, mirroring White's move.
 
 @ Nf3 
-White advances their knight to f3, engages the black pawn on e5, and gets set to take control of the middle.
+White advances their knight to f3, engages the black pawn on e5,
+and gets set to take control of the middle.
 
 @ Nc6
 In response, Black advances their knight to c6, getting ready to support their centre pawn
 and perhaps pose a threat to White's control of the centre.
 
+In order to dominate the d5 square and have a strong presence in the centre, 
 @ Bc4
-In order to dominate the d5 square and have a strong presence in the centre, White develops their bishop to the c4 square.
+White develops their bishop to the c4 square.
 This move is known as the Italian Game.
-White's main strategy is to exert pressure on the exposed f7 square, which could present tactical advantages.
+White's main strategy is to exert pressure on the exposed f7 square,
+which could present tactical advantages.
 
 There are now numerous ways to continue the Italian Game.
 Let's quickly go through one popular line:
 
 @ Bc5
-
-Black responds by developing their bishop to c5, creating a symmetrical pawn structure and preparing to castle kingside.
+Black responds by developing their bishop to c5,
+creating a symmetrical pawn structure and preparing to castle kingside.
 This move is known as the Giuoco Piano ("Quiet Game").
 
 @ d3
-The game often continues with moves like 4.d3, aiming to further control the center and develop the remaining pieces.
+The game often continues with moves like 4.d3,
+aiming to further control the center and develop the remaining pieces.
 
 The Italian Game offers both sides opportunities for active piece play and tactical ideas.
-Studying particular varieties of the Italian Game is crucial since they might result in various tactical themes and strategic plans.
+Studying particular varieties of the Italian Game is crucial
+since they might result in various tactical themes and strategic plans.

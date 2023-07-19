@@ -35,6 +35,7 @@ public class BoardController : MonoBehaviour
 
 	[SerializeField] private Explosion explosion;
 	[SerializeField] private SmokeCloud smokeCloud;
+	[SerializeField] private DiceRoll diceRoll;
 
 	protected Transform pieceTransform;
 
@@ -837,6 +838,7 @@ public class BoardController : MonoBehaviour
 	/// </summary>
 	public virtual void RandomizeAllPieces()
 	{
+		TriggerDiceRoll();
 		foreach (Piece piece in pieces)
 		{
 			// Only 50% chance of randomizing a piece
@@ -859,6 +861,13 @@ public class BoardController : MonoBehaviour
 		}
 
 		testArray = pieces.Clone() as Piece[];
+	}
+
+	public void TriggerDiceRoll()
+    {
+		DiceRoll dc = Instantiate(diceRoll, new Vector3(3.5f, 3.5f, 2), Quaternion.identity);
+		dc.transform.localScale = new Vector3(4.55f, 4.55f, 1);
+		dc.Roll();
 	}
 
 	/// <summary>

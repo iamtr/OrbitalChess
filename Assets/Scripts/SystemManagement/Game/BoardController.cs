@@ -866,7 +866,7 @@ public class BoardController : MonoBehaviour
 	public void TriggerDiceRoll()
     {
 		DiceRoll dc = Instantiate(diceRoll, new Vector3(3.5f, 3.5f, 2), Quaternion.identity);
-		dc.transform.localScale = new Vector3(4.55f, 4.55f, 1);
+		dc.transform.localScale = new Vector3(1.75f, 1.75f, 1);
 		dc.Roll();
 	}
 

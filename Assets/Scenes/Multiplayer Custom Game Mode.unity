@@ -824,6 +824,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8977624941771815721, guid: a9ba25d959761f1499f0b4d92fdacc79, type: 3}
     - target: {fileID: 8647311104716740266, guid: 211ffa5d3f74ed44dac774e71fbf3cb3, type: 3}
+      propertyPath: diceRoll
+      value: 
+      objectReference: {fileID: 1243111411779506560, guid: 553d04370a594804ca525f7390ac7482, type: 3}
+    - target: {fileID: 8647311104716740266, guid: 211ffa5d3f74ed44dac774e71fbf3cb3, type: 3}
       propertyPath: explosion
       value: 
       objectReference: {fileID: 8531345471099266688, guid: 0d35bc3ee0dcff44c8f4658164371783, type: 3}

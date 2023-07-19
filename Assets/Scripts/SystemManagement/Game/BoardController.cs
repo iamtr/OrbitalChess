@@ -33,6 +33,7 @@ public class BoardController : MonoBehaviour
 
 	[SerializeField] protected int mineCount = 5;
 
+	[Header("Special Mode Animation")]
 	[SerializeField] private Explosion explosion;
 	[SerializeField] private SmokeCloud smokeCloud;
 	[SerializeField] private DiceRoll diceRoll;

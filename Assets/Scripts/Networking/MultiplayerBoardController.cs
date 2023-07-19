@@ -154,6 +154,7 @@ public class MultiplayerBoardController : BoardController
 
 	public override void RandomizeAllPieces()
 	{
+		TriggerDiceRoll();
 		foreach (Piece piece in pieces)
 		{
 			// Only 50% chance of randomizing a piece

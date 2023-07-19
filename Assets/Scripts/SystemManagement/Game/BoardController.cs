@@ -1004,6 +1004,7 @@ public class BoardController : MonoBehaviour
 
 	public virtual void SacrificePiece(int pos)
 	{
+		SetAndTriggerExplosionWithScale(pos, 1);
 		DestroyPiece(pos);
 	}
 

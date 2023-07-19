@@ -1051,11 +1051,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4153073012093121657}
   m_CullTransparentMesh: 1
---- !u!4 &4153073012093121660 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6990187914156113457, guid: 1d6943c6952ec58439ea4a3883f57b22, type: 3}
-  m_PrefabInstance: {fileID: 4153073012093121655}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4463448584760903889
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1555,10 +1550,6 @@ PrefabInstance:
       propertyPath: checkText
       value: 
       objectReference: {fileID: 4153073012093121656}
-    - target: {fileID: 3545475946590524798, guid: ca25023fae446d645a33479ef032d68b, type: 3}
-      propertyPath: promotionButtonTransform
-      value: 
-      objectReference: {fileID: 4153073012093121660}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ca25023fae446d645a33479ef032d68b, type: 3}
 --- !u!1001 &8390415064200143424

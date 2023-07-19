@@ -34,6 +34,7 @@ public class BoardController : MonoBehaviour
 	[SerializeField] protected int mineCount = 5;
 
 	[SerializeField] private Explosion explosion;
+	[SerializeField] private SmokeCloud smokeCloud;
 
 	protected Transform pieceTransform;
 
@@ -874,6 +875,8 @@ public class BoardController : MonoBehaviour
             if (stealPiece == null) Debug.Log("Piece trying to steal is null!");
             if (stealPiece?.Player == GameController.GetCurrPlayer()) Debug.Log("Cannot steal your own piece!");
 
+			TriggerSmokeCloudAnimation(pos);
+
             DestroyPiece(pos);
             Type t = stealPiece?.GetType();
             Piece[] temp = GameController.GetCurrPlayer() == PlayerType.White ? whitePieces : blackPieces;
@@ -891,6 +894,15 @@ public class BoardController : MonoBehaviour
             Debug.Log("Piece Type Not Found!");
         }
 		
+	}
+
+	private void TriggerSmokeCloudAnimation(int pos)
+	{
+		int x = BoardController.ConvXY(pos)[0];
+		int y = BoardController.ConvXY(pos)[1];
+		SmokeCloud sc = Instantiate(smokeCloud, new Vector3(x, y, 2), Quaternion.identity);
+		sc.transform.localScale = new Vector3(0.25f, 0.25f, 1);
+		sc.StartSmokeCloud();
 	}
 
 	/// <summary>

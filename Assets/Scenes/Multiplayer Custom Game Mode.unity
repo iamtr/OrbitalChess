@@ -828,6 +828,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8531345471099266688, guid: 0d35bc3ee0dcff44c8f4658164371783, type: 3}
     - target: {fileID: 8647311104716740266, guid: 211ffa5d3f74ed44dac774e71fbf3cb3, type: 3}
+      propertyPath: smokeCloud
+      value: 
+      objectReference: {fileID: 570921082953122717, guid: 0564163a6d37d544cbfe1021f845470b, type: 3}
+    - target: {fileID: 8647311104716740266, guid: 211ffa5d3f74ed44dac774e71fbf3cb3, type: 3}
       propertyPath: blackPlayer
       value: 
       objectReference: {fileID: 1313174332}

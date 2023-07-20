@@ -21,6 +21,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
 	[SerializeField] private GameObject playerSelectionPanel;
 	[SerializeField] private TMP_Text turnText;
 	[SerializeField] private TMP_Text checkText;
+	[SerializeField] private TMP_Text piecePriceText;
 	[SerializeField] private Button blackButton;
 	[SerializeField] private Button whiteButton;
 	[SerializeField] private bool isGameStarted;
@@ -155,6 +156,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
 		opponentPlayerCoinText.gameObject.SetActive(true);
 		localPlayerCoinText.gameObject.SetActive(true);
 		buyButton.gameObject.SetActive(true);
+		piecePriceText.gameObject.SetActive(true);
 		isGameStarted = true;
 	}
 

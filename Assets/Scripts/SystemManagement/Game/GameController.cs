@@ -16,6 +16,8 @@ public class GameController : MonoBehaviour
 
 	[SerializeField] protected TMP_Text turnText;
 
+	[SerializeField] protected TMP_Text doubleTurnText;
+
 	[SerializeField] private bool isSpecialMode = false;
 
 	[SerializeField] private GameObject replayButton;
@@ -91,6 +93,7 @@ public class GameController : MonoBehaviour
 	{
 		if (isDoubleTurn)
 		{
+			doubleTurnText.gameObject.SetActive(false);
 			isDoubleTurn = false;
 			return;
 		}
@@ -194,6 +197,7 @@ public class GameController : MonoBehaviour
 	{
 		checkText.text = text;
 	}
+
 	/// <summary>
 	/// For card mode: Allows the player to move double turns for one round
 	/// Sets isDoubleTurn boolean to be true
@@ -202,7 +206,11 @@ public class GameController : MonoBehaviour
 	public void SetDoubleTurn(bool boolean)
 	{
 		isDoubleTurn = boolean;
+		doubleTurnText.gameObject.SetActive(true);
+		string player = currPlayer.ToString();
+		doubleTurnText.text = player + " has Two Moves!";
 	}
+
 }
 
 public enum PlayerType

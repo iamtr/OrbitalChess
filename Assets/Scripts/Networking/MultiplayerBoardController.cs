@@ -374,7 +374,7 @@ public class MultiplayerBoardController : BoardController
 	[PunRPC]
 	public void RPC_SetDoubleTurn(bool boolean)
 	{
-		gc.IsDoubleTurn = true;
+		base.SetDoubleTurn(boolean);
 	}
 
 	[PunRPC]

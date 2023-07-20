@@ -1021,7 +1021,7 @@ public class BoardController : MonoBehaviour
 
 	public virtual void SetDoubleTurn(bool boolean)
 	{
-		gc.IsDoubleTurn = boolean;
+		gc.SetDoubleTurn(true);
 	}
 
 	public virtual void SacrificePiece(int pos)

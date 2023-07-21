@@ -147,7 +147,6 @@ public class GameController : MonoBehaviour
 			IsCheck = true;
 			checkText.gameObject.SetActive(true);
 			checkText.text = "Check!";
-			replayButton.SetActive(true);
 		}
 		else
 		{

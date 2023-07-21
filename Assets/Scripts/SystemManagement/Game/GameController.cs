@@ -140,12 +140,14 @@ public class GameController : MonoBehaviour
 			SetGameState(GameState.GameOver);
 			checkText.gameObject.SetActive(true);
 			checkText.text = "Checkmate!";
+			replayButton.SetActive(true);
 		}
 		else if (bc.IsCheck())
 		{
 			IsCheck = true;
 			checkText.gameObject.SetActive(true);
 			checkText.text = "Check!";
+			replayButton.SetActive(true);
 		}
 		else
 		{
@@ -153,7 +155,7 @@ public class GameController : MonoBehaviour
 			checkText.gameObject.SetActive(false);
 		}
 
-		replayButton.SetActive(true);
+		
 	}
 
 	public static PlayerType GetOpponent()

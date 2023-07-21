@@ -203,6 +203,15 @@ public class GameController : MonoBehaviour
 	{
 		isDoubleTurn = boolean;
 	}
+
+	public TMP_Text GetCheckText()
+	{
+		return checkText;
+	}
+	public TMP_Text GetTurnText()
+	{
+		return turnText;
+	}
 }
 
 public enum PlayerType

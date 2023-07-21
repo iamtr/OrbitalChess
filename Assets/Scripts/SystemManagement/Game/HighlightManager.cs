@@ -248,4 +248,9 @@ public class HighlightManager : MonoBehaviour
 			Highlight(piece.CurrPos, SpecialMove.Sacrifice);
 		}
 	}
+
+	public HighlightSquare[] GetHighlightArray()
+	{
+		return highlights;
+	}
 }

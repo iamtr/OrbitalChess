@@ -178,6 +178,7 @@ public class GameController : MonoBehaviour
 		checkText.gameObject.SetActive(true);
 		checkText.text = winner.ToString() + " Wins!";
 		replayButton.SetActive(true);
+		turnText.gameObject.SetActive(false);
 	}
 
 	/// <summary>

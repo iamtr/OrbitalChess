@@ -152,6 +152,8 @@ public class GameController : MonoBehaviour
 			IsCheck = false;
 			checkText.gameObject.SetActive(false);
 		}
+
+		replayButton.SetActive(true);
 	}
 
 	public static PlayerType GetOpponent()

@@ -361,9 +361,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '*Color option allows player to choose the piece color at the bottom of
-    the board in non-multiplayer modes. Eg: Black option cause the black pieces to
-    be at the bottom of the board.'
+  m_text: '*Color option allows you to choose the piece color at the bottom of the
+    board in non-multiplayer modes. Eg: Black option cause the black pieces to be
+    at the bottom of the board.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0575dfa7bf544a54e899df563968e1e9, type: 2}
   m_sharedMaterial: {fileID: -5166959027249034368, guid: 0575dfa7bf544a54e899df563968e1e9, type: 2}

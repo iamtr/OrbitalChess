@@ -63,6 +63,7 @@ public class InputManager : MonoBehaviour
 			&& col.GetComponent<Card>().player == GameController.GetCurrPlayer()
 			&& GameController.GetGameState() == GameState.Play)
 		{
+			bc.DisableAllUIElements();
 			bc.SyncCurrCard(col.GetComponent<Card>());
 			col.GetComponent<Card>().Trigger();
 		}

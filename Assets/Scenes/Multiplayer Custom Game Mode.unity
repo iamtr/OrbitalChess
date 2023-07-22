@@ -983,6 +983,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1505951146574955108, guid: 256f79a8833b0d941bdce070f203f65d, type: 3}
+      propertyPath: money
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1505951146574955108, guid: 256f79a8833b0d941bdce070f203f65d, type: 3}
       propertyPath: MoneyText
       value: 
       objectReference: {fileID: 355828201}
@@ -1360,6 +1364,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3268823841695476555, guid: 6cc558362d0f14545be70ce99acd072c, type: 3}
+      propertyPath: money
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 3268823841695476555, guid: 6cc558362d0f14545be70ce99acd072c, type: 3}
       propertyPath: MoneyText
       value: 

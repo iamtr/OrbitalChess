@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class GameMechanicTesting : MonoBehaviour
+public class GameMechanicTestScript : MonoBehaviour
 {
 	private BoardController bc;
 	private GameController gc;

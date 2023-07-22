@@ -93,6 +93,7 @@ public class HighlightManager : MonoBehaviour
 			bc.BuyPiece(bc.pieceToInstantiate);
 			bc.PlaceBoughtPiece(h.Position);
 			bc.DisableAllUIElements();
+			GameController.InvokeOnRoundEnd();
 			return;
 		}
 		if (h.Special == SpecialMove.Mine)

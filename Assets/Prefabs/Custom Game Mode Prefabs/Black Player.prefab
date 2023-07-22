@@ -108,8 +108,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69d9cee5af232c141b9005fa6925c485, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  money: 500
   player: 1
-  moneyText: {fileID: 0}
+  money: 50
+  MoneyText: {fileID: 0}
   playerCards: []
   cardTransform: {fileID: 3224410985625762658}

@@ -67,7 +67,8 @@ public class MultiplayerGameController : GameController
 		base.SetPlayer();
 		if (IsSpecialMode)
 		{
-			if (GameController.GetCurrPlayer() != playerManager.Player)
+			if (GetCurrPlayer() != playerManager.Player
+				|| IsCheck)
 			{
 				buyButton.interactable = false;
 			}

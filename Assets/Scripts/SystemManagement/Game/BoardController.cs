@@ -599,7 +599,7 @@ public class BoardController : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Updates test array
+	/// Updates test array for check the check algorithm
 	/// </summary>
 	public void UpdateTestArray()
 	{
@@ -929,6 +929,10 @@ public class BoardController : MonoBehaviour
 	{
 		var temp = InstantiatePiece(pieceToInstantiate, pos);
 		temp.tag = "Piece";
+
+		UpdateTestArray();
+
+		GameController.InvokeOnRoundEnd();
 	}
 
 	/// <summary>

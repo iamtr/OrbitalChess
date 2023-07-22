@@ -140,6 +140,7 @@ public class GameController : MonoBehaviour
 			SetGameState(GameState.GameOver);
 			checkText.gameObject.SetActive(true);
 			checkText.text = "Checkmate!";
+			replayButton.SetActive(true);
 		}
 		else if (bc.IsCheck())
 		{
@@ -152,6 +153,8 @@ public class GameController : MonoBehaviour
 			IsCheck = false;
 			checkText.gameObject.SetActive(false);
 		}
+
+		
 	}
 
 	public static PlayerType GetOpponent()
@@ -175,6 +178,7 @@ public class GameController : MonoBehaviour
 		checkText.gameObject.SetActive(true);
 		checkText.text = winner.ToString() + " Wins!";
 		replayButton.SetActive(true);
+		turnText.gameObject.SetActive(false);
 	}
 
 	/// <summary>
@@ -186,6 +190,7 @@ public class GameController : MonoBehaviour
 		whitePlayer?.ResetPlayerManager();
 		SetGameState(GameState.Play);
 		SetPlayer(PlayerType.White);
+		replayButton.SetActive(false);
 		checkText.gameObject.SetActive(false);
 		turnText.text = currPlayer.ToString() + " Turn";
 	}

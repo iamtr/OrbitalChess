@@ -68,7 +68,7 @@ public class SpecialPlayerManager : PlayerManager
 
 	public void ResetMoney()
 	{
-		money = 500;
+		money = 50;
 		MoneyText.text = "Coin: " + money;
 	}
 

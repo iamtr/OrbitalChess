@@ -45,6 +45,12 @@ public class MultiplayerInputManager : InputManager
 			// Cannot buy pieces if is in check
 			if (gc.IsCheck) return;
 
+			if (gc.GetCurrPlayerManager().Money < col.GetComponent<Piece>().Value)
+			{
+				Debug.Log("Not Enough Money!");
+				return;
+			}
+
 			Piece piece = col.gameObject.GetComponent<Piece>();
 			bc.SetPieceToInstantiate(piece);
 			hm.HighlightSpawnPiece(piece);

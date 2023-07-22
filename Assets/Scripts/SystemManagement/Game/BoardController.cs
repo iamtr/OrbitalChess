@@ -931,8 +931,6 @@ public class BoardController : MonoBehaviour
 		temp.tag = "Piece";
 
 		UpdateTestArray();
-
-		GameController.InvokeOnRoundEnd();
 	}
 
 	/// <summary>

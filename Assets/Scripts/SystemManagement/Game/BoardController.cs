@@ -271,7 +271,7 @@ public class BoardController : MonoBehaviour
 	/// <param name="capturedPiece"></param>
 	public void HandleCapture(Piece capturedPiece)
 	{
-		if (gc.GetCurrPlayerManager() != null) gc.GetCurrPlayerManager().AddMoney(capturedPiece.Value * 2);
+		if (gc.GetCurrPlayerManager() != null) gc.GetCurrPlayerManager().AddMoney(capturedPiece.Value);
 		DistributeRandomCard(gc.GetCurrPlayerManager());
 	}
 

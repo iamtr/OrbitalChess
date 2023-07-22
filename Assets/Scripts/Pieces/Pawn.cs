@@ -104,10 +104,10 @@ public class Pawn : Piece, IPromotable
 			&& !bc.IsBeingCheckedAfterMove(m1, Player)
 			&& (newY == 7 || newY == 0))
 		{
-			Move promoteKnight = new Move(currX, newY, this, Move.Flag.PromoteToKnight);
-			Move promoteBishop = new Move(currX, newY, this, Move.Flag.PromoteToBishop);
-			Move promoteRook = new Move(currX, newY, this, Move.Flag.PromoteToRook);
-			Move promoteQueen = new Move(currX, newY, this, Move.Flag.PromoteToQueen);
+			Move promoteKnight = new Move(CurrPos, bc.ConvPos(currX, newY), this, Move.Flag.PromoteToKnight);
+			Move promoteBishop = new Move(CurrPos, bc.ConvPos(currX, newY), this, Move.Flag.PromoteToBishop);
+			Move promoteRook = new Move(CurrPos, bc.ConvPos(currX, newY), this, Move.Flag.PromoteToRook);
+			Move promoteQueen = new Move(CurrPos, bc.ConvPos(currX, newY), this, Move.Flag.PromoteToQueen);
 
 			moves.Add(promoteKnight);
 			moves.Add(promoteBishop);
@@ -201,10 +201,10 @@ public class Pawn : Piece, IPromotable
 
 		if (IsLegalMove(m1) && !bc.TestArrayIsOccupied(m1.TargetSquare) && (newY == 7 || newY  == 0))
 		{
-			Move promoteKnight = new Move(currX, newY, this, Move.Flag.PromoteToKnight);
-			Move promoteBishop = new Move(currX, newY, this, Move.Flag.PromoteToBishop);
-			Move promoteRook = new Move(currX, newY, this, Move.Flag.PromoteToRook);
-			Move promoteQueen = new Move(currX, newY, this, Move.Flag.PromoteToQueen);
+			Move promoteKnight = new Move(CurrPos, bc.ConvPos(currX, newY), this, Move.Flag.PromoteToKnight);
+			Move promoteBishop = new Move(CurrPos, bc.ConvPos(currX, newY), this, Move.Flag.PromoteToBishop);
+			Move promoteRook = new Move(CurrPos, bc.ConvPos(currX, newY), this, Move.Flag.PromoteToRook);
+			Move promoteQueen = new Move(CurrPos, bc.ConvPos(currX, newY), this, Move.Flag.PromoteToQueen);
 
 			moves.Add(promoteKnight);
 			moves.Add(promoteBishop);

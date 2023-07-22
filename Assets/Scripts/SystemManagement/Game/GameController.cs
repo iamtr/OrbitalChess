@@ -123,6 +123,8 @@ public class GameController : MonoBehaviour
 
 	public static void InvokeOnRoundEnd()
 	{
+		if (GetGameState() == GameState.GameOver) return;
+
 		OnRoundEnd?.Invoke();
 	}
 

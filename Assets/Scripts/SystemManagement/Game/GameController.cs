@@ -190,6 +190,7 @@ public class GameController : MonoBehaviour
 		whitePlayer?.ResetPlayerManager();
 		SetGameState(GameState.Play);
 		SetPlayer(PlayerType.White);
+		replayButton.SetActive(false);
 		checkText.gameObject.SetActive(false);
 		turnText.text = currPlayer.ToString() + " Turn";
 	}

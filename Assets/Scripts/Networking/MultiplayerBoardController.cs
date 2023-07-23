@@ -226,6 +226,12 @@ public class MultiplayerBoardController : BoardController
 		pv.RPC(nameof(RPC_PromotePiece), RpcTarget.All, promotedPiece.CurrPos);
 	}
 
+	public override void UpdateKingPosition(PlayerType p, int newPos)
+	{
+		pv.RPC(nameof(RPC_UpdateKingPosition), RpcTarget.All, (int) p, newPos);
+	}
+
+
 	[PunRPC]
 	public void RPC_InstantiatePieces()
 	{
@@ -418,6 +424,12 @@ public class MultiplayerBoardController : BoardController
 			Debug.Log("Tried to promote a non-promotable piece!");
 			return;
 		}
+	}
+
+	[PunRPC]
+	public void RPC_UpdateKingPosition(int playerType, int pos)
+	{
+		base.UpdateKingPosition((PlayerType)playerType, pos);
 	}
 	#endregion
 }

@@ -466,7 +466,7 @@ public class BoardController : MonoBehaviour
 	/// </summary>
 	/// <param name="p"></param>
 	/// <param name="newPos"></param>
-	public void UpdateKingPosition(PlayerType p, int newPos)
+	public virtual void UpdateKingPosition(PlayerType p, int newPos)
 	{
 		if (p == PlayerType.White)
 			WhiteKingPos = newPos;

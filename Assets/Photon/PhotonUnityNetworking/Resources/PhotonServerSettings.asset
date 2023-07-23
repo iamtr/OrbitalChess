@@ -74,6 +74,7 @@ MonoBehaviour:
   - RPC_PlaceBoughtPiece
   - RPC_SetPieceToInstantiate
   - RPC_PromotePiece
+  - RPC_UpdateKingPosition
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

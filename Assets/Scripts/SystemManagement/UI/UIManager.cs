@@ -6,7 +6,7 @@ public class UIManager : MonoBehaviour
 	[SerializeField] private Sprite[] blackSprites;
 	[SerializeField] private Sprite[] whiteSprites;
 	[SerializeField] private PromotionButton[] promotingBlack;
-	[SerializeField] private PromotionButton[] promotingWhite;
+	[SerializeField] protected PromotionButton[] promotingWhite;
 	[SerializeField] private PromotionButton promotionButton;
 	[SerializeField] private GameObject whiteBuyOptions;
 	[SerializeField] private GameObject blackBuyOptions;
@@ -20,7 +20,7 @@ public class UIManager : MonoBehaviour
 	protected BoardController bc;
 	protected GameController gc;
 
-	private void Start()
+	protected virtual void Start()
 	{
 		bc = FindObjectOfType<BoardController>();
 		gc = FindObjectOfType<GameController>();
@@ -46,7 +46,7 @@ public class UIManager : MonoBehaviour
 		Assert.IsNotNull(checkText);
 	}
 
-	private void InstantiatePromotionButtons(Sprite[] sprites, PromotionButton[] buttons)
+	protected virtual void InstantiatePromotionButtons(Sprite[] sprites, PromotionButton[] buttons)
 	{
 		for (var i = 0; i < promotingNumber; i++)
 		{

@@ -416,7 +416,7 @@ public class MultiplayerBoardController : BoardController
 		try
 		{	
 			int currPos = CurrPiece.CurrPos;
-			Destroy(CurrPiece);
+			Destroy(CurrPiece.gameObject);
 			InstantiatePiece(GetPromotionPiece(pieceType, GameController.GetCurrPlayer()), currPos);
 		}
 		catch (NullReferenceException)

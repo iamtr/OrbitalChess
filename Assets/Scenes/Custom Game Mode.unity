@@ -619,6 +619,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69d9cee5af232c141b9005fa6925c485, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1443127007 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 800336029684160581, guid: 1d6943c6952ec58439ea4a3883f57b22, type: 3}
+  m_PrefabInstance: {fileID: 4153073012093121655}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1902751395 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4153073013995854548, guid: 1d6943c6952ec58439ea4a3883f57b22, type: 3}
@@ -1371,7 +1376,7 @@ PrefabInstance:
     - target: {fileID: 2374922284425442907, guid: a9262dcf6596a7345804b8e22e2d8aea, type: 3}
       propertyPath: replayButton
       value: 
-      objectReference: {fileID: 3655217032527953230, guid: a5e1dbe65105f844091a6f55c39778c2, type: 3}
+      objectReference: {fileID: 1443127007}
     - target: {fileID: 2374922284425442907, guid: a9262dcf6596a7345804b8e22e2d8aea, type: 3}
       propertyPath: isSpecialMode
       value: 1

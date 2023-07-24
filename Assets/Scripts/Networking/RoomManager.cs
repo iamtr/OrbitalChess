@@ -110,7 +110,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
 			&& (bool)PhotonNetwork.CurrentRoom.CustomProperties["Black"] && (bool)PhotonNetwork.CurrentRoom.CustomProperties["White"] 
 			&& !isGameStarted)
 		{
-			if ((int) PhotonNetwork.CurrentRoom.CustomProperties["Mode"] == 2)
+			if ((int) PhotonNetwork.CurrentRoom.CustomProperties["Mode"] == 1)
 			{
 				StartCardMultiplayer();
 			}

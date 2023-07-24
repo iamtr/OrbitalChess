@@ -984,6 +984,9 @@ public class BoardController : MonoBehaviour
 		SetAndTriggerExplosionWithScale(pos, 1);
 		Destroy(mines[pos]);
 		DestroyPiece(pos);
+
+		UpdateTestArray();
+		GameController.InvokeOnRoundEnd();
 	}
 
 	private void SetAndTriggerExplosionWithScale(int pos, int scale)
